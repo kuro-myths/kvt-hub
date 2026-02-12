@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="snow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#dbeafe;stop-opacity:0.7"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- Snow flakes decoration -->
+  <circle cx="80" cy="80" r="6" fill="white" opacity="0.3"/>
+  <circle cx="440" cy="100" r="4" fill="white" opacity="0.25"/>
+  <circle cx="130" cy="430" r="5" fill="white" opacity="0.2"/>
+  <circle cx="400" cy="400" r="7" fill="white" opacity="0.15"/>
+  <circle cx="250" cy="60" r="3" fill="white" opacity="0.2"/>
+  <!-- KVT Text -->
+  <!-- K -->
+  <path d="M100 140 L100 372 M100 256 L180 140 M100 256 L180 372" stroke="url(#snow)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- V -->
+  <path d="M210 140 L270 372 L330 140" stroke="url(#snow)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- T -->
+  <path d="M350 140 L450 140 M400 140 L400 372" stroke="url(#snow)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
