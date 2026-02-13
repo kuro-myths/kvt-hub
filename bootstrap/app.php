@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'cek.peran' => \App\Http\Middleware\CekPeran::class,
         ]);
 
+        $middleware->web(append: [
+            \App\Http\Middleware\CatatPengunjung::class,
+        ]);
+
         $middleware->redirectGuestsTo('/masuk');
     })
     ->withExceptions(function (Exceptions $exceptions): void {

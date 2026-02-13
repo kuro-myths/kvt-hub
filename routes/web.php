@@ -9,9 +9,33 @@ use App\Http\Controllers\MateriController;
 use App\Http\Controllers\KuisController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\KerjaSamaController;
+use App\Http\Controllers\PengunjungController;
+use App\Http\Controllers\SearchController;
 
 // ===== HALAMAN PUBLIK =====
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
+
+// ===== BERITA (Publik) =====
+Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
+Route::get('/berita/{berita}', [BeritaController::class, 'tampilkan'])->name('berita.tampilkan');
+
+// ===== KERJA SAMA (Publik) =====
+Route::get('/kerja-sama', [KerjaSamaController::class, 'index'])->name('kerja-sama.index');
+Route::get('/kerja-sama/{kerjaSama}', [KerjaSamaController::class, 'tampilkan'])->name('kerja-sama.tampilkan');
+
+// ===== API ENDPOINTS (Publik, tanpa auth) =====
+Route::prefix('api')->group(function () {
+    Route::get('/berita/ticker', [BeritaController::class, 'ticker']);
+    Route::get('/berita/popup', [BeritaController::class, 'popup']);
+    Route::get('/pengunjung/statistik', [PengunjungController::class, 'statistikRealtime']);
+    Route::get('/pengunjung/flag-counter', [PengunjungController::class, 'flagCounter']);
+    Route::get('/pengunjung/grafik-mingguan', [PengunjungController::class, 'grafikMingguan']);
+    Route::get('/pengunjung/grafik-per-jam', [PengunjungController::class, 'grafikPerJam']);
+    Route::get('/pengunjung/halaman-populer', [PengunjungController::class, 'halamanPopuler']);
+    Route::get('/search', [SearchController::class, 'cari']);
+});
 
 // ===== AUTENTIKASI =====
 Route::middleware('guest')->group(function () {
@@ -72,12 +96,30 @@ Route::middleware(['auth', 'cek.peran:admin'])->prefix('admin')->name('admin.')-
     Route::post('/kunci', [AdminController::class, 'buatKunci'])->name('kunci.buat');
     Route::get('/paket', [AdminController::class, 'paket'])->name('paket');
     Route::post('/paket', [AdminController::class, 'simpanPaket'])->name('paket.simpan');
+
+    // Admin Berita
+    Route::get('/berita', [BeritaController::class, 'adminIndex'])->name('berita.index');
+    Route::get('/berita/buat', [BeritaController::class, 'adminBuat'])->name('berita.buat');
+    Route::post('/berita', [BeritaController::class, 'adminSimpan'])->name('berita.simpan');
+    Route::get('/berita/{berita}/edit', [BeritaController::class, 'adminEdit'])->name('berita.edit');
+    Route::put('/berita/{berita}', [BeritaController::class, 'adminUpdate'])->name('berita.update');
+    Route::delete('/berita/{berita}', [BeritaController::class, 'adminHapus'])->name('berita.hapus');
+
+    // Admin Kerja Sama
+    Route::get('/kerja-sama', [KerjaSamaController::class, 'adminIndex'])->name('kerja-sama.index');
+    Route::get('/kerja-sama/buat', [KerjaSamaController::class, 'adminBuat'])->name('kerja-sama.buat');
+    Route::post('/kerja-sama', [KerjaSamaController::class, 'adminSimpan'])->name('kerja-sama.simpan');
+    Route::get('/kerja-sama/{kerjaSama}/edit', [KerjaSamaController::class, 'adminEdit'])->name('kerja-sama.edit');
+    Route::put('/kerja-sama/{kerjaSama}', [KerjaSamaController::class, 'adminUpdate'])->name('kerja-sama.update');
+    Route::delete('/kerja-sama/{kerjaSama}', [KerjaSamaController::class, 'adminHapus'])->name('kerja-sama.hapus');
+
+    // Admin Pengunjung
+    Route::get('/pengunjung', [PengunjungController::class, 'adminDashboard'])->name('pengunjung');
 });
 
 // Halaman Statis
 Route::view('/lisensi', 'halaman.lisensi')->name('lisensi');
 Route::view('/sponsor', 'halaman.sponsor')->name('sponsor');
-Route::view('/kerja-sama', 'halaman.kerja-sama')->name('kerja-sama');
 Route::view('/tentang', 'halaman.tentang')->name('tentang');
 
 // ===== HALAMAN EKOSISTEM (v2.0) =====
