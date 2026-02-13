@@ -6,6 +6,7 @@ use App\Models\Kuis;
 use App\Models\KuisHasil;
 use App\Models\KuisPertanyaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KuisController extends Controller
 {
@@ -19,7 +20,8 @@ class KuisController extends Controller
     public function kirim(Request $request, Kuis $kuis)
     {
         $kuis->load('pertanyaan');
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
         $benar = 0;
         $totalPoin = 0;

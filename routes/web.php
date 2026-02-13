@@ -79,3 +79,15 @@ Route::view('/lisensi', 'halaman.lisensi')->name('lisensi');
 Route::view('/sponsor', 'halaman.sponsor')->name('sponsor');
 Route::view('/kerja-sama', 'halaman.kerja-sama')->name('kerja-sama');
 Route::view('/tentang', 'halaman.tentang')->name('tentang');
+
+// ===== HALAMAN EKOSISTEM (v2.0) =====
+Route::prefix('/')->name('halaman.')->group(function () {
+    Route::view('/jenjang-pendidikan', 'halaman.jenjang-pendidikan')->name('jenjang');
+    Route::view('/riset-inovasi', 'halaman.riset-inovasi')->name('riset');
+    Route::view('/karir-industri', 'halaman.karir-industri')->name('karir');
+    Route::view('/komunitas', 'halaman.komunitas')->name('komunitas');
+    Route::view('/sertifikasi', 'halaman.sertifikasi')->name('sertifikasi');
+    Route::view('/sumber-daya', 'halaman.sumber-daya')->name('sumber-daya');
+    Route::view('/keamanan', 'halaman.keamanan')->name('keamanan');
+    Route::view('/penjamin-mutu', 'halaman.penjamin-mutu')->name('penjamin-mutu');
+});

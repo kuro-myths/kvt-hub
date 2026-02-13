@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class KelasController extends Controller
@@ -23,8 +24,8 @@ class KelasController extends Controller
         $kelas->load(['guru', 'materi' => fn($q) => $q->where('status', 'terbit'), 'anggota']);
 
         $sudahGabung = false;
-        if (auth()->check()) {
-            $sudahGabung = $kelas->anggota()->where('user_id', auth()->id())->exists();
+        if (Auth::check()) {
+            $sudahGabung = $kelas->anggota()->where('user_id', Auth::id())->exists();
         }
 
         return view('kelas.tampilkan', compact('kelas', 'sudahGabung'));
@@ -32,7 +33,8 @@ class KelasController extends Controller
 
     public function gabung(Kelas $kelas)
     {
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
         if ($kelas->jumlahSiswa() >= $kelas->maks_siswa) {
             return back()->with('error', 'Kelas sudah penuh.');
@@ -64,7 +66,7 @@ class KelasController extends Controller
         $kelas = Kelas::create([
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
-            'guru_id' => auth()->id(),
+            'guru_id' => Auth::id(),
             'kode_kelas' => strtoupper(Str::random(8)),
             'kategori' => $request->kategori,
             'maks_siswa' => $request->maks_siswa ?? 50,

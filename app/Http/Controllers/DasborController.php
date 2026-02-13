@@ -8,12 +8,14 @@ use App\Models\KuisHasil;
 use App\Models\Kehadiran;
 use App\Models\MateriProgres;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DasborController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
         if ($user->adalahGuru()) {
             return $this->dasborGuru();
@@ -24,7 +26,8 @@ class DasborController extends Controller
 
     private function dasborSiswa()
     {
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
         $kelasAktif = $user->kelasYangDiikuti()
             ->wherePivot('status', 'aktif')
@@ -61,7 +64,8 @@ class DasborController extends Controller
 
     private function dasborGuru()
     {
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
         $kelasAktif = $user->kelasYangDiajar()
             ->where('status', 'aktif')

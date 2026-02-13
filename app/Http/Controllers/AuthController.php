@@ -26,6 +26,7 @@ class AuthController extends Controller
         if (Auth::attempt($request->only('email', 'password'), $request->filled('ingat'))) {
             $request->session()->regenerate();
 
+            /** @var \App\Models\User $user */
             $user = Auth::user();
             $user->update(['terakhir_login' => now()]);
 
@@ -93,6 +94,7 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            /** @var \App\Models\User $user */
             $user = Auth::user();
 
             if ($user->peran !== 'admin') {

@@ -1,207 +1,270 @@
-# 🌨️ KVT Hub
+# KVT Hub - Global Education & Research Ecosystem
 
-> **Pusat teknologi dan pembelajaran digital KVT. Tempat semua project, coding, AI, dan desain berkumpul.**
+> **Ekosistem pendidikan, karir, dan riset digital global. Dari TK hingga S3/PhD, profesi, industri, dan riset.**
 
 ![Laravel](https://img.shields.io/badge/Laravel-12-red?logo=laravel)
 ![PHP](https://img.shields.io/badge/PHP-8.2+-blue?logo=php)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql)
 ![License](https://img.shields.io/badge/License-MIT-green)
+![ISO](https://img.shields.io/badge/ISO-27001-brightgreen)
+![COBIT](https://img.shields.io/badge/COBIT-2019-blue)
 
 ---
 
-## 📖 Tentang
+## Tentang
 
-KVT Hub adalah platform pembelajaran digital berbasis web yang dirancang untuk memberikan pengalaman belajar yang interaktif, menyenangkan, dan terstruktur. Dengan tema biru salju yang elegan dan sistem gamifikasi RPG, KVT Hub membuat proses belajar menjadi petualangan yang mengasyikkan.
+KVT Hub v2.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan yang mengintegrasikan 13 jenjang pendidikan (TK hingga S3/PhD) dengan teknologi gamifikasi RPG, kolaborasi riset global, dan standar keamanan enterprise. Platform ini menghubungkan pelajar, peneliti, profesional, dan industri dalam satu ekosistem terintegrasi.
 
-## ✨ Fitur Utama
+## Arsitektur Ekosistem
 
-### 🎮 Sistem RPG & Gamifikasi
+```
+                        +---------------------------+
+                        |      KVT Hub v2.0         |
+                        |  Global Education & Riset |
+                        +-------------+-------------+
+                                      |
+          +-------+-------+-------+---+---+-------+-------+-------+
+          |       |       |       |       |       |       |       |
+       Jenjang  Riset   Karir  Komuni  Serti   Sumber  Keama  Penjami
+       Pendi-   & Ino-  & In-  -tas    fikasi  Daya    nan    n Mutu
+       dikan    vasi    dustri                         (ISO)  (QA/QC)
+       (TK-S3)  (Lab)   (500+)  (50K+)  (120+)  (17K+) 27001  SPK/CRM
+```
 
-- **100 Level** dengan 10 tingkatan rank (Novice → Grandmaster)
+## 8 Pilar Ekosistem
+
+| No | Pilar | Deskripsi | Highlight |
+|----|-------|-----------|-----------|
+| 1 | Jenjang Pendidikan | TK, SD, SMP, SMA, SMK, D1-D3, S1, S2, S3, Profesi | 13 jenjang terintegrasi |
+| 2 | Riset & Inovasi | Research Hub, jurnal, konferensi, paten | 150+ universitas mitra |
+| 3 | Karir & Industri | Job matching, magang, mentoring, CV builder | 500+ perusahaan mitra |
+| 4 | Komunitas | Forum, study group, alumni, hackathon, open source | 50,000+ anggota |
+| 5 | Sertifikasi | Kompetensi, industri (AWS/Google/MS), blockchain | 120+ program |
+| 6 | Sumber Daya | E-Book, dataset, coding playground, API, template | 17,000+ resources |
+| 7 | Keamanan | ISO 27001, COBIT 2019, UU ITE & PDP, Zero Trust | AES-256, MFA, WAF |
+| 8 | Penjamin Mutu | QA/QC, SPK (AHP/TOPSIS/SAW), CRM, PDCA | NPS 72, SLA 98% |
+
+## Fitur Utama
+
+### Sistem RPG & Gamifikasi
+- 100 Level dengan 10 tingkatan rank (Novice -> Grandmaster)
 - Sistem XP (Experience Points) dari setiap aktivitas
-- Progress bar dan pencapaian visual
+- Progress bar, pencapaian visual, dan leaderboard
 
-### 📹 Video Tutorial
+### Mega Menu Navigation
+- Header dengan mega menu dropdown untuk Jenjang, Platform, Tentang
+- 3 kolom navigasi terstruktur per dropdown
+- Responsive mobile menu
 
+### Custom Search Engine (3 Mode)
+- **KVT Hub Search**: Pencarian internal real-time di seluruh halaman platform
+- **Web Search**: Integrasi ke Google, Bing, DuckDuckGo, Google Scholar, GitHub, arXiv
+- **AI Explorer**: Pencarian cerdas dengan analisis kontekstual (coming soon)
+- Shortcut `Ctrl+K` untuk akses cepat
+
+### News System
+- Top bar news ticker (scrolling real-time)
+- Popup berita terbaru saat pertama kali buka (toggleable, localStorage)
+- Preferensi pengguna tersimpan
+
+### Revamped Footer
+- Statistik pengunjung real-time (hari ini, online, total)
+- Kotak saran interaktif
+- 5 kolom: Brand, Platform, Tata Kelola, Standar, Social
+- Badge standar keamanan (ISO 27001, COBIT, QA/QC, UU ITE, SPK, CRM)
+- Info Laravel version, PHP version, tanggal
+
+### Video Tutorial
 - Integrasi YouTube untuk konten video
 - Kuis interaktif saat video berjalan
 - Tracking progress per materi
 
-### 📊 30 Jenis Diagram
-
+### 30 Jenis Diagram
 - Bar, Line, Pie, Doughnut, Radar, Polar Area
-- Scatter, Bubble, Mixed, Combo, Waterfall
-- Funnel, Gantt, Histogram, Box Plot, Heatmap
-- Treemap, Sunburst, Sankey, Gauge, Sparkline
-- Candlestick, Timeline, Progress Bar, KPI Card
-- Dan masih banyak lagi!
+- Scatter, Bubble, Mixed, Waterfall, Funnel, Gantt
+- Histogram, Box Plot, Heatmap, Treemap, Sankey, Gauge
+- Dan lainnya via Chart.js v4
 
-### 🧠 Kuis Interaktif
+### Multi-Peran
 
-- Pilihan ganda dengan penilaian otomatis
-- Skor ≥70% = XP penuh, <70% = 30% XP
-- Riwayat hasil kuis
+| Peran | Kemampuan |
+|-------|-----------|
+| Siswa | Belajar, ikut kelas, ambil kuis, lihat progress |
+| Guru | Buat kelas & materi, kelola siswa, buat kuis |
+| Admin | Kelola semua data, generate kunci admin, kelola paket |
 
-### 💎 Paket Eksklusif
-
-- Materi premium dengan fitur spesial
-- Sistem langganan dengan durasi fleksibel
-- XP bonus untuk subscriber
-
-### 👥 Multi-Peran
-
-| Peran     | Kemampuan                                             |
-| --------- | ----------------------------------------------------- |
-| **Siswa** | Belajar, ikut kelas, ambil kuis, lihat progress       |
-| **Guru**  | Buat kelas & materi, kelola siswa, buat kuis          |
-| **Admin** | Kelola semua data, generate kunci admin, kelola paket |
-
-### 🔐 Autentikasi
-
-- Login/Register standard
+### Autentikasi
+- Login/Register standard dengan validasi
 - Login Admin dengan kunci khusus
 - OAuth Google & GitHub (siap integrasi)
+- RBAC (Role-Based Access Control)
 
-## 🛠️ Teknologi
+## Standar Keamanan & Tata Kelola
 
-- **Backend**: Laravel 12, PHP 8.2+
-- **Database**: MySQL 8.0
-- **Frontend**: Tailwind CSS (CDN), Blade Templates
-- **Charting**: Chart.js v4
-- **Animasi**: AOS (Animate on Scroll), CSS Snow Effect
-- **Ikon**: Font Awesome 6.5.1
-- **Font**: Google Fonts (Inter)
+### ISO 27001 (Information Security Management)
+- Risk Assessment & Treatment
+- Access Control (RBAC)
+- Incident Management & Business Continuity
+- Enkripsi AES-256-GCM, TLS 1.3
 
-## 🚀 Instalasi
+### COBIT 2019 (IT Governance)
+- Governance Objectives & Design Factors
+- Performance Management & Maturity Model (CMMI)
+
+### UU ITE & PDP (Regulasi Nasional)
+- Consent Management & Data Subject Rights
+- Data Protection Officer & Breach Notification
+- UU No. 19/2016 (ITE) & UU No. 27/2022 (PDP)
+
+### QA/QC (Quality Assurance / Quality Control)
+- Automated testing (unit, integration, e2e)
+- Monitoring KPI (NPS, CSAT, SLA)
+- A/B testing & regression testing (CI/CD)
+
+### SPK/DSS (Sistem Pendukung Keputusan)
+- Metode AHP (Analytical Hierarchy Process)
+- Metode TOPSIS (ranking alternatif)
+- Metode SAW (Simple Additive Weighting)
+
+### CRM (Customer Relationship Management)
+- Segmentasi & personalisasi pengguna
+- Engagement tracking & lifecycle management
+- Multi-channel support & email automation
+
+## Teknologi
+
+| Kategori | Teknologi |
+|----------|-----------|
+| Backend | Laravel 12, PHP 8.2+ |
+| Database | MySQL 8.0 |
+| Frontend | Tailwind CSS (CDN), Blade Templates |
+| Charting | Chart.js v4 |
+| Animasi | AOS v2.3.4, CSS Snow Effect, Ticker |
+| Ikon | Font Awesome 6.5.1 |
+| Font | Google Fonts (Inter + JetBrains Mono) |
+| Keamanan | RBAC, CSRF, XSS Protection, Auth Guard |
+
+## Instalasi
 
 ### Prasyarat
-
 - PHP 8.2+
 - Composer
-- MySQL
+- MySQL 8.0+
 - Laragon / XAMPP / Herd
 
-### Langkah Instalasi
+### Langkah
 
 ```bash
-# Clone repository
+# Clone
 git clone https://github.com/kuro-myths/kvt-hub.git
 cd kvt-hub
 
-# Install dependencies
+# Install
 composer install
 
-# Copy environment file
+# Environment
 cp .env.example .env
-
-# Generate app key
 php artisan key:generate
 
-# Buat database MySQL bernama 'kvt_hub'
-# Sesuaikan .env:
-# DB_CONNECTION=mysql
-# DB_DATABASE=kvt_hub
-# DB_USERNAME=root
-# DB_PASSWORD=
+# Database (buat 'kvt_hub' di MySQL)
+# Sesuaikan .env: DB_DATABASE=kvt_hub, DB_USERNAME=root, DB_PASSWORD=
 
-# Jalankan migrasi
-php artisan migrate
+# Migrasi & Seed
+php artisan migrate --seed
 
-# Jalankan seeder (data awal)
-php artisan db:seed
-
-# Copy gambar fasilitas
+# Gambar fasilitas
 cp -r gambar/* public/images/
 
-# Jalankan server
+# Jalankan
 php artisan serve
 ```
 
 Buka `http://localhost:8000` atau `http://kvt-hub.test` (Laragon).
 
-## 📁 Struktur Proyek
+## Struktur Proyek
 
 ```
 kvt-hub/
-├── app/
-│   ├── Http/
-│   │   ├── Controllers/
-│   │   │   ├── AdminController.php
-│   │   │   ├── AuthController.php
-│   │   │   ├── BerandaController.php
-│   │   │   ├── DasborController.php
-│   │   │   ├── KelasController.php
-│   │   │   ├── KuisController.php
-│   │   │   ├── LaporanController.php
-│   │   │   └── MateriController.php
-│   │   └── Middleware/
-│   │       └── CekPeran.php
-│   └── Models/
-│       ├── User.php
-│       ├── Kelas.php
-│       ├── Materi.php
-│       ├── Kuis.php
-│       ├── Laporan.php
-│       └── ... (14 model total)
-├── database/
-│   ├── migrations/
-│   └── seeders/
-├── resources/views/
-│   ├── tata-letak/utama.blade.php
-│   ├── beranda.blade.php
-│   ├── auth/
-│   ├── dasbor/
-│   ├── kelas/
-│   ├── materi/
-│   ├── kuis/
-│   ├── admin/
-│   ├── laporan/
-│   └── halaman/
-├── public/
-│   ├── images/
-│   └── favicon.svg
-└── routes/web.php
+|-- app/
+|   |-- Http/
+|   |   |-- Controllers/
+|   |   |   |-- AdminController.php
+|   |   |   |-- AuthController.php
+|   |   |   |-- BerandaController.php
+|   |   |   |-- DasborController.php
+|   |   |   |-- KelasController.php
+|   |   |   |-- KuisController.php
+|   |   |   |-- LaporanController.php
+|   |   |   +-- MateriController.php
+|   |   +-- Middleware/
+|   |       +-- CekPeran.php
+|   +-- Models/ (14 model)
+|-- database/
+|   |-- migrations/ (14 tabel)
+|   +-- seeders/
+|-- resources/views/
+|   |-- tata-letak/utama.blade.php    <-- Mega menu, search engine, footer
+|   |-- beranda.blade.php              <-- Ecosystem overview
+|   |-- auth/ (masuk, daftar, masuk-admin)
+|   |-- dasbor/
+|   |-- kelas/
+|   |-- materi/
+|   |-- kuis/
+|   |-- admin/
+|   |-- laporan/
+|   +-- halaman/
+|       |-- jenjang-pendidikan.blade.php  <-- 13 jenjang TK-S3
+|       |-- riset-inovasi.blade.php       <-- Research Hub
+|       |-- karir-industri.blade.php      <-- Career Hub
+|       |-- komunitas.blade.php           <-- Community
+|       |-- sertifikasi.blade.php         <-- Certifications
+|       |-- sumber-daya.blade.php         <-- Resources
+|       |-- keamanan.blade.php            <-- ISO 27001, COBIT
+|       |-- penjamin-mutu.blade.php       <-- QA/QC, SPK, CRM
+|       |-- tentang.blade.php
+|       |-- lisensi.blade.php
+|       |-- sponsor.blade.php
+|       +-- kerja-sama.blade.php
+|-- public/
+|   |-- images/
+|   +-- favicon.svg
++-- routes/web.php
 ```
 
-## 🎯 Alur Penggunaan
+## Alur Penggunaan
 
-### Siswa
+### Pelajar / Mahasiswa
+1. Daftar akun -> Jelajahi 13 jenjang pendidikan
+2. Gabung kelas (+20 XP) -> Pelajari materi -> Ambil kuis
+3. Naik level (Novice -> Grandmaster) -> Raih sertifikasi
+4. Akses riset hub -> Ikut komunitas -> Cari karir
 
-1. Daftar akun → Pilih peran "Siswa"
-2. Masuk ke dashboard → Lihat progress & statistik
-3. Jelajahi kelas → Gabung kelas (+20 XP)
-4. Pelajari materi → Tonton video & baca konten
-5. Ambil kuis → Dapatkan XP berdasarkan skor
-6. Naik level → Raih rank baru!
+### Guru / Dosen
+1. Daftar sebagai Guru -> Buat kelas & materi
+2. Upload video YouTube -> Buat kuis interaktif
+3. Pantau progress siswa -> Buat laporan 30 diagram
 
-### Guru
-
-1. Daftar akun → Pilih peran "Guru"
-2. Buat kelas baru → Tambah deskripsi & gambar
-3. Tambah materi → Upload video YouTube / tulis konten
-4. Buat kuis → Tambah pertanyaan & jawaban
-5. Pantau progress siswa → Lihat laporan
+### Peneliti
+1. Akses Research Hub -> Ajukan proposal riset
+2. Kolaborasi dengan 150+ universitas
+3. Publikasi di jurnal Q1-Q4 -> Ikut konferensi
 
 ### Admin
+1. Login via kunci admin khusus
+2. Kelola pengguna, kunci, dan paket eksklusif
+3. Monitor keamanan (ISO 27001) & mutu (QA/QC)
 
-1. Minta kunci admin dari admin lain
-2. Login via halaman khusus admin
-3. Kelola pengguna, kunci, dan paket eksklusif
-4. Buat laporan dengan 30 jenis diagram
-
-## 📜 Lisensi
+## Lisensi
 
 Proyek ini menggunakan **3 jenis lisensi**:
 
-1. **Lisensi Kerja Sama** — Mengatur kolaborasi dengan pihak ketiga
-2. **Lisensi Hak Cipta (MIT)** — Kode sumber bebas digunakan dengan atribusi
-3. **Lisensi Sponsor** — Mengatur hak dan kewajiban sponsor
+1. **Lisensi Kerja Sama** -- Mengatur kolaborasi dengan pihak ketiga
+2. **Lisensi Hak Cipta (MIT)** -- Kode sumber bebas digunakan dengan atribusi
+3. **Lisensi Sponsor** -- Mengatur hak dan kewajiban sponsor
 
 Lihat file [LICENSE](LICENSE) untuk detail lengkap.
 
-## 🤝 Kontribusi
-
-Kontribusi sangat diterima! Silakan:
+## Kontribusi
 
 1. Fork repository ini
 2. Buat branch fitur (`git checkout -b fitur-baru`)
@@ -209,15 +272,17 @@ Kontribusi sangat diterima! Silakan:
 4. Push ke branch (`git push origin fitur-baru`)
 5. Buat Pull Request
 
-## 📞 Kontak
+## Kontak
 
 - **Email**: kerjasama@kvthub.id
+- **Security**: security@kvthub.id
 - **GitHub**: [kuro-myths](https://github.com/kuro-myths)
 - **Website**: [kvt-hub.test](http://kvt-hub.test)
 
 ---
 
 <p align="center">
-  Dibuat dengan ❄️ oleh <strong>KVT Hub Team</strong><br>
-  © 2025 KVT Hub. Semua hak dilindungi.
+  Dibuat oleh <strong>KVT Hub Team</strong><br>
+  KVT Hub v2.0 - Global Education & Research Ecosystem<br>
+  &copy; 2025 KVT Hub. Semua hak dilindungi.
 </p>

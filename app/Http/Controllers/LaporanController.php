@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Laporan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
 {
@@ -32,7 +33,7 @@ class LaporanController extends Controller
         Laporan::create([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'tipe_diagram' => $request->tipe_diagram,
             'data_json' => $request->data_json,
             'status' => 'terbit',
@@ -45,7 +46,5 @@ class LaporanController extends Controller
     {
         $laporan->load('pembuat');
         return view('laporan.tampilkan', compact('laporan'));
-    }
-}
     }
 }

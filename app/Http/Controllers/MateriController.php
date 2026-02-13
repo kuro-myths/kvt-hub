@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Materi;
 use App\Models\MateriProgres;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MateriController extends Controller
 {
@@ -13,9 +14,9 @@ class MateriController extends Controller
         $materi->load(['kelas', 'guru', 'kuis.pertanyaan']);
 
         $progres = null;
-        if (auth()->check()) {
+        if (Auth::check()) {
             $progres = MateriProgres::firstOrCreate(
-                ['user_id' => auth()->id(), 'materi_id' => $materi->id],
+                ['user_id' => Auth::id(), 'materi_id' => $materi->id],
                 ['status' => 'sedang']
             );
         }
@@ -25,7 +26,8 @@ class MateriController extends Controller
 
     public function selesaikan(Materi $materi)
     {
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
         $progres = MateriProgres::updateOrCreate(
             ['user_id' => $user->id, 'materi_id' => $materi->id],
@@ -59,7 +61,7 @@ class MateriController extends Controller
             'deskripsi' => $request->deskripsi,
             'konten' => $request->konten,
             'kelas_id' => $request->kelas_id,
-            'guru_id' => auth()->id(),
+            'guru_id' => Auth::id(),
             'tipe' => $request->tipe,
             'video_url' => $request->video_url,
             'video_platform' => $request->video_url ? 'youtube' : null,
