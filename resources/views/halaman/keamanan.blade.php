@@ -22,9 +22,9 @@
 {{-- Standards --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Standar Keamanan yang Diterapkan</h2>
+        <h2 class="text-3xl font-bold text-white mb-3" data-aos="zoom-in">Standar Keamanan yang Diterapkan</h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-right" data-aos-delay="200">
         <div class="kaca rounded-2xl p-6 border-green-500/20 hover:border-green-500/40 transition group">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center"><i class="fas fa-shield-alt text-white text-xl"></i></div>
@@ -70,8 +70,8 @@
 {{-- Security Layers --}}
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-up">Lapisan Keamanan</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-down">Lapisan Keamanan</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-left" data-aos-delay="100">
             @php
             $lapisan = [
                 ['Enkripsi AES-256', 'Semua data dienkripsi dengan AES-256-GCM. TLS 1.3 untuk transmisi data.', 'fa-lock', 'from-red-500 to-pink-500'],
@@ -99,7 +99,7 @@
 
 {{-- Security Stats --}}
 <section class="bg-gradient-to-br from-red-800/10 to-kvt-800/20 py-16">
-    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="zoom-in">
         <div><div class="text-3xl font-black teks-gradien">99.99%</div><p class="text-gray-400 text-sm mt-1">Uptime SLA</p></div>
         <div><div class="text-3xl font-black teks-gradien">0</div><p class="text-gray-400 text-sm mt-1">Data Breach</p></div>
         <div><div class="text-3xl font-black teks-gradien">AES-256</div><p class="text-gray-400 text-sm mt-1">Encryption Grade</p></div>
@@ -108,7 +108,7 @@
 </section>
 
 {{-- Report --}}
-<section class="max-w-4xl mx-auto px-4 py-16 text-center" data-aos="fade-up">
+<section class="max-w-4xl mx-auto px-4 py-16 text-center" data-aos="zoom-in-up">
     <div class="kaca rounded-2xl p-8 border-red-500/20">
         <i class="fas fa-exclamation-triangle text-red-400 text-3xl mb-4"></i>
         <h2 class="text-2xl font-bold text-white mb-3">Laporkan Kerentanan</h2>

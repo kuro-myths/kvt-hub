@@ -22,10 +22,10 @@
 {{-- Career Paths --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Jalur Karir</h2>
-        <p class="text-gray-400" data-aos="fade-up" data-aos-delay="100">Pilih jalur karir sesuai passion dan keahlian Anda</p>
+        <h2 class="text-3xl font-bold text-white mb-3" data-aos="zoom-in">Jalur Karir</h2>
+        <p class="text-gray-400" data-aos="zoom-in" data-aos-delay="100">Pilih jalur karir sesuai passion dan keahlian Anda</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-right" data-aos-delay="200">
         @php
         $karir = [
             ['Software Engineering', 'Full-stack, mobile, DevOps, cloud', 'fa-code', 'from-blue-500 to-cyan-500', '$60K - $200K/yr'],
@@ -54,9 +54,9 @@
 {{-- Industry Partners --}}
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-white text-center mb-4" data-aos="fade-up">Mitra Industri</h2>
-        <p class="text-gray-400 text-center mb-12" data-aos="fade-up" data-aos-delay="100">Berkolaborasi dengan perusahaan teknologi terkemuka</p>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="text-3xl font-bold text-white text-center mb-4" data-aos="fade-down">Mitra Industri</h2>
+        <p class="text-gray-400 text-center mb-12" data-aos="fade-down" data-aos-delay="100">Berkolaborasi dengan perusahaan teknologi terkemuka</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" data-aos="fade-left" data-aos-delay="200">
             @foreach(['Google', 'Microsoft', 'Amazon', 'Meta', 'Apple', 'Tesla', 'NVIDIA', 'Intel', 'Samsung', 'Tokopedia', 'Gojek', 'Grab'] as $p)
             <div class="kaca rounded-xl p-4 text-center hover:border-kvt-500/30 transition">
                 <div class="w-10 h-10 mx-auto bg-kvt-800/50 rounded-lg flex items-center justify-center mb-2"><i class="fas fa-building text-kvt-400"></i></div>
@@ -69,7 +69,7 @@
 
 {{-- Features --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="zoom-in">
         <div class="kaca rounded-2xl p-5 text-center">
             <i class="fas fa-search text-kvt-400 text-2xl mb-3"></i>
             <h3 class="text-white font-bold mb-1">Job Matching</h3>
@@ -95,7 +95,7 @@
 
 {{-- Stats --}}
 <section class="bg-gradient-to-br from-orange-800/10 to-kvt-800/20 py-16">
-    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="zoom-in-up">
         <div><div class="text-3xl font-black teks-gradien-emas">12K+</div><p class="text-gray-400 text-sm mt-1">Lowongan Aktif</p></div>
         <div><div class="text-3xl font-black teks-gradien-emas">500+</div><p class="text-gray-400 text-sm mt-1">Perusahaan Mitra</p></div>
         <div><div class="text-3xl font-black teks-gradien-emas">89%</div><p class="text-gray-400 text-sm mt-1">Tingkat Penempatan</p></div>

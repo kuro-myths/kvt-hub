@@ -22,9 +22,9 @@
 {{-- Community Channels --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Kanal Komunitas</h2>
+        <h2 class="text-3xl font-bold text-white mb-3" data-aos="zoom-in">Kanal Komunitas</h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-right" data-aos-delay="200">
         @php
         $kanal = [
             ['Forum Diskusi', 'Diskusi akademik, teknis, dan umum. Tanya jawab peer-to-peer.', 'fa-comments', 'from-blue-500 to-cyan-500', '15K+ topik'],
@@ -53,8 +53,8 @@
 {{-- Leaderboard --}}
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-4xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-up">Leaderboard Komunitas</h2>
-        <div class="kaca rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-down">Leaderboard Komunitas</h2>
+        <div class="kaca rounded-2xl overflow-hidden" data-aos="fade-left" data-aos-delay="100">
             <div class="grid grid-cols-4 gap-4 p-4 bg-kvt-800/30 text-xs font-semibold text-gray-400 border-b border-kvt-700/30">
                 <span>Peringkat</span><span>Anggota</span><span>Level</span><span>Kontribusi</span>
             </div>
@@ -76,7 +76,7 @@
 </section>
 
 {{-- CTA --}}
-<section class="max-w-4xl mx-auto px-4 py-16 text-center" data-aos="fade-up">
+<section class="max-w-4xl mx-auto px-4 py-16 text-center" data-aos="zoom-in-up">
     <h2 class="text-3xl font-bold text-white mb-4">Bergabung dengan Komunitas</h2>
     <p class="text-gray-400 mb-8">Jadilah bagian dari 50,000+ pelajar dan profesional global.</p>
     <div class="flex justify-center gap-4">

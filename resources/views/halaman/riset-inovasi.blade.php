@@ -22,10 +22,10 @@
 {{-- Research Areas --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Bidang Riset Unggulan</h2>
-        <p class="text-gray-400" data-aos="fade-up" data-aos-delay="100">Fokus penelitian di 8 bidang strategis global</p>
+        <h2 class="text-3xl font-bold text-white mb-3" data-aos="zoom-in">Bidang Riset Unggulan</h2>
+        <p class="text-gray-400" data-aos="zoom-in" data-aos-delay="100">Fokus penelitian di 8 bidang strategis global</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-up" data-aos-delay="200">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-right" data-aos-delay="200">
         @php
         $riset = [
             ['Artificial Intelligence', 'Machine learning, NLP, computer vision, robotika', 'fa-brain', 'from-blue-500 to-cyan-500'],
@@ -53,8 +53,8 @@
 {{-- Research Pipeline --}}
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-up">Alur Riset KVT Hub</h2>
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-down">Alur Riset KVT Hub</h2>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4" data-aos="fade-left" data-aos-delay="100">
             @php
             $alur = [
                 ['Ide & Proposal', 'fa-lightbulb', 'text-yellow-400', 'Ajukan proposal riset dengan template standar internasional.'],
@@ -80,7 +80,7 @@
 
 {{-- Features --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="zoom-in">
         <div class="kaca rounded-2xl p-6 text-center">
             <div class="w-16 h-16 mx-auto bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-4"><i class="fas fa-globe text-white text-2xl"></i></div>
             <h3 class="text-white font-bold text-lg mb-2">150+ Universitas Mitra</h3>
@@ -101,7 +101,7 @@
 
 {{-- Stats --}}
 <section class="bg-gradient-to-br from-purple-800/20 to-kvt-800/20 py-16">
-    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="zoom-in-up">
         <div><div class="text-3xl font-black teks-gradien">2,400+</div><p class="text-gray-400 text-sm mt-1">Karya Ilmiah</p></div>
         <div><div class="text-3xl font-black teks-gradien">380+</div><p class="text-gray-400 text-sm mt-1">Paten Terdaftar</p></div>
         <div><div class="text-3xl font-black teks-gradien">$5M+</div><p class="text-gray-400 text-sm mt-1">Dana Riset</p></div>

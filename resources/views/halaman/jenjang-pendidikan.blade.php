@@ -27,10 +27,10 @@
 {{-- Jenjang Cards --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Pendidikan Dasar & Menengah</h2>
-        <p class="text-gray-400" data-aos="fade-up" data-aos-delay="100">Fondasi pendidikan dari usia dini hingga menengah atas</p>
+        <h2 class="text-3xl font-bold text-white mb-3" data-aos="zoom-in">Pendidikan Dasar & Menengah</h2>
+        <p class="text-gray-400" data-aos="zoom-in" data-aos-delay="100">Fondasi pendidikan dari usia dini hingga menengah atas</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" data-aos="fade-up" data-aos-delay="200">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" data-aos="fade-right" data-aos-delay="200">
         @php
         $dasar = [
             ['TK / PAUD', 'Usia 4-6 tahun', 'fa-baby', 'from-pink-500 to-rose-500', 'Stimulasi motorik, bahasa, kreativitas, dan sosial-emosional melalui permainan edukatif.'],
@@ -57,10 +57,10 @@
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Pendidikan Tinggi</h2>
-            <p class="text-gray-400" data-aos="fade-up" data-aos-delay="100">Dari Diploma hingga Doktoral, membangun keahlian mendalam</p>
+            <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-down">Pendidikan Tinggi</h2>
+            <p class="text-gray-400" data-aos="fade-down" data-aos-delay="100">Dari Diploma hingga Doktoral, membangun keahlian mendalam</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-left" data-aos-delay="200">
             @php
             $tinggi = [
                 ['Diploma (D1-D3)', '1-3 Tahun', 'fa-certificate', 'from-cyan-500 to-blue-500', 'Pendidikan vokasi dengan fokus keterampilan terapan dan siap kerja. Termasuk D1 Informatika, D2 Teknik, D3 Akuntansi.', ['Praktik 70%', 'Magang', 'Sertifikasi']],
@@ -91,10 +91,10 @@
 {{-- Program Khusus --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Program Khusus</h2>
-        <p class="text-gray-400" data-aos="fade-up" data-aos-delay="100">Jalur akselerasi dan program elite untuk karir profesional</p>
+        <h2 class="text-3xl font-bold text-white mb-3" data-aos="zoom-in-up">Program Khusus</h2>
+        <p class="text-gray-400" data-aos="zoom-in-up" data-aos-delay="100">Jalur akselerasi dan program elite untuk karir profesional</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-right" data-aos-delay="200">
         <div class="kaca rounded-2xl p-6 border-amber-500/20 hover:border-amber-500/40 transition group">
             <div class="w-14 h-14 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center mb-4"><i class="fas fa-briefcase text-white text-xl"></i></div>
             <h3 class="text-white font-bold text-lg mb-2">Program Profesi</h3>
@@ -134,7 +134,7 @@
 {{-- Stats --}}
 <section class="bg-gradient-to-br from-kvt-800/30 to-ungu-700/10 py-16">
     <div class="max-w-5xl mx-auto px-4">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="fade-up">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="zoom-in">
             <div>
                 <div class="text-3xl font-black teks-gradien">13</div>
                 <p class="text-gray-400 text-sm mt-1">Jenjang Pendidikan</p>
@@ -156,7 +156,7 @@
 </section>
 
 {{-- CTA --}}
-<section class="max-w-4xl mx-auto px-4 py-16 text-center" data-aos="fade-up">
+<section class="max-w-4xl mx-auto px-4 py-16 text-center" data-aos="zoom-in-up">
     <h2 class="text-3xl font-bold text-white mb-4">Temukan Jenjang yang Tepat</h2>
     <p class="text-gray-400 mb-8">Daftar sekarang dan mulai perjalanan pendidikan Anda dari mana saja.</p>
     <a href="{{ route('daftar') }}" class="inline-block bg-gradient-to-r from-kvt-500 to-ungu-500 hover:from-kvt-400 hover:to-ungu-400 text-white px-8 py-3 rounded-xl font-semibold transition shadow-lg shadow-kvt-500/20">

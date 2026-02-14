@@ -21,9 +21,9 @@
 {{-- Certification Types --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Jenis Sertifikasi</h2>
+        <h2 class="text-3xl font-bold text-white mb-3" data-aos="zoom-in">Jenis Sertifikasi</h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-right" data-aos-delay="200">
         <div class="kaca rounded-2xl p-6 border-green-500/20 hover:border-green-500/40 transition group">
             <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-4"><i class="fas fa-certificate text-white text-xl"></i></div>
             <h3 class="text-white font-bold text-lg mb-2">Sertifikat Kompetensi</h3>
@@ -60,8 +60,8 @@
 {{-- Popular Certs --}}
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-up">Sertifikasi Populer</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-down">Sertifikasi Populer</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-left" data-aos-delay="100">
             @php
             $sertif = [
                 ['AWS Solutions Architect', 'Amazon Web Services', 'fa-cloud', 'text-orange-400'],
@@ -91,7 +91,7 @@
 
 {{-- Stats --}}
 <section class="bg-gradient-to-br from-amber-800/10 to-kvt-800/20 py-16">
-    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="zoom-in-up">
         <div><div class="text-3xl font-black teks-gradien-emas">120+</div><p class="text-gray-400 text-sm mt-1">Program Sertifikasi</p></div>
         <div><div class="text-3xl font-black teks-gradien-emas">45K+</div><p class="text-gray-400 text-sm mt-1">Sertifikat Diterbitkan</p></div>
         <div><div class="text-3xl font-black teks-gradien-emas">30+</div><p class="text-gray-400 text-sm mt-1">Mitra Sertifikasi</p></div>

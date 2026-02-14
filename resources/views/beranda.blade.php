@@ -106,10 +106,63 @@
     </div>
 </section>
 
+{{-- SPONSOR & MITRA MARQUEE --}}
+@if($mitraTampil->count() > 0)
+<section class="py-6 bg-kvt-900/40 border-y border-kvt-700/20 overflow-hidden relative">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center gap-6">
+            <div class="shrink-0 hidden md:flex items-center gap-2 text-xs text-gray-500 uppercase tracking-widest font-bold">
+                <i class="fas fa-handshake text-kvt-400"></i> Didukung Oleh
+            </div>
+            <div class="flex-1 overflow-hidden relative">
+                <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-kvt-900/80 to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-kvt-900/80 to-transparent z-10 pointer-events-none"></div>
+                <div class="sponsor-track">
+                    @foreach($mitraTampil as $mitra)
+                    <a href="{{ route('kerja-sama.tampilkan', $mitra->slug) }}" class="shrink-0 flex items-center gap-3 bg-kvt-800/30 hover:bg-kvt-700/30 border border-kvt-700/20 hover:border-kvt-500/30 rounded-xl px-5 py-2.5 transition-all group" title="{{ $mitra->nama }}">
+                        @if($mitra->logo_url)
+                        <img src="{{ $mitra->logo_url }}" alt="{{ $mitra->nama }}" class="w-7 h-7 rounded-lg object-contain bg-white/10 p-0.5">
+                        @else
+                        <div class="w-7 h-7 bg-gradient-to-br from-kvt-500 to-ungu-500 rounded-lg flex items-center justify-center shrink-0">
+                            <span class="text-white text-xs font-black">{{ strtoupper(substr($mitra->nama, 0, 1)) }}</span>
+                        </div>
+                        @endif
+                        <span class="text-gray-400 group-hover:text-white text-sm font-medium whitespace-nowrap transition">{{ $mitra->nama }}</span>
+                        @if($mitra->tier === 'platinum' || $mitra->tier === 'gold')
+                        <i class="fas fa-gem text-yellow-400 text-[10px]"></i>
+                        @endif
+                    </a>
+                    @endforeach
+                    {{-- Duplicate for seamless infinite scroll --}}
+                    @foreach($mitraTampil as $mitra)
+                    <a href="{{ route('kerja-sama.tampilkan', $mitra->slug) }}" class="shrink-0 flex items-center gap-3 bg-kvt-800/30 hover:bg-kvt-700/30 border border-kvt-700/20 hover:border-kvt-500/30 rounded-xl px-5 py-2.5 transition-all group" title="{{ $mitra->nama }}">
+                        @if($mitra->logo_url)
+                        <img src="{{ $mitra->logo_url }}" alt="{{ $mitra->nama }}" class="w-7 h-7 rounded-lg object-contain bg-white/10 p-0.5">
+                        @else
+                        <div class="w-7 h-7 bg-gradient-to-br from-kvt-500 to-ungu-500 rounded-lg flex items-center justify-center shrink-0">
+                            <span class="text-white text-xs font-black">{{ strtoupper(substr($mitra->nama, 0, 1)) }}</span>
+                        </div>
+                        @endif
+                        <span class="text-gray-400 group-hover:text-white text-sm font-medium whitespace-nowrap transition">{{ $mitra->nama }}</span>
+                        @if($mitra->tier === 'platinum' || $mitra->tier === 'gold')
+                        <i class="fas fa-gem text-yellow-400 text-[10px]"></i>
+                        @endif
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+            <a href="{{ route('kerja-sama.index') }}" class="shrink-0 hidden md:flex items-center gap-1 text-xs text-kvt-400 hover:text-kvt-300 font-semibold transition">
+                Semua Mitra <i class="fas fa-arrow-right text-[10px]"></i>
+            </a>
+        </div>
+    </div>
+</section>
+@endif
+
 {{-- ECOSYSTEM PILLARS --}}
 <section class="py-20 relative" id="ekosistem">
     <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16" data-aos="fade-up">
+        <div class="text-center mb-16" data-aos="zoom-in">
             <span class="text-kvt-400 text-sm font-semibold tracking-wider uppercase">Ekosistem Terintegrasi</span>
             <h2 class="text-4xl font-black text-white mt-2">8 Pilar Ekosistem Global</h2>
             <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Dari pendidikan dasar, riset, karir, hingga keamanan informasi - semua dalam satu platform</p>
@@ -143,7 +196,7 @@
 {{-- FASILITAS SECTION --}}
 <section class="py-20 relative" id="fasilitas">
     <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16" data-aos="fade-up">
+        <div class="text-center mb-16" data-aos="fade-down">
             <span class="text-kvt-400 text-sm font-semibold tracking-wider uppercase">Fasilitas Kami</span>
             <h2 class="text-4xl font-black text-white mt-2">Lingkungan Belajar Terbaik</h2>
             <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Kami menyediakan berbagai fasilitas untuk mendukung proses pembelajaran yang optimal</p>
@@ -181,7 +234,7 @@
 <section class="py-20 relative" id="fitur">
     <div class="absolute inset-0 bg-gradient-to-b from-kvt-950 to-kvt-900"></div>
     <div class="relative max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16" data-aos="fade-up">
+        <div class="text-center mb-16" data-aos="zoom-in-up">
             <span class="text-kvt-400 text-sm font-semibold tracking-wider uppercase">Fitur Unggulan</span>
             <h2 class="text-4xl font-black text-white mt-2">Pembelajaran Level Berikutnya</h2>
             <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Kampus virtual interaktif, video learning, dan 30+ diagram untuk pengalaman belajar yang belum pernah ada sebelumnya</p>
@@ -203,7 +256,7 @@
             @endphp
 
             @foreach($fitur as $i => $item)
-                <div class="group bg-kvt-900/50 border border-kvt-700/30 rounded-2xl p-6 hover:border-kvt-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-kvt-500/10" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
+                <div class="group bg-kvt-900/50 border border-kvt-700/30 rounded-2xl p-6 hover:border-kvt-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-kvt-500/10" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
                     <div class="w-14 h-14 bg-gradient-to-br {{ $item['warna'] }} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                         <i class="fas {{ $item['ikon'] }} text-white text-xl"></i>
                     </div>
@@ -233,7 +286,7 @@
                 <div class="space-y-3">
                     @php
                         $ranks = [
-                            ['nama' => 'Novice Scholar', 'level' => '1-9', 'warna' => 'bg-gray-500', 'persen' => '10'],
+                            ['nama' => 'Novice Scholar', 'level' => '1-9', 'warna' => 'bg-gray-500', 'persen' => '18'],
                             ['nama' => 'Apprentice', 'level' => '10-19', 'warna' => 'bg-green-500', 'persen' => '20'],
                             ['nama' => 'Iron Scholar', 'level' => '20-29', 'warna' => 'bg-slate-400', 'persen' => '30'],
                             ['nama' => 'Bronze', 'level' => '30-39', 'warna' => 'bg-amber-600', 'persen' => '40'],
@@ -249,9 +302,9 @@
                     @foreach($ranks as $rank)
                         <div class="flex items-center gap-3">
                             <span class="text-xs text-gray-500 w-20 text-right">Lv {{ $rank['level'] }}</span>
-                            <div class="flex-1 bg-kvt-800/50 rounded-full h-6 overflow-hidden">
-                                <div class="h-full {{ $rank['warna'] }} rounded-full flex items-center justify-end pr-3 transition-all" style="width: {{ $rank['persen'] }}%">
-                                    <span class="text-xs font-bold text-white drop-shadow">{{ $rank['nama'] }}</span>
+                            <div class="flex-1 bg-kvt-800/50 rounded-full h-7 overflow-hidden">
+                                <div class="h-full {{ $rank['warna'] }} rounded-full flex items-center pl-3 transition-all" style="width: {{ $rank['persen'] }}%; min-width: fit-content;">
+                                    <span class="text-xs font-bold text-white drop-shadow whitespace-nowrap">{{ $rank['nama'] }}</span>
                                 </div>
                             </div>
                         </div>
@@ -296,7 +349,7 @@
 @if($kelasPopuler->count() > 0)
 <section class="py-20 relative">
     <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16" data-aos="fade-up">
+        <div class="text-center mb-16" data-aos="fade-down">
             <span class="text-kvt-400 text-sm font-semibold tracking-wider uppercase">Kelas Tersedia</span>
             <h2 class="text-4xl font-black text-white mt-2">Kelas Populer</h2>
         </div>
@@ -317,6 +370,64 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
+{{-- BERITA TERBARU --}}
+@if($beritaTerbaru->count() > 0)
+<section class="py-20 relative">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-950 to-kvt-900/50"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="flex items-end justify-between mb-12" data-aos="fade-right">
+            <div>
+                <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase">Berita & Update</span>
+                <h2 class="text-4xl font-black text-white mt-2">Berita Terbaru</h2>
+                <p class="text-gray-400 mt-2">Informasi dan kabar terbaru seputar KVT Hub</p>
+            </div>
+            <a href="{{ route('berita.index') }}" class="hidden md:flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-semibold transition text-sm">
+                Lihat Semua <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($beritaTerbaru as $i => $berita)
+            <a href="{{ route('berita.tampilkan', $berita->slug) }}" class="group bg-kvt-900/50 border border-kvt-700/30 rounded-2xl overflow-hidden hover:border-emerald-500/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-emerald-500/5" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                <div class="h-44 bg-gradient-to-br from-emerald-700/20 to-kvt-900 flex items-center justify-center relative overflow-hidden">
+                    @if($berita->gambar_url)
+                    <img src="{{ $berita->gambar_url }}" alt="{{ $berita->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    @else
+                    <i class="fas fa-newspaper text-4xl text-emerald-400/30 group-hover:text-emerald-400/50 transition"></i>
+                    @endif
+                    @if($berita->unggulan)
+                    <div class="absolute top-3 left-3 bg-yellow-500/90 backdrop-blur text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">
+                        <i class="fas fa-star mr-1"></i>Unggulan
+                    </div>
+                    @endif
+                    <div class="absolute top-3 right-3 bg-kvt-900/70 backdrop-blur text-gray-300 text-[10px] font-medium px-2.5 py-1 rounded-lg">
+                        <i class="far fa-clock mr-1"></i>{{ $berita->terbit_pada->diffForHumans() }}
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded">{{ $berita->kategori ?? 'Umum' }}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-emerald-400 transition line-clamp-2">{{ $berita->judul }}</h3>
+                    <p class="text-gray-400 text-sm line-clamp-2">{{ $berita->ringkasan }}</p>
+                    <div class="flex items-center justify-between mt-4 pt-3 border-t border-kvt-700/20">
+                        <span class="text-xs text-gray-500"><i class="fas fa-eye mr-1"></i>{{ number_format($berita->dilihat) }}x</span>
+                        <span class="text-xs text-emerald-400 font-semibold group-hover:translate-x-1 transition-transform">Baca <i class="fas fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+            </a>
+            @endforeach
+        </div>
+
+        <div class="text-center mt-10 md:hidden" data-aos="fade-up">
+            <a href="{{ route('berita.index') }}" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-xl font-semibold transition">
+                <i class="fas fa-newspaper"></i> Lihat Semua Berita
+            </a>
         </div>
     </div>
 </section>
@@ -397,7 +508,7 @@
 {{-- KARIR & INDUSTRI SECTION --}}
 <section class="py-20 relative" id="karir">
     <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16" data-aos="fade-up">
+        <div class="text-center mb-16" data-aos="zoom-in">
             <span class="text-orange-400 text-sm font-semibold tracking-wider uppercase">Karir & Industri</span>
             <h2 class="text-4xl font-black text-white mt-2">Jembatan Menuju Dunia Kerja</h2>
             <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Terhubung langsung dengan 500+ perusahaan mitra untuk lowongan, magang, dan mentoring profesional</p>
@@ -518,7 +629,7 @@
 {{-- KOMUNITAS SECTION --}}
 <section class="py-20 relative" id="komunitas">
     <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-16" data-aos="fade-up">
+        <div class="text-center mb-16" data-aos="fade-down">
             <span class="text-pink-400 text-sm font-semibold tracking-wider uppercase">Komunitas</span>
             <h2 class="text-4xl font-black text-white mt-2">50,000+ Anggota Aktif</h2>
             <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Forum diskusi, study group, alumni network, hackathon, dan kontribusi open source</p>
@@ -548,7 +659,7 @@
 
 {{-- CTA SECTION --}}
 <section class="py-20 relative">
-    <div class="max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in">
+    <div class="max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in-up">
         <div class="bg-gradient-to-br from-kvt-800/50 to-kvt-900/50 border border-kvt-700/30 rounded-3xl p-12 shadow-2xl relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-r from-kvt-500/5 to-ungu-400/5"></div>
             <div class="relative">
@@ -569,30 +680,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-{{-- SECURITY & STANDARDS RIBBON --}}
-<section class="py-12 bg-kvt-900/30 border-t border-b border-kvt-700/20">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="flex flex-wrap items-center justify-center gap-8" data-aos="fade-up">
-            @php
-            $standar = [
-                ['ISO 27001', 'fa-shield-alt', 'text-green-400'],
-                ['COBIT 2019', 'fa-sitemap', 'text-blue-400'],
-                ['QA/QC', 'fa-check-double', 'text-purple-400'],
-                ['UU ITE & PDP', 'fa-gavel', 'text-yellow-400'],
-                ['SPK/DSS', 'fa-cogs', 'text-cyan-400'],
-                ['CRM', 'fa-handshake', 'text-pink-400'],
-            ];
-            @endphp
-            @foreach($standar as $s)
-            <div class="flex items-center gap-2 text-xs text-gray-400">
-                <div class="w-8 h-8 bg-kvt-800/50 rounded-lg flex items-center justify-center"><i class="fas {{ $s[1] }} {{ $s[2] }}"></i></div>
-                <span>{{ $s[0] }}</span>
-            </div>
-            @endforeach
         </div>
     </div>
 </section>

@@ -21,10 +21,10 @@
 {{-- QA/QC --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Quality Assurance / Quality Control</h2>
-        <p class="text-gray-400" data-aos="fade-up" data-aos-delay="100">Penjaminan mutu menyeluruh di seluruh lini platform</p>
+        <h2 class="text-3xl font-bold text-white mb-3" data-aos="zoom-in">Quality Assurance / Quality Control</h2>
+        <p class="text-gray-400" data-aos="zoom-in" data-aos-delay="100">Penjaminan mutu menyeluruh di seluruh lini platform</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="200">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-right" data-aos-delay="200">
         <div class="kaca rounded-2xl p-6 border-teal-500/20 hover:border-teal-500/40 transition">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-14 h-14 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center"><i class="fas fa-search text-white text-xl"></i></div>
@@ -60,10 +60,10 @@
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Sistem Pendukung Keputusan (SPK/DSS)</h2>
-            <p class="text-gray-400" data-aos="fade-up" data-aos-delay="100">Decision Support System untuk pengambilan keputusan berbasis data</p>
+            <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-down">Sistem Pendukung Keputusan (SPK/DSS)</h2>
+            <p class="text-gray-400" data-aos="fade-down" data-aos-delay="100">Decision Support System untuk pengambilan keputusan berbasis data</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-left" data-aos-delay="200">
             <div class="kaca rounded-2xl p-6 hover:border-purple-500/30 transition">
                 <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-500 rounded-xl flex items-center justify-center mb-4"><i class="fas fa-brain text-white text-lg"></i></div>
                 <h3 class="text-white font-bold mb-2">Metode AHP</h3>
@@ -89,10 +89,10 @@
 {{-- CRM --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-white mb-3" data-aos="fade-up">Customer Relationship Management (CRM)</h2>
-        <p class="text-gray-400" data-aos="fade-up" data-aos-delay="100">Manajemen hubungan pengguna untuk pengalaman terbaik</p>
+        <h2 class="text-3xl font-bold text-white mb-3" data-aos="zoom-in-up">Customer Relationship Management (CRM)</h2>
+        <p class="text-gray-400" data-aos="zoom-in-up" data-aos-delay="100">Manajemen hubungan pengguna untuk pengalaman terbaik</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-up" data-aos-delay="200">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-right" data-aos-delay="200">
         @php
         $crm = [
             ['Segmentasi Pengguna', 'Clustering pengguna berdasarkan behavior, preferensi, dan level aktifitas.', 'fa-users-cog', 'text-blue-400'],
@@ -118,8 +118,8 @@
 {{-- PDCA Cycle --}}
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-white mb-12" data-aos="fade-up">Siklus PDCA Continuous Improvement</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="text-3xl font-bold text-white mb-12" data-aos="fade-down">Siklus PDCA Continuous Improvement</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" data-aos="zoom-in" data-aos-delay="100">
             <div class="kaca rounded-2xl p-6">
                 <div class="w-14 h-14 mx-auto bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mb-3"><span class="text-white font-black text-lg">P</span></div>
                 <h4 class="text-white font-bold mb-1">Plan</h4>

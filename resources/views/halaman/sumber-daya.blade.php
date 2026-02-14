@@ -20,7 +20,7 @@
 
 {{-- Resource Categories --}}
 <section class="max-w-7xl mx-auto px-4 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-right">
         @php
         $sumber = [
             ['E-Book & Jurnal', 'Ribuan buku digital dan jurnal ilmiah gratis. Open access dari penerbit terkemuka.', 'fa-book', 'from-blue-500 to-indigo-500', '5,000+ judul'],
@@ -49,8 +49,8 @@
 {{-- Tools --}}
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-up">Tools & Utilitas</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="text-3xl font-bold text-white text-center mb-12" data-aos="fade-down">Tools & Utilitas</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" data-aos="fade-left" data-aos-delay="100">
             @php
             $tools = [
                 ['JSON Formatter', 'fa-code', 'text-yellow-400'],
@@ -79,7 +79,7 @@
 
 {{-- Stats --}}
 <section class="bg-gradient-to-br from-cyan-800/10 to-kvt-800/20 py-16">
-    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center" data-aos="zoom-in">
         <div><div class="text-3xl font-black teks-gradien">17K+</div><p class="text-gray-400 text-sm mt-1">Total Sumber Daya</p></div>
         <div><div class="text-3xl font-black teks-gradien">500K+</div><p class="text-gray-400 text-sm mt-1">Unduhan</p></div>
         <div><div class="text-3xl font-black teks-gradien">15+</div><p class="text-gray-400 text-sm mt-1">Bahasa Coding</p></div>
