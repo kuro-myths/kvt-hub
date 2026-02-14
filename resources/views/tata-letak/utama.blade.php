@@ -65,18 +65,18 @@
         @keyframes popupIn{0%{transform:scale(0.8) translateY(20px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}
 
         /* Dropdown submenu - animasi ke bawah */
-        .nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.2s,transform 0.2s;transform-origin:top center}
-        .nav-item:hover .nav-dropdown,.nav-dropdown:hover{opacity:1;visibility:visible;pointer-events:auto;animation:dropdownIn 0.25s cubic-bezier(0.4,0,0.2,1) forwards}
+        .nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.2s,transform 0.2s;transform-origin:top center;z-index:100}
+        .nav-item.dropdown-open .nav-dropdown,.nav-item:hover .nav-dropdown,.nav-dropdown:hover{opacity:1;visibility:visible;pointer-events:auto;animation:dropdownIn 0.25s cubic-bezier(0.4,0,0.2,1) forwards}
         .nav-sub-dropdown{position:absolute;left:100%;top:0;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.2s}
         .nav-sub-item:hover .nav-sub-dropdown{opacity:1;visibility:visible;pointer-events:auto}
 
         /* Menu slider */
-        .menu-slider{overflow:hidden;position:relative}
+        .menu-slider{overflow:visible;position:relative}
         .menu-track{display:flex;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
-        .menu-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(51,153,255,0.2);border:1px solid rgba(51,153,255,0.3);color:#5CADFF;transition:all 0.2s}
-        .menu-arrow:hover{background:rgba(51,153,255,0.4);color:#fff}
-        .menu-arrow.left{left:-4px}.menu-arrow.right{right:-4px}
-        .menu-arrow.hidden-arrow{opacity:0;pointer-events:none}
+        .menu-arrow-box{flex-shrink:0;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(51,153,255,0.1);border:1px solid rgba(51,153,255,0.3);color:#5CADFF;transition:all 0.25s;position:relative}
+        .menu-arrow-box:hover{background:rgba(51,153,255,0.3);color:#fff;border-color:rgba(51,153,255,0.6);box-shadow:0 0 12px rgba(51,153,255,0.2)}
+        .menu-arrow-box:active{transform:scale(0.92)}
+        .menu-arrow-box.disabled{opacity:0.3;cursor:default;pointer-events:none}
 
         /* Flag counter style */
         .flag-item{display:flex;align-items:center;gap:6px;font-size:11px}
@@ -126,12 +126,12 @@
                 </a>
 
                 {{-- Desktop Menu with Slider --}}
-                <div class="hidden lg:flex items-center relative" id="menuContainer">
-                    <button class="menu-arrow left hidden-arrow" id="menuArrowLeft" onclick="slideMenu(-1)" title="Menu sebelumnya">
+                <div class="hidden lg:flex items-center gap-2" id="menuContainer">
+                    <button class="menu-arrow-box disabled" id="menuArrowLeft" onclick="slideMenu(-1)" title="Menu sebelumnya">
                         <i class="fas fa-chevron-left text-xs"></i>
                     </button>
 
-                    <div class="menu-slider" style="max-width:620px">
+                    <div class="menu-slider rounded-xl border border-kvt-700/20 bg-kvt-900/30 px-1 overflow-hidden" id="menuSlider" style="max-width:620px">
                         <div class="menu-track" id="menuTrack">
                             {{-- 1. Beranda --}}
                             <div class="nav-item shrink-0 relative">
@@ -243,40 +243,90 @@
                             </div>
 
                             {{-- 7-12: Extended menus (visible when scrolled via arrows) --}}
+                            {{-- 7. Riset --}}
                             <div class="nav-item shrink-0 relative">
-                                <a href="{{ route('halaman.riset') }}" class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center whitespace-nowrap">
-                                    <i class="fas fa-microscope mr-1.5"></i>Riset
-                                </a>
+                                <button class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center gap-1 whitespace-nowrap">
+                                    <i class="fas fa-microscope mr-1.5"></i>Riset <i class="fas fa-chevron-down text-[8px] ml-1"></i>
+                                </button>
+                                <div class="nav-dropdown mt-1 w-[300px] kaca-gelap rounded-2xl p-4 shadow-2xl shadow-kvt-950/50">
+                                    <a href="{{ route('halaman.riset') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-flask text-purple-400 w-4 text-xs"></i> Pusat Riset</a>
+                                    <a href="{{ route('halaman.riset') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-file-alt text-blue-400 w-4 text-xs"></i> Jurnal & Publikasi</a>
+                                    <a href="{{ route('halaman.riset') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-project-diagram text-green-400 w-4 text-xs"></i> Kolaborasi Riset</a>
+                                    <a href="{{ route('halaman.riset') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-lightbulb text-yellow-400 w-4 text-xs"></i> Inovasi & Paten</a>
+                                    <a href="{{ route('halaman.riset') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-calendar-alt text-pink-400 w-4 text-xs"></i> Konferensi</a>
+                                </div>
                             </div>
+
+                            {{-- 8. Karir --}}
                             <div class="nav-item shrink-0 relative">
-                                <a href="{{ route('halaman.karir') }}" class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center whitespace-nowrap">
-                                    <i class="fas fa-briefcase mr-1.5"></i>Karir
-                                </a>
+                                <button class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center gap-1 whitespace-nowrap">
+                                    <i class="fas fa-briefcase mr-1.5"></i>Karir <i class="fas fa-chevron-down text-[8px] ml-1"></i>
+                                </button>
+                                <div class="nav-dropdown mt-1 w-[300px] kaca-gelap rounded-2xl p-4 shadow-2xl shadow-kvt-950/50">
+                                    <a href="{{ route('halaman.karir') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-search-dollar text-green-400 w-4 text-xs"></i> Lowongan Kerja</a>
+                                    <a href="{{ route('halaman.karir') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-user-tie text-blue-400 w-4 text-xs"></i> Magang & Intern</a>
+                                    <a href="{{ route('halaman.karir') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-chalkboard-teacher text-orange-400 w-4 text-xs"></i> Mentoring</a>
+                                    <a href="{{ route('halaman.karir') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-file-invoice text-cyan-400 w-4 text-xs"></i> CV Builder</a>
+                                    <a href="{{ route('halaman.karir') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-industry text-yellow-400 w-4 text-xs"></i> 500+ Perusahaan Mitra</a>
+                                </div>
                             </div>
+
+                            {{-- 9. Komunitas --}}
                             <div class="nav-item shrink-0 relative">
-                                <a href="{{ route('halaman.komunitas') }}" class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center whitespace-nowrap">
-                                    <i class="fas fa-users mr-1.5"></i>Komunitas
-                                </a>
+                                <button class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center gap-1 whitespace-nowrap">
+                                    <i class="fas fa-users mr-1.5"></i>Komunitas <i class="fas fa-chevron-down text-[8px] ml-1"></i>
+                                </button>
+                                <div class="nav-dropdown mt-1 w-[300px] kaca-gelap rounded-2xl p-4 shadow-2xl shadow-kvt-950/50">
+                                    <a href="{{ route('halaman.komunitas') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-comments text-kvt-400 w-4 text-xs"></i> Forum Diskusi</a>
+                                    <a href="{{ route('halaman.komunitas') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-user-friends text-pink-400 w-4 text-xs"></i> Study Group</a>
+                                    <a href="{{ route('halaman.komunitas') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-graduation-cap text-amber-400 w-4 text-xs"></i> Alumni Network</a>
+                                    <a href="{{ route('halaman.komunitas') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-code text-emerald-400 w-4 text-xs"></i> Hackathon</a>
+                                    <a href="{{ route('halaman.komunitas') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fab fa-github text-gray-300 w-4 text-xs"></i> Open Source</a>
+                                </div>
                             </div>
+
+                            {{-- 10. Sertifikasi --}}
                             <div class="nav-item shrink-0 relative">
-                                <a href="{{ route('halaman.sertifikasi') }}" class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center whitespace-nowrap">
-                                    <i class="fas fa-award mr-1.5"></i>Sertifikasi
-                                </a>
+                                <button class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center gap-1 whitespace-nowrap">
+                                    <i class="fas fa-award mr-1.5"></i>Sertifikasi <i class="fas fa-chevron-down text-[8px] ml-1"></i>
+                                </button>
+                                <div class="nav-dropdown mt-1 w-[300px] kaca-gelap rounded-2xl p-4 shadow-2xl shadow-kvt-950/50">
+                                    <a href="{{ route('halaman.sertifikasi') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-certificate text-yellow-400 w-4 text-xs"></i> Kompetensi Nasional</a>
+                                    <a href="{{ route('halaman.sertifikasi') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fab fa-aws text-orange-400 w-4 text-xs"></i> AWS / Google / Microsoft</a>
+                                    <a href="{{ route('halaman.sertifikasi') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-link text-blue-400 w-4 text-xs"></i> Blockchain Credential</a>
+                                    <a href="{{ route('halaman.sertifikasi') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-list-ol text-teal-400 w-4 text-xs"></i> 120+ Program</a>
+                                </div>
                             </div>
+
+                            {{-- 11. Sumber Daya --}}
                             <div class="nav-item shrink-0 relative">
-                                <a href="{{ route('halaman.sumber-daya') }}" class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center whitespace-nowrap">
-                                    <i class="fas fa-database mr-1.5"></i>Sumber Daya
-                                </a>
+                                <button class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center gap-1 whitespace-nowrap">
+                                    <i class="fas fa-database mr-1.5"></i>Sumber Daya <i class="fas fa-chevron-down text-[8px] ml-1"></i>
+                                </button>
+                                <div class="nav-dropdown mt-1 w-[300px] kaca-gelap rounded-2xl p-4 shadow-2xl shadow-kvt-950/50">
+                                    <a href="{{ route('halaman.sumber-daya') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-book text-blue-400 w-4 text-xs"></i> E-Book & Modul</a>
+                                    <a href="{{ route('halaman.sumber-daya') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-table text-green-400 w-4 text-xs"></i> Dataset Publik</a>
+                                    <a href="{{ route('halaman.sumber-daya') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-laptop-code text-purple-400 w-4 text-xs"></i> Coding Playground</a>
+                                    <a href="{{ route('halaman.sumber-daya') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-plug text-cyan-400 w-4 text-xs"></i> API & Template</a>
+                                </div>
                             </div>
+
+                            {{-- 12. Keamanan --}}
                             <div class="nav-item shrink-0 relative">
-                                <a href="{{ route('halaman.keamanan') }}" class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center whitespace-nowrap">
-                                    <i class="fas fa-shield-alt mr-1.5"></i>Keamanan
-                                </a>
+                                <button class="text-gray-300 hover:text-kvt-400 transition text-sm font-medium px-3 py-2 rounded-lg hover:bg-kvt-800/30 flex items-center gap-1 whitespace-nowrap">
+                                    <i class="fas fa-shield-alt mr-1.5"></i>Keamanan <i class="fas fa-chevron-down text-[8px] ml-1"></i>
+                                </button>
+                                <div class="nav-dropdown mt-1 w-[300px] -translate-x-[60%] kaca-gelap rounded-2xl p-4 shadow-2xl shadow-kvt-950/50">
+                                    <a href="{{ route('halaman.keamanan') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-lock text-red-400 w-4 text-xs"></i> ISO 27001 & Zero Trust</a>
+                                    <a href="{{ route('halaman.keamanan') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-sitemap text-blue-400 w-4 text-xs"></i> COBIT 2019</a>
+                                    <a href="{{ route('halaman.keamanan') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-gavel text-yellow-400 w-4 text-xs"></i> UU ITE & PDP</a>
+                                    <a href="{{ route('halaman.penjamin-mutu') }}" class="flex items-center gap-2 py-1.5 text-sm text-gray-400 hover:text-white hover:bg-kvt-800/30 px-2 rounded-lg transition"><i class="fas fa-check-double text-teal-400 w-4 text-xs"></i> Penjamin Mutu (QA/QC)</a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <button class="menu-arrow right" id="menuArrowRight" onclick="slideMenu(1)" title="Menu lainnya">
+                    <button class="menu-arrow-box" id="menuArrowRight" onclick="slideMenu(1)" title="Menu lainnya">
                         <i class="fas fa-chevron-right text-xs"></i>
                     </button>
                 </div>
@@ -533,7 +583,7 @@
 
     {{-- SCRIPTS --}}
     <script>
-        AOS.init({duration:800,easing:'ease-out-cubic',once:true,offset:80});
+        AOS.init({duration:800,easing:'ease-out-cubic',once:false,mirror:true,offset:80});
 
         // Clock
         function updateJam(){const e=document.getElementById('jamSekarang');if(e)e.textContent=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}updateJam();setInterval(updateJam,1000);
@@ -557,20 +607,44 @@
         // MENU SLIDER (Arrow navigation for 12 menu items)
         // ========================
         let menuOffset=0;
+        const menuSlider=document.getElementById('menuSlider');
         function slideMenu(dir){
             const track=document.getElementById('menuTrack');
             const items=track.children;
-            const containerW=track.parentElement.offsetWidth;
+            const containerW=menuSlider.offsetWidth;
             let totalW=0;
             for(let i=0;i<items.length;i++)totalW+=items[i].offsetWidth;
             const maxOffset=Math.max(0,totalW-containerW);
             menuOffset=Math.max(0,Math.min(maxOffset,menuOffset+dir*200));
             track.style.transform=`translateX(-${menuOffset}px)`;
-            document.getElementById('menuArrowLeft').classList.toggle('hidden-arrow',menuOffset<=0);
-            document.getElementById('menuArrowRight').classList.toggle('hidden-arrow',menuOffset>=maxOffset);
+            document.getElementById('menuArrowLeft').classList.toggle('disabled',menuOffset<=0);
+            document.getElementById('menuArrowRight').classList.toggle('disabled',menuOffset>=maxOffset);
+            // Toggle overflow for dropdown visibility
+            if(menuSlider) menuSlider.style.overflow=menuOffset>0?'visible':'hidden';
         }
         // Init arrows
         setTimeout(()=>slideMenu(0),100);
+
+        // Dropdown click toggle for nav items with buttons
+        document.querySelectorAll('.nav-item > button').forEach(btn=>{
+            btn.addEventListener('click',function(e){
+                e.stopPropagation();
+                const item=this.closest('.nav-item');
+                const wasOpen=item.classList.contains('dropdown-open');
+                // Close all other dropdowns
+                document.querySelectorAll('.nav-item.dropdown-open').forEach(el=>el.classList.remove('dropdown-open'));
+                // Toggle this one
+                if(!wasOpen) item.classList.add('dropdown-open');
+                // Allow overflow for dropdowns
+                if(menuSlider) menuSlider.style.overflow='visible';
+            });
+        });
+        // Close dropdowns on outside click
+        document.addEventListener('click',function(e){
+            if(!e.target.closest('.nav-item')){
+                document.querySelectorAll('.nav-item.dropdown-open').forEach(el=>el.classList.remove('dropdown-open'));
+            }
+        });
 
         // ========================
         // SEARCH ENGINE (Functional - queries backend API)

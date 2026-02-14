@@ -70,8 +70,12 @@ class PengunjungController extends Controller
             ->get();
 
         return view('admin.pengunjung', compact(
-            'statistik', 'perNegara', 'mingguan', 'perJam',
-            'halamanPopuler', 'pengunjungTerbaru'
+            'statistik',
+            'perNegara',
+            'mingguan',
+            'perJam',
+            'halamanPopuler',
+            'pengunjungTerbaru'
         ));
     }
 }

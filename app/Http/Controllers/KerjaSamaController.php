@@ -33,8 +33,15 @@ class KerjaSamaController extends Controller
         $totalMitra = KerjaSama::aktif()->count();
 
         return view('kerja-sama.index', compact(
-            'mitraList', 'platinum', 'gold', 'silver', 'bronze', 'community',
-            'tipeList', 'tipeAktif', 'totalMitra'
+            'mitraList',
+            'platinum',
+            'gold',
+            'silver',
+            'bronze',
+            'community',
+            'tipeList',
+            'tipeAktif',
+            'totalMitra'
         ));
     }
 
@@ -70,9 +77,19 @@ class KerjaSamaController extends Controller
         ]);
 
         $data = $request->only([
-            'nama', 'deskripsi', 'website', 'tipe', 'tier',
-            'nilai_kontrak', 'mulai_pada', 'berakhir_pada',
-            'kontak_nama', 'kontak_email', 'kontak_telepon', 'benefit', 'urutan',
+            'nama',
+            'deskripsi',
+            'website',
+            'tipe',
+            'tier',
+            'nilai_kontrak',
+            'mulai_pada',
+            'berakhir_pada',
+            'kontak_nama',
+            'kontak_email',
+            'kontak_telepon',
+            'benefit',
+            'urutan',
         ]);
 
         $data['aktif'] = $request->boolean('aktif', true);
@@ -106,9 +123,19 @@ class KerjaSamaController extends Controller
         ]);
 
         $data = $request->only([
-            'nama', 'deskripsi', 'website', 'tipe', 'tier',
-            'nilai_kontrak', 'mulai_pada', 'berakhir_pada',
-            'kontak_nama', 'kontak_email', 'kontak_telepon', 'benefit', 'urutan',
+            'nama',
+            'deskripsi',
+            'website',
+            'tipe',
+            'tier',
+            'nilai_kontrak',
+            'mulai_pada',
+            'berakhir_pada',
+            'kontak_nama',
+            'kontak_email',
+            'kontak_telepon',
+            'benefit',
+            'urutan',
         ]);
 
         $data['aktif'] = $request->boolean('aktif', true);

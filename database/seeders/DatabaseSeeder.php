@@ -400,9 +400,15 @@ class DatabaseSeeder extends Seeder
 
         // ===== SAMPLE PENGUNJUNG (v3.0) =====
         $negaraList = [
-            ['Indonesia', 'ID'], ['United States', 'US'], ['Japan', 'JP'],
-            ['Germany', 'DE'], ['Malaysia', 'MY'], ['Singapore', 'SG'],
-            ['Australia', 'AU'], ['United Kingdom', 'GB'], ['South Korea', 'KR'],
+            ['Indonesia', 'ID'],
+            ['United States', 'US'],
+            ['Japan', 'JP'],
+            ['Germany', 'DE'],
+            ['Malaysia', 'MY'],
+            ['Singapore', 'SG'],
+            ['Australia', 'AU'],
+            ['United Kingdom', 'GB'],
+            ['South Korea', 'KR'],
             ['Netherlands', 'NL'],
         ];
         $halamanList = ['/', '/berita', '/kerja-sama', '/jenjang-pendidikan', '/riset-inovasi', '/karir-industri', '/komunitas', '/sertifikasi', '/tentang'];

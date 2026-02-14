@@ -141,66 +141,66 @@ KVT Hub v3.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan ya
 
 ### Multi-Peran
 
-| Peran | Kemampuan                                                      |
-| ----- | -------------------------------------------------------------- |
-| Siswa | Belajar, ikut kelas, ambil kuis, lihat progress                |
-| Guru  | Buat kelas & materi, kelola siswa, buat kuis                   |
-| Admin | Kelola semua data, berita, mitra, pengunjung, kunci, paket     |
+| Peran | Kemampuan                                                  |
+| ----- | ---------------------------------------------------------- |
+| Siswa | Belajar, ikut kelas, ambil kuis, lihat progress            |
+| Guru  | Buat kelas & materi, kelola siswa, buat kuis               |
+| Admin | Kelola semua data, berita, mitra, pengunjung, kunci, paket |
 
 ## Database Schema (PostgreSQL)
 
 ### Tabel Baru v3.0
 
-| Tabel        | Kolom Utama                                                           |
-| ------------ | --------------------------------------------------------------------- |
-| pengunjung   | ip_address, halaman, negara, kode_negara, browser, os, perangkat, session_id |
-| berita       | judul, slug, konten, kategori, status, tampil_ticker, tampil_popup, unggulan |
-| kerja_sama   | nama, slug, tipe, tier, website, logo, aktif, tampil_beranda, benefit |
+| Tabel      | Kolom Utama                                                                  |
+| ---------- | ---------------------------------------------------------------------------- |
+| pengunjung | ip_address, halaman, negara, kode_negara, browser, os, perangkat, session_id |
+| berita     | judul, slug, konten, kategori, status, tampil_ticker, tampil_popup, unggulan |
+| kerja_sama | nama, slug, tipe, tier, website, logo, aktif, tampil_beranda, benefit        |
 
 ### Tabel Existing
 
-| Tabel              | Deskripsi                           |
-| ------------------ | ----------------------------------- |
-| users              | Pengguna (siswa/guru/admin) + RPG   |
-| kelas              | Kelas pembelajaran                  |
-| kelas_anggota      | Relasi many-to-many user-kelas      |
-| materi             | Materi per kelas (video/artikel)    |
-| kuis               | Kuis dengan soal JSON               |
-| jawaban_kuis       | Jawaban & skor siswa                |
-| laporan_kehadiran  | Laporan dengan 30 jenis diagram     |
-| progress_materi    | Tracking selesai per materi         |
-| pencapaian         | Achievement badges                  |
-| pengguna_pencapaian| Relasi user-achievement             |
-| paket_eksklusif    | Paket langganan premium             |
-| kunci_admin        | Kunci untuk akses admin             |
+| Tabel               | Deskripsi                         |
+| ------------------- | --------------------------------- |
+| users               | Pengguna (siswa/guru/admin) + RPG |
+| kelas               | Kelas pembelajaran                |
+| kelas_anggota       | Relasi many-to-many user-kelas    |
+| materi              | Materi per kelas (video/artikel)  |
+| kuis                | Kuis dengan soal JSON             |
+| jawaban_kuis        | Jawaban & skor siswa              |
+| laporan_kehadiran   | Laporan dengan 30 jenis diagram   |
+| progress_materi     | Tracking selesai per materi       |
+| pencapaian          | Achievement badges                |
+| pengguna_pencapaian | Relasi user-achievement           |
+| paket_eksklusif     | Paket langganan premium           |
+| kunci_admin         | Kunci untuk akses admin           |
 
 ## API Endpoints
 
-| Endpoint                       | Method | Response                              |
-| ------------------------------ | ------ | ------------------------------------- |
-| `/api/pengunjung/statistik`    | GET    | hari_ini, online, total, total_unik   |
-| `/api/pengunjung/flag-counter` | GET    | negara[], pageviews                   |
-| `/api/pengunjung/grafik-mingguan` | GET | data 7 hari [{tanggal, total}]        |
-| `/api/pengunjung/grafik-per-jam`  | GET | data 24 jam [{jam, total}]            |
-| `/api/pengunjung/halaman-populer` | GET | top 10 halaman [{halaman, total}]     |
-| `/api/berita/ticker`           | GET    | 10 berita untuk ticker [{judul, slug}]|
-| `/api/berita/popup`            | GET    | 5 berita untuk popup                  |
-| `/api/search?q=keyword`        | GET    | hasil[] dari berita, kelas, materi, mitra |
+| Endpoint                          | Method | Response                                  |
+| --------------------------------- | ------ | ----------------------------------------- |
+| `/api/pengunjung/statistik`       | GET    | hari_ini, online, total, total_unik       |
+| `/api/pengunjung/flag-counter`    | GET    | negara[], pageviews                       |
+| `/api/pengunjung/grafik-mingguan` | GET    | data 7 hari [{tanggal, total}]            |
+| `/api/pengunjung/grafik-per-jam`  | GET    | data 24 jam [{jam, total}]                |
+| `/api/pengunjung/halaman-populer` | GET    | top 10 halaman [{halaman, total}]         |
+| `/api/berita/ticker`              | GET    | 10 berita untuk ticker [{judul, slug}]    |
+| `/api/berita/popup`               | GET    | 5 berita untuk popup                      |
+| `/api/search?q=keyword`           | GET    | hasil[] dari berita, kelas, materi, mitra |
 
 ## Teknologi
 
-| Kategori   | Teknologi                                |
-| ---------- | ---------------------------------------- |
-| Backend    | Laravel 12, PHP 8.2+                     |
-| Database   | PostgreSQL 14+                           |
-| Frontend   | Tailwind CSS (CDN), Blade Templates      |
-| Charting   | Chart.js v4                              |
-| Animasi    | AOS v2.3.4, CSS Snow, Ticker, Dropdown   |
-| Ikon       | Font Awesome 6.5.1                       |
-| Font       | Google Fonts (Inter + JetBrains Mono)    |
-| Geo API    | ip-api.com (free, 45 req/min)            |
-| Flag CDN   | flagcdn.com                              |
-| Keamanan   | RBAC, CSRF, XSS Protection, Auth Guard   |
+| Kategori | Teknologi                              |
+| -------- | -------------------------------------- |
+| Backend  | Laravel 12, PHP 8.2+                   |
+| Database | PostgreSQL 14+                         |
+| Frontend | Tailwind CSS (CDN), Blade Templates    |
+| Charting | Chart.js v4                            |
+| Animasi  | AOS v2.3.4, CSS Snow, Ticker, Dropdown |
+| Ikon     | Font Awesome 6.5.1                     |
+| Font     | Google Fonts (Inter + JetBrains Mono)  |
+| Geo API  | ip-api.com (free, 45 req/min)          |
+| Flag CDN | flagcdn.com                            |
+| Keamanan | RBAC, CSRF, XSS Protection, Auth Guard |
 
 ## Instalasi
 
@@ -255,11 +255,11 @@ Buka `http://localhost:8000` atau `http://kvt-hub.test` (Laragon).
 
 ### Akun Demo
 
-| Peran | Email              | Password  |
-| ----- | ------------------ | --------- |
-| Admin | admin@kvthub.id    | admin123  |
-| Guru  | guru@kvthub.id     | guru123   |
-| Siswa | siswa@kvthub.id    | siswa123  |
+| Peran | Email           | Password |
+| ----- | --------------- | -------- |
+| Admin | admin@kvthub.id | admin123 |
+| Guru  | guru@kvthub.id  | guru123  |
+| Siswa | siswa@kvthub.id | siswa123 |
 
 Kunci Admin: `KVT-ADMIN-2025-SECRET`
 
@@ -330,6 +330,7 @@ kvt-hub/
 ## Changelog
 
 ### v3.0 (Current)
+
 - Migrasi dari MySQL ke PostgreSQL
 - Real-time visitor analytics dengan flag counter
 - News ticker & popup dari database
@@ -343,12 +344,14 @@ kvt-hub/
 - Database seeder: 8 berita, 10 mitra, 150 pengunjung sample
 
 ### v2.0
+
 - Mega menu navigation
 - 8 ecosystem pages (jenjang, riset, karir, komunitas, sertifikasi, sumber daya, keamanan, penjamin mutu)
 - Custom search engine (3 modes: KVT, Web, AI)
 - News popup, revamped footer, top bar
 
 ### v1.0
+
 - Core LMS (kelas, materi, kuis)
 - Gamifikasi RPG (level, XP, rank)
 - Multi-peran (siswa, guru, admin)
