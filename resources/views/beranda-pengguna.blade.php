@@ -20,8 +20,8 @@
                     <h1 class="text-2xl md:text-3xl font-black text-white">{{ auth()->user()->nama ?? auth()->user()->name ?? 'Pengguna' }} 👋</h1>
                     <div class="flex items-center gap-3 mt-1">
                         <span class="inline-flex items-center gap-1.5 text-xs bg-kvt-500/20 text-kvt-300 px-2.5 py-0.5 rounded-full">
-                            <i class="fas fa-{{ auth()->user()->peran === 'guru' ? 'chalkboard-teacher' : (auth()->user()->peran === 'admin' ? 'user-shield' : 'user-graduate') }}"></i>
-                            {{ ucfirst(auth()->user()->peran ?? 'siswa') }}
+                            <i class="fas fa-{{ auth()->user()->peran === 'tim' ? 'chalkboard-teacher' : (auth()->user()->peran === 'admin' ? 'user-shield' : 'user-graduate') }}"></i>
+                            {{ ucfirst(auth()->user()->peran ?? 'pengguna') }}
                         </span>
                         @if(isset($levelInfo))
                         <span class="text-xs text-amber-400"><i class="fas fa-star mr-1"></i>Level {{ $levelInfo['level'] ?? 1 }} · {{ $levelInfo['xp'] ?? 0 }} XP</span>
@@ -33,7 +33,7 @@
                 <a href="{{ route('dasbor') }}" class="bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-300 px-5 py-2.5 rounded-xl text-sm font-semibold transition border border-kvt-700/50">
                     <i class="fas fa-tachometer-alt mr-2"></i>Full Dashboard
                 </a>
-                @if(in_array(auth()->user()->peran, ['guru', 'admin']))
+                @if(in_array(auth()->user()->peran, ['tim', 'admin']))
                 <a href="{{ route('kelas.buat') }}" class="bg-gradient-to-r from-kvt-500 to-ungu-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition shadow-lg shadow-kvt-500/30 hover:-translate-y-0.5">
                     <i class="fas fa-plus mr-2"></i>Buat Kelas
                 </a>

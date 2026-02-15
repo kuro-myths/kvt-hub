@@ -1,9 +1,10 @@
 @extends('tata-letak.utama')
 
-@section('judul', 'Dasbor Siswa - KVT Hub')
+@section('judul', 'Dasbor Pengguna - KVT Hub')
 
 @section('konten')
-<section class="pt-24 pb-12 px-4">
+@include('tata-letak.sidebar')
+<section class="pt-24 pb-12 px-4 lg:ml-64">
     <div class="max-w-7xl mx-auto">
         {{-- Header Profil --}}
         <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6 mb-8" data-aos="fade-up">

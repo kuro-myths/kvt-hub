@@ -2,47 +2,41 @@
 
 > **Ekosistem pendidikan, karir, dan riset digital global. Dari TK hingga S3/PhD, profesi, industri, dan riset.**
 
-![Laravel](https://img.shields.io/badge/Laravel-12-red?logo=laravel)
-![PHP](https://img.shields.io/badge/PHP-8.2+-blue?logo=php)
+![Laravel](https://img.shields.io/badge/Laravel-11-red?logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.3+-blue?logo=php)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-336791?logo=postgresql&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![ISO](https://img.shields.io/badge/ISO-27001-brightgreen)
 ![COBIT](https://img.shields.io/badge/COBIT-2019-blue)
-![Version](https://img.shields.io/badge/Version-4.0-orange)
+![Version](https://img.shields.io/badge/Version-5.0-orange)
 ![Pages](https://img.shields.io/badge/Halaman-66+-blueviolet)
 ![Menus](https://img.shields.io/badge/Menu-16-teal)
+![Sidebar](https://img.shields.io/badge/Sidebar-Role--Based-purple)
+![Music](https://img.shields.io/badge/Music-Streaming-ff69b4)
 
 ---
 
 ## Tentang
 
-KVT Hub v4.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan yang mengintegrasikan 13 jenjang pendidikan (TK hingga S3/PhD) dengan teknologi gamifikasi RPG, kolaborasi riset global, dan standar keamanan enterprise. Platform ini menghubungkan pelajar, peneliti, profesional, dan industri dalam satu ekosistem terintegrasi dengan **16 menu utama**, **66+ halaman landing page**, dan **55+ rute** terstruktur.
+KVT Hub v5.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan yang mengintegrasikan 13 jenjang pendidikan (TK hingga S3/PhD) dengan teknologi gamifikasi RPG, kolaborasi riset global, dan standar keamanan enterprise. Platform ini menghubungkan pengguna, tim pengajar, dan administrator dalam satu ekosistem terintegrasi dengan **16 menu utama**, **66+ halaman landing page**, **55+ rute**, **sidebar navigasi per role**, dan **musik streaming** bawaan.
 
-### Apa yang Baru di v4.0
+### Apa yang Baru di v5.0
 
-- **16 Menu Navigasi** -- Dari 12 menjadi 16 menu: +Kurikulum, +Alur & Panduan, +Media, +Dokumen
-- **66+ Halaman Landing Page** -- 16 halaman induk + 50+ subhalaman, masing-masing 200-377 baris
-- **Beranda Terpisah (Auth/Guest)** -- Dashboard personalisasi untuk pengguna yang login vs halaman publik untuk tamu
-- **Expanded Content** -- Semua halaman diperkaya: Hero, Konten Card, Statistik, Video, Fitur per Peran, FAQ, CTA
-- **9 Ilustrasi SVG Kustom** -- Gambar pendukung di hero section halaman utama
-- **4 Kategori Menu Baru**: Kurikulum (silabus, RPS, kalender), Alur & Panduan (flowchart, SOP, FAQ), Media (video, webinar, podcast, galeri), Dokumen (kebijakan, template, formulir, arsip)
-- **Fitur per Peran** -- Setiap halaman menampilkan fitur berbeda untuk Siswa, Guru, dan Admin
-- **FAQ Accordion** -- Setiap halaman dilengkapi FAQ interaktif dengan `<details>/<summary>`
-- **PostgreSQL** -- Migrasi dari MySQL ke PostgreSQL untuk performa dan skalabilitas
-- **Real-Time Visitor Analytics** -- Pelacakan pengunjung real-time dengan auto-refresh setiap 15 detik
-- **Flag Counter Widget** -- Menampilkan asal negara pengunjung dengan bendera, diambil dari database
-- **News Ticker dari Database** -- Berita berjalan otomatis di header, diambil langsung dari tabel berita
-- **Popup Berita** -- Notifikasi berita terbaru saat kunjungan pertama (toggleable)
-- **Search Engine Fungsional** -- Pencarian backend yang query database (berita, kelas, materi, mitra)
-- **Kerja Sama & Sponsor Hub** -- Halaman mitra dengan sistem tier (Platinum/Gold/Silver/Bronze/Community)
-- **Admin CRUD** -- Kelola berita, mitra, pengunjung lengkap
-- **Admin Analytics Dashboard** -- Dashboard pengunjung dengan grafik mingguan, per jam, negara teratas
+- **Rename Peran**: `siswa` → `pengguna`, `guru` → `tim` — konsisten di seluruh codebase
+- **Role-Based Sidebar Navigation** -- Sidebar navigasi unik untuk setiap peran (Admin 15 menu, Tim 8 menu, Pengguna 10 menu)
+- **3-Step Registration Wizard** -- Formulir pendaftaran 3 langkah: Data Diri → Peran & Tujuan → Keamanan
+- **Google reCAPTCHA** -- Keamanan CAPTCHA pada form pendaftaran
+- **Password Strength Meter** -- Indikator kekuatan password visual 4-bar
+- **Music Player** -- Pemutar musik streaming di panel settings dengan 5 stasiun radio (Lo-Fi, Jazz, Deep House, Ambient, Classical)
+- **Expanded Seeder** -- 63 user (1 admin, 11 tim, 51 pengguna), 10 kelas, 14 berita, 15 mitra
+- **Header Sizing Fix** -- Padding dan font navigasi dioptimalkan (10px 16px, 13.5px)
+- **Dashboard Label Update** -- Dasbor Guru → Dasbor Tim, Dasbor Siswa → Dasbor Pengguna
 
 ## Arsitektur Ekosistem
 
 ```
                            +---------------------------+
-                           |      KVT Hub v4.0         |
+                           |      KVT Hub v5.0         |
                            |  Global Education & Riset |
                            +-------------+-------------+
                                          |
@@ -223,13 +217,38 @@ Setiap halaman mengikuti struktur konsisten:
 
 - Bar, Line, Pie, Doughnut, Radar, Polar Area, dan lainnya via Chart.js v4
 
-### Multi-Peran
+### Multi-Peran (3 Role)
 
-| Peran | Kemampuan                                                  |
-| ----- | ---------------------------------------------------------- |
-| Siswa | Belajar, ikut kelas, ambil kuis, lihat progress            |
-| Guru  | Buat kelas & materi, kelola siswa, buat kuis               |
-| Admin | Kelola semua data, berita, mitra, pengunjung, kunci, paket |
+| Peran    | Kemampuan                                                         |
+| -------- | ----------------------------------------------------------------- |
+| Pengguna | Belajar, ikut kelas, ambil kuis, lihat progress, KRS/KHS         |
+| Tim      | Buat kelas & materi, kelola pengguna, buat kuis, laporan          |
+| Admin    | Kelola semua data, berita, mitra, pengunjung, kunci, paket, CRUD  |
+
+### Role-Based Sidebar Navigation
+
+| Peran    | Jumlah Menu | Menu Utama                                                                           |
+| -------- | ----------- | ------------------------------------------------------------------------------------ |
+| Admin    | 15          | Dashboard, Pengguna, Kelas, Berita, Kerja Sama, Kurikulum, Mapel, Organisasi, KRS, Nilai, Bobot Nilai, Laporan Akademik, Pengunjung, Paket, Kunci |
+| Tim      | 8           | Dashboard, Kelas Saya, Buat Kelas, Buat Materi, Laporan, Kurikulum, Sertifikasi, Komunitas |
+| Pengguna | 10          | Dashboard, Kelas, KRS, KHS, Laporan, Kurikulum, Sertifikasi, Komunitas, Media, Panduan |
+
+### Music Player (Streaming)
+
+- 5 stasiun radio streaming: Lo-Fi Hip Hop, Jazz, Deep House, Ambient, Classical
+- Kontrol penuh: play/pause, previous/next, seek bar, volume slider
+- Shuffle & repeat mode
+- Playlist dengan highlight stasiun aktif
+- State disimpan di localStorage (volume, index, playing state)
+- Auto-resume saat halaman di-refresh
+
+### 3-Step Registration Wizard
+
+| Step | Konten                                                                                   |
+| ---- | ---------------------------------------------------------------------------------------- |
+| 1    | Data Diri: Nama, Email, Asal Instansi, Kota                                             |
+| 2    | Peran & Tujuan: Role (Pengguna/Tim), Tujuan, Bidang Minat, Sumber Informasi              |
+| 3    | Keamanan: Password (strength meter), Konfirmasi, reCAPTCHA, Terms, Notifikasi opt-in     |
 
 ## Database Schema (PostgreSQL)
 
@@ -245,7 +264,7 @@ Setiap halaman mengikuti struktur konsisten:
 
 | Tabel               | Deskripsi                         |
 | ------------------- | --------------------------------- |
-| users               | Pengguna (siswa/guru/admin) + RPG |
+| users               | Pengguna (pengguna/tim/admin) + RPG |
 | kelas               | Kelas pembelajaran                |
 | kelas_anggota       | Relasi many-to-many user-kelas    |
 | materi              | Materi per kelas (video/artikel)  |
@@ -273,18 +292,20 @@ Setiap halaman mengikuti struktur konsisten:
 
 ## Teknologi
 
-| Kategori | Teknologi                              |
-| -------- | -------------------------------------- |
-| Backend  | Laravel 12, PHP 8.2+                   |
-| Database | PostgreSQL 14+                         |
-| Frontend | Tailwind CSS (CDN), Blade Templates    |
-| Charting | Chart.js v4                            |
-| Animasi  | AOS v2.3.4, CSS Snow, Ticker, Dropdown |
-| Ikon     | Font Awesome 6.5.1                     |
-| Font     | Google Fonts (Inter + JetBrains Mono)  |
-| Geo API  | ip-api.com (free, 45 req/min)          |
-| Flag CDN | flagcdn.com                            |
-| Keamanan | RBAC, CSRF, XSS Protection, Auth Guard |
+| Kategori  | Teknologi                              |
+| --------- | -------------------------------------- |
+| Backend   | Laravel 11, PHP 8.3+                   |
+| Database  | PostgreSQL 14+                         |
+| Frontend  | Tailwind CSS (CDN), Blade Templates    |
+| Charting  | Chart.js v4                            |
+| Animasi   | AOS v2.3.4, CSS Snow, Ticker, Dropdown |
+| Ikon      | Font Awesome 6.5.1                     |
+| Font      | Google Fonts (Inter + JetBrains Mono)  |
+| Geo API   | ip-api.com (free, 45 req/min)          |
+| Flag CDN  | flagcdn.com                            |
+| Keamanan  | RBAC, CSRF, XSS, reCAPTCHA, Auth Guard|
+| Musik     | Streaming radio (ilovemusic.de)        |
+| Translate | Google Translate Widget (6 bahasa)     |
 
 ## Instalasi
 
@@ -339,13 +360,15 @@ Buka `http://localhost:8000` atau `http://kvt-hub.test` (Laragon).
 
 ### Akun Demo
 
-| Peran | Email           | Password |
-| ----- | --------------- | -------- |
-| Admin | admin@kvthub.id | admin123 |
-| Guru  | guru@kvthub.id  | guru123  |
-| Siswa | siswa@kvthub.id | siswa123 |
+| Peran    | Email              | Password    |
+| -------- | ------------------ | ----------- |
+| Admin    | admin@kvthub.id    | admin123    |
+| Tim      | tim@kvthub.id      | tim123      |
+| Pengguna | pengguna@kvthub.id | pengguna123 |
 
 Kunci Admin: `KVT-ADMIN-2025-SECRET`
+
+**Seeder Data**: 63 user (1 admin, 11 tim, 51 pengguna), 10 kelas, 14 berita, 15 mitra, 150 pengunjung, 9 kurikulum, 14 organisasi, 26+ mata pelajaran, 8 pencapaian.
 
 ## Struktur Proyek
 
@@ -383,7 +406,8 @@ kvt-hub/
 |   |-- keamanan-shield.svg, riset-lab.svg
 |   |-- jenjang-steps.svg, komunitas-network.svg
 |-- resources/views/
-|   |-- tata-letak/utama.blade.php          # Main layout (16 menus, ticker, footer, search)
+|   |-- tata-letak/utama.blade.php          # Main layout (16 menus, ticker, footer, search, music player)
+|   |-- tata-letak/sidebar.blade.php        # Role-based sidebar navigation (admin/tim/pengguna)
 |   |-- beranda.blade.php                   # Guest homepage (~688 lines)
 |   |-- beranda-pengguna.blade.php          # Auth homepage (~240 lines)
 |   |-- berita/                             # index + tampilkan
@@ -431,7 +455,20 @@ kvt-hub/
 
 ## Changelog
 
-### v4.0 (Current)
+### v5.0 (Current)
+
+- **Rename peran**: `siswa` → `pengguna`, `guru` → `tim` — konsisten di seluruh controller, model, view, dan seeder
+- **Role-based sidebar** -- Sidebar navigasi unik per peran: Admin (15 menu), Tim (8 menu), Pengguna (10 menu)
+- **3-step registration wizard** -- Form 3 langkah: Data Diri → Peran & Tujuan → Keamanan
+- **Google reCAPTCHA** -- Proteksi bot pada form pendaftaran
+- **Password strength meter** -- Visualisasi kekuatan password real-time (4 level)
+- **Music player** -- 5 stasiun radio streaming (Lo-Fi, Jazz, Deep House, Ambient, Classical) di panel settings
+- **Expanded seeder** -- 63 user, 10 kelas, 14 berita, 15 mitra dengan data realistis Indonesia
+- **Header sizing** -- Padding nav-link dioptimalkan (10px 16px, font 13.5px, row height 68px)
+- **Dashboard label** -- "Dasbor Guru" → "Dasbor Tim", "Dasbor Siswa" → "Dasbor Pengguna"
+- **Sidebar mobile** -- Toggle sidebar responsif dengan overlay untuk layar kecil
+
+### v4.0
 
 - **16 menu navigasi** (dari 12): +Kurikulum, +Alur & Panduan, +Media, +Dokumen
 - **66+ halaman landing page** (dari 8): 16 induk + 50+ subhalaman
@@ -507,6 +544,6 @@ Lihat file [LICENSE](LICENSE) untuk detail lengkap.
 
 <p align="center">
   Dibuat oleh <strong>KVT Hub Team</strong><br>
-  KVT Hub v4.0 - Global Education & Research Ecosystem<br>
+  KVT Hub v5.0 - Global Education & Research Ecosystem<br>
   &copy; 2025-2026 KVT Hub. Semua hak dilindungi.
 </p>

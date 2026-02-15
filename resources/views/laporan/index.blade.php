@@ -8,7 +8,7 @@
                 <h1 class="text-2xl font-black text-white"><i class="fas fa-chart-bar mr-3 text-kvt-400"></i>Laporan & Diagram</h1>
                 <p class="text-gray-400 text-sm mt-1">Visualisasi data pembelajaran dengan 30 jenis diagram</p>
             </div>
-            @if(auth()->user()->peran !== 'siswa')
+            @if(auth()->user()->peran !== 'pengguna')
                 <a href="{{ route('laporan.buat') }}" class="bg-gradient-to-r from-kvt-500 to-kvt-600 hover:from-kvt-400 hover:to-kvt-500 text-white px-5 py-2.5 rounded-xl font-bold transition shadow-lg text-sm">
                     <i class="fas fa-plus mr-2"></i>Buat Laporan
                 </a>

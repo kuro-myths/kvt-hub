@@ -1,7 +1,8 @@
 @extends('tata-letak.utama')
 @section('judul', 'Admin Dashboard - KVT Hub')
 @section('konten')
-<section class="pt-24 pb-12 px-4">
+@include('tata-letak.sidebar')
+<section class="pt-24 pb-12 px-4 lg:ml-64">
     <div class="max-w-7xl mx-auto">
         <div class="flex items-center gap-4 mb-8" data-aos="fade-right">
             <div class="w-14 h-14 bg-gradient-to-br from-red-400 to-red-600 rounded-2xl flex items-center justify-center">

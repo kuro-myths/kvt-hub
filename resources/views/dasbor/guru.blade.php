@@ -1,9 +1,10 @@
 @extends('tata-letak.utama')
 
-@section('judul', 'Dasbor Guru - KVT Hub')
+@section('judul', 'Dasbor Tim - KVT Hub')
 
 @section('konten')
-<section class="pt-24 pb-12 px-4">
+@include('tata-letak.sidebar')
+<section class="pt-24 pb-12 px-4 lg:ml-64">
     <div class="max-w-7xl mx-auto">
         {{-- Header --}}
         <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6 mb-8" data-aos="fade-up">
@@ -14,7 +15,7 @@
                 <div class="flex-1">
                     <div class="flex items-center gap-3 flex-wrap">
                         <h1 class="text-2xl font-black text-white">{{ $user->name }}</h1>
-                        <span class="bg-green-500/20 text-green-400 text-xs px-3 py-1 rounded-full font-semibold">Guru</span>
+                        <span class="bg-green-500/20 text-green-400 text-xs px-3 py-1 rounded-full font-semibold">Tim</span>
                     </div>
                     <p class="text-gray-400 text-sm mt-1">{{ $user->email }}</p>
                 </div>

@@ -47,7 +47,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'peran' => 'required|in:siswa,guru',
+            'peran' => 'required|in:pengguna,tim',
         ]);
 
         $user = User::create([
@@ -142,8 +142,9 @@ class AuthController extends Controller
     {
         return match ($user->peran) {
             'admin' => route('admin.dasbor'),
-            'guru' => route('dasbor'),
-            'siswa' => route('dasbor'),
+            'tim' => route('dasbor'),
+            'pengguna' => route('dasbor'),
+            default => route('beranda'),
         };
     }
 }

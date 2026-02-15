@@ -82,6 +82,58 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // ===== PENGGUNA BATCH (50 Pengguna + 10 Tim) =====
+        if (User::where('peran', 'pengguna')->count() <= 1) {
+            $namaDepan = ['Andi', 'Budi', 'Citra', 'Dewi', 'Eko', 'Fira', 'Gilang', 'Hana', 'Indra', 'Jihan',
+                'Kiki', 'Lukman', 'Maya', 'Nanda', 'Oscar', 'Putri', 'Qori', 'Reza', 'Sari', 'Toni',
+                'Ulya', 'Vina', 'Wahyu', 'Xena', 'Yusuf', 'Zahra', 'Arif', 'Bella', 'Cahya', 'Dani',
+                'Elsa', 'Fajar', 'Ghina', 'Hafiz', 'Intan', 'Joko', 'Kayla', 'Lina', 'Mira', 'Niko',
+                'Okta', 'Pasha', 'Qhana', 'Rini', 'Surya', 'Tika', 'Umar', 'Vera', 'Wulan', 'Yoga'];
+            $namaKeluarga = ['Pratama', 'Wijaya', 'Kusuma', 'Putra', 'Sari', 'Hidayat', 'Rahman', 'Lestari', 'Nugroho', 'Santoso',
+                'Permana', 'Setiawan', 'Anggraini', 'Kurniawan', 'Rahmawati', 'Susanto', 'Hartono', 'Suryani', 'Wibowo', 'Fitriani'];
+            $kota = ['Jakarta', 'Bandung', 'Surabaya', 'Yogyakarta', 'Semarang', 'Malang', 'Denpasar', 'Makassar', 'Medan', 'Palembang', 'Kebumen', 'Purwokerto', 'Solo', 'Bogor', 'Bekasi'];
+
+            for ($i = 0; $i < 50; $i++) {
+                $nama = $namaDepan[$i] . ' ' . $namaKeluarga[array_rand($namaKeluarga)];
+                User::firstOrCreate(
+                    ['email' => strtolower(str_replace(' ', '.', $namaDepan[$i])) . ($i+1) . '@kvthub.id'],
+                    [
+                        'name' => $nama,
+                        'password' => Hash::make('pengguna123'),
+                        'peran' => 'pengguna',
+                        'level' => rand(1, 50),
+                        'xp' => rand(0, 99),
+                        'xp_total' => rand(100, 25000),
+                        'bio' => 'Pelajar dari ' . $kota[array_rand($kota)],
+                        'aktif' => true,
+                        'email_verified_at' => now()->subDays(rand(1, 90)),
+                        'terakhir_login' => now()->subHours(rand(1, 168)),
+                    ]
+                );
+            }
+
+            // 10 Tim tambahan
+            $namaTimList = ['Prof. Ahmad Dahlan', 'Dr. Siti Nurhaliza', 'Ir. Budi Karya', 'Dra. Maria Christina',
+                'Prof. Hidayatullah', 'Dr. Ratna Sari', 'Ir. Joko Widodo', 'Dr. Ayu Lestari', 'Prof. Surya Darma', 'Dr. Nadia Putri'];
+            for ($i = 0; $i < 10; $i++) {
+                User::firstOrCreate(
+                    ['email' => 'tim' . ($i+2) . '@kvthub.id'],
+                    [
+                        'name' => $namaTimList[$i],
+                        'password' => Hash::make('tim123'),
+                        'peran' => 'tim',
+                        'level' => rand(15, 60),
+                        'xp' => rand(0, 99),
+                        'xp_total' => rand(1500, 30000),
+                        'bio' => 'Pengajar & Mentor KVT Hub',
+                        'aktif' => true,
+                        'email_verified_at' => now()->subDays(rand(1, 60)),
+                        'terakhir_login' => now()->subHours(rand(1, 72)),
+                    ]
+                );
+            }
+        }
+
         // ===== KELAS =====
         if (Kelas::count() === 0) {
             $kelas1 = Kelas::create([
@@ -111,6 +163,27 @@ class DatabaseSeeder extends Seeder
             // Siswa gabung kelas
             if ($kelas1->anggota()->where('user_id', $siswa->id)->count() === 0) {
                 $kelas1->anggota()->attach($siswa->id);
+            }
+
+            // 7 kelas tambahan
+            $kelasExtra = [
+                ['nama' => 'Matematika Dasar untuk Pemula', 'deskripsi' => 'Pelajari konsep matematika dasar: aljabar, geometri, dan statistik untuk fondasi akademik yang kuat.'],
+                ['nama' => 'Machine Learning & AI Fundamentals', 'deskripsi' => 'Pengantar kecerdasan buatan dan machine learning menggunakan Python, TensorFlow, dan scikit-learn.'],
+                ['nama' => 'Belajar Database PostgreSQL', 'deskripsi' => 'Kuasai PostgreSQL dari instalasi hingga query advanced, indexing, dan optimasi performa database.'],
+                ['nama' => 'Frontend React.js Modern', 'deskripsi' => 'Bangun UI interaktif dengan React.js, hooks, state management, dan Next.js framework.'],
+                ['nama' => 'Cyber Security & Ethical Hacking', 'deskripsi' => 'Pelajari keamanan siber, penetration testing, dan ethical hacking sesuai standar industri.'],
+                ['nama' => 'Mobile Development Flutter', 'deskripsi' => 'Buat aplikasi mobile cross-platform dengan Flutter dan Dart. Satu kode untuk Android & iOS.'],
+                ['nama' => 'DevOps & Cloud Computing', 'deskripsi' => 'Pelajari Docker, Kubernetes, CI/CD pipeline, dan deployment ke AWS/GCP/Azure.'],
+            ];
+            $timUsers = User::where('peran', 'tim')->get();
+            foreach ($kelasExtra as $ke) {
+                $timId = $timUsers->count() > 0 ? $timUsers->random()->id : $guru->id;
+                Kelas::create([
+                    'nama' => $ke['nama'],
+                    'deskripsi' => $ke['deskripsi'],
+                    'guru_id' => $timId,
+                    'kode_kelas' => strtoupper(Str::random(3)) . '-' . strtoupper(Str::random(6)),
+                ]);
             }
         } // end Kelas guard
 
@@ -303,6 +376,78 @@ class DatabaseSeeder extends Seeder
                     'penulis_id' => $admin->id,
                     'terbit_pada' => now()->subDays(4),
                 ],
+                [
+                    'judul' => 'KVT Hub Raih Penghargaan Best EdTech Platform 2025',
+                    'ringkasan' => 'KVT Hub meraih penghargaan sebagai platform edukasi teknologi terbaik se-Asia Tenggara.',
+                    'konten' => "KVT Hub berhasil meraih penghargaan Best EdTech Platform 2025 pada acara ASEAN Digital Education Summit.\n\nPenghargaan ini diberikan atas inovasi dalam pembelajaran digital berbasis gamifikasi, integrasi kurikulum nasional, dan sistem analitik real-time yang canggih.",
+                    'kategori' => 'prestasi',
+                    'status' => 'terbit',
+                    'tampil_ticker' => true,
+                    'tampil_popup' => true,
+                    'unggulan' => true,
+                    'penulis_id' => $admin->id,
+                    'terbit_pada' => now()->subDays(5),
+                ],
+                [
+                    'judul' => 'Webinar Gratis: Mengenal Blockchain & Web3 untuk Pemula',
+                    'ringkasan' => 'Webinar gratis membahas teknologi blockchain, cryptocurrency, dan Web3.',
+                    'konten' => "Yuk ikuti webinar gratis tentang Blockchain & Web3!\n\nTopik:\n- Apa itu Blockchain?\n- Smart Contract & Ethereum\n- NFT & DeFi\n- Karir di Web3\n\nPembicara: Tim Developer KVT Hub\nWaktu: Sabtu, 22 Maret 2025 pukul 10:00 WIB\nPlatform: Google Meet",
+                    'kategori' => 'event',
+                    'status' => 'terbit',
+                    'tampil_ticker' => true,
+                    'tampil_popup' => false,
+                    'unggulan' => false,
+                    'penulis_id' => $admin->id,
+                    'terbit_pada' => now()->subDays(6),
+                ],
+                [
+                    'judul' => 'Tips Sukses Interview Magang di Perusahaan Tech',
+                    'ringkasan' => 'Kiat-kiat efektif untuk mempersiapkan diri menghadapi interview magang di perusahaan teknologi.',
+                    'konten' => "Persiapan terbaik untuk interview magang:\n\n1. Kuasai DSA (Data Structures & Algorithms)\n2. Bangun portfolio proyek di GitHub\n3. Pelajari system design dasar\n4. Latih behavioral interview\n5. Riset perusahaan target\n\nGunakan fitur Karir di KVT Hub untuk latihan interview.",
+                    'kategori' => 'karir',
+                    'status' => 'terbit',
+                    'tampil_ticker' => false,
+                    'tampil_popup' => false,
+                    'unggulan' => false,
+                    'penulis_id' => $admin->id,
+                    'terbit_pada' => now()->subDays(7),
+                ],
+                [
+                    'judul' => 'Pembaruan Sistem: Migrasi Database ke PostgreSQL',
+                    'ringkasan' => 'KVT Hub telah berhasil melakukan migrasi database untuk performa yang lebih baik.',
+                    'konten' => "Pemberitahuan penting: KVT Hub telah berhasil melakukan migrasi database dari MySQL ke PostgreSQL.\n\nKeuntungan:\n- Performa query 3x lebih cepat\n- Dukungan JSONB untuk data fleksibel\n- Keamanan data lebih baik\n- Full-text search native",
+                    'kategori' => 'teknologi',
+                    'status' => 'terbit',
+                    'tampil_ticker' => false,
+                    'tampil_popup' => false,
+                    'unggulan' => false,
+                    'penulis_id' => $admin->id,
+                    'terbit_pada' => now()->subDays(10),
+                ],
+                [
+                    'judul' => 'Program Mentor-Mentee KVT Hub Season 3',
+                    'ringkasan' => 'Program mentoring musim ketiga dibuka untuk semua anggota KVT Hub.',
+                    'konten' => "Program Mentor-Mentee Season 3 telah dibuka!\n\nProgram ini menghubungkan mentor berpengalaman dengan mentee yang ingin belajar. Topik: Web Dev, Mobile, AI/ML, Data Science, Cybersecurity.\n\nDurasi: 3 bulan\nFormat: 1-on-1 online session\nBiaya: GRATIS",
+                    'kategori' => 'akademik',
+                    'status' => 'terbit',
+                    'tampil_ticker' => true,
+                    'tampil_popup' => false,
+                    'unggulan' => false,
+                    'penulis_id' => $admin->id,
+                    'terbit_pada' => now()->subDays(12),
+                ],
+                [
+                    'judul' => 'Kelas Baru: IoT dengan Arduino & Raspberry Pi',
+                    'ringkasan' => 'Kelas Internet of Things baru tersedia dengan praktik langsung menggunakan Arduino dan Raspberry Pi.',
+                    'konten' => "Kelas IoT baru hadir di KVT Hub!\n\nMateri:\n- Pengenalan IoT & Embedded Systems\n- Arduino Programming\n- Raspberry Pi Setup\n- Sensor & Aktuator\n- MQTT Protocol\n- Cloud IoT Platform\n\nLengkap dengan kit praktik yang dikirim ke rumah!",
+                    'kategori' => 'teknologi',
+                    'status' => 'terbit',
+                    'tampil_ticker' => true,
+                    'tampil_popup' => false,
+                    'unggulan' => false,
+                    'penulis_id' => $admin->id,
+                    'terbit_pada' => now()->subDays(14),
+                ],
             ];
 
             foreach ($beritaList as $b) {
@@ -412,6 +557,56 @@ class DatabaseSeeder extends Seeder
                     'aktif' => true,
                     'tampil_beranda' => true,
                     'urutan' => 10,
+                ],
+                [
+                    'nama' => 'JetBrains Educational License',
+                    'deskripsi' => 'Lisensi gratis IDE JetBrains untuk mahasiswa dan pengajar. IntelliJ IDEA, PhpStorm, WebStorm.',
+                    'website' => 'https://www.jetbrains.com/education',
+                    'tipe' => 'sponsor',
+                    'tier' => 'gold',
+                    'aktif' => true,
+                    'tampil_beranda' => true,
+                    'urutan' => 11,
+                ],
+                [
+                    'nama' => 'Universitas Gadjah Mada',
+                    'deskripsi' => 'Kerjasama riset dan pertukaran mahasiswa dengan UGM.',
+                    'website' => 'https://ugm.ac.id',
+                    'tipe' => 'mitra_akademik',
+                    'tier' => 'gold',
+                    'aktif' => true,
+                    'tampil_beranda' => true,
+                    'urutan' => 12,
+                ],
+                [
+                    'nama' => 'Bukalapak',
+                    'deskripsi' => 'Program tech talent pipeline dan hackathon bersama Bukalapak.',
+                    'website' => 'https://bukalapak.com',
+                    'tipe' => 'mitra_industri',
+                    'tier' => 'silver',
+                    'aktif' => true,
+                    'tampil_beranda' => true,
+                    'urutan' => 13,
+                ],
+                [
+                    'nama' => 'DigitalOcean for Education',
+                    'deskripsi' => 'Kredit cloud computing dan sumber belajar DevOps dari DigitalOcean.',
+                    'website' => 'https://www.digitalocean.com/community/students',
+                    'tipe' => 'sponsor',
+                    'tier' => 'silver',
+                    'aktif' => true,
+                    'tampil_beranda' => true,
+                    'urutan' => 14,
+                ],
+                [
+                    'nama' => 'Bangkit Academy by Google',
+                    'deskripsi' => 'Kolaborasi program Bangkit Academy untuk pengembangan talenta digital Indonesia.',
+                    'website' => 'https://grow.google/intl/id_id/bangkit',
+                    'tipe' => 'mitra_akademik',
+                    'tier' => 'platinum',
+                    'aktif' => true,
+                    'tampil_beranda' => true,
+                    'urutan' => 15,
                 ],
             ];
 

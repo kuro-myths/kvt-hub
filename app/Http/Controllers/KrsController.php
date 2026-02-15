@@ -111,7 +111,9 @@ class KrsController extends Controller
     public function tampilkan(Krs $krs)
     {
         // Pastikan hanya pemilik KRS atau admin yang bisa melihat
-        if ($krs->user_id !== Auth::id() && !Auth::user()->adalahAdmin()) {
+        /** @var \App\Models\User $authUser */
+        $authUser = Auth::user();
+        if ($krs->user_id !== Auth::id() && !$authUser->adalahAdmin()) {
             abort(403, 'Anda tidak memiliki akses untuk melihat KRS ini.');
         }
 

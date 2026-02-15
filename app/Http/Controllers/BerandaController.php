@@ -20,8 +20,8 @@ class BerandaController extends Controller
     public function index()
     {
         $statistik = [
-            'total_siswa' => User::where('peran', 'siswa')->count(),
-            'total_guru' => User::where('peran', 'guru')->count(),
+            'total_siswa' => User::where('peran', 'pengguna')->count(),
+            'total_guru' => User::where('peran', 'tim')->count(),
             'total_kelas' => Kelas::where('status', 'aktif')->count(),
             'total_materi' => Materi::where('status', 'terbit')->count(),
             'pengunjung_hari_ini' => Pengunjung::hariIni(),

@@ -97,9 +97,9 @@
         .nav-row { display:flex;align-items:center }
         .nav-item { position:relative }
         .nav-link {
-            display:flex;align-items:center;gap:6px;padding:8px 14px;font-size:13px;font-weight:600;
-            color:rgba(209,213,219,1);border-radius:8px;white-space:nowrap;transition:all 0.2s;
-            text-transform:uppercase;letter-spacing:0.02em;
+            display:flex;align-items:center;gap:7px;padding:10px 16px;font-size:13.5px;font-weight:600;
+            color:rgba(209,213,219,1);border-radius:10px;white-space:nowrap;transition:all 0.2s;
+            text-transform:uppercase;letter-spacing:0.03em;
         }
         .nav-link:hover, .nav-item.dropdown-open > .nav-link {
             color:#5CADFF;background:rgba(51,153,255,0.08);
@@ -282,7 +282,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
             {{-- ===== ROW 1: Logo + Primary Menus + Search/Auth ===== --}}
-            <div class="flex items-center h-16">
+            <div class="flex items-center h-[68px]">
 
                 {{-- Logo (spacious, not cramped) --}}
                 <a href="{{ route('beranda') }}" class="flex items-center gap-3 shrink-0 mr-6 group">
@@ -321,7 +321,7 @@
                                     <div class="item-text"><div class="item-title">Dasbor Saya</div><div class="item-desc">Panel kontrol pengguna</div></div>
                                 </a>
                                 @endauth
-                                <a href="{{ route('halaman.tentang') }}" class="dropdown-item">
+                                <a href="{{ route('tentang') }}" class="dropdown-item">
                                     <div class="item-icon bg-purple-500/10"><i class="fas fa-landmark text-purple-400"></i></div>
                                     <div class="item-text"><div class="item-title">Tentang KVT Hub</div><div class="item-desc">Visi, misi & informasi</div></div>
                                 </a>
@@ -1415,6 +1415,61 @@
                 </div>
             </div>
 
+            {{-- MUSIC PLAYER --}}
+            <div>
+                <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-music mr-1.5"></i>Musik Ambient</h4>
+                <div class="setting-item flex-col items-start gap-3">
+                    <div class="flex items-center gap-3 w-full">
+                        <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shrink-0" id="musikAlbumArt">
+                            <i class="fas fa-headphones text-white" id="musikIcon"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm text-white font-semibold truncate" id="musikJudul">Lo-Fi Study Beats</p>
+                            <p class="text-[10px] text-gray-500 truncate" id="musikArtis">KVT Radio</p>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="musikPrev()" class="w-7 h-7 rounded-lg bg-kvt-800/50 hover:bg-kvt-700/50 text-gray-400 hover:text-white flex items-center justify-center transition text-[10px]">
+                                <i class="fas fa-step-backward"></i>
+                            </button>
+                            <button onclick="musikToggle()" class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 text-white flex items-center justify-center transition hover:scale-105 shadow-lg shadow-green-500/30" id="musikPlayBtn">
+                                <i class="fas fa-play text-sm" id="musikPlayIcon"></i>
+                            </button>
+                            <button onclick="musikNext()" class="w-7 h-7 rounded-lg bg-kvt-800/50 hover:bg-kvt-700/50 text-gray-400 hover:text-white flex items-center justify-center transition text-[10px]">
+                                <i class="fas fa-step-forward"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {{-- Progress bar --}}
+                    <div class="w-full mt-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] text-gray-500 font-mono w-8 text-right" id="musikWaktu">0:00</span>
+                            <div class="flex-1 h-1.5 bg-kvt-800 rounded-full overflow-hidden cursor-pointer group" onclick="musikSeek(event)">
+                                <div class="h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full transition-all" id="musikProgress" style="width:0%"></div>
+                            </div>
+                            <span class="text-[10px] text-gray-500 font-mono w-8" id="musikDurasi">0:00</span>
+                        </div>
+                    </div>
+                    {{-- Volume --}}
+                    <div class="flex items-center gap-2 w-full">
+                        <button onclick="musikMute()" class="text-gray-500 hover:text-white transition">
+                            <i class="fas fa-volume-up text-xs" id="musikVolIcon"></i>
+                        </button>
+                        <input type="range" min="0" max="100" value="30" class="flex-1 h-1 accent-green-500 cursor-pointer" id="musikVolume" oninput="musikSetVol(this.value)" style="background:linear-gradient(to right,#10B981 30%,#1e293b 30%)">
+                        <button onclick="musikShuffle()" class="text-gray-500 hover:text-green-400 transition" id="btnShuffle" title="Acak">
+                            <i class="fas fa-random text-xs"></i>
+                        </button>
+                        <button onclick="musikRepeat()" class="text-gray-500 hover:text-green-400 transition" id="btnRepeat" title="Ulangi">
+                            <i class="fas fa-redo text-xs"></i>
+                        </button>
+                    </div>
+                    {{-- Playlist --}}
+                    <div class="w-full mt-1">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Playlist</p>
+                        <div class="space-y-1 max-h-32 overflow-y-auto" id="musikPlaylist"></div>
+                    </div>
+                </div>
+            </div>
+
             {{-- AI ASSISTANT --}}
             <div>
                 <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-robot mr-1.5"></i>AI Assistant</h4>
@@ -1886,6 +1941,101 @@
             localStorage.removeItem('kvt_lang');
             location.reload();
         }
+
+        // ========================
+        // MUSIC PLAYER - Lo-Fi / Ambient
+        // ========================
+        const musikDaftar = [
+            { judul: 'Lo-Fi Study Beats', artis: 'KVT Radio', src: 'https://streams.ilovemusic.de/iloveradio17.mp3', warna: 'from-green-500 to-emerald-600' },
+            { judul: 'Chill Jazz Piano', artis: 'Relaxation FM', src: 'https://streams.ilovemusic.de/iloveradio10.mp3', warna: 'from-blue-500 to-cyan-600' },
+            { judul: 'Deep House Focus', artis: 'Study Station', src: 'https://streams.ilovemusic.de/iloveradio2.mp3', warna: 'from-purple-500 to-pink-600' },
+            { judul: 'Ambient Soundscape', artis: 'Nature Beats', src: 'https://streams.ilovemusic.de/iloveradio14.mp3', warna: 'from-teal-500 to-green-600' },
+            { judul: 'Classical Focus', artis: 'KVT Classical', src: 'https://streams.ilovemusic.de/iloveradio4.mp3', warna: 'from-amber-500 to-orange-600' },
+        ];
+        let musikIndex = 0, musikPlaying = false, musikShuffleOn = false, musikRepeatOn = false;
+        const audioPlayer = new Audio();
+        audioPlayer.volume = 0.3;
+        audioPlayer.crossOrigin = 'anonymous';
+
+        function renderPlaylist() {
+            const el = document.getElementById('musikPlaylist');
+            el.innerHTML = '';
+            musikDaftar.forEach((m, i) => {
+                el.innerHTML += `<button onclick="musikPilih(${i})" class="w-full flex items-center gap-2 p-2 rounded-lg text-left transition ${i === musikIndex ? 'bg-green-500/15 border border-green-500/30' : 'hover:bg-kvt-800/50'}">
+                    <div class="w-6 h-6 bg-gradient-to-br ${m.warna} rounded flex items-center justify-center shrink-0"><i class="fas ${i === musikIndex && musikPlaying ? 'fa-volume-up' : 'fa-music'} text-white text-[8px]"></i></div>
+                    <div class="min-w-0 flex-1"><p class="text-xs text-white font-medium truncate">${m.judul}</p><p class="text-[10px] text-gray-500">${m.artis}</p></div>
+                    ${i === musikIndex ? '<span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shrink-0"></span>' : ''}
+                </button>`;
+            });
+        }
+
+        function musikPilih(i) { musikIndex = i; musikPlay(); }
+        function musikPlay() {
+            const m = musikDaftar[musikIndex];
+            audioPlayer.src = m.src;
+            audioPlayer.play().catch(() => {});
+            musikPlaying = true;
+            document.getElementById('musikPlayIcon').className = 'fas fa-pause text-sm';
+            document.getElementById('musikJudul').textContent = m.judul;
+            document.getElementById('musikArtis').textContent = m.artis;
+            document.getElementById('musikAlbumArt').className = 'w-10 h-10 bg-gradient-to-br ' + m.warna + ' rounded-xl flex items-center justify-center shrink-0';
+            localStorage.setItem('kvt_musik_index', musikIndex);
+            localStorage.setItem('kvt_musik_playing', 'true');
+            renderPlaylist();
+        }
+        function musikToggle() {
+            if(musikPlaying) { audioPlayer.pause(); musikPlaying = false; document.getElementById('musikPlayIcon').className = 'fas fa-play text-sm'; }
+            else { if(!audioPlayer.src || audioPlayer.src === location.href) musikPlay(); else { audioPlayer.play().catch(()=>{}); musikPlaying = true; document.getElementById('musikPlayIcon').className = 'fas fa-pause text-sm'; } }
+            localStorage.setItem('kvt_musik_playing', musikPlaying ? 'true' : 'false');
+            renderPlaylist();
+        }
+        function musikNext() { musikIndex = musikShuffleOn ? Math.floor(Math.random() * musikDaftar.length) : (musikIndex + 1) % musikDaftar.length; musikPlay(); }
+        function musikPrev() { musikIndex = (musikIndex - 1 + musikDaftar.length) % musikDaftar.length; musikPlay(); }
+        function musikSetVol(v) {
+            audioPlayer.volume = v / 100;
+            const slider = document.getElementById('musikVolume');
+            slider.style.background = `linear-gradient(to right,#10B981 ${v}%,#1e293b ${v}%)`;
+            document.getElementById('musikVolIcon').className = v == 0 ? 'fas fa-volume-mute text-xs' : v < 50 ? 'fas fa-volume-down text-xs' : 'fas fa-volume-up text-xs';
+            localStorage.setItem('kvt_musik_vol', v);
+        }
+        function musikMute() { const v = document.getElementById('musikVolume'); if(audioPlayer.volume > 0) { v.dataset.prev = v.value; v.value = 0; musikSetVol(0); } else { v.value = v.dataset.prev || 30; musikSetVol(v.value); } }
+        function musikShuffle() { musikShuffleOn = !musikShuffleOn; document.getElementById('btnShuffle').classList.toggle('text-green-400', musikShuffleOn); document.getElementById('btnShuffle').classList.toggle('text-gray-500', !musikShuffleOn); }
+        function musikRepeat() { musikRepeatOn = !musikRepeatOn; audioPlayer.loop = musikRepeatOn; document.getElementById('btnRepeat').classList.toggle('text-green-400', musikRepeatOn); document.getElementById('btnRepeat').classList.toggle('text-gray-500', !musikRepeatOn); }
+        function musikSeek(e) { if(audioPlayer.duration) { const rect = e.target.getBoundingClientRect(); audioPlayer.currentTime = ((e.clientX - rect.left) / rect.width) * audioPlayer.duration; } }
+        function formatWaktu(s) { const m = Math.floor(s/60); return m + ':' + String(Math.floor(s%60)).padStart(2,'0'); }
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            if(audioPlayer.duration && isFinite(audioPlayer.duration)) {
+                const pct = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                document.getElementById('musikProgress').style.width = pct + '%';
+                document.getElementById('musikWaktu').textContent = formatWaktu(audioPlayer.currentTime);
+                document.getElementById('musikDurasi').textContent = formatWaktu(audioPlayer.duration);
+            }
+        });
+        audioPlayer.addEventListener('ended', () => { if(!musikRepeatOn) musikNext(); });
+
+        // Restore saved state
+        (function initMusik() {
+            const savedIdx = localStorage.getItem('kvt_musik_index');
+            const savedVol = localStorage.getItem('kvt_musik_vol');
+            const savedPlay = localStorage.getItem('kvt_musik_playing');
+            if(savedIdx !== null) musikIndex = parseInt(savedIdx);
+            if(savedVol !== null) { document.getElementById('musikVolume').value = savedVol; musikSetVol(savedVol); }
+            const m = musikDaftar[musikIndex];
+            document.getElementById('musikJudul').textContent = m.judul;
+            document.getElementById('musikArtis').textContent = m.artis;
+            document.getElementById('musikAlbumArt').className = 'w-10 h-10 bg-gradient-to-br ' + m.warna + ' rounded-xl flex items-center justify-center shrink-0';
+            renderPlaylist();
+            if(savedPlay === 'true') {
+                // Auto-play on page load (will require user interaction on most browsers)
+                audioPlayer.src = m.src;
+                audioPlayer.play().then(() => {
+                    musikPlaying = true;
+                    document.getElementById('musikPlayIcon').className = 'fas fa-pause text-sm';
+                    renderPlaylist();
+                }).catch(() => {});
+            }
+        })();
 
         // Load saved settings on page load
         (function loadSettings() {
