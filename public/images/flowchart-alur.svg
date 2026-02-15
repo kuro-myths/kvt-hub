@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" rx="16" fill="#0A0F1C"/>
+  <circle cx="200" cy="200" r="150" fill="url(#rg)" opacity="0.08"/>
+  <!-- Flowchart -->
+  <!-- Start -->
+  <rect x="50" y="170" width="100" height="50" rx="25" fill="#22C55E" opacity="0.2" stroke="#22C55E" stroke-width="1.5"/>
+  <text x="100" y="200" text-anchor="middle" fill="#22C55E" font-family="system-ui" font-size="12" font-weight="bold">Mulai</text>
+  <line x1="150" y1="195" x2="190" y2="195" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Register -->
+  <rect x="190" y="170" width="120" height="50" rx="8" fill="#1E293B" stroke="#3399FF" stroke-width="1.5"/>
+  <text x="250" y="192" text-anchor="middle" fill="#3399FF" font-family="system-ui" font-size="11">Daftar Akun</text>
+  <text x="250" y="207" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="9">📝 Register</text>
+  <line x1="310" y1="195" x2="350" y2="195" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Choose Role - Diamond -->
+  <polygon points="410,160 470,195 410,230 350,195" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="410" y="198" text-anchor="middle" fill="#F59E0B" font-family="system-ui" font-size="10">Peran?</text>
+  <!-- Siswa Path -->
+  <line x1="410" y1="160" x2="410" y2="80" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="350" y="40" width="120" height="40" rx="8" fill="#1E293B" stroke="#A855F7" stroke-width="1.5"/>
+  <text x="410" y="62" text-anchor="middle" fill="#A855F7" font-family="system-ui" font-size="11">🎓 Siswa</text>
+  <text x="410" y="150" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="8">siswa</text>
+  <line x1="470" y1="60" x2="530" y2="60" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="530" y="40" width="110" height="40" rx="8" fill="#1E293B" stroke="#A855F7" stroke-width="1"/>
+  <text x="585" y="65" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="10">Ikut Kelas</text>
+  <!-- Guru Path -->
+  <line x1="470" y1="195" x2="530" y2="195" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="530" y="175" width="110" height="40" rx="8" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
+  <text x="585" y="198" text-anchor="middle" fill="#06B6D4" font-family="system-ui" font-size="11">👨‍🏫 Guru</text>
+  <line x1="640" y1="195" x2="680" y2="195" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="680" y="175" width="100" height="40" rx="8" fill="#1E293B" stroke="#06B6D4" stroke-width="1"/>
+  <text x="730" y="198" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="10">Buat Kelas</text>
+  <text x="500" y="188" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="8">guru</text>
+  <!-- Admin Path -->
+  <line x1="410" y1="230" x2="410" y2="300" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="350" y="300" width="120" height="40" rx="8" fill="#1E293B" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="410" y="323" text-anchor="middle" fill="#EF4444" font-family="system-ui" font-size="11">⚙️ Admin</text>
+  <text x="410" y="240" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="8">admin</text>
+  <line x1="470" y1="320" x2="530" y2="320" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="530" y="300" width="110" height="40" rx="8" fill="#1E293B" stroke="#EF4444" stroke-width="1"/>
+  <text x="585" y="323" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="10">Kelola Data</text>
+  <!-- Arrow Marker -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#334155"/></marker>
+    <radialGradient id="rg"><stop offset="0%" stop-color="#3399FF"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+  </defs>
+</svg>

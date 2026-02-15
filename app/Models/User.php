@@ -42,21 +42,35 @@ class User extends Authenticatable
         ];
     }
 
+    // === Role Checks (Admin, Pengguna, Tim) ===
     public function adalahAdmin(): bool
     {
         return $this->peran === 'admin';
     }
 
+    public function adalahTim(): bool
+    {
+        return $this->peran === 'tim';
+    }
+
+    // Backward compat alias
     public function adalahGuru(): bool
     {
-        return $this->peran === 'guru';
+        return $this->peran === 'tim';
     }
 
+    public function adalahPengguna(): bool
+    {
+        return $this->peran === 'pengguna';
+    }
+
+    // Backward compat alias
     public function adalahSiswa(): bool
     {
-        return $this->peran === 'siswa';
+        return $this->peran === 'pengguna';
     }
 
+    // === Relationships ===
     public function kelasYangDiajar()
     {
         return $this->hasMany(Kelas::class, 'guru_id');
@@ -94,6 +108,34 @@ class User extends Authenticatable
     public function langganan()
     {
         return $this->hasMany(Langganan::class);
+    }
+
+    // === New Relationships (KRS, Kurikulum, Organisasi) ===
+    public function krs()
+    {
+        return $this->hasMany(Krs::class);
+    }
+
+    public function jenjangAktif()
+    {
+        return $this->hasMany(JenjangPengguna::class);
+    }
+
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class);
+    }
+
+    public function organisasi()
+    {
+        return $this->belongsToMany(Organisasi::class, 'organisasi_anggota')
+            ->withPivot('jabatan', 'bergabung_pada', 'berakhir_pada', 'aktif')
+            ->withTimestamps();
+    }
+
+    public function anakDidik()
+    {
+        return $this->hasMany(JenjangPengguna::class, 'wali_user_id');
     }
 
     // XP & Level System

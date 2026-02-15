@@ -303,11 +303,34 @@
                 {{-- Row 1 Menu Items --}}
                 <div class="hidden lg:flex items-center gap-0.5 flex-1 nav-row" id="navRow1">
 
-                    {{-- 1. Beranda --}}
+                    {{-- 1. Beranda (with sub-menu) --}}
                     <div class="nav-item">
-                        <a href="{{ route('beranda') }}" class="nav-link">
+                        <button class="nav-link" data-dropdown>
                             <i class="fas fa-home text-kvt-400"></i> Beranda
-                        </a>
+                            <i class="fas fa-chevron-down chevron-icon"></i>
+                        </button>
+                        <div class="nav-dropdown">
+                            <div class="nav-dropdown-inner">
+                                <a href="{{ route('beranda') }}" class="dropdown-item">
+                                    <div class="item-icon bg-kvt-500/10"><i class="fas fa-home text-kvt-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Beranda Utama</div><div class="item-desc">Halaman utama platform</div></div>
+                                </a>
+                                @auth
+                                <a href="{{ route('dasbor') }}" class="dropdown-item">
+                                    <div class="item-icon bg-green-500/10"><i class="fas fa-tachometer-alt text-green-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Dasbor Saya</div><div class="item-desc">Panel kontrol pengguna</div></div>
+                                </a>
+                                @endauth
+                                <a href="{{ route('halaman.tentang') }}" class="dropdown-item">
+                                    <div class="item-icon bg-purple-500/10"><i class="fas fa-landmark text-purple-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Tentang KVT Hub</div><div class="item-desc">Visi, misi & informasi</div></div>
+                                </a>
+                                <a href="{{ route('sponsor') }}" class="dropdown-item">
+                                    <div class="item-icon bg-yellow-500/10"><i class="fas fa-gem text-yellow-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Sponsor & Mitra</div><div class="item-desc">Pendukung platform</div></div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     {{-- 2. Jenjang (with nested sub-submenus like UNEJ) --}}
@@ -322,15 +345,15 @@
                                     {{-- Column 1: Pendidikan Dasar --}}
                                     <div>
                                         <div class="dropdown-section-title">Pendidikan Dasar</div>
-                                        <a href="{{ route('halaman.jenjang') }}" class="dropdown-item">
+                                        <a href="{{ route('halaman.pendidikan-dasar.tk-paud') }}" class="dropdown-item">
                                             <div class="item-icon bg-pink-500/10"><i class="fas fa-baby text-pink-400"></i></div>
                                             <div class="item-text"><div class="item-title">TK / PAUD</div><div class="item-desc">Usia 4-6 tahun</div></div>
                                         </a>
-                                        <a href="{{ route('halaman.jenjang') }}" class="dropdown-item">
+                                        <a href="{{ route('halaman.pendidikan-dasar.sd-mi') }}" class="dropdown-item">
                                             <div class="item-icon bg-blue-500/10"><i class="fas fa-book-open text-blue-400"></i></div>
                                             <div class="item-text"><div class="item-title">SD / MI</div><div class="item-desc">Kelas 1-6</div></div>
                                         </a>
-                                        <a href="{{ route('halaman.jenjang') }}" class="dropdown-item">
+                                        <a href="{{ route('halaman.pendidikan-dasar.smp-mts') }}" class="dropdown-item">
                                             <div class="item-icon bg-green-500/10"><i class="fas fa-book text-green-400"></i></div>
                                             <div class="item-text"><div class="item-title">SMP / MTs</div><div class="item-desc">Kelas 7-9</div></div>
                                         </a>
@@ -343,10 +366,10 @@
                                             </div>
                                             <div class="sub-dropdown">
                                                 <div class="sub-dropdown-inner">
-                                                    <a href="{{ route('halaman.jenjang') }}" class="sub-dropdown-item"><i class="fas fa-school text-yellow-400"></i> SMA / MA</a>
-                                                    <a href="{{ route('halaman.jenjang') }}" class="sub-dropdown-item"><i class="fas fa-tools text-orange-400"></i> SMK Teknologi</a>
-                                                    <a href="{{ route('halaman.jenjang') }}" class="sub-dropdown-item"><i class="fas fa-store text-pink-400"></i> SMK Bisnis</a>
-                                                    <a href="{{ route('halaman.jenjang') }}" class="sub-dropdown-item"><i class="fas fa-heartbeat text-red-400"></i> SMK Kesehatan</a>
+                                                    <a href="{{ route('halaman.pendidikan-dasar.sma-ma') }}" class="sub-dropdown-item"><i class="fas fa-school text-yellow-400"></i> SMA / MA</a>
+                                                    <a href="{{ route('halaman.pendidikan-dasar.smk-teknologi') }}" class="sub-dropdown-item"><i class="fas fa-tools text-orange-400"></i> SMK Teknologi</a>
+                                                    <a href="{{ route('halaman.pendidikan-dasar.smk-bisnis') }}" class="sub-dropdown-item"><i class="fas fa-store text-pink-400"></i> SMK Bisnis</a>
+                                                    <a href="{{ route('halaman.pendidikan-dasar.smk-kesehatan') }}" class="sub-dropdown-item"><i class="fas fa-heartbeat text-red-400"></i> SMK Kesehatan</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -355,7 +378,7 @@
                                     {{-- Column 2: Pendidikan Tinggi (nested sub-submenu) --}}
                                     <div>
                                         <div class="dropdown-section-title">Pendidikan Tinggi</div>
-                                        <a href="{{ route('halaman.jenjang') }}" class="dropdown-item">
+                                        <a href="{{ route('halaman.pendidikan-tinggi.diploma') }}" class="dropdown-item">
                                             <div class="item-icon bg-cyan-500/10"><i class="fas fa-certificate text-cyan-400"></i></div>
                                             <div class="item-text"><div class="item-title">Diploma (D1-D4)</div><div class="item-desc">Vokasi & terapan</div></div>
                                         </a>
@@ -368,15 +391,15 @@
                                             </div>
                                             <div class="sub-dropdown">
                                                 <div class="sub-dropdown-inner">
-                                                    <a href="{{ route('halaman.jenjang') }}" class="sub-dropdown-item"><i class="fas fa-user-graduate text-blue-400"></i> Sarjana (S1)</a>
-                                                    <a href="{{ route('halaman.jenjang') }}" class="sub-dropdown-item"><i class="fas fa-flask text-purple-400"></i> Magister (S2)</a>
-                                                    <a href="{{ route('halaman.jenjang') }}" class="sub-dropdown-item"><i class="fas fa-atom text-red-400"></i> Doktoral (S3/PhD)</a>
-                                                    <a href="{{ route('halaman.jenjang') }}" class="sub-dropdown-item"><i class="fas fa-microscope text-teal-400"></i> Post-Doctoral</a>
+                                                    <a href="{{ route('halaman.pendidikan-tinggi.sarjana') }}" class="sub-dropdown-item"><i class="fas fa-user-graduate text-blue-400"></i> Sarjana (S1)</a>
+                                                    <a href="{{ route('halaman.pendidikan-tinggi.magister') }}" class="sub-dropdown-item"><i class="fas fa-flask text-purple-400"></i> Magister (S2)</a>
+                                                    <a href="{{ route('halaman.pendidikan-tinggi.doktoral') }}" class="sub-dropdown-item"><i class="fas fa-atom text-red-400"></i> Doktoral (S3/PhD)</a>
+                                                    <a href="{{ route('halaman.pendidikan-tinggi.post-doktoral') }}" class="sub-dropdown-item"><i class="fas fa-microscope text-teal-400"></i> Post-Doctoral</a>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <a href="{{ route('halaman.jenjang') }}" class="dropdown-item">
+                                        <a href="{{ route('halaman.pendidikan-tinggi.profesi') }}" class="dropdown-item">
                                             <div class="item-icon bg-amber-500/10"><i class="fas fa-briefcase text-amber-400"></i></div>
                                             <div class="item-text"><div class="item-title">Profesi</div><div class="item-desc">Dokter, Apoteker, dll</div></div>
                                         </a>
@@ -385,11 +408,11 @@
                                     {{-- Column 3: Program Khusus --}}
                                     <div>
                                         <div class="dropdown-section-title">Program Khusus</div>
-                                        <a href="{{ route('halaman.karir') }}" class="dropdown-item">
+                                        <a href="{{ route('halaman.karir.lowongan') }}" class="dropdown-item">
                                             <div class="item-icon bg-pink-500/10"><i class="fas fa-rocket text-pink-400"></i></div>
                                             <div class="item-text"><div class="item-title">Fast Track Career</div><div class="item-desc">Percepatan karir industri</div></div>
                                         </a>
-                                        <a href="{{ route('halaman.riset') }}" class="dropdown-item">
+                                        <a href="{{ route('halaman.riset.kolaborasi') }}" class="dropdown-item">
                                             <div class="item-icon bg-teal-500/10"><i class="fas fa-microscope text-teal-400"></i></div>
                                             <div class="item-text"><div class="item-title">Research Hub</div><div class="item-desc">Pusat riset & inovasi</div></div>
                                         </a>
@@ -465,11 +488,36 @@
                         </div>
                     </div>
 
-                    {{-- 4. Berita --}}
+                    {{-- 4. Berita (with sub-menu) --}}
                     <div class="nav-item">
-                        <a href="{{ route('berita.index') }}" class="nav-link">
+                        <button class="nav-link" data-dropdown>
                             <i class="fas fa-newspaper text-emerald-400"></i> Berita
-                        </a>
+                            <i class="fas fa-chevron-down chevron-icon"></i>
+                        </button>
+                        <div class="nav-dropdown">
+                            <div class="nav-dropdown-inner">
+                                <a href="{{ route('berita.index') }}" class="dropdown-item">
+                                    <div class="item-icon bg-emerald-500/10"><i class="fas fa-newspaper text-emerald-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Semua Berita</div><div class="item-desc">Berita & update terbaru</div></div>
+                                </a>
+                                <a href="{{ route('berita.index', ['kategori' => 'akademik']) }}" class="dropdown-item">
+                                    <div class="item-icon bg-blue-500/10"><i class="fas fa-graduation-cap text-blue-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Berita Akademik</div><div class="item-desc">Info akademik & pendidikan</div></div>
+                                </a>
+                                <a href="{{ route('berita.index', ['kategori' => 'teknologi']) }}" class="dropdown-item">
+                                    <div class="item-icon bg-purple-500/10"><i class="fas fa-microchip text-purple-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Berita Teknologi</div><div class="item-desc">Perkembangan teknologi</div></div>
+                                </a>
+                                <a href="{{ route('berita.index', ['kategori' => 'event']) }}" class="dropdown-item">
+                                    <div class="item-icon bg-orange-500/10"><i class="fas fa-calendar-star text-orange-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Event & Kegiatan</div><div class="item-desc">Jadwal acara mendatang</div></div>
+                                </a>
+                                <a href="{{ route('berita.index', ['kategori' => 'pengumuman']) }}" class="dropdown-item">
+                                    <div class="item-icon bg-red-500/10"><i class="fas fa-bullhorn text-red-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Pengumuman</div><div class="item-desc">Info resmi platform</div></div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     {{-- 5. Kerja Sama (nested) --}}
@@ -519,6 +567,11 @@
                                 <a href="{{ route('lisensi') }}" class="dropdown-item">
                                     <div class="item-icon bg-green-500/10"><i class="fas fa-file-contract text-green-400"></i></div>
                                     <div class="item-text"><div class="item-title">Lisensi</div><div class="item-desc">Ketentuan penggunaan</div></div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{{ route('halaman.komunitas.organisasi') }}" class="dropdown-item">
+                                    <div class="item-icon bg-pink-500/10"><i class="fas fa-sitemap text-pink-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Struktur Organisasi</div><div class="item-desc">Organisasi internal & eksternal</div></div>
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a href="https://github.com/kuro-myths/kvt-hub" target="_blank" class="dropdown-item">
@@ -614,23 +667,23 @@
                                 </div>
                                 <div class="sub-dropdown">
                                     <div class="sub-dropdown-inner">
-                                        <a href="{{ route('halaman.riset') }}" class="sub-dropdown-item"><i class="fas fa-file-alt text-blue-400"></i> Jurnal Nasional</a>
-                                        <a href="{{ route('halaman.riset') }}" class="sub-dropdown-item"><i class="fas fa-globe text-green-400"></i> Jurnal Internasional</a>
-                                        <a href="{{ route('halaman.riset') }}" class="sub-dropdown-item"><i class="fas fa-book text-purple-400"></i> Prosiding Konferensi</a>
-                                        <a href="{{ route('halaman.riset') }}" class="sub-dropdown-item"><i class="fas fa-bookmark text-cyan-400"></i> Repositori Institusi</a>
+                                        <a href="{{ route('halaman.riset.publikasi') }}" class="sub-dropdown-item"><i class="fas fa-file-alt text-blue-400"></i> Jurnal Nasional</a>
+                                        <a href="{{ route('halaman.riset.publikasi') }}" class="sub-dropdown-item"><i class="fas fa-globe text-green-400"></i> Jurnal Internasional</a>
+                                        <a href="{{ route('halaman.riset.konferensi') }}" class="sub-dropdown-item"><i class="fas fa-book text-purple-400"></i> Prosiding Konferensi</a>
+                                        <a href="{{ route('halaman.riset.publikasi') }}" class="sub-dropdown-item"><i class="fas fa-bookmark text-cyan-400"></i> Repositori Institusi</a>
                                     </div>
                                 </div>
                             </div>
 
-                            <a href="{{ route('halaman.riset') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.riset.kolaborasi') }}" class="dropdown-item">
                                 <div class="item-icon bg-green-500/10"><i class="fas fa-project-diagram text-green-400"></i></div>
                                 <div class="item-text"><div class="item-title">Kolaborasi Riset</div><div class="item-desc">Tim riset lintas institusi</div></div>
                             </a>
-                            <a href="{{ route('halaman.riset') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.riset.inovasi-paten') }}" class="dropdown-item">
                                 <div class="item-icon bg-yellow-500/10"><i class="fas fa-lightbulb text-yellow-400"></i></div>
                                 <div class="item-text"><div class="item-title">Inovasi & Paten</div><div class="item-desc">Daftarkan inovasi</div></div>
                             </a>
-                            <a href="{{ route('halaman.riset') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.riset.konferensi') }}" class="dropdown-item">
                                 <div class="item-icon bg-pink-500/10"><i class="fas fa-calendar-alt text-pink-400"></i></div>
                                 <div class="item-text"><div class="item-title">Konferensi</div><div class="item-desc">Event & seminar ilmiah</div></div>
                             </a>
@@ -646,7 +699,7 @@
                     </button>
                     <div class="nav-dropdown">
                         <div class="nav-dropdown-inner">
-                            <a href="{{ route('halaman.karir') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.karir.lowongan') }}" class="dropdown-item">
                                 <div class="item-icon bg-green-500/10"><i class="fas fa-search-dollar text-green-400"></i></div>
                                 <div class="item-text"><div class="item-title">Lowongan Kerja</div><div class="item-desc">Perusahaan top nasional</div></div>
                             </a>
@@ -658,23 +711,23 @@
                                 </div>
                                 <div class="sub-dropdown">
                                     <div class="sub-dropdown-inner">
-                                        <a href="{{ route('halaman.karir') }}" class="sub-dropdown-item"><i class="fas fa-laptop-code text-kvt-400"></i> Magang IT</a>
-                                        <a href="{{ route('halaman.karir') }}" class="sub-dropdown-item"><i class="fas fa-chart-line text-green-400"></i> Magang Bisnis</a>
-                                        <a href="{{ route('halaman.karir') }}" class="sub-dropdown-item"><i class="fas fa-palette text-pink-400"></i> Magang Desain</a>
-                                        <a href="{{ route('halaman.karir') }}" class="sub-dropdown-item"><i class="fas fa-flask text-purple-400"></i> Magang Riset</a>
+                                        <a href="{{ route('halaman.karir.magang') }}" class="sub-dropdown-item"><i class="fas fa-laptop-code text-kvt-400"></i> Magang IT</a>
+                                        <a href="{{ route('halaman.karir.magang') }}" class="sub-dropdown-item"><i class="fas fa-chart-line text-green-400"></i> Magang Bisnis</a>
+                                        <a href="{{ route('halaman.karir.magang') }}" class="sub-dropdown-item"><i class="fas fa-palette text-pink-400"></i> Magang Desain</a>
+                                        <a href="{{ route('halaman.karir.magang') }}" class="sub-dropdown-item"><i class="fas fa-flask text-purple-400"></i> Magang Riset</a>
                                     </div>
                                 </div>
                             </div>
 
-                            <a href="{{ route('halaman.karir') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.karir.mentoring') }}" class="dropdown-item">
                                 <div class="item-icon bg-orange-500/10"><i class="fas fa-chalkboard-teacher text-orange-400"></i></div>
                                 <div class="item-text"><div class="item-title">Mentoring</div><div class="item-desc">Bimbingan 1-on-1</div></div>
                             </a>
-                            <a href="{{ route('halaman.karir') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.karir.cv-builder') }}" class="dropdown-item">
                                 <div class="item-icon bg-cyan-500/10"><i class="fas fa-file-invoice text-cyan-400"></i></div>
                                 <div class="item-text"><div class="item-title">CV Builder</div><div class="item-desc">Template ATS-friendly</div></div>
                             </a>
-                            <a href="{{ route('halaman.karir') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.karir.lowongan') }}" class="dropdown-item">
                                 <div class="item-icon bg-yellow-500/10"><i class="fas fa-industry text-yellow-400"></i></div>
                                 <div class="item-text"><div class="item-title">500+ Perusahaan</div><div class="item-desc">Mitra industri global</div></div>
                             </a>
@@ -682,22 +735,63 @@
                     </div>
                 </div>
 
-                {{-- 9. Komunitas (nested) --}}
+                {{-- 9. Komunitas (nested with Organisasi) --}}
                 <div class="nav-item">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-users text-pink-400"></i> Komunitas
                         <i class="fas fa-chevron-down chevron-icon"></i>
                     </button>
                     <div class="nav-dropdown">
-                        <div class="nav-dropdown-inner">
-                            <a href="{{ route('halaman.komunitas') }}" class="dropdown-item">
+                        <div class="nav-dropdown-inner" style="min-width:320px">
+                            <div class="dropdown-section-title">Forum & Diskusi</div>
+                            <a href="{{ route('halaman.komunitas.forum-diskusi') }}" class="dropdown-item">
                                 <div class="item-icon bg-kvt-500/10"><i class="fas fa-comments text-kvt-400"></i></div>
                                 <div class="item-text"><div class="item-title">Forum Diskusi</div><div class="item-desc">Tanya jawab & sharing</div></div>
                             </a>
-                            <a href="{{ route('halaman.komunitas') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.komunitas.study-group') }}" class="dropdown-item">
                                 <div class="item-icon bg-pink-500/10"><i class="fas fa-user-friends text-pink-400"></i></div>
                                 <div class="item-text"><div class="item-title">Study Group</div><div class="item-desc">Belajar bersama virtual</div></div>
                             </a>
+
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-section-title">Organisasi</div>
+
+                            <div class="has-submenu">
+                                <div class="dropdown-item">
+                                    <div class="item-icon bg-blue-500/10"><i class="fas fa-building text-blue-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Organisasi Internal</div><div class="item-desc">BEM, HMIF, OSIS, dll</div></div>
+                                </div>
+                                <div class="sub-dropdown">
+                                    <div class="sub-dropdown-inner">
+                                        <a href="{{ route('halaman.komunitas.organisasi', ['tipe' => 'internal']) }}" class="sub-dropdown-item"><i class="fas fa-university text-blue-400"></i> BEM & Himpunan</a>
+                                        <a href="{{ route('halaman.komunitas.organisasi', ['tipe' => 'internal', 'kategori' => 'olahraga']) }}" class="sub-dropdown-item"><i class="fas fa-futbol text-green-400"></i> Klub Olahraga</a>
+                                        <a href="{{ route('halaman.komunitas.organisasi', ['tipe' => 'internal', 'kategori' => 'seni_budaya']) }}" class="sub-dropdown-item"><i class="fas fa-palette text-pink-400"></i> Seni & Budaya</a>
+                                        <a href="{{ route('halaman.komunitas.organisasi', ['tipe' => 'internal', 'kategori' => 'keagamaan']) }}" class="sub-dropdown-item"><i class="fas fa-mosque text-teal-400"></i> Keagamaan</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="has-submenu">
+                                <div class="dropdown-item">
+                                    <div class="item-icon bg-green-500/10"><i class="fas fa-globe text-green-400"></i></div>
+                                    <div class="item-text"><div class="item-title">Organisasi Luar</div><div class="item-desc">Nasional & Internasional</div></div>
+                                </div>
+                                <div class="sub-dropdown">
+                                    <div class="sub-dropdown-inner">
+                                        <a href="{{ route('halaman.komunitas.organisasi', ['tipe' => 'nasional']) }}" class="sub-dropdown-item"><i class="fas fa-flag text-red-400"></i> Organisasi Nasional</a>
+                                        <a href="{{ route('halaman.komunitas.organisasi', ['tipe' => 'internasional']) }}" class="sub-dropdown-item"><i class="fas fa-globe-americas text-cyan-400"></i> Organisasi Internasional</a>
+                                        <a href="{{ route('halaman.komunitas.organisasi', ['tipe' => 'eksternal']) }}" class="sub-dropdown-item"><i class="fas fa-handshake text-yellow-400"></i> Mitra Eksternal</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="{{ route('halaman.komunitas.organisasi', ['unggulan' => 1]) }}" class="dropdown-item">
+                                <div class="item-icon bg-yellow-500/10"><i class="fas fa-star text-yellow-400"></i></div>
+                                <div class="item-text"><div class="item-title">Organisasi Unggulan</div><div class="item-desc">Pilihan terbaik yang direkomendasikan</div></div>
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-section-title">Lainnya</div>
 
                             <div class="has-submenu">
                                 <div class="dropdown-item">
@@ -706,18 +800,18 @@
                                 </div>
                                 <div class="sub-dropdown">
                                     <div class="sub-dropdown-inner">
-                                        <a href="{{ route('halaman.komunitas') }}" class="sub-dropdown-item"><i class="fas fa-users text-amber-400"></i> Direktori Alumni</a>
-                                        <a href="{{ route('halaman.komunitas') }}" class="sub-dropdown-item"><i class="fas fa-calendar-check text-green-400"></i> Alumni Event</a>
-                                        <a href="{{ route('halaman.komunitas') }}" class="sub-dropdown-item"><i class="fas fa-handshake text-kvt-400"></i> Alumni Mentoring</a>
+                                        <a href="{{ route('halaman.komunitas.alumni-network') }}" class="sub-dropdown-item"><i class="fas fa-users text-amber-400"></i> Direktori Alumni</a>
+                                        <a href="{{ route('halaman.komunitas.alumni-network') }}" class="sub-dropdown-item"><i class="fas fa-calendar-check text-green-400"></i> Alumni Event</a>
+                                        <a href="{{ route('halaman.komunitas.alumni-network') }}" class="sub-dropdown-item"><i class="fas fa-handshake text-kvt-400"></i> Alumni Mentoring</a>
                                     </div>
                                 </div>
                             </div>
 
-                            <a href="{{ route('halaman.komunitas') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.komunitas.hackathon') }}" class="dropdown-item">
                                 <div class="item-icon bg-emerald-500/10"><i class="fas fa-code text-emerald-400"></i></div>
                                 <div class="item-text"><div class="item-title">Hackathon</div><div class="item-desc">Kompetisi coding</div></div>
                             </a>
-                            <a href="{{ route('halaman.komunitas') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.komunitas.open-source') }}" class="dropdown-item">
                                 <div class="item-icon bg-gray-500/10"><i class="fab fa-github text-gray-300"></i></div>
                                 <div class="item-text"><div class="item-title">Open Source</div><div class="item-desc">Kontribusi proyek terbuka</div></div>
                             </a>
@@ -733,7 +827,7 @@
                     </button>
                     <div class="nav-dropdown">
                         <div class="nav-dropdown-inner">
-                            <a href="{{ route('halaman.sertifikasi') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.sertifikasi.kompetensi-nasional') }}" class="dropdown-item">
                                 <div class="item-icon bg-yellow-500/10"><i class="fas fa-certificate text-yellow-400"></i></div>
                                 <div class="item-text"><div class="item-title">Kompetensi Nasional</div><div class="item-desc">BNSP, LSP & resmi</div></div>
                             </a>
@@ -745,15 +839,15 @@
                                 </div>
                                 <div class="sub-dropdown">
                                     <div class="sub-dropdown-inner">
-                                        <a href="{{ route('halaman.sertifikasi') }}" class="sub-dropdown-item"><i class="fab fa-aws text-orange-400"></i> AWS Certified</a>
-                                        <a href="{{ route('halaman.sertifikasi') }}" class="sub-dropdown-item"><i class="fab fa-google text-blue-400"></i> Google Cloud</a>
-                                        <a href="{{ route('halaman.sertifikasi') }}" class="sub-dropdown-item"><i class="fab fa-microsoft text-cyan-400"></i> Microsoft Azure</a>
-                                        <a href="{{ route('halaman.sertifikasi') }}" class="sub-dropdown-item"><i class="fas fa-database text-green-400"></i> Oracle / Cisco</a>
+                                        <a href="{{ route('halaman.sertifikasi.cloud-tech') }}" class="sub-dropdown-item"><i class="fab fa-aws text-orange-400"></i> AWS Certified</a>
+                                        <a href="{{ route('halaman.sertifikasi.cloud-tech') }}" class="sub-dropdown-item"><i class="fab fa-google text-blue-400"></i> Google Cloud</a>
+                                        <a href="{{ route('halaman.sertifikasi.cloud-tech') }}" class="sub-dropdown-item"><i class="fab fa-microsoft text-cyan-400"></i> Microsoft Azure</a>
+                                        <a href="{{ route('halaman.sertifikasi.cloud-tech') }}" class="sub-dropdown-item"><i class="fas fa-database text-green-400"></i> Oracle / Cisco</a>
                                     </div>
                                 </div>
                             </div>
 
-                            <a href="{{ route('halaman.sertifikasi') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.sertifikasi.blockchain-credential') }}" class="dropdown-item">
                                 <div class="item-icon bg-blue-500/10"><i class="fas fa-link text-blue-400"></i></div>
                                 <div class="item-text"><div class="item-title">Blockchain Credential</div><div class="item-desc">Verifikasi digital</div></div>
                             </a>
@@ -773,11 +867,11 @@
                     </button>
                     <div class="nav-dropdown">
                         <div class="nav-dropdown-inner">
-                            <a href="{{ route('halaman.sumber-daya') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.sumber-daya.ebook-modul') }}" class="dropdown-item">
                                 <div class="item-icon bg-blue-500/10"><i class="fas fa-book text-blue-400"></i></div>
                                 <div class="item-text"><div class="item-title">E-Book & Modul</div><div class="item-desc">5,000+ buku digital</div></div>
                             </a>
-                            <a href="{{ route('halaman.sumber-daya') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.sumber-daya.dataset') }}" class="dropdown-item">
                                 <div class="item-icon bg-green-500/10"><i class="fas fa-table text-green-400"></i></div>
                                 <div class="item-text"><div class="item-title">Dataset Publik</div><div class="item-desc">Data riset & ML</div></div>
                             </a>
@@ -789,10 +883,10 @@
                                 </div>
                                 <div class="sub-dropdown">
                                     <div class="sub-dropdown-inner">
-                                        <a href="{{ route('halaman.sumber-daya') }}" class="sub-dropdown-item"><i class="fas fa-code text-purple-400"></i> Coding Playground</a>
-                                        <a href="{{ route('halaman.sumber-daya') }}" class="sub-dropdown-item"><i class="fas fa-plug text-cyan-400"></i> API Gateway</a>
-                                        <a href="{{ route('halaman.sumber-daya') }}" class="sub-dropdown-item"><i class="fas fa-file-code text-green-400"></i> Template Proyek</a>
-                                        <a href="{{ route('halaman.sumber-daya') }}" class="sub-dropdown-item"><i class="fab fa-github text-gray-300"></i> Open Source Tools</a>
+                                        <a href="{{ route('halaman.sumber-daya.dev-tools') }}" class="sub-dropdown-item"><i class="fas fa-code text-purple-400"></i> Coding Playground</a>
+                                        <a href="{{ route('halaman.sumber-daya.dev-tools') }}" class="sub-dropdown-item"><i class="fas fa-plug text-cyan-400"></i> API Gateway</a>
+                                        <a href="{{ route('halaman.sumber-daya.dev-tools') }}" class="sub-dropdown-item"><i class="fas fa-file-code text-green-400"></i> Template Proyek</a>
+                                        <a href="{{ route('halaman.sumber-daya.dev-tools') }}" class="sub-dropdown-item"><i class="fab fa-github text-gray-300"></i> Open Source Tools</a>
                                     </div>
                                 </div>
                             </div>
@@ -820,9 +914,9 @@
                                 </div>
                                 <div class="sub-dropdown" style="left:auto;right:100%;padding-left:0;padding-right:4px">
                                     <div class="sub-dropdown-inner">
-                                        <a href="{{ route('halaman.keamanan') }}" class="sub-dropdown-item"><i class="fas fa-sitemap text-blue-400"></i> COBIT 2019</a>
-                                        <a href="{{ route('halaman.keamanan') }}" class="sub-dropdown-item"><i class="fas fa-gavel text-yellow-400"></i> UU ITE & PDP</a>
-                                        <a href="{{ route('halaman.keamanan') }}" class="sub-dropdown-item"><i class="fas fa-shield-alt text-green-400"></i> NIST Framework</a>
+                                        <a href="{{ route('halaman.keamanan.tata-kelola-it') }}" class="sub-dropdown-item"><i class="fas fa-sitemap text-blue-400"></i> COBIT 2019</a>
+                                        <a href="{{ route('halaman.keamanan.tata-kelola-it') }}" class="sub-dropdown-item"><i class="fas fa-gavel text-yellow-400"></i> UU ITE & PDP</a>
+                                        <a href="{{ route('halaman.keamanan.tata-kelola-it') }}" class="sub-dropdown-item"><i class="fas fa-shield-alt text-green-400"></i> NIST Framework</a>
                                     </div>
                                 </div>
                             </div>
@@ -831,9 +925,137 @@
                                 <div class="item-icon bg-teal-500/10"><i class="fas fa-check-double text-teal-400"></i></div>
                                 <div class="item-text"><div class="item-title">Penjamin Mutu</div><div class="item-desc">QA/QC & audit</div></div>
                             </a>
-                            <a href="{{ route('halaman.keamanan') }}" class="dropdown-item">
+                            <a href="{{ route('halaman.keamanan.privasi-data') }}" class="dropdown-item">
                                 <div class="item-icon bg-purple-500/10"><i class="fas fa-user-shield text-purple-400"></i></div>
                                 <div class="item-text"><div class="item-title">Privasi Data</div><div class="item-desc">Perlindungan data pengguna</div></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- 13. Kurikulum --}}
+                <div class="nav-item dropdown-right">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-book-reader text-indigo-400"></i> Kurikulum
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown">
+                        <div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.kurikulum') }}" class="dropdown-item">
+                                <div class="item-icon bg-indigo-500/10"><i class="fas fa-book-reader text-indigo-400"></i></div>
+                                <div class="item-text"><div class="item-title">Kurikulum & Standar</div><div class="item-desc">Merdeka, Cambridge, IB, KKNI</div></div>
+                            </a>
+                            <a href="{{ route('halaman.kurikulum.silabus') }}" class="dropdown-item">
+                                <div class="item-icon bg-blue-500/10"><i class="fas fa-list-alt text-blue-400"></i></div>
+                                <div class="item-text"><div class="item-title">Silabus & RPS</div><div class="item-desc">Per jenjang pendidikan</div></div>
+                            </a>
+                            <a href="{{ route('halaman.kurikulum.rps-template') }}" class="dropdown-item">
+                                <div class="item-icon bg-green-500/10"><i class="fas fa-file-alt text-green-400"></i></div>
+                                <div class="item-text"><div class="item-title">Template Modul Ajar</div><div class="item-desc">RPP & RPS siap pakai</div></div>
+                            </a>
+                            <a href="{{ route('halaman.kurikulum.kalender-akademik') }}" class="dropdown-item">
+                                <div class="item-icon bg-amber-500/10"><i class="fas fa-calendar-alt text-amber-400"></i></div>
+                                <div class="item-text"><div class="item-title">Kalender Akademik</div><div class="item-desc">Jadwal & event 2025/2026</div></div>
+                            </a>
+                            <a href="{{ route('halaman.kurikulum.learning-outcomes') }}" class="dropdown-item">
+                                <div class="item-icon bg-purple-500/10"><i class="fas fa-bullseye text-purple-400"></i></div>
+                                <div class="item-text"><div class="item-title">Learning Outcomes</div><div class="item-desc">Capaian pembelajaran KKNI</div></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- 14. Alur & Panduan --}}
+                <div class="nav-item dropdown-right">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-project-diagram text-teal-400"></i> Panduan
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown">
+                        <div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.alur-panduan') }}" class="dropdown-item">
+                                <div class="item-icon bg-teal-500/10"><i class="fas fa-project-diagram text-teal-400"></i></div>
+                                <div class="item-text"><div class="item-title">Alur & Workflow</div><div class="item-desc">Flowchart platform lengkap</div></div>
+                            </a>
+                            <a href="{{ route('halaman.alur-panduan.flowchart-sistem') }}" class="dropdown-item">
+                                <div class="item-icon bg-cyan-500/10"><i class="fas fa-sitemap text-cyan-400"></i></div>
+                                <div class="item-text"><div class="item-title">Flowchart Sistem</div><div class="item-desc">Arsitektur & modul diagram</div></div>
+                            </a>
+                            <a href="{{ route('halaman.alur-panduan.panduan-pengguna') }}" class="dropdown-item">
+                                <div class="item-icon bg-blue-500/10"><i class="fas fa-book text-blue-400"></i></div>
+                                <div class="item-text"><div class="item-title">Panduan Pengguna</div><div class="item-desc">Guide lengkap per peran</div></div>
+                            </a>
+                            <a href="{{ route('halaman.alur-panduan.sop-prosedur') }}" class="dropdown-item">
+                                <div class="item-icon bg-amber-500/10"><i class="fas fa-clipboard-list text-amber-400"></i></div>
+                                <div class="item-text"><div class="item-title">SOP & Prosedur</div><div class="item-desc">Standar operasional platform</div></div>
+                            </a>
+                            <a href="{{ route('halaman.alur-panduan.faq-bantuan') }}" class="dropdown-item">
+                                <div class="item-icon bg-green-500/10"><i class="fas fa-question-circle text-green-400"></i></div>
+                                <div class="item-text"><div class="item-title">FAQ & Bantuan</div><div class="item-desc">Pusat bantuan & pertanyaan</div></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- 15. Media --}}
+                <div class="nav-item dropdown-right">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-play-circle text-rose-400"></i> Media
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown">
+                        <div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.media') }}" class="dropdown-item">
+                                <div class="item-icon bg-rose-500/10"><i class="fas fa-play-circle text-rose-400"></i></div>
+                                <div class="item-text"><div class="item-title">Media & Video</div><div class="item-desc">Pusat media pembelajaran</div></div>
+                            </a>
+                            <a href="{{ route('halaman.media.video-tutorial') }}" class="dropdown-item">
+                                <div class="item-icon bg-red-500/10"><i class="fas fa-video text-red-400"></i></div>
+                                <div class="item-text"><div class="item-title">Video Tutorial</div><div class="item-desc">500+ video pembelajaran</div></div>
+                            </a>
+                            <a href="{{ route('halaman.media.webinar-event') }}" class="dropdown-item">
+                                <div class="item-icon bg-blue-500/10"><i class="fas fa-broadcast-tower text-blue-400"></i></div>
+                                <div class="item-text"><div class="item-title">Webinar & Event</div><div class="item-desc">Live & on-demand webinar</div></div>
+                            </a>
+                            <a href="{{ route('halaman.media.podcast-audio') }}" class="dropdown-item">
+                                <div class="item-icon bg-purple-500/10"><i class="fas fa-podcast text-purple-400"></i></div>
+                                <div class="item-text"><div class="item-title">Podcast Edu</div><div class="item-desc">Episode inspiratif mingguan</div></div>
+                            </a>
+                            <a href="{{ route('halaman.media.galeri-foto') }}" class="dropdown-item">
+                                <div class="item-icon bg-green-500/10"><i class="fas fa-images text-green-400"></i></div>
+                                <div class="item-text"><div class="item-title">Galeri Foto</div><div class="item-desc">Dokumentasi kegiatan</div></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- 16. Dokumen --}}
+                <div class="nav-item dropdown-right">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-file-alt text-amber-400"></i> Dokumen
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown">
+                        <div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.dokumen') }}" class="dropdown-item">
+                                <div class="item-icon bg-amber-500/10"><i class="fas fa-file-alt text-amber-400"></i></div>
+                                <div class="item-text"><div class="item-title">Dokumen Resmi</div><div class="item-desc">Kebijakan & template platform</div></div>
+                            </a>
+                            <a href="{{ route('halaman.dokumen.kebijakan-privasi') }}" class="dropdown-item">
+                                <div class="item-icon bg-red-500/10"><i class="fas fa-shield-alt text-red-400"></i></div>
+                                <div class="item-text"><div class="item-title">Kebijakan Privasi</div><div class="item-desc">Privacy policy & ToS</div></div>
+                            </a>
+                            <a href="{{ route('halaman.dokumen.template-administrasi') }}" class="dropdown-item">
+                                <div class="item-icon bg-blue-500/10"><i class="fas fa-copy text-blue-400"></i></div>
+                                <div class="item-text"><div class="item-title">Template Administrasi</div><div class="item-desc">RPP, RPS, surat, dll</div></div>
+                            </a>
+                            <a href="{{ route('halaman.dokumen.surat-formulir') }}" class="dropdown-item">
+                                <div class="item-icon bg-green-500/10"><i class="fas fa-envelope-open-text text-green-400"></i></div>
+                                <div class="item-text"><div class="item-title">Surat & Formulir</div><div class="item-desc">Form resmi & surat dinas</div></div>
+                            </a>
+                            <a href="{{ route('halaman.dokumen.arsip-regulasi') }}" class="dropdown-item">
+                                <div class="item-icon bg-purple-500/10"><i class="fas fa-archive text-purple-400"></i></div>
+                                <div class="item-text"><div class="item-title">Arsip & Regulasi</div><div class="item-desc">UU, Permendikbud, arsip</div></div>
                             </a>
                         </div>
                     </div>
@@ -873,6 +1095,10 @@
 
                 <a href="{{ route('halaman.keamanan') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-shield-alt w-6 text-red-400"></i> Keamanan</a>
                 <a href="{{ route('halaman.penjamin-mutu') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-check-double w-6 text-teal-400"></i> Penjamin Mutu</a>
+                <a href="{{ route('halaman.kurikulum') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-book-reader w-6 text-indigo-400"></i> Kurikulum</a>
+                <a href="{{ route('halaman.alur-panduan') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-project-diagram w-6 text-teal-400"></i> Alur & Panduan</a>
+                <a href="{{ route('halaman.media') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-play-circle w-6 text-rose-400"></i> Media</a>
+                <a href="{{ route('halaman.dokumen') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-file-alt w-6 text-amber-400"></i> Dokumen</a>
                 <a href="{{ route('tentang') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-info-circle w-6 text-cyan-400"></i> Tentang</a>
 
                 @guest

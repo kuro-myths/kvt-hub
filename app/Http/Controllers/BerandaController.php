@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Materi;
+use App\Models\MateriProgres;
+use App\Models\KuisHasil;
+use App\Models\Pencapaian;
 use App\Models\PaketEksklusif;
 use App\Models\Berita;
 use App\Models\KerjaSama;
 use App\Models\Pengunjung;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BerandaController extends Controller
 {
@@ -33,10 +37,37 @@ class BerandaController extends Controller
             ->take(6)
             ->get();
 
-        $paketEksklusif = PaketEksklusif::where('aktif', true)->take(3)->get();
-
         $beritaTerbaru = Berita::terbit()->latest('terbit_pada')->take(3)->get();
 
+        // If user is authenticated, show personalized beranda
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            $kelasAktif = $user->kelas()
+                ->where('kelas.status', 'aktif')
+                ->withPivot('progres')
+                ->take(6)
+                ->get();
+
+            $kelasSaya = $user->kelas()->count();
+            $materiSelesai = MateriProgres::where('pengguna_id', $user->id)->where('selesai', true)->count();
+            $kuisDikerjakan = KuisHasil::where('pengguna_id', $user->id)->count();
+            $totalPencapaian = Pencapaian::where('pengguna_id', $user->id)->count();
+
+            return view('beranda-pengguna', compact(
+                'statistik',
+                'kelasPopuler',
+                'beritaTerbaru',
+                'kelasAktif',
+                'kelasSaya',
+                'materiSelesai',
+                'kuisDikerjakan',
+                'totalPencapaian'
+            ));
+        }
+
+        // Guest view
+        $paketEksklusif = PaketEksklusif::where('aktif', true)->take(3)->get();
         $mitraTampil = KerjaSama::aktif()->tampilBeranda()->orderBy('urutan')->get();
 
         return view('beranda', compact('statistik', 'kelasPopuler', 'paketEksklusif', 'beritaTerbaru', 'mitraTampil'));

@@ -96,6 +96,9 @@
                     <div class="absolute -bottom-4 -left-4 bg-gradient-to-r from-kvt-500 to-ungu-500 backdrop-blur rounded-xl px-4 py-2 shadow-lg animate-float" style="animation-delay: 1s">
                         <span class="text-white text-sm font-semibold"><i class="fas fa-graduation-cap mr-1"></i>Wisuda Virtual</span>
                     </div>
+                    <div class="absolute -z-10 inset-0 flex items-center justify-center opacity-20">
+                        <img src="{{ asset('images/hero-education.svg') }}" alt="Education Illustration" class="w-full h-auto">
+                    </div>
                 </div>
             </div>
         </div>

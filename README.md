@@ -8,61 +8,144 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![ISO](https://img.shields.io/badge/ISO-27001-brightgreen)
 ![COBIT](https://img.shields.io/badge/COBIT-2019-blue)
-![Version](https://img.shields.io/badge/Version-3.0-orange)
+![Version](https://img.shields.io/badge/Version-4.0-orange)
+![Pages](https://img.shields.io/badge/Halaman-66+-blueviolet)
+![Menus](https://img.shields.io/badge/Menu-16-teal)
 
 ---
 
 ## Tentang
 
-KVT Hub v3.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan yang mengintegrasikan 13 jenjang pendidikan (TK hingga S3/PhD) dengan teknologi gamifikasi RPG, kolaborasi riset global, dan standar keamanan enterprise. Platform ini menghubungkan pelajar, peneliti, profesional, dan industri dalam satu ekosistem terintegrasi.
+KVT Hub v4.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan yang mengintegrasikan 13 jenjang pendidikan (TK hingga S3/PhD) dengan teknologi gamifikasi RPG, kolaborasi riset global, dan standar keamanan enterprise. Platform ini menghubungkan pelajar, peneliti, profesional, dan industri dalam satu ekosistem terintegrasi dengan **16 menu utama**, **66+ halaman landing page**, dan **55+ rute** terstruktur.
 
-### Apa yang Baru di v3.0
+### Apa yang Baru di v4.0
 
+- **16 Menu Navigasi** -- Dari 12 menjadi 16 menu: +Kurikulum, +Alur & Panduan, +Media, +Dokumen
+- **66+ Halaman Landing Page** -- 16 halaman induk + 50+ subhalaman, masing-masing 200-377 baris
+- **Beranda Terpisah (Auth/Guest)** -- Dashboard personalisasi untuk pengguna yang login vs halaman publik untuk tamu
+- **Expanded Content** -- Semua halaman diperkaya: Hero, Konten Card, Statistik, Video, Fitur per Peran, FAQ, CTA
+- **9 Ilustrasi SVG Kustom** -- Gambar pendukung di hero section halaman utama
+- **4 Kategori Menu Baru**: Kurikulum (silabus, RPS, kalender), Alur & Panduan (flowchart, SOP, FAQ), Media (video, webinar, podcast, galeri), Dokumen (kebijakan, template, formulir, arsip)
+- **Fitur per Peran** -- Setiap halaman menampilkan fitur berbeda untuk Siswa, Guru, dan Admin
+- **FAQ Accordion** -- Setiap halaman dilengkapi FAQ interaktif dengan `<details>/<summary>`
 - **PostgreSQL** -- Migrasi dari MySQL ke PostgreSQL untuk performa dan skalabilitas
 - **Real-Time Visitor Analytics** -- Pelacakan pengunjung real-time dengan auto-refresh setiap 15 detik
 - **Flag Counter Widget** -- Menampilkan asal negara pengunjung dengan bendera, diambil dari database
 - **News Ticker dari Database** -- Berita berjalan otomatis di header, diambil langsung dari tabel berita
 - **Popup Berita** -- Notifikasi berita terbaru saat kunjungan pertama (toggleable)
-- **Expanded Navigation (12 Menu)** -- 6 menu terlihat + tombol panah untuk menampilkan 6 menu tambahan
-- **Submenu Animasi Ke Bawah** -- Dropdown menu dengan animasi fade-in ke bawah (bukan ke samping)
 - **Search Engine Fungsional** -- Pencarian backend yang query database (berita, kelas, materi, mitra)
 - **Kerja Sama & Sponsor Hub** -- Halaman mitra dengan sistem tier (Platinum/Gold/Silver/Bronze/Community)
-- **Admin CRUD untuk Berita** -- Kelola berita lengkap (buat, edit, hapus, ticker, popup, unggulan)
-- **Admin CRUD untuk Mitra** -- Kelola kerja sama dan sponsor lengkap
+- **Admin CRUD** -- Kelola berita, mitra, pengunjung lengkap
 - **Admin Analytics Dashboard** -- Dashboard pengunjung dengan grafik mingguan, per jam, negara teratas
 
 ## Arsitektur Ekosistem
 
 ```
-                        +---------------------------+
-                        |      KVT Hub v3.0         |
-                        |  Global Education & Riset |
-                        +-------------+-------------+
-                                      |
-     +--------+--------+--------+----+----+--------+--------+--------+
-     |        |        |        |        |        |        |        |
-  Jenjang   Riset    Karir   Komu-   Serti-  Sumber  Keama-  Penja-
-  Pendi-    & Ino-   & In-   nitas   fikasi   Daya    nan     min
-  dikan     vasi     dustri                          (ISO)    Mutu
-  (TK-S3)   (Lab)   (500+)  (50K+)  (120+)  (17K+)  27001   QA/QC
-     |
-     +--- Berita --- Kerja Sama --- Pengunjung Analytics --- Search Engine
+                           +---------------------------+
+                           |      KVT Hub v4.0         |
+                           |  Global Education & Riset |
+                           +-------------+-------------+
+                                         |
+  +--------+--------+--------+--------+--+--+--------+--------+--------+
+  |        |        |        |        |     |        |        |        |
+Jenjang  Riset    Karir   Komu-   Serti-  Sumber  Keama-  Penja-   Kuriku-
+Pendi-   & Ino-   & In-   nitas   fikasi   Daya    nan     min      lum
+dikan    vasi     dustri                          (ISO)    Mutu    (Akademik)
+(TK-S3)  (Lab)   (500+)  (50K+)  (120+)  (17K+)  27001   QA/QC
+  |                                                                  |
+  |  +--------+--------+--------+                                    |
+  |  |        |        |        |                                    |
+  | Alur &   Media   Dokumen  Search                                 |
+  | Panduan  (AV)    (Legal)  Engine                                 |
+  | (SOP)                                                            |
+  |                                                                  |
+  +--- Berita --- Kerja Sama --- Pengunjung Analytics ---------------+
 ```
 
-## 8 Pilar Ekosistem
+## 12 Pilar Ekosistem (16 Menu)
 
-| No  | Pilar              | Deskripsi                                          | Highlight               |
-| --- | ------------------ | -------------------------------------------------- | ----------------------- |
-| 1   | Jenjang Pendidikan | TK, SD, SMP, SMA, SMK, D1-D3, S1, S2, S3, Profesi  | 13 jenjang terintegrasi |
-| 2   | Riset & Inovasi    | Research Hub, jurnal, konferensi, paten            | 150+ universitas mitra  |
-| 3   | Karir & Industri   | Job matching, magang, mentoring, CV builder        | 500+ perusahaan mitra   |
-| 4   | Komunitas          | Forum, study group, alumni, hackathon, open source | 50,000+ anggota         |
-| 5   | Sertifikasi        | Kompetensi, industri (AWS/Google/MS), blockchain   | 120+ program            |
-| 6   | Sumber Daya        | E-Book, dataset, coding playground, API, template  | 17,000+ resources       |
-| 7   | Keamanan           | ISO 27001, COBIT 2019, UU ITE & PDP, Zero Trust    | AES-256, MFA, WAF       |
-| 8   | Penjamin Mutu      | QA/QC, SPK (AHP/TOPSIS/SAW), CRM, PDCA             | NPS 72, SLA 98%         |
+| No  | Pilar              | Menu             | Subhalaman | Deskripsi                                           | Highlight               |
+| --- | ------------------ | ---------------- | ---------- | --------------------------------------------------- | ----------------------- |
+| 1   | Jenjang Pendidikan | Jenjang          | 13         | TK, SD, SMP, SMA, SMK, D1-D3, S1, S2, S3, Profesi   | 13 jenjang terintegrasi |
+| 2   | Riset & Inovasi    | Riset & Inovasi  | 4          | Research Hub, jurnal, konferensi, paten             | 150+ universitas mitra  |
+| 3   | Karir & Industri   | Karir & Industri | 4          | Job matching, magang, mentoring, CV builder         | 500+ perusahaan mitra   |
+| 4   | Komunitas          | Komunitas        | 5          | Forum, study group, alumni, hackathon, open source  | 50,000+ anggota         |
+| 5   | Sertifikasi        | Sertifikasi      | 3          | Kompetensi, industri (AWS/Google/MS), blockchain    | 120+ program            |
+| 6   | Sumber Daya        | Sumber Daya      | 3          | E-Book, dataset, coding playground, API, template   | 17,000+ resources       |
+| 7   | Keamanan           | Keamanan         | 2          | ISO 27001, COBIT 2019, UU ITE & PDP, Zero Trust     | AES-256, MFA, WAF       |
+| 8   | Penjamin Mutu      | Penjamin Mutu    | —          | QA/QC, SPK (AHP/TOPSIS/SAW), CRM, PDCA              | NPS 72, SLA 98%         |
+| 9   | Kurikulum          | Kurikulum        | 4          | Silabus, RPS, kalender akademik, learning outcomes  | Merdeka/Cambridge/IB    |
+| 10  | Alur & Panduan     | Alur & Panduan   | 4          | Flowchart sistem, panduan, SOP, FAQ bantuan         | Visual workflow         |
+| 11  | Media              | Media            | 4          | Video tutorial, webinar, podcast, galeri foto       | Multi-format content    |
+| 12  | Dokumen            | Dokumen          | 4          | Kebijakan, template admin, formulir, arsip regulasi | Legal & template hub    |
 
-## Fitur Utama v3.0
+## Fitur Utama v4.0
+
+### Beranda Terpisah (Auth vs Guest)
+
+- **Guest (Tamu)**: Landing page publik dengan hero, statistik, kelas populer, berita, ekosistem
+- **Authenticated (Login)**: Dashboard personalisasi dengan:
+    - Quick stats: kelas aktif, materi selesai, kuis dikerjakan, pencapaian
+    - Progress kelas dengan progress bar per kelas
+    - Tugas & kuis mendatang
+    - Aktivitas terbaru
+    - Rekomendasi kelas
+    - Quick actions untuk navigasi cepat
+- Controller: `BerandaController` dengan `Auth::check()` branching
+
+### 16 Menu Navigasi + 66 Halaman
+
+**Baris 1 (6 Menu):**
+
+| Menu       | Subhalaman                                                                                                                              |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Beranda    | — (guest ↔ authenticated)                                                                                                               |
+| Jenjang    | TK/PAUD, SD/MI, SMP/MTs, SMA/MA, SMK Teknologi, SMK Bisnis, SMK Kesehatan, Diploma, Sarjana, Magister, Doktoral, Post-Doktoral, Profesi |
+| Platform   | Kelas, Materi, Kuis, Laporan                                                                                                            |
+| Kerja Sama | — (listing + detail)                                                                                                                    |
+| Tentang    | —                                                                                                                                       |
+| Berita     | — (listing + detail)                                                                                                                    |
+
+**Baris 2 (10 Menu dengan arrow slider):**
+
+| Menu             | Subhalaman                                                            |
+| ---------------- | --------------------------------------------------------------------- |
+| Riset & Inovasi  | Publikasi, Kolaborasi, Inovasi & Paten, Konferensi                    |
+| Karir & Industri | Mentoring, CV Builder, Lowongan, Magang                               |
+| Komunitas        | Forum Diskusi, Study Group, Alumni Network, Hackathon, Open Source    |
+| Sertifikasi      | Kompetensi Nasional, Cloud & Tech, Blockchain Credential              |
+| Sumber Daya      | E-Book & Modul, Dataset, Dev Tools                                    |
+| Keamanan         | Tata Kelola IT, Privasi Data                                          |
+| Kurikulum        | Silabus, RPS Template, Kalender Akademik, Learning Outcomes           |
+| Alur & Panduan   | Flowchart Sistem, Panduan Pengguna, SOP Prosedur, FAQ Bantuan         |
+| Media            | Video Tutorial, Webinar & Event, Podcast & Audio, Galeri Foto         |
+| Dokumen          | Kebijakan & Privasi, Template Admin, Surat & Formulir, Arsip Regulasi |
+
+### 9 Ilustrasi SVG Kustom
+
+| File                   | Digunakan di       | Deskripsi                  |
+| ---------------------- | ------------------ | -------------------------- |
+| hero-education.svg     | beranda.blade.php  | Ilustrasi pendidikan hero  |
+| ecosystem-hub.svg      | —                  | Diagram ekosistem hub      |
+| flowchart-alur.svg     | alur-panduan       | Flowchart alur pengguna    |
+| dashboard-preview.svg  | beranda-pengguna   | Preview tampilan dashboard |
+| sertifikat-preview.svg | sertifikasi        | Preview sertifikat         |
+| keamanan-shield.svg    | keamanan           | Shield keamanan            |
+| riset-lab.svg          | riset-inovasi      | Ilustrasi lab riset        |
+| jenjang-steps.svg      | jenjang-pendidikan | Steps jenjang pendidikan   |
+| komunitas-network.svg  | komunitas          | Network diagram komunitas  |
+
+### Pola Halaman Landing Page (200-377 baris)
+
+Setiap halaman mengikuti struktur konsisten:
+
+1. **Hero Section** — Gradient background, judul, deskripsi, CTA buttons, statistik, ilustrasi SVG
+2. **Konten Cards** — Grid 3-4 kolom dengan icon, judul, deskripsi
+3. **Statistik** — Counter angka dengan label (data dari `@php` arrays)
+4. **Video Section** — Embed YouTube atau thumbnail dengan modal
+5. **Fitur per Peran** — Tab/card untuk Siswa, Guru, Admin dengan fitur spesifik
+6. **FAQ Accordion** — `<details>/<summary>` interaktif dengan 4-6 FAQ
+7. **CTA Section** — Call-to-action dengan gradient button
 
 ### Real-Time Visitor Analytics
 
@@ -96,14 +179,15 @@ KVT Hub v3.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan ya
 - Detail mitra dengan benefit, website, periode kerjasama
 - Admin CRUD lengkap dengan upload logo
 
-### Expanded Navigation (12 Menu + Slider)
+### Expanded Navigation (16 Menu + Slider)
 
-- 6 menu terlihat: Beranda, Jenjang, Platform, Berita, Kerja Sama, Tentang
-- 6 menu tersembunyi: Riset, Karir, Komunitas, Sertifikasi, Sumber Daya, Keamanan
-- Tombol panah kiri/kanan untuk menggeser menu
+- 6 menu baris 1: Beranda, Jenjang, Platform, Kerja Sama, Tentang, Berita
+- 10 menu baris 2: Riset, Karir, Komunitas, Sertifikasi, Sumber Daya, Keamanan, Kurikulum, Alur & Panduan, Media, Dokumen
+- Tombol panah kiri/kanan untuk menggeser menu baris 2
 - Animasi slide smooth saat menggeser
 - Mega dropdown untuk Jenjang (3 kolom), Platform (2 kolom), Kerja Sama, Tentang
-- Semua submenu animasi ke bawah (bukan ke samping)
+- Submenu dropdown dengan animasi fade-in ke bawah
+- Warna dropdown unik per menu (indigo, teal, rose, amber, dll.)
 
 ### Search Engine (3 Mode, Fungsional)
 
@@ -272,7 +356,7 @@ kvt-hub/
 |   |   |-- Controllers/
 |   |   |   |-- AdminController.php         # Admin user/kunci/paket
 |   |   |   |-- AuthController.php          # Login/register/OAuth
-|   |   |   |-- BerandaController.php       # Homepage + real-time stats
+|   |   |   |-- BerandaController.php       # Homepage + Auth branching
 |   |   |   |-- BeritaController.php        # Berita CRUD + ticker/popup API
 |   |   |   |-- DasborController.php        # User dashboard
 |   |   |   |-- KelasController.php         # Kelas management
@@ -285,37 +369,55 @@ kvt-hub/
 |   |   +-- Middleware/
 |   |       |-- CekPeran.php                # Role check middleware
 |   |       +-- CatatPengunjung.php         # Visitor tracking middleware
-|   +-- Models/
-|       |-- Berita.php           # News with scopes & auto-slug
-|       |-- KerjaSama.php        # Partners with tiers & types
-|       |-- Pengunjung.php       # Visitor stats & geo-detection
-|       +-- ... (14 models total)
+|   +-- Models/ (16 models)
+|       |-- Berita.php, Kehadiran.php, Kelas.php, KerjaSama.php
+|       |-- Kuis.php, KuisHasil.php, KuisPertanyaan.php, KunciAdmin.php
+|       |-- Langganan.php, Laporan.php, Materi.php, MateriProgres.php
+|       |-- PaketEksklusif.php, Pencapaian.php, Pengunjung.php, User.php
 |-- database/
 |   |-- migrations/ (15 migration files)
-|   +-- seeders/
-|       +-- DatabaseSeeder.php   # Users, berita, mitra, pengunjung
+|   +-- seeders/DatabaseSeeder.php
+|-- public/images/                          # 9 SVG illustrations
+|   |-- hero-education.svg, ecosystem-hub.svg, flowchart-alur.svg
+|   |-- dashboard-preview.svg, sertifikat-preview.svg
+|   |-- keamanan-shield.svg, riset-lab.svg
+|   |-- jenjang-steps.svg, komunitas-network.svg
 |-- resources/views/
-|   |-- tata-letak/utama.blade.php  # Main layout (mega nav, ticker, footer, search, flag counter)
-|   |-- beranda.blade.php           # Homepage with real-time data
-|   |-- berita/
-|   |   |-- index.blade.php         # Berita listing with search & filter
-|   |   +-- tampilkan.blade.php     # Berita detail with share & related
-|   |-- kerja-sama/
-|   |   |-- index.blade.php         # Mitra listing by tier
-|   |   +-- tampilkan.blade.php     # Mitra detail
-|   |-- admin/
-|   |   |-- berita/
-|   |   |   |-- index.blade.php     # Admin berita table
-|   |   |   +-- form.blade.php      # Berita create/edit form
-|   |   |-- kerja-sama/
-|   |   |   |-- index.blade.php     # Admin mitra table
-|   |   |   +-- form.blade.php      # Mitra create/edit form
-|   |   +-- pengunjung.blade.php    # Visitor analytics dashboard
-|   |-- auth/ (masuk, daftar, masuk-admin)
+|   |-- tata-letak/utama.blade.php          # Main layout (16 menus, ticker, footer, search)
+|   |-- beranda.blade.php                   # Guest homepage (~688 lines)
+|   |-- beranda-pengguna.blade.php          # Auth homepage (~240 lines)
+|   |-- berita/                             # index + tampilkan
+|   |-- kerja-sama/                         # index + tampilkan
+|   |-- admin/                              # berita/, kerja-sama/, pengunjung
+|   |-- auth/                               # masuk, daftar, masuk-admin
 |   |-- dasbor/, kelas/, materi/, kuis/, laporan/
-|   +-- halaman/ (8 ecosystem pages)
-|-- routes/web.php                   # All routes + API endpoints
-+-- bootstrap/app.php               # Middleware registration
+|   +-- halaman/                            # 66+ landing pages
+|       |-- jenjang-pendidikan.blade.php    # Induk: Jenjang
+|       |-- penjamin-mutu.blade.php         # Induk: Penjamin Mutu
+|       |-- riset-inovasi.blade.php         # Induk: Riset
+|       |-- karir-industri.blade.php        # Induk: Karir
+|       |-- komunitas.blade.php             # Induk: Komunitas
+|       |-- sertifikasi.blade.php           # Induk: Sertifikasi
+|       |-- sumber-daya.blade.php           # Induk: Sumber Daya
+|       |-- keamanan.blade.php              # Induk: Keamanan
+|       |-- kurikulum.blade.php             # Induk: Kurikulum (NEW v4)
+|       |-- alur-panduan.blade.php          # Induk: Alur & Panduan (NEW v4)
+|       |-- media.blade.php                 # Induk: Media (NEW v4)
+|       |-- dokumen.blade.php               # Induk: Dokumen (NEW v4)
+|       |-- pendidikan-dasar/               # 7 subpages (tk-paud, sd-mi, smp-mts, sma-ma, smk-*)
+|       |-- pendidikan-tinggi/              # 6 subpages (diploma, sarjana, magister, doktoral, post-doktoral, profesi)
+|       |-- riset/                          # 4 subpages (publikasi, kolaborasi, inovasi-paten, konferensi)
+|       |-- karir/                          # 4 subpages (mentoring, cv-builder, lowongan, magang)
+|       |-- komunitas/                      # 5 subpages (forum-diskusi, study-group, alumni-network, hackathon, open-source)
+|       |-- sertifikasi/                    # 3 subpages (kompetensi-nasional, cloud-tech, blockchain-credential)
+|       |-- sumber-daya/                    # 3 subpages (ebook-modul, dataset, dev-tools)
+|       |-- keamanan/                       # 2 subpages (tata-kelola-it, privasi-data)
+|       |-- kurikulum/                      # 4 subpages (silabus, rps-template, kalender-akademik, learning-outcomes) (NEW v4)
+|       |-- alur-panduan/                   # 4 subpages (flowchart-sistem, panduan-pengguna, sop-prosedur, faq-bantuan) (NEW v4)
+|       |-- media/                          # 4 subpages (video-tutorial, webinar-event, podcast-audio, galeri-foto) (NEW v4)
+|       +-- dokumen/                        # 4 subpages (kebijakan-privasi, template-administrasi, surat-formulir, arsip-regulasi) (NEW v4)
+|-- routes/web.php                           # 55+ halaman routes + API endpoints
++-- bootstrap/app.php                       # Middleware registration
 ```
 
 ## Standar Keamanan & Tata Kelola
@@ -329,7 +431,25 @@ kvt-hub/
 
 ## Changelog
 
-### v3.0 (Current)
+### v4.0 (Current)
+
+- **16 menu navigasi** (dari 12): +Kurikulum, +Alur & Panduan, +Media, +Dokumen
+- **66+ halaman landing page** (dari 8): 16 induk + 50+ subhalaman
+- **Beranda terpisah** Auth vs Guest (`beranda-pengguna.blade.php`)
+- **BerandaController** dengan `Auth::check()` branching untuk dashboard personalisasi
+- **Expanded content**: Semua halaman 200-377 baris dengan Hero, Cards, Stats, Video, Role Features, FAQ, CTA
+- **9 ilustrasi SVG kustom** di `public/images/` untuk hero section
+- **4 menu baru**: Kurikulum (4 sub), Alur & Panduan (4 sub), Media (4 sub), Dokumen (4 sub)
+- **16 subhalaman baru** di 4 folder baru: kurikulum/, alur-panduan/, media/, dokumen/
+- **40+ halaman di-expand** dari ~40-128 baris menjadi 200-377 baris
+- **Fitur per peran** di setiap halaman (Siswa, Guru, Admin)
+- **FAQ accordion** interaktif di setiap halaman (`<details>/<summary>`)
+- **20 rute baru** di web.php (4 parent + 16 subpage)
+- **Dropdown warna unik** per menu (indigo, teal, rose, amber)
+- **Mobile navigation** updated dengan 4 menu baru
+- **Dashboard personalisasi**: kelas aktif, materi selesai, kuis, pencapaian, aktivitas, rekomendasi
+
+### v3.0
 
 - Migrasi dari MySQL ke PostgreSQL
 - Real-time visitor analytics dengan flag counter
@@ -387,6 +507,6 @@ Lihat file [LICENSE](LICENSE) untuk detail lengkap.
 
 <p align="center">
   Dibuat oleh <strong>KVT Hub Team</strong><br>
-  KVT Hub v3.0 - Global Education & Research Ecosystem<br>
-  &copy; 2025 KVT Hub. Semua hak dilindungi.
+  KVT Hub v4.0 - Global Education & Research Ecosystem<br>
+  &copy; 2025-2026 KVT Hub. Semua hak dilindungi.
 </p>

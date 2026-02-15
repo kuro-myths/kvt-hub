@@ -17,14 +17,18 @@ class DasborController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        if ($user->adalahGuru()) {
-            return $this->dasborGuru();
+        if ($user->adalahAdmin()) {
+            return redirect()->route('admin.dasbor');
         }
 
-        return $this->dasborSiswa();
+        if ($user->adalahTim()) {
+            return $this->dasborTim();
+        }
+
+        return $this->dasborPengguna();
     }
 
-    private function dasborSiswa()
+    private function dasborPengguna()
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -59,10 +63,10 @@ class DasborController extends Controller
             'hadir_bulan_ini' => $kehadiranBulanIni->where('status', 'hadir')->count(),
         ];
 
-        return view('dasbor.siswa', compact('user', 'kelasAktif', 'materiTerakhir', 'kuisHasilTerakhir', 'statistik'));
+        return view('pengguna.dasbor', compact('user', 'kelasAktif', 'materiTerakhir', 'kuisHasilTerakhir', 'statistik'));
     }
 
-    private function dasborGuru()
+    private function dasborTim()
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -74,11 +78,11 @@ class DasborController extends Controller
 
         $statistik = [
             'total_kelas' => $kelasAktif->count(),
-            'total_siswa' => $kelasAktif->sum('anggota_count'),
+            'total_pengguna' => $kelasAktif->sum('anggota_count'),
             'total_materi' => Materi::where('guru_id', $user->id)->count(),
             'materi_terbit' => Materi::where('guru_id', $user->id)->where('status', 'terbit')->count(),
         ];
 
-        return view('dasbor.guru', compact('user', 'kelasAktif', 'statistik'));
+        return view('tim.dasbor', compact('user', 'kelasAktif', 'statistik'));
     }
 }

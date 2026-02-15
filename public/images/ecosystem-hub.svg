@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <rect width="800" height="500" rx="16" fill="#0A0F1C"/>
+  <circle cx="400" cy="250" r="180" fill="url(#rg1)" opacity="0.1"/>
+  <!-- Central Hub -->
+  <circle cx="400" cy="250" r="60" fill="#1E293B" stroke="#3399FF" stroke-width="2"/>
+  <text x="400" y="245" text-anchor="middle" fill="#3399FF" font-family="system-ui" font-size="14" font-weight="bold">KVT</text>
+  <text x="400" y="265" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="11">Hub</text>
+  <!-- Nodes -->
+  <g>
+    <!-- Riset -->
+    <circle cx="250" cy="120" r="35" fill="#1E293B" stroke="#22C55E" stroke-width="1.5"/>
+    <text x="250" y="118" text-anchor="middle" fill="#22C55E" font-family="system-ui" font-size="18">🔬</text>
+    <text x="250" y="138" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="9">Riset</text>
+    <line x1="280" y1="145" x2="355" y2="215" stroke="#22C55E" stroke-width="1" opacity="0.4"/>
+    <!-- Karir -->
+    <circle cx="550" cy="120" r="35" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="550" y="118" text-anchor="middle" fill="#F59E0B" font-family="system-ui" font-size="18">💼</text>
+    <text x="550" y="138" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="9">Karir</text>
+    <line x1="520" y1="145" x2="445" y2="215" stroke="#F59E0B" stroke-width="1" opacity="0.4"/>
+    <!-- Komunitas -->
+    <circle cx="180" cy="280" r="35" fill="#1E293B" stroke="#A855F7" stroke-width="1.5"/>
+    <text x="180" y="278" text-anchor="middle" fill="#A855F7" font-family="system-ui" font-size="18">👥</text>
+    <text x="180" y="298" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="9">Komunitas</text>
+    <line x1="215" y1="275" x2="340" y2="255" stroke="#A855F7" stroke-width="1" opacity="0.4"/>
+    <!-- Sertifikasi -->
+    <circle cx="620" cy="280" r="35" fill="#1E293B" stroke="#EF4444" stroke-width="1.5"/>
+    <text x="620" y="278" text-anchor="middle" fill="#EF4444" font-family="system-ui" font-size="18">🏆</text>
+    <text x="620" y="298" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="9">Sertifikasi</text>
+    <line x1="585" y1="275" x2="460" y2="255" stroke="#EF4444" stroke-width="1" opacity="0.4"/>
+    <!-- Kurikulum -->
+    <circle cx="300" cy="410" r="35" fill="#1E293B" stroke="#6366F1" stroke-width="1.5"/>
+    <text x="300" y="408" text-anchor="middle" fill="#6366F1" font-family="system-ui" font-size="18">📚</text>
+    <text x="300" y="428" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="9">Kurikulum</text>
+    <line x1="325" y1="380" x2="385" y2="310" stroke="#6366F1" stroke-width="1" opacity="0.4"/>
+    <!-- Media -->
+    <circle cx="500" cy="410" r="35" fill="#1E293B" stroke="#EC4899" stroke-width="1.5"/>
+    <text x="500" y="408" text-anchor="middle" fill="#EC4899" font-family="system-ui" font-size="18">🎬</text>
+    <text x="500" y="428" text-anchor="middle" fill="#94A3B8" font-family="system-ui" font-size="9">Media</text>
+    <line x1="475" y1="380" x2="415" y2="310" stroke="#EC4899" stroke-width="1" opacity="0.4"/>
+  </g>
+  <!-- Orbiting dots -->
+  <circle cx="320" cy="170" r="3" fill="#3399FF" opacity="0.6"/>
+  <circle cx="480" cy="170" r="3" fill="#3399FF" opacity="0.6"/>
+  <circle cx="260" cy="350" r="3" fill="#3399FF" opacity="0.6"/>
+  <circle cx="540" cy="350" r="3" fill="#3399FF" opacity="0.6"/>
+  <defs>
+    <radialGradient id="rg1"><stop offset="0%" stop-color="#3399FF"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+  </defs>
+</svg>
