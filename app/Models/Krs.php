@@ -9,9 +9,15 @@ class Krs extends Model
     protected $table = 'krs';
 
     protected $fillable = [
-        'user_id', 'kurikulum_id', 'semester', 'tahun_ajaran',
-        'status', 'total_sks', 'catatan_pembimbing',
-        'disetujui_oleh', 'disetujui_pada',
+        'user_id',
+        'kurikulum_id',
+        'semester',
+        'tahun_ajaran',
+        'status',
+        'total_sks',
+        'catatan_pembimbing',
+        'disetujui_oleh',
+        'disetujui_pada',
     ];
 
     protected $casts = [

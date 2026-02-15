@@ -60,7 +60,11 @@ class KrsController extends Controller
             ->toArray();
 
         return view('pengguna.krs.buat', compact(
-            'user', 'jenjang', 'mataPelajaran', 'paketSemester', 'mataPelajaranLulus'
+            'user',
+            'jenjang',
+            'mataPelajaran',
+            'paketSemester',
+            'mataPelajaranLulus'
         ));
     }
 

@@ -13,8 +13,20 @@ return new class extends Migration
             $table->id();
             $table->string('nama'); // Kurikulum Merdeka TK, Kurikulum SD, dll
             $table->enum('jenjang', [
-                'tk_paud', 'sd_mi', 'smp_mts', 'sma_ma', 'smk',
-                'd1', 'd2', 'd3', 'd4', 's1', 's2', 's3', 'profesi', 'post_doktoral'
+                'tk_paud',
+                'sd_mi',
+                'smp_mts',
+                'sma_ma',
+                'smk',
+                'd1',
+                'd2',
+                'd3',
+                'd4',
+                's1',
+                's2',
+                's3',
+                'profesi',
+                'post_doktoral'
             ]);
             $table->text('deskripsi')->nullable();
             $table->integer('durasi_tahun'); // Lama pendidikan
@@ -38,8 +50,14 @@ return new class extends Migration
             $table->integer('semester')->nullable(); // Semester ke berapa
             $table->enum('tipe', ['wajib', 'pilihan', 'peminatan', 'prasyarat'])->default('wajib');
             $table->enum('kategori', [
-                'umum', 'inti', 'peminatan', 'praktik', 'skripsi',
-                'tematik', 'muatan_lokal', 'ekstrakurikuler'
+                'umum',
+                'inti',
+                'peminatan',
+                'praktik',
+                'skripsi',
+                'tematik',
+                'muatan_lokal',
+                'ekstrakurikuler'
             ])->default('umum');
             $table->json('prasyarat_ids')->nullable(); // ID mata pelajaran prasyarat
             $table->integer('jam_per_minggu')->nullable();
@@ -129,8 +147,15 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->enum('tipe', ['internal', 'eksternal', 'nasional', 'internasional'])->default('internal');
             $table->enum('kategori', [
-                'akademik', 'olahraga', 'seni_budaya', 'teknologi',
-                'keagamaan', 'sosial', 'lingkungan', 'kewirausahaan', 'lainnya'
+                'akademik',
+                'olahraga',
+                'seni_budaya',
+                'teknologi',
+                'keagamaan',
+                'sosial',
+                'lingkungan',
+                'kewirausahaan',
+                'lainnya'
             ])->default('lainnya');
             $table->string('website')->nullable();
             $table->string('kontak')->nullable();
@@ -176,8 +201,14 @@ return new class extends Migration
             $table->string('judul');
             $table->text('deskripsi')->nullable();
             $table->enum('tipe', [
-                'transkrip', 'rekap_nilai', 'khs', 'daftar_hadir',
-                'capaian_kurikulum', 'statistik_kelulusan', 'akreditasi', 'custom'
+                'transkrip',
+                'rekap_nilai',
+                'khs',
+                'daftar_hadir',
+                'capaian_kurikulum',
+                'statistik_kelulusan',
+                'akreditasi',
+                'custom'
             ]);
             $table->foreignId('kurikulum_id')->nullable()->constrained('kurikulum');
             $table->foreignId('dibuat_oleh')->constrained('users');

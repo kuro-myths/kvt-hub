@@ -9,8 +9,16 @@ class LaporanAkademik extends Model
     protected $table = 'laporan_akademik';
 
     protected $fillable = [
-        'judul', 'deskripsi', 'tipe', 'kurikulum_id',
-        'dibuat_oleh', 'filter', 'data', 'file_path', 'format', 'status',
+        'judul',
+        'deskripsi',
+        'tipe',
+        'kurikulum_id',
+        'dibuat_oleh',
+        'filter',
+        'data',
+        'file_path',
+        'format',
+        'status',
     ];
 
     protected $casts = [

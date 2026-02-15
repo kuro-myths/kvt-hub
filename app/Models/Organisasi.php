@@ -9,8 +9,16 @@ class Organisasi extends Model
     protected $table = 'organisasi';
 
     protected $fillable = [
-        'nama', 'deskripsi', 'logo', 'tipe', 'kategori',
-        'website', 'kontak', 'jumlah_anggota', 'unggulan', 'aktif',
+        'nama',
+        'deskripsi',
+        'logo',
+        'tipe',
+        'kategori',
+        'website',
+        'kontak',
+        'jumlah_anggota',
+        'unggulan',
+        'aktif',
     ];
 
     protected $casts = [

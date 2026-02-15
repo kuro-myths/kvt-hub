@@ -9,9 +9,19 @@ class Nilai extends Model
     protected $table = 'nilai';
 
     protected $fillable = [
-        'user_id', 'mata_pelajaran_id', 'krs_id',
-        'tugas', 'uts', 'uas', 'praktik', 'partisipasi',
-        'nilai_akhir', 'huruf_mutu', 'bobot_mutu', 'status', 'catatan',
+        'user_id',
+        'mata_pelajaran_id',
+        'krs_id',
+        'tugas',
+        'uts',
+        'uas',
+        'praktik',
+        'partisipasi',
+        'nilai_akhir',
+        'huruf_mutu',
+        'bobot_mutu',
+        'status',
+        'catatan',
     ];
 
     public function pengguna()

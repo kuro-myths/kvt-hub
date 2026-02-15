@@ -9,7 +9,12 @@ class BobotNilai extends Model
     protected $table = 'bobot_nilai';
 
     protected $fillable = [
-        'kurikulum_id', 'huruf', 'bobot', 'batas_bawah', 'batas_atas', 'keterangan',
+        'kurikulum_id',
+        'huruf',
+        'bobot',
+        'batas_bawah',
+        'batas_atas',
+        'keterangan',
     ];
 
     public function kurikulum()

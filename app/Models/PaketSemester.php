@@ -9,8 +9,12 @@ class PaketSemester extends Model
     protected $table = 'paket_semester';
 
     protected $fillable = [
-        'kurikulum_id', 'nama', 'semester', 'deskripsi',
-        'mata_pelajaran_ids', 'total_sks',
+        'kurikulum_id',
+        'nama',
+        'semester',
+        'deskripsi',
+        'mata_pelajaran_ids',
+        'total_sks',
     ];
 
     protected $casts = [

@@ -9,8 +9,16 @@ class Kurikulum extends Model
     protected $table = 'kurikulum';
 
     protected $fillable = [
-        'nama', 'jenjang', 'deskripsi', 'durasi_tahun', 'total_semester',
-        'total_sks', 'capaian_lulusan', 'struktur_semester', 'status', 'akreditasi',
+        'nama',
+        'jenjang',
+        'deskripsi',
+        'durasi_tahun',
+        'total_semester',
+        'total_sks',
+        'capaian_lulusan',
+        'struktur_semester',
+        'status',
+        'akreditasi',
     ];
 
     protected $casts = [

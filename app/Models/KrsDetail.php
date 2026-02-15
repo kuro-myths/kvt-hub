@@ -9,7 +9,9 @@ class KrsDetail extends Model
     protected $table = 'krs_detail';
 
     protected $fillable = [
-        'krs_id', 'mata_pelajaran_id', 'status',
+        'krs_id',
+        'mata_pelajaran_id',
+        'status',
     ];
 
     public function krs()

@@ -9,9 +9,18 @@ class MataPelajaran extends Model
     protected $table = 'mata_pelajaran';
 
     protected $fillable = [
-        'kode', 'nama', 'deskripsi', 'kurikulum_id', 'sks', 'semester',
-        'tipe', 'kategori', 'prasyarat_ids', 'jam_per_minggu',
-        'capaian_pembelajaran', 'aktif',
+        'kode',
+        'nama',
+        'deskripsi',
+        'kurikulum_id',
+        'sks',
+        'semester',
+        'tipe',
+        'kategori',
+        'prasyarat_ids',
+        'jam_per_minggu',
+        'capaian_pembelajaran',
+        'aktif',
     ];
 
     protected $casts = [

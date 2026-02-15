@@ -9,8 +9,14 @@ class JenjangPengguna extends Model
     protected $table = 'jenjang_pengguna';
 
     protected $fillable = [
-        'user_id', 'kurikulum_id', 'semester_aktif', 'status',
-        'jurusan', 'ipk', 'wali_user_id', 'perlu_pengawasan',
+        'user_id',
+        'kurikulum_id',
+        'semester_aktif',
+        'status',
+        'jurusan',
+        'ipk',
+        'wali_user_id',
+        'perlu_pengawasan',
     ];
 
     protected $casts = [
