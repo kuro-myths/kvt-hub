@@ -1,6 +1,6 @@
 # KVT Hub - Global Education & Research Ecosystem
 
-> **Ekosistem pendidikan, karir, dan riset digital global. Dari TK hingga S3/PhD, profesi, industri, dan riset.**
+> **Ekosistem pendidikan, karir, dan riset digital global. Dari TK hingga S3/PhD, profesi, industri, dan riset. Dilengkapi LED dot matrix, loading screen, dan 20 menu navigasi.**
 
 ![Laravel](https://img.shields.io/badge/Laravel-11-red?logo=laravel)
 ![PHP](https://img.shields.io/badge/PHP-8.3+-blue?logo=php)
@@ -8,35 +8,38 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![ISO](https://img.shields.io/badge/ISO-27001-brightgreen)
 ![COBIT](https://img.shields.io/badge/COBIT-2019-blue)
-![Version](https://img.shields.io/badge/Version-4.0-orange)
+![Version](https://img.shields.io/badge/Version-7.0-orange)
 ![Pages](https://img.shields.io/badge/Halaman-66+-blueviolet)
-![Menus](https://img.shields.io/badge/Menu-16-teal)
+![Menus](https://img.shields.io/badge/Menu-20-teal)
 ![Sidebar](https://img.shields.io/badge/Sidebar-Role--Based-purple)
 ![Roles](https://img.shields.io/badge/Roles-7-crimson)
 ![Music](https://img.shields.io/badge/Music-Streaming-ff69b4)
+![LED](https://img.shields.io/badge/LED-Dot%20Matrix-00ff66)
+![Loading](https://img.shields.io/badge/Loading-Screen-cyan)
 
 ---
 
 ## Tentang
 
-KVT Hub v4.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan yang mengintegrasikan 13 jenjang pendidikan (TK hingga S3/PhD) dengan teknologi gamifikasi RPG, kolaborasi riset global, dan standar keamanan enterprise. Platform ini menghubungkan **7 peran** — Admin, Staff, Guru/Pengajar, Siswa, Mahasiswa, Orang Tua, dan Pengunjung — dalam satu ekosistem terintegrasi dengan sistem verifikasi dokumen, **16 menu utama**, **66+ halaman landing page**, **90+ rute**, **sidebar navigasi per role**, **modal-based CRUD**, dan **musik streaming** bawaan.
+KVT Hub v7.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan yang mengintegrasikan 13 jenjang pendidikan (TK hingga S3/PhD) dengan teknologi gamifikasi RPG, kolaborasi riset global, dan standar keamanan enterprise. Platform ini menghubungkan **7 peran** — Admin, Staff, Guru/Pengajar, Siswa, Mahasiswa, Orang Tua, dan Pengunjung — dalam satu ekosistem terintegrasi dengan sistem verifikasi dokumen, **20 menu utama**, **66+ halaman landing page**, **90+ rute**, **sidebar navigasi per role**, **modal-based CRUD**, **musik streaming**, **LED dot matrix panel**, dan **loading screen** bawaan.
 
-### Apa yang Baru di v4.0
+### Apa yang Baru di v7.0
 
-- **7-Role System**: Redesign dari 4 role menjadi 7 role — `admin`, `staff`, `guru`, `siswa`, `mahasiswa`, `orang_tua`, `pengunjung`
-- **Sistem Verifikasi Dokumen**: Registrasi guru/pengajar dengan upload CV, ijazah, sertifikat, KTP — Admin verifikasi approve/tolak
-- **Multi-Step Registration**: Form pendaftaran 4 langkah (Data Diri → Peran & Lokasi → Dokumen → Keamanan)
-- **Pendaftaran Pengajar Terpisah**: Halaman khusus `/daftar-pengajar` dengan upload dokumen wajib
-- **Admin Verification Panel**: Panel admin untuk melihat, menyetujui, atau menolak akun pending
-- **Status Verifikasi**: Halaman status verifikasi untuk pengguna yang menunggu persetujuan
-- **Middleware Verifikasi**: Middleware `CekPeran` sekarang mencek status verifikasi sebelum mengizinkan akses
-- **Fix 419 Page Expired**: Perbaikan SESSION_DOMAIN di .env untuk mengatasi error CSRF token mismatch
+- **LED Dot Matrix Panel**: Panel LED hijau neon (#00ff66) di top bar dengan 5 mode — Jadwal Shalat, Waktu Dunia (8 timezone), Motivasi, Info Platform, Teks Kustom
+- **Loading Screen**: Animasi logo "K" dengan pulse effect dan progress bar, mencegah lag saat halaman dimuat
+- **20 Menu Navigasi**: Dari 16 menjadi 20 menu — tambah Search Engine, Statistik, Langganan, Layanan
+- **Menu Layanan**: Menggantikan menu Akun (yang duplikat dengan tombol Masuk/Daftar) — berisi Paket Langganan, Sertifikat, CV Builder, FAQ, Hubungi Kami
+- **Pengaturan LED**: Toggle on/off, pilih mode, input teks kustom, slider kecepatan animasi — terintegrasi di settings panel
+- **Landing Page Diperkaya**: 4 section baru — Teknologi & Infrastruktur (8 item), Testimoni (3 review), Statistik Platform (6 angka), FAQ Accordion (5 pertanyaan)
+- **News Ticker Fallback**: 5 headline statis sebagai fallback jika API tidak tersedia
+- **Optimasi Performa**: Cache config, route, view untuk loading lebih cepat
+- **Laragon PHP 8.3**: Switch dari PHP 8.1.10 ke PHP 8.3.25 untuk kompatibilitas Laravel 11
 
 ## Arsitektur Ekosistem
 
 ```
                            +---------------------------+
-                           |      KVT Hub v4.0         |
+                           |      KVT Hub v7.0         |
                            |  Global Education & Riset |
                            +-------------+-------------+
                                          |
@@ -56,7 +59,7 @@ dikan    vasi     dustri                          (ISO)    Mutu    (Akademik)
   +--- Berita --- Kerja Sama --- Pengunjung Analytics ---------------+
 ```
 
-## 12 Pilar Ekosistem (16 Menu)
+## 12 Pilar Ekosistem (20 Menu)
 
 | No  | Pilar              | Menu             | Subhalaman | Deskripsi                                           | Highlight               |
 | --- | ------------------ | ---------------- | ---------- | --------------------------------------------------- | ----------------------- |
@@ -73,7 +76,7 @@ dikan    vasi     dustri                          (ISO)    Mutu    (Akademik)
 | 11  | Media              | Media            | 4          | Video tutorial, webinar, podcast, galeri foto       | Multi-format content    |
 | 12  | Dokumen            | Dokumen          | 4          | Kebijakan, template admin, formulir, arsip regulasi | Legal & template hub    |
 
-## Fitur Utama v4.0
+## Fitur Utama v7.0
 
 ### Beranda Terpisah (Auth vs Guest)
 
@@ -87,7 +90,7 @@ dikan    vasi     dustri                          (ISO)    Mutu    (Akademik)
     - Quick actions untuk navigasi cepat
 - Controller: `BerandaController` dengan `Auth::check()` branching
 
-### 16 Menu Navigasi + 66 Halaman
+### 20 Menu Navigasi + 66 Halaman
 
 **Baris 1 (6 Menu):**
 
@@ -149,6 +152,30 @@ Setiap halaman mengikuti struktur konsisten:
 - Auto-refresh setiap 15 detik di footer
 - API endpoint: `/api/pengunjung/statistik`
 
+### LED Dot Matrix Panel
+
+- Panel LED hijau neon (#00ff66) dengan efek glow dan dot matrix font (Press Start 2P)
+- Background hitam (#0a0a0a) dengan border hijau transparan
+- 5 Mode tampilan:
+  - **Shalat**: Jadwal shalat 5 waktu (Subuh 04:30, Dzuhur 12:00, Ashar 15:15, Maghrib 18:00, Isya 19:30)
+  - **Waktu Dunia**: 8 timezone real-time (Jakarta, Tokyo, London, NYC, Dubai, Sydney, Paris, Seoul) — auto-refresh 30 detik
+  - **Motivasi**: 5 quote pendidikan berganti otomatis setiap 60 detik
+  - **Info**: Informasi tentang platform KVT Hub
+  - **Kustom**: Teks bebas input pengguna
+- Animasi scrolling horizontal (`ledScroll`) dengan kecepatan dikonfigurasi (1-10)
+- Efek LED flicker dengan `text-shadow` glow
+- Semua pengaturan tersimpan di localStorage (mode, teks kustom, kecepatan, status hidup/mati)
+- Terintegrasi di settings panel (gear icon, bottom-right)
+
+### Loading Screen
+
+- Tampil otomatis saat halaman dimuat, hilang setelah `window.onload` (max 1.2 detik)
+- Logo "K" putih bold dengan animasi `pulse` dan border putih
+- Progress bar horizontal hijau-biru gradient dengan animasi `loadProgress` 1.2 detik
+- Teks "Memuat platform..." abu-abu
+- Background gelap `#0a0a0a` full-screen `z-index: 99999`
+- Transisi fade `opacity` 0.3 detik saat hilang
+
 ### Flag Counter Widget
 
 - Menampilkan bendera negara pengunjung dengan jumlah kunjungan
@@ -173,11 +200,11 @@ Setiap halaman mengikuti struktur konsisten:
 - Detail mitra dengan benefit, website, periode kerjasama
 - Admin CRUD lengkap dengan upload logo
 
-### Expanded Navigation (16 Menu + Slider)
+### Expanded Navigation (20 Menu + Slider)
 
 - 6 menu baris 1: Beranda, Jenjang, Platform, Kerja Sama, Tentang, Berita
-- 10 menu baris 2: Riset, Karir, Komunitas, Sertifikasi, Sumber Daya, Keamanan, Kurikulum, Alur & Panduan, Media, Dokumen
-- Tombol panah kiri/kanan untuk menggeser menu baris 2
+- 14 menu baris 2 (4 halaman x 5 menu, navigasi panah): Riset, Karir, Komunitas, Sertifikasi, Sumber Daya, Keamanan, Kurikulum, Alur & Panduan, Media, Dokumen, Search Engine, Statistik, Langganan, Layanan
+- Tombol panah kiri/kanan untuk menggeser halaman menu
 - Animasi slide smooth saat menggeser
 - Mega dropdown untuk Jenjang (3 kolom), Platform (2 kolom), Kerja Sama, Tentang
 - Submenu dropdown dengan animasi fade-in ke bawah
@@ -393,7 +420,7 @@ Semua fitur admin CRUD menggunakan inline modal popup (bukan halaman form terpis
 
 ```
                         ┌─────────────────────────────────────────────┐
-                        │              KVT Hub v6.0                   │
+                        │              KVT Hub v7.0                   │
                         │                                             │
   ┌───────┐             │  ┌─────────────────────────┐                │
   │ Guest │────────────>│  │ Lihat Landing Page       │                │
@@ -558,7 +585,8 @@ Semua fitur admin CRUD menggunakan inline modal popup (bukan halaman form terpis
 | Charting  | Chart.js v4                            |
 | Animasi   | AOS v2.3.4, CSS Snow, Ticker, Dropdown |
 | Ikon      | Font Awesome 6.5.1                     |
-| Font      | Google Fonts (Inter + JetBrains Mono)  |
+| Font      | Google Fonts (Plus Jakarta Sans, Press Start 2P) |
+| LED       | Dot Matrix Panel (5 mode, hijau neon #00ff66)   |
 | Geo API   | ip-api.com (free, 45 req/min)          |
 | Flag CDN  | flagcdn.com                            |
 | Keamanan  | RBAC, CSRF, XSS, reCAPTCHA, Auth Guard |
@@ -610,11 +638,21 @@ php artisan storage:link
 # Gambar fasilitas
 cp -r gambar/* public/images/
 
-# Jalankan
-php artisan serve
+# Jalankan (pilih salah satu)
+php artisan serve              # via built-in server (http://localhost:8000)
+# ATAU gunakan Laragon (rekomendasi, lebih cepat):
+# 1. Buka Laragon → Start All
+# 2. Akses http://kvt-hub.test
+
+# Optimize (opsional, untuk performa):
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 ```
 
 Buka `http://localhost:8000` atau `http://kvt-hub.test` (Laragon).
+
+> **Tips**: Gunakan **Laragon** (Apache) bukan `php artisan serve` untuk performa lebih cepat. Laragon menjalankan Apache multi-threaded, sementara artisan serve hanya single-threaded. Pastikan PHP Laragon menggunakan versi 8.2+ (cek di Menu → PHP → ubah versi).
 
 ### Akun Demo
 
@@ -887,7 +925,27 @@ kvt-hub/
 
 ## Changelog
 
-### v6.0 (Current)
+### v7.0 (Current)
+
+- **LED Dot Matrix Panel**: Panel LED hijau neon (#00ff66) di top bar menggantikan link Keamanan + tanggal/waktu, dengan 5 mode:
+  - **Jadwal Shalat**: Waktu shalat Subuh, Dzuhur, Ashar, Maghrib, Isya
+  - **Waktu Dunia**: 8 timezone real-time (Jakarta, Tokyo, London, New York, Dubai, Sydney, Paris, Seoul)
+  - **Motivasi**: Quote motivasi pendidikan otomatis berganti setiap 60 detik
+  - **Info Platform**: Informasi tentang KVT Hub
+  - **Teks Kustom**: Input teks bebas dari pengguna
+- **Loading Screen**: Animasi logo "K" dengan pulse effect, progress bar, dan teks "Memuat platform...". Auto-hide setelah halaman selesai dimuat (max 1.2 detik)
+- **Menu Akun → Layanan**: Menu ke-20 diganti dari Akun (duplikat Masuk/Daftar) menjadi Layanan dengan sub-item: Paket Langganan, Sertifikat, CV Builder, FAQ, Hubungi Kami
+- **Pengaturan LED di Settings Panel**: Toggle LED on/off, pilih mode (5 tombol), input teks kustom, slider kecepatan animasi (1-10)
+- **Landing Page Diperkaya**: 4 section baru di beranda:
+  - Teknologi & Infrastruktur: 8 item (Laravel, PostgreSQL, Cloud, Security, Analytics, AI, PWA, Open Source)
+  - Testimoni & Penghargaan: 3 review dari dosen, mahasiswa, rektor
+  - Statistik Platform: 6 angka (50K+ peserta, 13 jenjang, 150+ universitas, 500+ perusahaan, 120+ sertifikasi, 35+ negara)
+  - FAQ Accordion: 5 pertanyaan dengan animasi expand/collapse
+- **News Ticker Fallback**: 5 headline statis sebagai backup jika API tidak tersedia
+- **PHP 8.3 Upgrade**: Laragon PHP diupgrade dari 8.1.10 ke 8.3.25
+- **Performa Optimization**: Cache config, route, dan view untuk loading cepat (rekomendasi Laragon Apache vs artisan serve)
+
+### v6.0
 
 - **4-Role System**: `tim` dipecah menjadi `pengajar` + `staff` — peran terpisah dengan akses, sidebar, dan dashboard masing-masing
 - **3 Layout Terpisah**: `tata-letak/utama.blade.php` (landing publik), `tata-letak/dasbor.blade.php` (dashboard), `tata-letak/auth.blade.php` (auth)
@@ -992,6 +1050,6 @@ Lihat file [LICENSE](LICENSE) untuk detail lengkap.
 
 <p align="center">
   Dibuat oleh <strong>KVT Hub Team</strong><br>
-  KVT Hub v5.0 - Global Education & Research Ecosystem<br>
+  KVT Hub v7.0 - Global Education & Research Ecosystem<br>
   &copy; 2025-2026 KVT Hub. Semua hak dilindungi.
 </p>
