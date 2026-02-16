@@ -6,9 +6,51 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsToMany kelasYangDiikuti()
+ * @method \Illuminate\Database\Eloquent\Relations\HasMany kelasYangDiajar()
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    // All available roles
+    public const PERAN_ADMIN = 'admin';
+    public const PERAN_STAFF = 'staff';
+    public const PERAN_PENGAJAR = 'pengajar'; // Guru / Tenaga Pengajar
+    public const PERAN_SISWA = 'siswa';
+    public const PERAN_MAHASISWA = 'mahasiswa';
+    public const PERAN_ORANG_TUA = 'orang_tua';
+    public const PERAN_PENGUNJUNG = 'pengunjung';
+
+    public const SEMUA_PERAN = [
+        self::PERAN_ADMIN,
+        self::PERAN_STAFF,
+        self::PERAN_PENGAJAR,
+        self::PERAN_SISWA,
+        self::PERAN_MAHASISWA,
+        self::PERAN_ORANG_TUA,
+        self::PERAN_PENGUNJUNG,
+    ];
+
+    // Roles that can self-register
+    public const PERAN_DAFTAR_MANDIRI = [
+        self::PERAN_SISWA,
+        self::PERAN_MAHASISWA,
+        self::PERAN_ORANG_TUA,
+        self::PERAN_PENGUNJUNG,
+    ];
+
+    // Roles that need admin to create
+    public const PERAN_DIBUAT_ADMIN = [
+        self::PERAN_ADMIN,
+        self::PERAN_STAFF,
+    ];
+
+    // Verification statuses
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_TERVERIFIKASI = 'terverifikasi';
+    public const STATUS_DITOLAK = 'ditolak';
 
     protected $fillable = [
         'name',
@@ -25,6 +67,19 @@ class User extends Authenticatable
         'bio',
         'aktif',
         'terakhir_login',
+        'no_hp',
+        'provinsi',
+        'kota_kabupaten',
+        'asal_instansi',
+        'status_verifikasi',
+        'verified_at',
+        'verified_by',
+        'catatan_verifikasi',
+        'dokumen_identitas',
+        'dokumen_cv',
+        'dokumen_ijazah',
+        'dokumen_sertifikat',
+        'dibuat_oleh_admin',
     ];
 
     protected $hidden = [
@@ -37,37 +92,99 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'terakhir_login' => 'datetime',
+            'verified_at' => 'datetime',
             'password' => 'hashed',
             'aktif' => 'boolean',
+            'dibuat_oleh_admin' => 'boolean',
         ];
     }
 
-    // === Role Checks (Admin, Pengguna, Tim) ===
+    // === Role Checks ===
     public function adalahAdmin(): bool
     {
-        return $this->peran === 'admin';
+        return $this->peran === self::PERAN_ADMIN;
+    }
+
+    public function adalahPengajar(): bool
+    {
+        return $this->peran === self::PERAN_PENGAJAR;
+    }
+
+    public function adalahStaff(): bool
+    {
+        return $this->peran === self::PERAN_STAFF;
+    }
+
+    public function adalahSiswa(): bool
+    {
+        return $this->peran === self::PERAN_SISWA;
+    }
+
+    public function adalahMahasiswa(): bool
+    {
+        return $this->peran === self::PERAN_MAHASISWA;
+    }
+
+    public function adalahOrangTua(): bool
+    {
+        return $this->peran === self::PERAN_ORANG_TUA;
+    }
+
+    public function adalahPengunjung(): bool
+    {
+        return $this->peran === self::PERAN_PENGUNJUNG;
+    }
+
+    // Backward compat aliases
+    public function adalahPengguna(): bool
+    {
+        return in_array($this->peran, [self::PERAN_SISWA, self::PERAN_MAHASISWA, self::PERAN_ORANG_TUA, self::PERAN_PENGUNJUNG]);
     }
 
     public function adalahTim(): bool
     {
-        return $this->peran === 'tim';
+        return in_array($this->peran, [self::PERAN_PENGAJAR, self::PERAN_STAFF]);
     }
 
-    // Backward compat alias
     public function adalahGuru(): bool
     {
-        return $this->peran === 'tim';
+        return $this->adalahPengajar();
     }
 
-    public function adalahPengguna(): bool
+    // === Verification Checks ===
+    public function sudahTerverifikasi(): bool
     {
-        return $this->peran === 'pengguna';
+        return $this->status_verifikasi === self::STATUS_TERVERIFIKASI;
     }
 
-    // Backward compat alias
-    public function adalahSiswa(): bool
+    public function sedangMenungguVerifikasi(): bool
     {
-        return $this->peran === 'pengguna';
+        return $this->status_verifikasi === self::STATUS_PENDING;
+    }
+
+    public function verifikasiDitolak(): bool
+    {
+        return $this->status_verifikasi === self::STATUS_DITOLAK;
+    }
+
+    public function butuhVerifikasi(): bool
+    {
+        return in_array($this->peran, [self::PERAN_SISWA, self::PERAN_MAHASISWA, self::PERAN_ORANG_TUA]);
+    }
+
+    public function bisaAksesFitur(): bool
+    {
+        // Pengunjung & admin/staff/pengajar dibuat admin → langsung aktif
+        if ($this->peran === self::PERAN_PENGUNJUNG || $this->dibuat_oleh_admin) {
+            return true;
+        }
+        return $this->sudahTerverifikasi();
+    }
+
+    // === Verification Relationship ===
+    public function verifikator()
+    {
+        return $this->belongsTo(User::class, 'verified_by');
     }
 
     // === Relationships ===

@@ -1,10 +1,6 @@
-@extends('tata-letak.utama')
+@extends('tata-letak.auth')
 
 @section('judul', 'Daftar - KVT Hub')
-
-@push('styles')
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-@endpush
 
 @section('konten')
 <section class="min-h-screen flex items-center justify-center py-20 px-4">
@@ -26,7 +22,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('daftar') }}" class="space-y-5" id="formDaftar">
+            <form method="POST" action="{{ route('daftar') }}" class="space-y-5" id="formDaftar" enctype="multipart/form-data">
                 @csrf
 
                 {{-- Step indicator --}}
@@ -44,17 +40,24 @@
 
                     <div class="space-y-4">
                         <div>
-                            <label class="text-sm text-gray-300 font-medium mb-1 block">Nama Lengkap</label>
+                            <label class="text-sm text-gray-300 font-medium mb-1 block">Nama Lengkap <span class="text-red-400">*</span></label>
                             <input type="text" name="name" value="{{ old('name') }}" required
                                 class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition"
                                 placeholder="Nama lengkap kamu">
                         </div>
 
                         <div>
-                            <label class="text-sm text-gray-300 font-medium mb-1 block">Email</label>
+                            <label class="text-sm text-gray-300 font-medium mb-1 block">Email <span class="text-red-400">*</span></label>
                             <input type="email" name="email" value="{{ old('email') }}" required
                                 class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition"
                                 placeholder="email@contoh.com">
+                        </div>
+
+                        <div>
+                            <label class="text-sm text-gray-300 font-medium mb-1 block">No. HP</label>
+                            <input type="text" name="no_hp" value="{{ old('no_hp') }}"
+                                class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition"
+                                placeholder="08xxxxxxxxxx">
                         </div>
 
                         <div>
@@ -64,11 +67,19 @@
                                 placeholder="Contoh: SMA Negeri 1 Kebumen">
                         </div>
 
-                        <div>
-                            <label class="text-sm text-gray-300 font-medium mb-1 block">Kota / Daerah</label>
-                            <input type="text" name="kota" value="{{ old('kota') }}"
-                                class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition"
-                                placeholder="Contoh: Kebumen, Jawa Tengah">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-sm text-gray-300 font-medium mb-1 block">Provinsi</label>
+                                <input type="text" name="provinsi" value="{{ old('provinsi') }}"
+                                    class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition"
+                                    placeholder="Jawa Tengah">
+                            </div>
+                            <div>
+                                <label class="text-sm text-gray-300 font-medium mb-1 block">Kota / Kabupaten</label>
+                                <input type="text" name="kota_kabupaten" value="{{ old('kota_kabupaten') }}"
+                                    class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition"
+                                    placeholder="Kebumen">
+                            </div>
                         </div>
                     </div>
 
@@ -77,64 +88,63 @@
                     </button>
                 </div>
 
-                {{-- ===== STEP 2: Peran & Tujuan ===== --}}
+                {{-- ===== STEP 2: Peran & Dokumen ===== --}}
                 <div id="step2" class="hidden">
-                    <p class="text-xs text-kvt-400 uppercase tracking-widest font-bold mb-4"><i class="fas fa-bullseye mr-1.5"></i>Peran & Tujuan</p>
+                    <p class="text-xs text-kvt-400 uppercase tracking-widest font-bold mb-4"><i class="fas fa-id-card mr-1.5"></i>Peran & Dokumen</p>
 
                     <div class="space-y-4">
                         <div>
-                            <label class="text-sm text-gray-300 font-medium mb-2 block">Daftar Sebagai</label>
+                            <label class="text-sm text-gray-300 font-medium mb-2 block">Daftar Sebagai <span class="text-red-400">*</span></label>
                             <div class="grid grid-cols-2 gap-3">
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="peran" value="pengguna" class="hidden peer" {{ old('peran', 'pengguna') === 'pengguna' ? 'checked' : '' }}>
+                                    <input type="radio" name="peran" value="siswa" class="hidden peer" {{ old('peran', 'siswa') === 'siswa' ? 'checked' : '' }} onchange="ubahPeran()">
                                     <div class="peer-checked:border-kvt-500 peer-checked:bg-kvt-500/10 border border-kvt-700/50 rounded-xl p-3 text-center transition hover:border-kvt-600/50">
                                         <i class="fas fa-user-graduate text-2xl text-kvt-400 mb-1"></i>
-                                        <div class="text-sm font-medium text-white">Pengguna</div>
-                                        <div class="text-xs text-gray-500">Pelajar & Peserta Didik</div>
+                                        <div class="text-sm font-medium text-white">Siswa</div>
+                                        <div class="text-xs text-gray-500">Pelajar SD-SMA/SMK</div>
                                     </div>
                                 </label>
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="peran" value="tim" class="hidden peer" {{ old('peran') === 'tim' ? 'checked' : '' }}>
+                                    <input type="radio" name="peran" value="mahasiswa" class="hidden peer" {{ old('peran') === 'mahasiswa' ? 'checked' : '' }} onchange="ubahPeran()">
                                     <div class="peer-checked:border-kvt-500 peer-checked:bg-kvt-500/10 border border-kvt-700/50 rounded-xl p-3 text-center transition hover:border-kvt-600/50">
-                                        <i class="fas fa-chalkboard-teacher text-2xl text-green-400 mb-1"></i>
-                                        <div class="text-sm font-medium text-white">Tim</div>
-                                        <div class="text-xs text-gray-500">Pengajar & Mentor</div>
+                                        <i class="fas fa-graduation-cap text-2xl text-blue-400 mb-1"></i>
+                                        <div class="text-sm font-medium text-white">Mahasiswa</div>
+                                        <div class="text-xs text-gray-500">Diploma & Sarjana+</div>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="peran" value="orang_tua" class="hidden peer" {{ old('peran') === 'orang_tua' ? 'checked' : '' }} onchange="ubahPeran()">
+                                    <div class="peer-checked:border-kvt-500 peer-checked:bg-kvt-500/10 border border-kvt-700/50 rounded-xl p-3 text-center transition hover:border-kvt-600/50">
+                                        <i class="fas fa-users text-2xl text-green-400 mb-1"></i>
+                                        <div class="text-sm font-medium text-white">Orang Tua</div>
+                                        <div class="text-xs text-gray-500">Wali & Pengawas</div>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="peran" value="pengunjung" class="hidden peer" {{ old('peran') === 'pengunjung' ? 'checked' : '' }} onchange="ubahPeran()">
+                                    <div class="peer-checked:border-kvt-500 peer-checked:bg-kvt-500/10 border border-kvt-700/50 rounded-xl p-3 text-center transition hover:border-kvt-600/50">
+                                        <i class="fas fa-eye text-2xl text-purple-400 mb-1"></i>
+                                        <div class="text-sm font-medium text-white">Pengunjung</div>
+                                        <div class="text-xs text-gray-500">Akses terbatas</div>
                                     </div>
                                 </label>
                             </div>
                         </div>
 
-                        <div>
-                            <label class="text-sm text-gray-300 font-medium mb-1 block">Tujuan Bergabung</label>
-                            <select name="tujuan" class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition appearance-none">
-                                <option value="" class="bg-kvt-900">Pilih tujuan...</option>
-                                <option value="belajar_mandiri" {{ old('tujuan') === 'belajar_mandiri' ? 'selected' : '' }} class="bg-kvt-900">Belajar Mandiri</option>
-                                <option value="persiapan_ujian" {{ old('tujuan') === 'persiapan_ujian' ? 'selected' : '' }} class="bg-kvt-900">Persiapan Ujian / Tes</option>
-                                <option value="pengembangan_karir" {{ old('tujuan') === 'pengembangan_karir' ? 'selected' : '' }} class="bg-kvt-900">Pengembangan Karir</option>
-                                <option value="riset" {{ old('tujuan') === 'riset' ? 'selected' : '' }} class="bg-kvt-900">Riset & Penelitian</option>
-                                <option value="sertifikasi" {{ old('tujuan') === 'sertifikasi' ? 'selected' : '' }} class="bg-kvt-900">Mendapat Sertifikasi</option>
-                                <option value="mengajar" {{ old('tujuan') === 'mengajar' ? 'selected' : '' }} class="bg-kvt-900">Mengajar & Berbagi Ilmu</option>
-                                <option value="lainnya" {{ old('tujuan') === 'lainnya' ? 'selected' : '' }} class="bg-kvt-900">Lainnya</option>
-                            </select>
+                        {{-- Dynamic document upload --}}
+                        <div id="areaDokumen">
+                            <div id="dokSiswa" class="space-y-2">
+                                <label class="text-sm text-gray-300 font-medium mb-1 block">Upload Kartu Pelajar <span class="text-red-400">*</span></label>
+                                <p class="text-xs text-gray-500 mb-2">Format: JPG, PNG, atau PDF. Maks 5MB.</p>
+                                <input type="file" name="dokumen_identitas" accept=".jpg,.jpeg,.png,.pdf"
+                                    class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-kvt-600 file:text-white hover:file:bg-kvt-500 transition">
+                            </div>
                         </div>
 
-                        <div>
-                            <label class="text-sm text-gray-300 font-medium mb-1 block">Bidang Minat</label>
-                            <input type="text" name="bidang_minat" value="{{ old('bidang_minat') }}"
-                                class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition"
-                                placeholder="Contoh: Matematika, Teknologi, Seni">
-                        </div>
-
-                        <div>
-                            <label class="text-sm text-gray-300 font-medium mb-1 block">Bagaimana kamu tahu KVT Hub?</label>
-                            <select name="sumber_info" class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition appearance-none">
-                                <option value="" class="bg-kvt-900">Pilih sumber...</option>
-                                <option value="sosial_media" {{ old('sumber_info') === 'sosial_media' ? 'selected' : '' }} class="bg-kvt-900">Media Sosial</option>
-                                <option value="teman" {{ old('sumber_info') === 'teman' ? 'selected' : '' }} class="bg-kvt-900">Rekomendasi Teman</option>
-                                <option value="sekolah" {{ old('sumber_info') === 'sekolah' ? 'selected' : '' }} class="bg-kvt-900">Dari Sekolah / Kampus</option>
-                                <option value="search_engine" {{ old('sumber_info') === 'search_engine' ? 'selected' : '' }} class="bg-kvt-900">Pencarian Google</option>
-                                <option value="lainnya" {{ old('sumber_info') === 'lainnya' ? 'selected' : '' }} class="bg-kvt-900">Lainnya</option>
-                            </select>
+                        <div class="bg-kvt-800/30 border border-kvt-700/30 rounded-xl p-3" id="infoDokumen">
+                            <p class="text-xs text-gray-400"><i class="fas fa-info-circle text-kvt-400 mr-1"></i>
+                                <span id="infoDokumenText">Siswa wajib upload kartu pelajar untuk verifikasi akun.</span>
+                            </p>
                         </div>
                     </div>
 
@@ -154,7 +164,7 @@
 
                     <div class="space-y-4">
                         <div>
-                            <label class="text-sm text-gray-300 font-medium mb-1 block">Kata Sandi</label>
+                            <label class="text-sm text-gray-300 font-medium mb-1 block">Kata Sandi <span class="text-red-400">*</span></label>
                             <div class="relative">
                                 <input type="password" name="password" required id="inputPassword"
                                     class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition pr-12"
@@ -173,15 +183,10 @@
                         </div>
 
                         <div>
-                            <label class="text-sm text-gray-300 font-medium mb-1 block">Konfirmasi Kata Sandi</label>
+                            <label class="text-sm text-gray-300 font-medium mb-1 block">Konfirmasi Kata Sandi <span class="text-red-400">*</span></label>
                             <input type="password" name="password_confirmation" required
                                 class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition"
                                 placeholder="Ulangi kata sandi">
-                        </div>
-
-                        {{-- reCAPTCHA --}}
-                        <div class="flex justify-center">
-                            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}" data-theme="dark"></div>
                         </div>
 
                         {{-- Persetujuan --}}
@@ -189,10 +194,6 @@
                             <label class="flex items-start gap-2 cursor-pointer">
                                 <input type="checkbox" name="setuju_syarat" required class="mt-1 w-4 h-4 rounded border-kvt-700 bg-kvt-800 text-kvt-500 focus:ring-kvt-500">
                                 <span class="text-xs text-gray-400">Saya menyetujui <a href="#" class="text-kvt-400 hover:underline">Syarat & Ketentuan</a> serta <a href="#" class="text-kvt-400 hover:underline">Kebijakan Privasi</a> KVT Hub.</span>
-                            </label>
-                            <label class="flex items-start gap-2 cursor-pointer">
-                                <input type="checkbox" name="notifikasi_email" class="mt-1 w-4 h-4 rounded border-kvt-700 bg-kvt-800 text-kvt-500 focus:ring-kvt-500" checked>
-                                <span class="text-xs text-gray-400">Kirim notifikasi penting & update via email</span>
                             </label>
                         </div>
                     </div>
@@ -224,7 +225,13 @@
                 </div>
             </div>
 
-            <div class="mt-6 text-center text-sm">
+            <div class="mt-4 text-center">
+                <a href="{{ route('daftar.pengajar') }}" class="text-green-400 hover:text-green-300 text-sm font-medium transition">
+                    <i class="fas fa-chalkboard-teacher mr-1"></i>Daftar sebagai Pengajar / Guru
+                </a>
+            </div>
+
+            <div class="mt-3 text-center text-sm">
                 <span class="text-gray-500">Sudah punya akun?</span>
                 <a href="{{ route('masuk') }}" class="text-kvt-400 hover:text-kvt-300 font-medium ml-1">Masuk</a>
             </div>
@@ -241,6 +248,38 @@ function keStep(n) {
         const dot = document.getElementById('dot' + i);
         dot.className = 'step-dot w-3 h-3 rounded-full transition ' + (i <= n ? 'bg-kvt-400' : 'bg-kvt-700/50');
     }
+}
+
+function ubahPeran() {
+    const peran = document.querySelector('input[name="peran"]:checked')?.value;
+    const area = document.getElementById('areaDokumen');
+    const info = document.getElementById('infoDokumenText');
+    const infoBox = document.getElementById('infoDokumen');
+
+    const labels = {
+        siswa: { label: 'Upload Kartu Pelajar', info: 'Siswa wajib upload kartu pelajar untuk verifikasi akun.', required: true },
+        mahasiswa: { label: 'Upload KTM (Kartu Tanda Mahasiswa)', info: 'Mahasiswa wajib upload KTM untuk verifikasi akun.', required: true },
+        orang_tua: { label: 'Upload Kartu Keluarga (KK)', info: 'Orang tua wajib upload KK untuk verifikasi akun.', required: true },
+        pengunjung: { label: '', info: 'Pengunjung tidak perlu upload dokumen. Akun langsung aktif.', required: false },
+    };
+
+    const cfg = labels[peran] || labels.siswa;
+
+    if (cfg.required) {
+        area.innerHTML = `
+            <label class="text-sm text-gray-300 font-medium mb-1 block">${cfg.label} <span class="text-red-400">*</span></label>
+            <p class="text-xs text-gray-500 mb-2">Format: JPG, PNG, atau PDF. Maks 5MB.</p>
+            <input type="file" name="dokumen_identitas" accept=".jpg,.jpeg,.png,.pdf"
+                class="w-full bg-kvt-800/50 border border-kvt-700/50 rounded-xl px-4 py-3 text-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-kvt-600 file:text-white hover:file:bg-kvt-500 transition">
+        `;
+    } else {
+        area.innerHTML = '<p class="text-sm text-gray-500 italic py-2"><i class="fas fa-check-circle text-green-400 mr-1"></i>Tidak perlu upload dokumen.</p>';
+    }
+
+    info.textContent = cfg.info;
+    infoBox.className = peran === 'pengunjung'
+        ? 'bg-green-500/10 border border-green-500/30 rounded-xl p-3'
+        : 'bg-kvt-800/30 border border-kvt-700/30 rounded-xl p-3';
 }
 
 function togglePassword() {
@@ -265,6 +304,9 @@ document.getElementById('inputPassword')?.addEventListener('input', function() {
     });
     document.getElementById('passwordHint').textContent = strength > 0 ? hints[strength-1] : 'Gunakan kombinasi huruf, angka, & simbol';
 });
+
+// Initialize role UI
+document.addEventListener('DOMContentLoaded', () => ubahPeran());
 </script>
 @endpush
 @endsection

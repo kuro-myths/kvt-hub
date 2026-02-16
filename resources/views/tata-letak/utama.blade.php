@@ -49,12 +49,13 @@
         }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4" defer></script>
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
@@ -97,9 +98,9 @@
         .nav-row { display:flex;align-items:center }
         .nav-item { position:relative }
         .nav-link {
-            display:flex;align-items:center;gap:7px;padding:10px 16px;font-size:13.5px;font-weight:600;
+            display:flex;align-items:center;gap:5px;padding:8px 11px;font-size:12.5px;font-weight:600;
             color:rgba(209,213,219,1);border-radius:10px;white-space:nowrap;transition:all 0.2s;
-            text-transform:uppercase;letter-spacing:0.03em;
+            text-transform:uppercase;letter-spacing:0.02em;
         }
         .nav-link:hover, .nav-item.dropdown-open > .nav-link {
             color:#5CADFF;background:rgba(51,153,255,0.08);
@@ -121,7 +122,7 @@
             background:rgba(4,31,77,0.98);backdrop-filter:blur(20px);
             border:1px solid rgba(51,153,255,0.15);border-radius:16px;
             padding:8px;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 20px rgba(51,153,255,0.05);
-            overflow:hidden;
+            overflow:visible;
         }
         .nav-dropdown-mega {
             min-width:580px;
@@ -146,19 +147,19 @@
         }
         .dropdown-divider { height:1px;background:rgba(51,153,255,0.1);margin:4px 8px }
 
-        /* Sub-submenu (Level 2) - flyout right like UNEJ */
-        .has-submenu { position:relative }
+        /* Sub-submenu (Level 2) - flyout right */
+        .has-submenu { position:relative;cursor:pointer }
         .has-submenu > .dropdown-item::after {
             content:'\f054';font-family:'Font Awesome 6 Free';font-weight:900;font-size:9px;
             color:#5CADFF;margin-left:auto;opacity:0.5;transition:all 0.2s;
         }
-        .has-submenu:hover > .dropdown-item::after { opacity:1;transform:translateX(2px) }
+        .has-submenu.sub-open > .dropdown-item::after { opacity:1;transform:translateX(2px) }
         .sub-dropdown {
             position:absolute;left:100%;top:-8px;min-width:220px;padding-left:4px;
             opacity:0;visibility:hidden;pointer-events:none;
             transform:translateX(-4px);transition:all 0.2s;z-index:210;
         }
-        .has-submenu:hover > .sub-dropdown {
+        .has-submenu.sub-open > .sub-dropdown {
             opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0);
         }
         .sub-dropdown-inner {
@@ -173,8 +174,20 @@
         .sub-dropdown-item:hover { color:#fff;background:rgba(51,153,255,0.1) }
         .sub-dropdown-item i { width:16px;text-align:center;font-size:11px }
 
+        /* Nav page arrow buttons */
+        .nav-page-arrow {
+            display:flex;align-items:center;justify-content:center;
+            width:24px;height:18px;border-radius:6px;
+            background:rgba(51,153,255,0.1);border:1px solid rgba(51,153,255,0.2);
+            color:#5CADFF;cursor:pointer;transition:all 0.25s;flex-shrink:0;
+        }
+        .nav-page-arrow:hover:not(:disabled) { background:rgba(51,153,255,0.25);color:#fff }
+        .nav-page-arrow:disabled { opacity:0.3;cursor:not-allowed }
+        .nav-page-arrow i { transition:transform 0.3s }
+
         /* Align right-side dropdowns */
-        .nav-item.dropdown-right .nav-dropdown { left:auto;right:0 }
+        .nav-item.dropdown-right .nav-dropdown,
+        .nav-dropdown.dropdown-right { left:auto;right:0 }
 
         /* Flag counter style */
         .flag-item { display:flex;align-items:center;gap:6px;font-size:11px }
@@ -183,6 +196,88 @@
         /* ===== SPONSOR MARQUEE ===== */
         .sponsor-track { display:flex;gap:3rem;animation:marquee 30s linear infinite }
         .sponsor-track:hover { animation-play-state:paused }
+
+        /* ===== LED DOT MATRIX PANEL ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        .led-matrix-bar {
+            background:#000;
+            border-bottom:2px solid #0a1a0a;
+            overflow:hidden;
+            position:relative;
+            height:28px;
+        }
+        .led-matrix-bar::before {
+            content:'';position:absolute;inset:0;
+            background:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(0,0,0,0.15) 1px,rgba(0,0,0,0.15) 2px);
+            pointer-events:none;z-index:2;
+        }
+        .led-matrix-bar::after {
+            content:'';position:absolute;inset:0;
+            background:repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 3px);
+            pointer-events:none;z-index:2;
+        }
+        .led-matrix-inner {
+            width:100%;height:100%;overflow:hidden;position:relative;
+        }
+        .led-matrix-track {
+            display:inline-flex;white-space:nowrap;
+            animation:ledScroll 40s linear infinite;
+            height:100%;align-items:center;
+        }
+        .led-matrix-text {
+            font-family:'Press Start 2P','Courier New',monospace;
+            font-size:11px;
+            color:#00ff66;
+            text-shadow:0 0 8px #00ff66,0 0 20px #00ff66,0 0 40px #00cc55;
+            letter-spacing:2px;
+            padding:0 60px;
+            animation:ledFlicker 0.1s ease-in-out infinite alternate;
+            line-height:28px;
+        }
+        @keyframes ledScroll {
+            0% { transform:translateX(0) }
+            100% { transform:translateX(-50%) }
+        }
+        @keyframes ledFlicker {
+            0% { opacity:1 }
+            100% { opacity:0.92 }
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        .loading-screen {
+            position:fixed;inset:0;z-index:9999;
+            background:#021029;
+            display:flex;flex-direction:column;align-items:center;justify-content:center;
+            transition:opacity 0.5s,visibility 0.5s;
+        }
+        .loading-screen.hide {
+            opacity:0;visibility:hidden;pointer-events:none;
+        }
+        .loading-logo {
+            width:80px;height:80px;
+            background:linear-gradient(135deg,#3399FF,#8B5CF6);
+            border-radius:20px;
+            display:flex;align-items:center;justify-content:center;
+            animation:loadPulse 1.5s ease-in-out infinite;
+            box-shadow:0 0 40px rgba(51,153,255,0.3);
+        }
+        @keyframes loadPulse {
+            0%,100% { transform:scale(1);box-shadow:0 0 40px rgba(51,153,255,0.3) }
+            50% { transform:scale(1.05);box-shadow:0 0 60px rgba(51,153,255,0.5) }
+        }
+        .loading-bar {
+            width:200px;height:3px;background:#0a1f4d;border-radius:3px;margin-top:24px;overflow:hidden;
+        }
+        .loading-bar-inner {
+            width:0%;height:100%;background:linear-gradient(90deg,#3399FF,#8B5CF6);border-radius:3px;
+            animation:loadProgress 1.8s ease-in-out forwards;
+        }
+        @keyframes loadProgress {
+            0% { width:0% }
+            30% { width:40% }
+            60% { width:70% }
+            100% { width:100% }
+        }
 
         /* ===== SECTION DECORATIONS ===== */
         .section-glow::before {
@@ -251,41 +346,60 @@
 </head>
 <body class="bg-kvt-950 text-white min-h-screen overflow-x-hidden">
 
+    {{-- ==================== LOADING SCREEN ==================== --}}
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">
+            <span class="text-white font-black text-3xl tracking-tight">K</span>
+        </div>
+        <p class="text-gray-400 text-sm mt-4 font-semibold tracking-wider">KVT Hub</p>
+        <div class="loading-bar">
+            <div class="loading-bar-inner"></div>
+        </div>
+        <p class="text-gray-600 text-[10px] mt-3 tracking-widest uppercase">Memuat platform...</p>
+    </div>
+
     <div class="salju-container" id="salju"></div>
 
-    {{-- ==================== TOP BAR (News Ticker) ==================== --}}
-    <div class="bg-gradient-to-r from-kvt-900 via-kvt-800 to-kvt-900 border-b border-kvt-700/30 py-1.5 relative z-40" id="topBar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-            <div class="flex items-center gap-3 flex-1 overflow-hidden">
-                <a href="{{ route('berita.index') }}" class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shrink-0 hover:from-emerald-500 hover:to-emerald-400 transition shadow-sm">
-                    <i class="fas fa-bolt mr-1"></i>Berita
-                </a>
-                <div class="ticker-wrap flex-1">
-                    <div class="ticker-content gap-12 text-xs text-gray-400" id="tickerContent">
-                        <span class="inline-flex items-center gap-2"><i class="fas fa-circle text-green-400 text-[6px]"></i> Memuat berita terbaru...</span>
-                    </div>
+    {{-- ==================== TOP BAR: LED DOT MATRIX + NEWS TICKER ==================== --}}
+    <div class="relative z-40" id="topBar">
+        {{-- LED Dot Matrix Panel --}}
+        <div class="led-matrix-bar" id="ledMatrixBar">
+            <div class="led-matrix-inner">
+                <div class="led-matrix-track" id="ledMatrixTrack">
+                    <span class="led-matrix-text" id="ledText1"></span>
+                    <span class="led-matrix-text" id="ledText2"></span>
                 </div>
             </div>
-            <div class="hidden md:flex items-center gap-3 text-xs text-gray-500 shrink-0 ml-4">
-                <a href="{{ route('halaman.keamanan') }}" class="hover:text-kvt-400 transition flex items-center gap-1"><i class="fas fa-shield-alt text-[10px]"></i><span>Keamanan</span></a>
-                <span class="text-kvt-700/50">|</span>
-                <a href="{{ route('halaman.penjamin-mutu') }}" class="hover:text-kvt-400 transition flex items-center gap-1"><i class="fas fa-check-double text-[10px]"></i><span>Penjamin Mutu</span></a>
-                <span class="text-kvt-700/50">|</span>
-                <span class="flex items-center gap-1"><i class="far fa-calendar text-[10px]"></i>{{ now()->translatedFormat('d M Y') }}</span>
-                <span class="flex items-center gap-1"><i class="far fa-clock text-[10px]"></i><span id="jamSekarang"></span></span>
+        </div>
+        {{-- News Ticker --}}
+        <div class="bg-gradient-to-r from-kvt-900 via-kvt-800 to-kvt-900 border-b border-kvt-700/30 py-1.5">
+            <div class="max-w-[1600px] mx-auto px-4 sm:px-5 flex items-center justify-between">
+                <div class="flex items-center gap-3 flex-1 overflow-hidden">
+                    <a href="{{ route('berita.index') }}" class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shrink-0 hover:from-emerald-500 hover:to-emerald-400 transition shadow-sm">
+                        <i class="fas fa-bolt mr-1"></i>Berita
+                    </a>
+                    <div class="ticker-wrap flex-1">
+                        <div class="ticker-content gap-12 text-xs text-gray-400" id="tickerContent">
+                            <span class="inline-flex items-center gap-2"><i class="fas fa-circle text-green-400 text-[6px]"></i> Memuat berita terbaru...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center gap-3 text-xs text-gray-500 shrink-0 ml-4">
+                    <a href="{{ route('halaman.penjamin-mutu') }}" class="hover:text-kvt-400 transition flex items-center gap-1"><i class="fas fa-check-double text-[10px]"></i><span>Penjamin Mutu</span></a>
+                </div>
             </div>
         </div>
     </div>
 
     {{-- ==================== MAIN NAVIGATION (2-Row like SMAN Kebumen) ==================== --}}
     <nav class="sticky top-0 w-full z-40 transition-all duration-300 kaca-nav" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-5">
 
             {{-- ===== ROW 1: Logo + Primary Menus + Search/Auth ===== --}}
             <div class="flex items-center h-[68px]">
 
                 {{-- Logo (spacious, not cramped) --}}
-                <a href="{{ route('beranda') }}" class="flex items-center gap-3 shrink-0 mr-6 group">
+                <a href="{{ route('beranda') }}" class="flex items-center gap-3 shrink-0 mr-4 group">
                     <div class="w-11 h-11 bg-gradient-to-br from-kvt-400 via-ungu-500 to-kvt-600 rounded-xl flex items-center justify-center shadow-lg shadow-kvt-500/20 group-hover:shadow-kvt-500/40 transition-shadow animate-glow">
                         <span class="text-white font-black text-xl tracking-tight">K</span>
                     </div>
@@ -298,13 +412,17 @@
                 </a>
 
                 {{-- Separator --}}
-                <div class="hidden lg:block w-px h-8 bg-kvt-700/30 mr-4"></div>
+                <div class="hidden lg:block w-px h-8 bg-kvt-700/30 mr-2"></div>
 
-                {{-- Row 1 Menu Items --}}
-                <div class="hidden lg:flex items-center gap-0.5 flex-1 nav-row" id="navRow1">
+                {{-- All Menu Items - Single Row with Pagination --}}
+                <div class="hidden lg:flex items-center flex-1 relative" id="navMenuWrapper">
 
-                    {{-- 1. Beranda (with sub-menu) --}}
-                    <div class="nav-item">
+                    {{-- Sliding Menu Container --}}
+                    <div class="flex-1 overflow-visible" id="navSlider">
+                        <div class="flex items-center gap-0 transition-transform duration-300 nav-row" id="navMenuItems" style="transform:translateX(0)">
+
+                    {{-- 1. Beranda --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="0">
                         <button class="nav-link" data-dropdown>
                             <i class="fas fa-home text-kvt-400"></i> Beranda
                             <i class="fas fa-chevron-down chevron-icon"></i>
@@ -333,8 +451,8 @@
                         </div>
                     </div>
 
-                    {{-- 2. Jenjang (with nested sub-submenus like UNEJ) --}}
-                    <div class="nav-item">
+                    {{-- 2. Jenjang --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="0">
                         <button class="nav-link" data-dropdown>
                             <i class="fas fa-graduation-cap text-green-400"></i> Jenjang
                             <i class="fas fa-chevron-down chevron-icon"></i>
@@ -432,8 +550,8 @@
                         </div>
                     </div>
 
-                    {{-- 3. Platform (with nested) --}}
-                    <div class="nav-item">
+                    {{-- 3. Platform --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="0">
                         <button class="nav-link" data-dropdown>
                             <i class="fas fa-cubes text-purple-400"></i> Platform
                             <i class="fas fa-chevron-down chevron-icon"></i>
@@ -488,8 +606,8 @@
                         </div>
                     </div>
 
-                    {{-- 4. Berita (with sub-menu) --}}
-                    <div class="nav-item">
+                    {{-- 4. Berita --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="0">
                         <button class="nav-link" data-dropdown>
                             <i class="fas fa-newspaper text-emerald-400"></i> Berita
                             <i class="fas fa-chevron-down chevron-icon"></i>
@@ -520,8 +638,8 @@
                         </div>
                     </div>
 
-                    {{-- 5. Kerja Sama (nested) --}}
-                    <div class="nav-item">
+                    {{-- 5. Kerja Sama --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="0">
                         <button class="nav-link" data-dropdown>
                             <i class="fas fa-handshake text-yellow-400"></i> Kerja Sama
                             <i class="fas fa-chevron-down chevron-icon"></i>
@@ -553,7 +671,7 @@
                     </div>
 
                     {{-- 6. Tentang --}}
-                    <div class="nav-item dropdown-right">
+                    <div class="nav-item nav-menu-item" data-nav-page="1">
                         <button class="nav-link" data-dropdown>
                             <i class="fas fa-info-circle text-cyan-400"></i> Tentang
                             <i class="fas fa-chevron-down chevron-icon"></i>
@@ -581,80 +699,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {{-- Right: Search + Notification + Auth --}}
-                <div class="hidden lg:flex items-center gap-2 shrink-0 ml-4">
-                    <button onclick="bukaSearch()" class="text-gray-400 hover:text-kvt-400 transition p-2.5 rounded-xl hover:bg-kvt-800/30 relative" title="Cari (Ctrl+K)">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <button class="text-gray-400 hover:text-kvt-400 transition p-2.5 rounded-xl hover:bg-kvt-800/30 relative" title="Notifikasi">
-                        <i class="fas fa-bell"></i>
-                        <div class="notif-badge"></div>
-                    </button>
-
-                    <div class="w-px h-6 bg-kvt-700/30 mx-1"></div>
-
-                    @guest
-                        <a href="{{ route('masuk') }}" class="text-sm text-gray-300 hover:text-white transition px-4 py-2 rounded-xl hover:bg-kvt-800/30 font-medium">Masuk</a>
-                        <a href="{{ route('daftar') }}" class="text-sm bg-gradient-to-r from-kvt-500 to-ungu-500 hover:from-kvt-400 hover:to-ungu-400 text-white px-5 py-2 rounded-xl transition shadow-lg shadow-kvt-500/20 font-semibold">Daftar</a>
-                    @else
-                        <div class="flex items-center gap-2 bg-kvt-900/50 rounded-full px-3 py-1.5 border border-kvt-700/30">
-                            <span class="text-kvt-400 text-xs font-bold">Lv.{{ Auth::user()->level }}</span>
-                            <div class="w-12 h-1.5 bg-kvt-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-kvt-400 to-ungu-400 rounded-full" style="width:{{ Auth::user()->persenLevel() }}%"></div>
-                            </div>
-                        </div>
-
-                        <div class="relative group nav-profile">
-                            <button class="flex items-center gap-2 bg-kvt-800/30 hover:bg-kvt-700/30 rounded-xl px-3 py-1.5 transition border border-kvt-700/20">
-                                <div class="w-7 h-7 rounded-full bg-gradient-to-br from-kvt-400 to-ungu-500 flex items-center justify-center text-xs font-bold">
-                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                                </div>
-                                <span class="text-sm text-gray-300 hidden xl:block">{{ Str::limit(Auth::user()->name, 12) }}</span>
-                                <i class="fas fa-chevron-down text-[8px] text-gray-500"></i>
-                            </button>
-                            <div class="absolute right-0 mt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pt-1">
-                                <div class="nav-dropdown-inner">
-                                    <div class="px-4 py-3 border-b border-kvt-700/20">
-                                        <p class="text-sm font-semibold text-white">{{ Auth::user()->name }}</p>
-                                        <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
-                                        <p class="text-xs text-kvt-400 mt-1"><i class="fas fa-star mr-1"></i>{{ Auth::user()->getRangString() }} - Level {{ Auth::user()->level }}</p>
-                                    </div>
-                                    <div class="py-1">
-                                        <a href="{{ route('dasbor') }}" class="dropdown-item"><i class="fas fa-tachometer-alt text-kvt-400 w-5"></i><span class="text-sm">Dasbor</span></a>
-                                        @if(Auth::user()->adalahAdmin())
-                                        <a href="{{ route('admin.dasbor') }}" class="dropdown-item"><i class="fas fa-shield-alt text-yellow-400 w-5"></i><span class="text-sm text-yellow-400">Panel Admin</span></a>
-                                        @endif
-                                        <div class="dropdown-divider"></div>
-                                        <form method="POST" action="{{ route('keluar') }}">
-                                            @csrf
-                                            <button type="submit" class="dropdown-item w-full text-left"><i class="fas fa-sign-out-alt text-red-400 w-5"></i><span class="text-sm text-red-400">Keluar</span></button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endguest
-                </div>
-
-                {{-- Mobile hamburger --}}
-                <button class="lg:hidden text-gray-300 hover:text-white p-2 ml-auto" onclick="toggleMobile()">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-
-            {{-- ===== ROW 2: Secondary Menus ===== --}}
-            <div class="hidden lg:flex items-center gap-0.5 border-t border-kvt-700/15 h-11 nav-row" id="navRow2">
-
-                {{-- 7. Riset (nested) --}}
-                <div class="nav-item">
-                    <button class="nav-link" data-dropdown>
-                        <i class="fas fa-microscope text-purple-400"></i> Riset
-                        <i class="fas fa-chevron-down chevron-icon"></i>
-                    </button>
-                    <div class="nav-dropdown">
-                        <div class="nav-dropdown-inner">
+                    {{-- 7. Riset --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="1">
+                        <button class="nav-link" data-dropdown>
+                            <i class="fas fa-microscope text-purple-400"></i> Riset
+                            <i class="fas fa-chevron-down chevron-icon"></i>
+                        </button>
+                        <div class="nav-dropdown">
+                            <div class="nav-dropdown-inner">
                             <a href="{{ route('halaman.riset') }}" class="dropdown-item">
                                 <div class="item-icon bg-purple-500/10"><i class="fas fa-flask text-purple-400"></i></div>
                                 <div class="item-text"><div class="item-title">Pusat Riset</div><div class="item-desc">Lab virtual & eksperimen</div></div>
@@ -691,8 +744,8 @@
                     </div>
                 </div>
 
-                {{-- 8. Karir (nested) --}}
-                <div class="nav-item">
+                    {{-- 8. Karir --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="1">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-briefcase text-orange-400"></i> Karir
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -735,8 +788,8 @@
                     </div>
                 </div>
 
-                {{-- 9. Komunitas (nested with Organisasi) --}}
-                <div class="nav-item">
+                    {{-- 9. Komunitas --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="1">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-users text-pink-400"></i> Komunitas
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -819,8 +872,8 @@
                     </div>
                 </div>
 
-                {{-- 10. Sertifikasi (nested) --}}
-                <div class="nav-item">
+                    {{-- 10. Sertifikasi --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="1">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-award text-yellow-400"></i> Sertifikasi
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -859,8 +912,36 @@
                     </div>
                 </div>
 
-                {{-- 11. Sumber Daya --}}
-                <div class="nav-item">
+                    {{-- 11. Langganan --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="2">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-crown text-amber-400"></i> Langganan
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown">
+                        <div class="nav-dropdown-inner">
+                            <a href="{{ route('sponsor') }}" class="dropdown-item">
+                                <div class="item-icon bg-amber-500/10"><i class="fas fa-crown text-amber-400"></i></div>
+                                <div class="item-text"><div class="item-title">Paket Premium</div><div class="item-desc">Akses fitur eksklusif</div></div>
+                            </a>
+                            <a href="{{ route('sponsor') }}" class="dropdown-item">
+                                <div class="item-icon bg-green-500/10"><i class="fas fa-gift text-green-400"></i></div>
+                                <div class="item-text"><div class="item-title">Paket Semester</div><div class="item-desc">Hemat per semester</div></div>
+                            </a>
+                            <a href="{{ route('sponsor') }}" class="dropdown-item">
+                                <div class="item-icon bg-purple-500/10"><i class="fas fa-university text-purple-400"></i></div>
+                                <div class="item-text"><div class="item-title">Paket Institusi</div><div class="item-desc">Untuk sekolah & kampus</div></div>
+                            </a>
+                            <a href="{{ route('sponsor') }}" class="dropdown-item">
+                                <div class="item-icon bg-kvt-500/10"><i class="fas fa-tags text-kvt-400"></i></div>
+                                <div class="item-text"><div class="item-title">Promo & Diskon</div><div class="item-desc">Penawaran terbatas</div></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                    {{-- 12. Sumber Daya --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="2">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-database text-cyan-400"></i> Sumber Daya
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -894,8 +975,8 @@
                     </div>
                 </div>
 
-                {{-- 12. Keamanan (nested) --}}
-                <div class="nav-item dropdown-right">
+                    {{-- 12. Keamanan --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="2">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-shield-alt text-red-400"></i> Keamanan
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -933,8 +1014,8 @@
                     </div>
                 </div>
 
-                {{-- 13. Kurikulum --}}
-                <div class="nav-item dropdown-right">
+                    {{-- 13. Kurikulum --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="2">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-book-reader text-indigo-400"></i> Kurikulum
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -965,8 +1046,8 @@
                     </div>
                 </div>
 
-                {{-- 14. Alur & Panduan --}}
-                <div class="nav-item dropdown-right">
+                    {{-- 14. Panduan --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="2">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-project-diagram text-teal-400"></i> Panduan
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -997,8 +1078,8 @@
                     </div>
                 </div>
 
-                {{-- 15. Media --}}
-                <div class="nav-item dropdown-right">
+                    {{-- 15. Media --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="3">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-play-circle text-rose-400"></i> Media
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -1029,8 +1110,8 @@
                     </div>
                 </div>
 
-                {{-- 16. Dokumen --}}
-                <div class="nav-item dropdown-right">
+                    {{-- 16. Dokumen --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="3">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-file-alt text-amber-400"></i> Dokumen
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -1060,8 +1141,197 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
+                    {{-- 18. Bantuan --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="3">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-life-ring text-lime-400"></i> Bantuan
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown dropdown-right">
+                        <div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.alur-panduan.faq-bantuan') }}" class="dropdown-item">
+                                <div class="item-icon bg-lime-500/10"><i class="fas fa-question-circle text-lime-400"></i></div>
+                                <div class="item-text"><div class="item-title">FAQ</div><div class="item-desc">Pertanyaan umum</div></div>
+                            </a>
+                            <a href="{{ route('halaman.alur-panduan.panduan-pengguna') }}" class="dropdown-item">
+                                <div class="item-icon bg-blue-500/10"><i class="fas fa-headset text-blue-400"></i></div>
+                                <div class="item-text"><div class="item-title">Pusat Bantuan</div><div class="item-desc">Hubungi tim support</div></div>
+                            </a>
+                            <a href="{{ route('halaman.alur-panduan.sop-prosedur') }}" class="dropdown-item">
+                                <div class="item-icon bg-orange-500/10"><i class="fas fa-bug text-orange-400"></i></div>
+                                <div class="item-text"><div class="item-title">Laporkan Masalah</div><div class="item-desc">Bug report & feedback</div></div>
+                            </a>
+                            <a href="{{ route('tentang') }}" class="dropdown-item">
+                                <div class="item-icon bg-purple-500/10"><i class="fas fa-envelope text-purple-400"></i></div>
+                                <div class="item-text"><div class="item-title">Kontak Kami</div><div class="item-desc">Email & media sosial</div></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                    {{-- 19. Statistik --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="3">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-chart-line text-sky-400"></i> Statistik
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown dropdown-right">
+                        <div class="nav-dropdown-inner">
+                            <a href="{{ route('beranda') }}" class="dropdown-item">
+                                <div class="item-icon bg-sky-500/10"><i class="fas fa-chart-bar text-sky-400"></i></div>
+                                <div class="item-text"><div class="item-title">Statistik Platform</div><div class="item-desc">Data pengunjung & aktivitas</div></div>
+                            </a>
+                            <a href="{{ route('beranda') }}#statistik" class="dropdown-item">
+                                <div class="item-icon bg-green-500/10"><i class="fas fa-users text-green-400"></i></div>
+                                <div class="item-text"><div class="item-title">Pengguna Aktif</div><div class="item-desc">Statistik pengguna harian</div></div>
+                            </a>
+                            <a href="{{ route('beranda') }}#peringkat" class="dropdown-item">
+                                <div class="item-icon bg-yellow-500/10"><i class="fas fa-trophy text-yellow-400"></i></div>
+                                <div class="item-text"><div class="item-title">Peringkat & XP</div><div class="item-desc">Papan peringkat gamifikasi</div></div>
+                            </a>
+                            @auth
+                            <a href="{{ route('laporan.index') }}" class="dropdown-item">
+                                <div class="item-icon bg-purple-500/10"><i class="fas fa-chart-pie text-purple-400"></i></div>
+                                <div class="item-text"><div class="item-title">Laporan Saya</div><div class="item-desc">30+ jenis visualisasi</div></div>
+                            </a>
+                            @endauth
+                        </div>
+                    </div>
+                </div>
+
+                    {{-- 20. Layanan --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="3">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-concierge-bell text-emerald-400"></i> Layanan
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown dropdown-right">
+                        <div class="nav-dropdown-inner">
+                            <div class="dropdown-section-title">Layanan Platform</div>
+                            <a href="{{ route('halaman.langganan') }}" class="dropdown-item">
+                                <div class="item-icon bg-amber-500/10"><i class="fas fa-crown text-amber-400"></i></div>
+                                <div class="item-text"><div class="item-title">Paket Langganan</div><div class="item-desc">Akses fitur premium</div></div>
+                            </a>
+                            <a href="{{ route('halaman.sertifikasi') }}" class="dropdown-item">
+                                <div class="item-icon bg-yellow-500/10"><i class="fas fa-certificate text-yellow-400"></i></div>
+                                <div class="item-text"><div class="item-title">Penerbitan Sertifikat</div><div class="item-desc">Cetak & verifikasi sertifikat</div></div>
+                            </a>
+                            <a href="{{ route('halaman.karir.cv-builder') }}" class="dropdown-item">
+                                <div class="item-icon bg-cyan-500/10"><i class="fas fa-file-invoice text-cyan-400"></i></div>
+                                <div class="item-text"><div class="item-title">CV Builder</div><div class="item-desc">Buat CV profesional ATS-friendly</div></div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-section-title">Bantuan & Dukungan</div>
+                            <a href="{{ route('halaman.alur-panduan.faq-bantuan') }}" class="dropdown-item">
+                                <div class="item-icon bg-lime-500/10"><i class="fas fa-question-circle text-lime-400"></i></div>
+                                <div class="item-text"><div class="item-title">FAQ & Bantuan</div><div class="item-desc">Pusat bantuan pengguna</div></div>
+                            </a>
+                            <a href="{{ route('tentang') }}" class="dropdown-item">
+                                <div class="item-icon bg-purple-500/10"><i class="fas fa-envelope text-purple-400"></i></div>
+                                <div class="item-text"><div class="item-title">Hubungi Kami</div><div class="item-desc">Kontak & media sosial</div></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                        </div>{{-- /navMenuItems --}}
+                    </div>{{-- /navSlider --}}
+
+                    {{-- Dual Up/Down Arrow Buttons --}}
+                    <div class="flex flex-col gap-0.5 ml-2 shrink-0">
+                        <button onclick="navMundur()" id="navBtnAtas" class="nav-page-arrow" title="Halaman menu sebelumnya" disabled>
+                            <i class="fas fa-chevron-up text-[9px]"></i>
+                        </button>
+                        <button onclick="navMaju()" id="navBtnBawah" class="nav-page-arrow" title="Halaman menu berikutnya">
+                            <i class="fas fa-chevron-down text-[9px]"></i>
+                        </button>
+                    </div>
+                    <span id="navPageIndicator" class="shrink-0 text-[10px] text-gray-500 font-semibold ml-1.5 select-none">1/4</span>
+
+                </div>{{-- /navMenuWrapper --}}
+
+                {{-- ===== RIGHT SIDE CONTROLS ===== --}}
+                <div class="hidden lg:flex items-center gap-1 shrink-0 ml-3">
+                    {{-- Search --}}
+                    <button onclick="bukaSearch()" class="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/50 transition" title="Cari (Ctrl+K)">
+                        <i class="fas fa-search text-sm"></i>
+                    </button>
+
+                    {{-- Notification Bell --}}
+                    <div class="relative" id="notifWrapper">
+                        <button onclick="toggleNotifikasi()" class="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-yellow-400 hover:bg-kvt-800/50 transition relative" title="Notifikasi">
+                            <i class="fas fa-bell text-sm"></i>
+                            <span id="notifBadge" class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center hidden">0</span>
+                        </button>
+                        {{-- Notification Dropdown --}}
+                        <div id="notifDropdown" class="hidden absolute right-0 top-full mt-2 w-80 nav-dropdown-inner rounded-2xl overflow-hidden shadow-2xl shadow-black/50 z-50" style="border-radius:16px">
+                            <div class="bg-gradient-to-r from-kvt-600 to-ungu-600 p-3 flex items-center justify-between">
+                                <h4 class="text-white font-bold text-sm flex items-center gap-2"><i class="fas fa-bell"></i> Notifikasi</h4>
+                                <button onclick="tandaiSemuaDibaca()" class="text-[10px] text-white/70 hover:text-white transition">Tandai semua dibaca</button>
+                            </div>
+                            <div id="notifContent" class="max-h-[300px] overflow-y-auto p-2 space-y-1">
+                                <div class="text-center py-6 text-gray-500 text-sm">Memuat notifikasi...</div>
+                            </div>
+                            <div class="p-2 border-t border-kvt-700/20 text-center">
+                                <a href="{{ route('berita.index') }}" class="text-[11px] text-kvt-400 hover:text-kvt-300 transition font-semibold"><i class="fas fa-arrow-right mr-1"></i> Lihat semua berita</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-px h-6 bg-kvt-700/30 mx-1"></div>
+
+                    @guest
+                    <a href="{{ route('masuk') }}" class="px-5 py-2 text-sm text-gray-300 hover:text-white bg-kvt-800/50 hover:bg-kvt-700/50 rounded-xl transition font-semibold border border-kvt-700/30 flex items-center gap-2"><i class="fas fa-sign-in-alt text-xs text-kvt-400"></i> Masuk</a>
+                    <a href="{{ route('daftar') }}" class="px-5 py-2 text-sm bg-gradient-to-r from-kvt-500 to-ungu-500 hover:from-kvt-400 hover:to-ungu-400 text-white rounded-xl transition font-bold shadow-lg shadow-kvt-500/20 flex items-center gap-2"><i class="fas fa-user-plus text-xs"></i> Daftar</a>
+                    @else
+                    <div class="relative" id="userMenuWrapper">
+                        <button onclick="toggleUserMenu()" class="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-kvt-800/50 transition group">
+                            <div class="w-8 h-8 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </div>
+                            <div class="leading-tight text-left">
+                                <span class="text-xs text-white font-semibold block max-w-[80px] truncate">{{ Auth::user()->name }}</span>
+                                <div class="flex items-center gap-1">
+                                    <div class="w-12 h-1 bg-kvt-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-kvt-400 to-ungu-500 rounded-full" style="width:{{ min(Auth::user()->level ?? 0, 100) }}%"></div>
+                                    </div>
+                                    <span class="text-[9px] text-gray-500">Lv.{{ Auth::user()->level ?? 0 }}</span>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down text-[8px] text-gray-500 group-hover:text-gray-300 transition"></i>
+                        </button>
+                        <div id="userDropdown" class="hidden absolute right-0 top-full mt-2 w-56 nav-dropdown-inner rounded-2xl overflow-hidden shadow-2xl shadow-black/50 z-50" style="border-radius:14px">
+                            <div class="p-3 border-b border-kvt-700/20">
+                                <p class="text-sm text-white font-semibold">{{ Auth::user()->name }}</p>
+                                <p class="text-[11px] text-gray-500">{{ Auth::user()->email }}</p>
+                                <span class="inline-block mt-1 text-[10px] px-2 py-0.5 rounded-full font-bold {{ Auth::user()->peran === 'admin' ? 'bg-red-500/20 text-red-400' : (Auth::user()->peran === 'pengajar' ? 'bg-green-500/20 text-green-400' : (Auth::user()->peran === 'staff' ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/20 text-blue-400')) }}">
+                                    {{ ucfirst(Auth::user()->peran ?? 'pengguna') }}
+                                </span>
+                            </div>
+                            <div class="p-2 space-y-0.5">
+                                <a href="{{ route('dasbor') }}" class="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-kvt-800/50 rounded-lg transition"><i class="fas fa-tachometer-alt w-5 text-kvt-400 text-xs"></i> Dasbor</a>
+                                @if(Auth::user()->peran === 'admin')
+                                <a href="{{ route('admin.dasbor') }}" class="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-kvt-800/50 rounded-lg transition"><i class="fas fa-crown w-5 text-yellow-400 text-xs"></i> Admin Panel</a>
+                                @endif
+                            </div>
+                            <div class="p-2 border-t border-kvt-700/20">
+                                <form action="{{ route('keluar') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition"><i class="fas fa-sign-out-alt w-5 text-xs"></i> Keluar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @endguest
+                </div>
+
+                {{-- Mobile Toggle --}}
+                <button onclick="toggleMobile()" class="lg:hidden ml-auto w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-800/50 transition">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+
+            </div>{{-- /flex row --}}
 
         {{-- ===== MOBILE MENU ===== --}}
         <div id="mobileMenu" class="hidden lg:hidden border-t border-kvt-700/20">
@@ -1346,6 +1616,54 @@
                 </div>
             </div>
 
+            {{-- LED DOT MATRIX PANEL --}}
+            <div>
+                <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-tv mr-1.5"></i>LED Panel Info</h4>
+                <div class="space-y-2.5">
+                    <div class="setting-item">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center"><i class="fas fa-tv text-green-400 text-sm"></i></div>
+                            <div><p class="text-sm text-white font-medium">LED Panel</p><p class="text-[10px] text-gray-500">Tampilan LED dot matrix</p></div>
+                        </div>
+                        <div class="toggle-switch active" id="toggleLED" onclick="toggleLEDPanel()"></div>
+                    </div>
+                    <div class="mt-3">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Mode Tampilan</p>
+                        <div class="space-y-1.5">
+                            <button onclick="setLEDMode('shalat')" class="led-mode-btn w-full setting-item justify-start gap-3 text-left" data-mode="shalat">
+                                <i class="fas fa-mosque text-green-400 text-xs w-4 text-center"></i>
+                                <span class="text-xs text-white font-medium">Jadwal Shalat</span>
+                            </button>
+                            <button onclick="setLEDMode('waktu_dunia')" class="led-mode-btn w-full setting-item justify-start gap-3 text-left" data-mode="waktu_dunia">
+                                <i class="fas fa-globe text-cyan-400 text-xs w-4 text-center"></i>
+                                <span class="text-xs text-white font-medium">Waktu Dunia</span>
+                            </button>
+                            <button onclick="setLEDMode('motivasi')" class="led-mode-btn w-full setting-item justify-start gap-3 text-left" data-mode="motivasi">
+                                <i class="fas fa-quote-right text-yellow-400 text-xs w-4 text-center"></i>
+                                <span class="text-xs text-white font-medium">Motivasi Harian</span>
+                            </button>
+                            <button onclick="setLEDMode('info')" class="led-mode-btn w-full setting-item justify-start gap-3 text-left" data-mode="info">
+                                <i class="fas fa-info-circle text-kvt-400 text-xs w-4 text-center"></i>
+                                <span class="text-xs text-white font-medium">Info Platform</span>
+                            </button>
+                            <button onclick="setLEDMode('custom')" class="led-mode-btn w-full setting-item justify-start gap-3 text-left" data-mode="custom">
+                                <i class="fas fa-edit text-pink-400 text-xs w-4 text-center"></i>
+                                <span class="text-xs text-white font-medium">Teks Kustom</span>
+                            </button>
+                        </div>
+                        <div id="ledCustomInput" class="mt-2 hidden">
+                            <input type="text" id="ledCustomText" class="w-full bg-kvt-800/50 border border-kvt-700/30 rounded-lg px-3 py-2 text-sm text-green-400 placeholder-gray-600 outline-none focus:border-green-500" placeholder="Ketik teks kustom..." style="font-family:'Press Start 2P',monospace;font-size:10px" maxlength="200">
+                            <button onclick="applyCustomLED()" class="mt-1.5 w-full text-xs bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded-lg transition font-semibold"><i class="fas fa-check mr-1"></i>Terapkan</button>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Kecepatan Scroll</p>
+                        <input type="range" min="10" max="80" value="40" class="w-full h-1 accent-green-500 cursor-pointer" id="ledSpeed" oninput="setLEDSpeed(this.value)" style="background:linear-gradient(to right,#00ff66 40%,#1e293b 40%)">
+                        <div class="flex justify-between text-[10px] text-gray-600 mt-1"><span>Lambat</span><span>Cepat</span></div>
+                    </div>
+                </div>
+            </div>
+
             {{-- TEMA --}}
             <div>
                 <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-palette mr-1.5"></i>Warna Aksen</h4>
@@ -1534,8 +1852,24 @@
 
     {{-- ==================== SCRIPTS ==================== --}}
     <script>
-        // AOS
-        AOS.init({ duration:800, easing:'ease-out-cubic', once:false, mirror:true, offset:80 });
+        // ========================
+        // LOADING SCREEN
+        // ========================
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var ls = document.getElementById('loadingScreen');
+                if(ls) ls.classList.add('hide');
+                setTimeout(function() { if(ls) ls.style.display='none'; }, 600);
+            }, 1200);
+        });
+
+        // AOS (deferred)
+        document.addEventListener('DOMContentLoaded', function() {
+            if(typeof AOS !== 'undefined') AOS.init({ duration:800, easing:'ease-out-cubic', once:true, offset:80 });
+        });
+        window.addEventListener('load', function() {
+            if(typeof AOS !== 'undefined') AOS.init({ duration:800, easing:'ease-out-cubic', once:true, offset:80 });
+        });
 
         // Clock
         function updateJam() {
@@ -1559,7 +1893,7 @@
         // Snow
         function buatSalju() {
             const c = document.getElementById('salju');
-            for(let i=0;i<20;i++) {
+            for(let i=0;i<10;i++) {
                 setTimeout(()=>{
                     const s=document.createElement('div');s.className='kepingan-salju';s.innerHTML='&#10052;';
                     s.style.left=Math.random()*100+'%';s.style.fontSize=(Math.random()*8+4)+'px';
@@ -1593,11 +1927,27 @@
                 const item = this.closest('.nav-item');
                 const wasOpen = item.classList.contains('dropdown-open');
 
-                // Close all other dropdowns
+                // Close all other dropdowns & submenus
                 document.querySelectorAll('.nav-item.dropdown-open').forEach(el => el.classList.remove('dropdown-open'));
+                document.querySelectorAll('.has-submenu.sub-open').forEach(el => el.classList.remove('sub-open'));
 
                 // Toggle this one
                 if(!wasOpen) item.classList.add('dropdown-open');
+            });
+        });
+
+        // Submenu click toggle (Level 2)
+        document.querySelectorAll('.has-submenu > .dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const parent = this.closest('.has-submenu');
+                const wasOpen = parent.classList.contains('sub-open');
+
+                // Close sibling submenus
+                parent.closest('.nav-dropdown-inner').querySelectorAll('.has-submenu.sub-open').forEach(el => el.classList.remove('sub-open'));
+
+                if(!wasOpen) parent.classList.add('sub-open');
             });
         });
 
@@ -1605,6 +1955,7 @@
         document.addEventListener('click', function(e) {
             if(!e.target.closest('.nav-item')) {
                 document.querySelectorAll('.nav-item.dropdown-open').forEach(el => el.classList.remove('dropdown-open'));
+                document.querySelectorAll('.has-submenu.sub-open').forEach(el => el.classList.remove('sub-open'));
             }
         });
 
@@ -1612,6 +1963,119 @@
         document.addEventListener('keydown', function(e) {
             if(e.key === 'Escape') {
                 document.querySelectorAll('.nav-item.dropdown-open').forEach(el => el.classList.remove('dropdown-open'));
+                document.querySelectorAll('.has-submenu.sub-open').forEach(el => el.classList.remove('sub-open'));
+                const nd = document.getElementById('notifDropdown');
+                if(nd) nd.classList.add('hidden');
+                const ud = document.getElementById('userDropdown');
+                if(ud) ud.classList.add('hidden');
+            }
+        });
+
+        // ========================
+        // NAV PAGINATION (Dual Up/Down Arrows) — 5-5-5-5
+        // ========================
+        let navHalamanSaatIni = 0;
+        const navTotalHalaman = 4; // 5-5-5-5
+
+        function navMaju() {
+            if (navHalamanSaatIni < navTotalHalaman - 1) {
+                navHalamanSaatIni++;
+                renderNavPage();
+            }
+        }
+
+        function navMundur() {
+            if (navHalamanSaatIni > 0) {
+                navHalamanSaatIni--;
+                renderNavPage();
+            }
+        }
+
+        function renderNavPage() {
+            const items = document.querySelectorAll('#navMenuItems .nav-menu-item');
+            items.forEach(item => {
+                const page = parseInt(item.getAttribute('data-nav-page'));
+                item.style.display = (page === navHalamanSaatIni) ? '' : 'none';
+            });
+            // Update button disabled states
+            const btnAtas = document.getElementById('navBtnAtas');
+            const btnBawah = document.getElementById('navBtnBawah');
+            const indicator = document.getElementById('navPageIndicator');
+            if (btnAtas) btnAtas.disabled = (navHalamanSaatIni === 0);
+            if (btnBawah) btnBawah.disabled = (navHalamanSaatIni === navTotalHalaman - 1);
+            if (indicator) {
+                indicator.textContent = (navHalamanSaatIni + 1) + '/' + navTotalHalaman;
+            }
+            // Close any open dropdowns & submenus
+            document.querySelectorAll('.nav-item.dropdown-open').forEach(el => el.classList.remove('dropdown-open'));
+            document.querySelectorAll('.has-submenu.sub-open').forEach(el => el.classList.remove('sub-open'));
+        }
+
+        // Init nav pagination on load
+        renderNavPage();
+
+        // ========================
+        // NOTIFICATION BELL
+        // ========================
+        let notifData = [];
+        function toggleNotifikasi() {
+            const dd = document.getElementById('notifDropdown');
+            dd.classList.toggle('hidden');
+            if(!dd.classList.contains('hidden')) muatNotifikasi();
+        }
+        function muatNotifikasi() {
+            fetch('/api/berita/popup').then(r=>r.json()).then(data=>{
+                notifData = data || [];
+                const c = document.getElementById('notifContent');
+                const badge = document.getElementById('notifBadge');
+                const dibaca = JSON.parse(localStorage.getItem('kvt_notif_dibaca') || '[]');
+                const belumDibaca = notifData.filter(b => !dibaca.includes(b.id));
+                if(badge) {
+                    if(belumDibaca.length > 0) { badge.textContent = belumDibaca.length; badge.classList.remove('hidden'); }
+                    else badge.classList.add('hidden');
+                }
+                if(!notifData.length) { c.innerHTML='<div class="text-center py-6 text-gray-500 text-sm"><i class="fas fa-bell-slash text-2xl mb-2 block"></i>Belum ada notifikasi</div>'; return; }
+                c.innerHTML='';
+                const icons=['fa-rocket text-blue-400','fa-shield-alt text-green-400','fa-microscope text-purple-400','fa-trophy text-yellow-400','fa-newspaper text-kvt-400'];
+                const bgIcons=['bg-blue-500/10','bg-green-500/10','bg-purple-500/10','bg-yellow-500/10','bg-kvt-500/10'];
+                notifData.forEach((b,i)=>{
+                    const tgl = new Date(b.terbit_pada).toLocaleDateString('id-ID',{day:'numeric',month:'short'});
+                    const sudahBaca = dibaca.includes(b.id);
+                    c.innerHTML+=`<a href="/berita/${b.slug}" onclick="tandaiDibaca(${b.id})" class="flex gap-2.5 p-2.5 rounded-xl hover:bg-kvt-800/50 transition ${sudahBaca?'opacity-60':''}"><div class="w-8 h-8 ${bgIcons[i%5]} rounded-lg flex items-center justify-center shrink-0"><i class="fas ${icons[i%5]} text-xs"></i></div><div class="flex-1 min-w-0"><p class="text-xs font-semibold text-white truncate">${b.judul}</p><span class="text-[10px] text-gray-500">${tgl}</span></div>${!sudahBaca?'<span class="w-2 h-2 bg-kvt-400 rounded-full shrink-0 mt-2"></span>':''}</a>`;
+                });
+            }).catch(()=>{
+                document.getElementById('notifContent').innerHTML='<div class="text-center py-4 text-gray-500 text-xs">Gagal memuat</div>';
+            });
+        }
+        function tandaiDibaca(id) {
+            let dibaca = JSON.parse(localStorage.getItem('kvt_notif_dibaca') || '[]');
+            if(!dibaca.includes(id)) { dibaca.push(id); localStorage.setItem('kvt_notif_dibaca', JSON.stringify(dibaca)); }
+        }
+        function tandaiSemuaDibaca() {
+            const ids = notifData.map(b=>b.id);
+            localStorage.setItem('kvt_notif_dibaca', JSON.stringify(ids));
+            muatNotifikasi();
+        }
+        // Auto-load notification badge
+        muatNotifikasi();
+
+        // ========================
+        // USER MENU
+        // ========================
+        function toggleUserMenu() {
+            const dd = document.getElementById('userDropdown');
+            if(dd) dd.classList.toggle('hidden');
+        }
+
+        // Close notification & user dropdowns on outside click
+        document.addEventListener('click', function(e) {
+            if(!e.target.closest('#notifWrapper')) {
+                const nd = document.getElementById('notifDropdown');
+                if(nd) nd.classList.add('hidden');
+            }
+            if(!e.target.closest('#userMenuWrapper')) {
+                const ud = document.getElementById('userDropdown');
+                if(ud) ud.classList.add('hidden');
             }
         });
 
@@ -1745,16 +2209,28 @@
         // ========================
         // NEWS TICKER
         // ========================
+        const tickerFallback = [
+            { judul: 'KVT Hub v3.0 Resmi Diluncurkan dengan Fitur Real-Time Analytics', slug: '#' },
+            { judul: 'Program Beasiswa Riset Global 2025 Dibuka untuk Mahasiswa', slug: '#' },
+            { judul: 'Workshop Cybersecurity: Mengamankan Aplikasi Web Modern', slug: '#' },
+            { judul: 'Kompetisi Coding Nasional: KVT Code Challenge 2025', slug: '#' },
+            { judul: 'Alumni KVT Hub Raih Penghargaan Forbes 30 Under 30 Asia', slug: '#' },
+        ];
+        function renderTickerItems(data) {
+            const tc=document.getElementById('tickerContent');
+            if(!data||data.length===0) data = tickerFallback;
+            tc.innerHTML='';
+            const colors=['text-green-400','text-blue-400','text-yellow-400','text-purple-400','text-pink-400','text-cyan-400'];
+            data.forEach((b,i)=>{
+                const href = b.slug && b.slug !== '#' ? '/berita/'+b.slug : '#';
+                tc.innerHTML+=`<a href="${href}" class="inline-flex items-center gap-2 hover:text-white transition${i>0?' ml-12':''}"><i class="fas fa-circle ${colors[i%colors.length]} text-[6px]"></i> ${b.judul}</a>`;
+            });
+        }
         function updateTicker() {
             fetch('/api/berita/ticker').then(r=>r.json()).then(data=>{
-                const tc=document.getElementById('tickerContent');
-                if(!data||data.length===0) return;
-                tc.innerHTML='';
-                const colors=['text-green-400','text-blue-400','text-yellow-400','text-purple-400','text-pink-400','text-cyan-400'];
-                data.forEach((b,i)=>{
-                    tc.innerHTML+=`<a href="/berita/${b.slug}" class="inline-flex items-center gap-2 hover:text-white transition${i>0?' ml-12':''}"><i class="fas fa-circle ${colors[i%colors.length]} text-[6px]"></i> ${b.judul}</a>`;
-                });
-            }).catch(()=>{});
+                if(!data||data.length===0) { renderTickerItems(tickerFallback); return; }
+                renderTickerItems(data);
+            }).catch(()=>{ renderTickerItems(tickerFallback); });
         }
         updateTicker(); setInterval(updateTicker,120000);
 
@@ -1783,6 +2259,141 @@
         tampilkanPopupBerita();
 
         function kirimSaran(e){e.preventDefault();const i=document.getElementById('saranInput');if(i.value.trim()){i.value='';alert('Terima kasih atas saran Anda! Tim KVT akan meninjau masukan ini.')}}
+
+        // ========================
+        // LED DOT MATRIX PANEL
+        // ========================
+        const ledModes = {
+            shalat: 'SUBUH 04:15  ★  DZUHUR 11:45  ★  ASHAR 15:10  ★  MAGHRIB 17:55  ★  ISYA 19:05  ★  TAHAJUD 03:00',
+            waktu_dunia: function() {
+                const now = new Date();
+                const zones = [
+                    { name:'JAKARTA', offset:7 }, { name:'TOKYO', offset:9 },
+                    { name:'LONDON', offset:0 }, { name:'NEW YORK', offset:-5 },
+                    { name:'DUBAI', offset:4 }, { name:'SYDNEY', offset:11 },
+                    { name:'SEOUL', offset:9 }, { name:'BERLIN', offset:1 }
+                ];
+                return zones.map(z => {
+                    const d = new Date(now.getTime() + (z.offset - (now.getTimezoneOffset()/-60)) * 3600000);
+                    return z.name + ' ' + d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+                }).join('  ★  ');
+            },
+            motivasi: [
+                'PENDIDIKAN ADALAH SENJATA PALING AMPUH UNTUK MENGUBAH DUNIA ★ NELSON MANDELA',
+                'BELAJAR TANPA BERPIKIR ADALAH SIA-SIA, BERPIKIR TANPA BELAJAR ADALAH BAHAYA ★ KONFUSIUS',
+                'MASA DEPAN MILIK MEREKA YANG PERCAYA PADA KEINDAHAN MIMPI MEREKA ★ ELEANOR ROOSEVELT',
+                'INVESTASI TERBAIK ADALAH INVESTASI PADA PENGETAHUAN ★ BENJAMIN FRANKLIN',
+                'KEGAGALAN ADALAH BAGIAN DARI SUKSES ★ JANGAN PERNAH MENYERAH',
+            ],
+            info: 'KVT HUB ★ GLOBAL EDUCATION & RESEARCH ECOSYSTEM ★ 13 JENJANG PENDIDIKAN ★ 150+ UNIVERSITAS MITRA ★ 500+ PERUSAHAAN INDUSTRI ★ 120+ SERTIFIKASI ★ 50.000+ PESERTA DIDIK',
+            custom: ''
+        };
+        let ledModeAktif = localStorage.getItem('kvt_led_mode') || 'shalat';
+        let ledSpeedVal = parseInt(localStorage.getItem('kvt_led_speed') || '40');
+
+        function getLEDText() {
+            const mode = ledModeAktif;
+            if(mode === 'waktu_dunia') return ledModes.waktu_dunia();
+            if(mode === 'motivasi') {
+                const arr = ledModes.motivasi;
+                const idx = Math.floor(Date.now() / 60000) % arr.length;
+                return arr[idx];
+            }
+            if(mode === 'custom') {
+                const c = localStorage.getItem('kvt_led_custom') || '';
+                return c || 'KETIK TEKS KUSTOM DI PENGATURAN ★ KVT HUB';
+            }
+            return ledModes[mode] || ledModes.shalat;
+        }
+
+        function updateLEDContent() {
+            const txt = getLEDText();
+            const el1 = document.getElementById('ledText1');
+            const el2 = document.getElementById('ledText2');
+            if(el1) el1.textContent = txt;
+            if(el2) el2.textContent = txt;
+        }
+
+        function setLEDSpeed(val) {
+            ledSpeedVal = parseInt(val);
+            const dur = Math.max(10, 90 - ledSpeedVal) + 's';
+            const track = document.getElementById('ledMatrixTrack');
+            if(track) track.style.animationDuration = dur;
+            localStorage.setItem('kvt_led_speed', val);
+            const slider = document.getElementById('ledSpeed');
+            if(slider) slider.style.background = `linear-gradient(to right,#00ff66 ${val}%,#1e293b ${val}%)`;
+        }
+
+        function setLEDMode(mode) {
+            ledModeAktif = mode;
+            localStorage.setItem('kvt_led_mode', mode);
+            updateLEDContent();
+            // Update UI buttons
+            document.querySelectorAll('.led-mode-btn').forEach(b => {
+                const isActive = b.dataset.mode === mode;
+                b.classList.toggle('bg-green-500/10', isActive);
+                b.classList.toggle('border-green-500/30', isActive);
+            });
+            // Show/hide custom input
+            const ci = document.getElementById('ledCustomInput');
+            if(ci) ci.classList.toggle('hidden', mode !== 'custom');
+        }
+
+        function applyCustomLED() {
+            const txt = document.getElementById('ledCustomText').value.trim().toUpperCase();
+            if(txt) {
+                localStorage.setItem('kvt_led_custom', txt);
+                ledModes.custom = txt;
+                updateLEDContent();
+            }
+        }
+
+        function toggleLEDPanel() {
+            const el = document.getElementById('toggleLED');
+            const bar = document.getElementById('ledMatrixBar');
+            const isActive = el.classList.contains('active');
+            if(isActive) {
+                el.classList.remove('active');
+                if(bar) bar.style.display = 'none';
+                localStorage.setItem('kvt_led', 'off');
+            } else {
+                el.classList.add('active');
+                if(bar) bar.style.display = '';
+                localStorage.setItem('kvt_led', 'on');
+            }
+        }
+
+        // Init LED
+        (function initLED() {
+            updateLEDContent();
+            setLEDSpeed(ledSpeedVal);
+            // Update waktu_dunia every 30s
+            setInterval(function() {
+                if(ledModeAktif === 'waktu_dunia') updateLEDContent();
+            }, 30000);
+            // Update motivasi every minute
+            setInterval(function() {
+                if(ledModeAktif === 'motivasi') updateLEDContent();
+            }, 60000);
+            // Restore saved state
+            if(localStorage.getItem('kvt_led') === 'off') {
+                const bar = document.getElementById('ledMatrixBar');
+                const toggle = document.getElementById('toggleLED');
+                if(bar) bar.style.display = 'none';
+                if(toggle) toggle.classList.remove('active');
+            }
+            // Restore saved mode
+            setLEDMode(ledModeAktif);
+            // Restore custom text
+            const ct = localStorage.getItem('kvt_led_custom');
+            if(ct) {
+                const inp = document.getElementById('ledCustomText');
+                if(inp) inp.value = ct;
+            }
+            // Restore speed slider
+            const sp = document.getElementById('ledSpeed');
+            if(sp) sp.value = ledSpeedVal;
+        })();
 
         // ========================
         // SETTINGS PANEL
@@ -1939,6 +2550,10 @@
             localStorage.removeItem('kvt_accent');
             localStorage.removeItem('kvt_bg');
             localStorage.removeItem('kvt_lang');
+            localStorage.removeItem('kvt_led');
+            localStorage.removeItem('kvt_led_mode');
+            localStorage.removeItem('kvt_led_speed');
+            localStorage.removeItem('kvt_led_custom');
             location.reload();
         }
 

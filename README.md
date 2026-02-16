@@ -8,35 +8,35 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![ISO](https://img.shields.io/badge/ISO-27001-brightgreen)
 ![COBIT](https://img.shields.io/badge/COBIT-2019-blue)
-![Version](https://img.shields.io/badge/Version-5.0-orange)
+![Version](https://img.shields.io/badge/Version-4.0-orange)
 ![Pages](https://img.shields.io/badge/Halaman-66+-blueviolet)
 ![Menus](https://img.shields.io/badge/Menu-16-teal)
 ![Sidebar](https://img.shields.io/badge/Sidebar-Role--Based-purple)
+![Roles](https://img.shields.io/badge/Roles-7-crimson)
 ![Music](https://img.shields.io/badge/Music-Streaming-ff69b4)
 
 ---
 
 ## Tentang
 
-KVT Hub v5.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan yang mengintegrasikan 13 jenjang pendidikan (TK hingga S3/PhD) dengan teknologi gamifikasi RPG, kolaborasi riset global, dan standar keamanan enterprise. Platform ini menghubungkan pengguna, tim pengajar, dan administrator dalam satu ekosistem terintegrasi dengan **16 menu utama**, **66+ halaman landing page**, **55+ rute**, **sidebar navigasi per role**, dan **musik streaming** bawaan.
+KVT Hub v4.0 adalah ekosistem pembelajaran, karir, dan riset digital terdepan yang mengintegrasikan 13 jenjang pendidikan (TK hingga S3/PhD) dengan teknologi gamifikasi RPG, kolaborasi riset global, dan standar keamanan enterprise. Platform ini menghubungkan **7 peran** — Admin, Staff, Guru/Pengajar, Siswa, Mahasiswa, Orang Tua, dan Pengunjung — dalam satu ekosistem terintegrasi dengan sistem verifikasi dokumen, **16 menu utama**, **66+ halaman landing page**, **90+ rute**, **sidebar navigasi per role**, **modal-based CRUD**, dan **musik streaming** bawaan.
 
-### Apa yang Baru di v5.0
+### Apa yang Baru di v4.0
 
-- **Rename Peran**: `siswa` → `pengguna`, `guru` → `tim` — konsisten di seluruh codebase
-- **Role-Based Sidebar Navigation** -- Sidebar navigasi unik untuk setiap peran (Admin 15 menu, Tim 8 menu, Pengguna 10 menu)
-- **3-Step Registration Wizard** -- Formulir pendaftaran 3 langkah: Data Diri → Peran & Tujuan → Keamanan
-- **Google reCAPTCHA** -- Keamanan CAPTCHA pada form pendaftaran
-- **Password Strength Meter** -- Indikator kekuatan password visual 4-bar
-- **Music Player** -- Pemutar musik streaming di panel settings dengan 5 stasiun radio (Lo-Fi, Jazz, Deep House, Ambient, Classical)
-- **Expanded Seeder** -- 63 user (1 admin, 11 tim, 51 pengguna), 10 kelas, 14 berita, 15 mitra
-- **Header Sizing Fix** -- Padding dan font navigasi dioptimalkan (10px 16px, 13.5px)
-- **Dashboard Label Update** -- Dasbor Guru → Dasbor Tim, Dasbor Siswa → Dasbor Pengguna
+- **7-Role System**: Redesign dari 4 role menjadi 7 role — `admin`, `staff`, `guru`, `siswa`, `mahasiswa`, `orang_tua`, `pengunjung`
+- **Sistem Verifikasi Dokumen**: Registrasi guru/pengajar dengan upload CV, ijazah, sertifikat, KTP — Admin verifikasi approve/tolak
+- **Multi-Step Registration**: Form pendaftaran 4 langkah (Data Diri → Peran & Lokasi → Dokumen → Keamanan)
+- **Pendaftaran Pengajar Terpisah**: Halaman khusus `/daftar-pengajar` dengan upload dokumen wajib
+- **Admin Verification Panel**: Panel admin untuk melihat, menyetujui, atau menolak akun pending
+- **Status Verifikasi**: Halaman status verifikasi untuk pengguna yang menunggu persetujuan
+- **Middleware Verifikasi**: Middleware `CekPeran` sekarang mencek status verifikasi sebelum mengizinkan akses
+- **Fix 419 Page Expired**: Perbaikan SESSION_DOMAIN di .env untuk mengatasi error CSRF token mismatch
 
 ## Arsitektur Ekosistem
 
 ```
                            +---------------------------+
-                           |      KVT Hub v5.0         |
+                           |      KVT Hub v4.0         |
                            |  Global Education & Riset |
                            +-------------+-------------+
                                          |
@@ -217,21 +217,44 @@ Setiap halaman mengikuti struktur konsisten:
 
 - Bar, Line, Pie, Doughnut, Radar, Polar Area, dan lainnya via Chart.js v4
 
-### Multi-Peran (3 Role)
+### Multi-Peran (4 Role)
 
-| Peran    | Kemampuan                                                         |
-| -------- | ----------------------------------------------------------------- |
-| Pengguna | Belajar, ikut kelas, ambil kuis, lihat progress, KRS/KHS         |
-| Tim      | Buat kelas & materi, kelola pengguna, buat kuis, laporan          |
-| Admin    | Kelola semua data, berita, mitra, pengunjung, kunci, paket, CRUD  |
+| Peran    | Kemampuan                                                                      |
+| -------- | ------------------------------------------------------------------------------ |
+| Admin    | Kelola semua data, 14 CRUD modal, laporan, pengunjung, paket, kunci            |
+| Pengajar | Buat & kelola kelas, materi, kuis, laporan & diagram, kurikulum                |
+| Staff    | Kelola data pengguna, kehadiran, rekap, kelas, laporan                         |
+| Pengguna | Belajar, ikut kelas, KRS/KHS, kuis, progress, sertifikasi, komunitas          |
 
 ### Role-Based Sidebar Navigation
 
-| Peran    | Jumlah Menu | Menu Utama                                                                           |
-| -------- | ----------- | ------------------------------------------------------------------------------------ |
+| Peran    | Jumlah Menu | Menu Utama                                                                                                                                        |
+| -------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Admin    | 15          | Dashboard, Pengguna, Kelas, Berita, Kerja Sama, Kurikulum, Mapel, Organisasi, KRS, Nilai, Bobot Nilai, Laporan Akademik, Pengunjung, Paket, Kunci |
-| Tim      | 8           | Dashboard, Kelas Saya, Buat Kelas, Buat Materi, Laporan, Kurikulum, Sertifikasi, Komunitas |
-| Pengguna | 10          | Dashboard, Kelas, KRS, KHS, Laporan, Kurikulum, Sertifikasi, Komunitas, Media, Panduan |
+| Pengajar | 9           | Dashboard, Kelas Saya, Buat Kelas, Materi Saya, Buat Materi, Laporan, Kurikulum, Sertifikasi, Komunitas                                          |
+| Staff    | 6           | Dashboard, Data Pengguna, Kehadiran, Rekap Kehadiran, Kelas, Laporan                                                                             |
+| Pengguna | 10          | Dashboard, Kelas, KRS, KHS, Laporan, Kurikulum, Sertifikasi, Komunitas, Media, Panduan                                                           |
+
+### Admin Modal-Based CRUD
+
+Semua fitur admin CRUD menggunakan inline modal popup (bukan halaman form terpisah):
+
+| Fitur            | Aksi                                 | Fitur Khusus                                       |
+| ---------------- | ------------------------------------ | -------------------------------------------------- |
+| Pengguna         | CRUD + Toggle Aktif                  | Stats per role, self-protection                    |
+| Kelas            | CRUD                                 | Dropdown pengajar, auto kode_kelas                 |
+| Berita           | CRUD                                 | Gambar upload, ticker/popup/unggulan checkboxes    |
+| Kerja Sama       | CRUD                                 | Logo upload, tipe/tier filter, slug otomatis       |
+| Kurikulum        | CRUD                                 | Jenjang filter (SD-S3), akreditasi, durasi/SKS     |
+| Mata Pelajaran   | CRUD                                 | Kurikulum dropdown, kode unik, semester, tipe      |
+| Organisasi       | CRUD                                 | Tipe filter, aktif/unggulan toggles                |
+| KRS Mahasiswa    | Setujui/Tolak/Hapus                  | Approval workflow, catatan tolak, detail modal     |
+| Nilai            | CRUD                                 | Auto kalkulasi nilai_akhir + huruf_mutu            |
+| Bobot Nilai      | CRUD (Upsert)                        | Kurikulum filter, panduan bobot standar            |
+| Laporan Akademik | Generate/Lihat/Hapus                 | 4 tipe: rekap nilai, statistik KRS, performa, IPK |
+| Paket Eksklusif  | CRUD + Toggle Aktif                  | Card grid, fitur list, XP bonus, langganan count   |
+| Kunci Admin      | Batch Create/Hapus/Bersihkan Terpakai| Stats aktif/terpakai, format KVT-XXXXX             |
+| Pengunjung       | View Only                            | Grafik, browser, negara, halaman populer           |
 
 ### Music Player (Streaming)
 
@@ -244,11 +267,11 @@ Setiap halaman mengikuti struktur konsisten:
 
 ### 3-Step Registration Wizard
 
-| Step | Konten                                                                                   |
-| ---- | ---------------------------------------------------------------------------------------- |
-| 1    | Data Diri: Nama, Email, Asal Instansi, Kota                                             |
-| 2    | Peran & Tujuan: Role (Pengguna/Tim), Tujuan, Bidang Minat, Sumber Informasi              |
-| 3    | Keamanan: Password (strength meter), Konfirmasi, reCAPTCHA, Terms, Notifikasi opt-in     |
+| Step | Konten                                                                               |
+| ---- | ------------------------------------------------------------------------------------ |
+| 1    | Data Diri: Nama, Email, Asal Instansi, Kota                                          |
+| 2    | Peran & Tujuan: Role (Pengguna/Tim), Tujuan, Bidang Minat, Sumber Informasi          |
+| 3    | Keamanan: Password (strength meter), Konfirmasi, reCAPTCHA, Terms, Notifikasi opt-in |
 
 ## Database Schema (PostgreSQL)
 
@@ -262,20 +285,20 @@ Setiap halaman mengikuti struktur konsisten:
 
 ### Tabel Existing
 
-| Tabel               | Deskripsi                         |
-| ------------------- | --------------------------------- |
+| Tabel               | Deskripsi                           |
+| ------------------- | ----------------------------------- |
 | users               | Pengguna (pengguna/tim/admin) + RPG |
-| kelas               | Kelas pembelajaran                |
-| kelas_anggota       | Relasi many-to-many user-kelas    |
-| materi              | Materi per kelas (video/artikel)  |
-| kuis                | Kuis dengan soal JSON             |
-| jawaban_kuis        | Jawaban & skor siswa              |
-| laporan_kehadiran   | Laporan dengan 30 jenis diagram   |
-| progress_materi     | Tracking selesai per materi       |
-| pencapaian          | Achievement badges                |
-| pengguna_pencapaian | Relasi user-achievement           |
-| paket_eksklusif     | Paket langganan premium           |
-| kunci_admin         | Kunci untuk akses admin           |
+| kelas               | Kelas pembelajaran                  |
+| kelas_anggota       | Relasi many-to-many user-kelas      |
+| materi              | Materi per kelas (video/artikel)    |
+| kuis                | Kuis dengan soal JSON               |
+| jawaban_kuis        | Jawaban & skor siswa                |
+| laporan_kehadiran   | Laporan dengan 30 jenis diagram     |
+| progress_materi     | Tracking selesai per materi         |
+| pencapaian          | Achievement badges                  |
+| pengguna_pencapaian | Relasi user-achievement             |
+| paket_eksklusif     | Paket langganan premium             |
+| kunci_admin         | Kunci untuk akses admin             |
 
 ## API Endpoints
 
@@ -290,6 +313,241 @@ Setiap halaman mengikuti struktur konsisten:
 | `/api/berita/popup`               | GET    | 5 berita untuk popup                      |
 | `/api/search?q=keyword`           | GET    | hasil[] dari berita, kelas, materi, mitra |
 
+## ERD (Entity Relationship Diagram)
+
+```
+┌──────────┐     ┌──────────────┐     ┌───────────────┐
+│  users   │────<│     krs      │>────│  kurikulum    │
+│──────────│     │──────────────│     │───────────────│
+│ id       │     │ id           │     │ id            │
+│ name     │     │ user_id (FK) │     │ nama          │
+│ email    │     │ kurikulum_id │     │ jenjang       │
+│ peran    │     │ semester     │     │ durasi_tahun  │
+│ level    │     │ total_sks    │     │ total_sks     │
+│ xp       │     │ status       │     │ akreditasi    │
+└──────┬───┘     └──────┬───────┘     └───────┬───────┘
+       │                │                     │
+       │         ┌──────┴───────┐     ┌───────┴───────────┐
+       │         │  krs_detail  │     │  mata_pelajaran   │
+       │         │──────────────│     │───────────────────│
+       │         │ krs_id (FK)  │     │ id                │
+       │         │ mapel_id(FK) │────>│ kurikulum_id (FK) │
+       │         │ sks          │     │ nama, kode        │
+       │         └──────────────┘     │ sks, semester     │
+       │                              └───────┬───────────┘
+       │                                      │
+       │         ┌──────────────┐     ┌───────┴───────┐
+       ├────────<│   nilai      │>────│               │
+       │         │──────────────│     │  bobot_nilai  │
+       │         │ user_id (FK) │     │───────────────│
+       │         │ mapel_id(FK) │     │ kurikulum_id  │
+       │         │ tugas, uts   │     │ huruf, bobot  │
+       │         │ uas, praktik │     │ batas_bawah   │
+       │         │ nilai_akhir  │     │ batas_atas    │
+       │         │ huruf_mutu   │     └───────────────┘
+       │         └──────────────┘
+       │
+       │         ┌──────────────┐     ┌───────────────┐
+       ├────────<│   kelas      │>────│    materi     │
+       │         │──────────────│     │───────────────│
+       │         │ pengajar_id  │     │ kelas_id (FK) │
+       │         │ nama, kode   │     │ judul, konten │
+       │         │ status       │     │ tipe, urutan  │
+       │         └──────────────┘     └───────────────┘
+       │
+       │         ┌──────────────┐     ┌───────────────────┐
+       ├────────<│ kunci_admin  │     │  laporan_akademik │
+       │         │──────────────│     │───────────────────│
+       │         │ kunci        │     │ judul, tipe       │
+       │         │ digunakan    │     │ kurikulum_id      │
+       │         │ user_id (FK) │     │ dibuat_oleh (FK)  │
+       │         └──────────────┘     │ data (JSON)       │
+       │                              │ status            │
+       │         ┌──────────────┐     └───────────────────┘
+       ├────────<│  langganan   │
+       │         │──────────────│     ┌───────────────┐
+       │         │ user_id (FK) │     │  organisasi   │
+       │         │ paket_id(FK) │     │───────────────│
+       │         └──────┬───────┘     │ nama, tipe    │
+       │                │             │ aktif, unggulan│
+       │         ┌──────┴───────┐     └───────────────┘
+       │         │paket_eksklusif
+       │         │──────────────│     ┌───────────────┐
+       │         │ nama, harga  │     │   berita      │
+       │         │ durasi_hari  │     │───────────────│
+       │         │ xp_bonus     │     │ judul, slug   │
+       │         │ fitur, aktif │     │ konten, status│
+       │         └──────────────┘     │ kategori      │
+       │                              └───────────────┘
+       │         ┌──────────────┐
+       └────────<│  pengunjung  │     ┌───────────────┐
+                 │──────────────│     │  kerja_sama   │
+                 │ ip_address   │     │───────────────│
+                 │ halaman      │     │ nama, slug    │
+                 │ negara       │     │ tipe, tier    │
+                 │ browser, os  │     │ logo, aktif   │
+                 └──────────────┘     └───────────────┘
+```
+
+## Use Case Diagram
+
+```
+                        ┌─────────────────────────────────────────────┐
+                        │              KVT Hub v6.0                   │
+                        │                                             │
+  ┌───────┐             │  ┌─────────────────────────┐                │
+  │ Guest │────────────>│  │ Lihat Landing Page       │                │
+  │(Tamu) │────────────>│  │ Baca Berita              │                │
+  │       │────────────>│  │ Lihat Kerja Sama         │                │
+  │       │────────────>│  │ Cari (Search Engine)     │                │
+  │       │────────────>│  │ Daftar / Login           │                │
+  └───────┘             │  └─────────────────────────┘                │
+                        │                                             │
+  ┌──────────┐          │  ┌─────────────────────────┐                │
+  │ Pengguna │─────────>│  │ Akses Dashboard          │                │
+  │(Mahasiswa│─────────>│  │ Ikut Kelas               │                │
+  │         )│─────────>│  │ Ajukan KRS               │                │
+  │          │─────────>│  │ Lihat KHS / Nilai        │                │
+  │          │─────────>│  │ Kerjakan Kuis            │                │
+  │          │─────────>│  │ Lihat Materi & Progress  │                │
+  │          │─────────>│  │ Lihat Laporan & Diagram  │                │
+  └──────────┘          │  └─────────────────────────┘                │
+                        │                                             │
+  ┌──────────┐          │  ┌─────────────────────────┐                │
+  │ Pengajar │─────────>│  │ Buat & Kelola Kelas      │                │
+  │          │─────────>│  │ Buat & Kelola Materi     │                │
+  │          │─────────>│  │ Buat Kuis                │                │
+  │          │─────────>│  │ Lihat Laporan & Diagram  │                │
+  └──────────┘          │  └─────────────────────────┘                │
+                        │                                             │
+  ┌──────────┐          │  ┌─────────────────────────┐                │
+  │   Staff  │─────────>│  │ Kelola Data Pengguna     │                │
+  │          │─────────>│  │ Catat & Rekap Kehadiran  │                │
+  │          │─────────>│  │ Lihat Kelas              │                │
+  │          │─────────>│  │ Lihat Laporan & Diagram  │                │
+  └──────────┘          │  └─────────────────────────┘                │
+                        │                                             │
+  ┌──────────┐          │  ┌─────────────────────────┐                │
+  │  Admin   │─────────>│  │ CRUD Pengguna            │                │
+  │          │─────────>│  │ CRUD Kelas, Berita, Mitra│                │
+  │          │─────────>│  │ CRUD Kurikulum & Mapel   │                │
+  │          │─────────>│  │ Setujui/Tolak KRS        │                │
+  │          │─────────>│  │ Input & Kalkulasi Nilai  │                │
+  │          │─────────>│  │ Generate Laporan Akademik│                │
+  │          │─────────>│  │ Kelola Organisasi        │                │
+  │          │─────────>│  │ Kelola Paket & Kunci     │                │
+  │          │─────────>│  │ Analitik Pengunjung      │                │
+  └──────────┘          │  └─────────────────────────┘                │
+                        └─────────────────────────────────────────────┘
+```
+
+## Flowchart Alur Sistem
+
+### Alur Pendaftaran & Login
+
+```
+┌─────────┐    ┌──────────┐    ┌────────────┐    ┌──────────┐    ┌──────────┐
+│  Start  │───>│ Landing  │───>│ Pilih:     │───>│ Register │───>│ 3-Step   │
+│         │    │ Page     │    │ Login/     │    │ Form     │    │ Wizard   │
+└─────────┘    └──────────┘    │ Register   │    └──────────┘    │ 1.Data   │
+                               └─────┬──────┘                    │ 2.Role   │
+                                     │                           │ 3.Pass   │
+                               ┌─────┴──────┐                   └────┬─────┘
+                               │ Login Form │                        │
+                               │ Email+Pass │                   ┌────┴─────┐
+                               └─────┬──────┘                   │ Validasi │
+                                     │                          │ reCAPTCHA│
+                               ┌─────┴──────┐                  └────┬─────┘
+                               │  Cek Peran  │<─────────────────────┘
+                               └─────┬──────┘
+                    ┌────────┬────────┼────────┬──────────┐
+                    ▼        ▼        ▼        ▼          ▼
+              ┌──────┐ ┌────────┐ ┌──────┐ ┌────────┐
+              │Admin │ │Pengajar│ │Staff │ │Pengguna│
+              │Dasbor│ │Dasbor  │ │Dasbor│ │Dasbor  │
+              └──────┘ └────────┘ └──────┘ └────────┘
+```
+
+### Alur KRS Akademik
+
+```
+┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+│ Pengguna │───>│ Pilih    │───>│ Pilih    │───>│ Ajukan   │
+│ Login    │    │ Kurikulum│    │ Mata     │    │ KRS      │
+└──────────┘    │ & Semester│   │ Pelajaran│    │ (Submit) │
+                └──────────┘    └──────────┘    └────┬─────┘
+                                                     │
+                                                ┌────┴─────┐
+                                                │  Status: │
+                                                │ Menunggu │
+                                                └────┬─────┘
+                                                     │
+                                                ┌────┴─────┐
+                                                │  Admin   │
+                                                │  Review  │
+                                                └────┬─────┘
+                                          ┌──────────┼──────────┐
+                                          ▼                     ▼
+                                    ┌──────────┐          ┌──────────┐
+                                    │ Disetujui│          │  Ditolak │
+                                    │          │          │ +Catatan │
+                                    └────┬─────┘          └──────────┘
+                                         │
+                                    ┌────┴─────┐
+                                    │ Mahasiswa│
+                                    │ Ikut     │
+                                    │ Kuliah   │
+                                    └────┬─────┘
+                                         │
+                                    ┌────┴─────┐
+                                    │  Input   │
+                                    │  Nilai   │
+                                    │  (Admin) │
+                                    └────┬─────┘
+                                         │
+                                    ┌────┴─────┐
+                                    │  Auto    │
+                                    │  Hitung  │
+                                    │  IPK/KHS │
+                                    └──────────┘
+```
+
+### Alur Admin CRUD (Modal Pattern)
+
+```
+┌──────────┐    ┌──────────┐    ┌──────────┐
+│  Admin   │───>│ Sidebar  │───>│ Halaman  │
+│  Login   │    │ Menu     │    │ Index    │
+└──────────┘    └──────────┘    └────┬─────┘
+                                     │
+                    ┌────────────┬────┴────┬──────────┐
+                    ▼            ▼         ▼          ▼
+              ┌──────────┐ ┌────────┐ ┌────────┐ ┌────────┐
+              │ Klik     │ │ Klik   │ │ Klik   │ │Search/ │
+              │ Tambah   │ │ Edit   │ │ Hapus  │ │Filter  │
+              └────┬─────┘ └───┬────┘ └───┬────┘ └───┬────┘
+                   │           │          │          │
+              ┌────┴─────┐ ┌──┴─────┐ ┌──┴─────┐    │
+              │  Modal   │ │ Modal  │ │ Modal  │    │
+              │  Create  │ │ Edit   │ │ Confirm│    │
+              │  Form    │ │ (Auto  │ │ Delete │    │
+              │          │ │ Isi    │ │        │    │
+              └────┬─────┘ │ Data)  │ └───┬────┘    │
+                   │       └───┬────┘     │         │
+              ┌────┴─────┐ ┌──┴─────┐ ┌──┴─────┐   │
+              │  POST    │ │  PUT   │ │ DELETE │   │
+              │  /simpan │ │ /{id}  │ │ /{id}  │   │
+              └────┬─────┘ └───┬────┘ └───┬────┘   │
+                   │           │          │         │
+                   └─────────┬─┴──────────┘         │
+                             ▼                      │
+                       ┌──────────┐                 │
+                       │ Redirect │<────────────────┘
+                       │ back()   │
+                       │ + Flash  │
+                       └──────────┘
+```
+
 ## Teknologi
 
 | Kategori  | Teknologi                              |
@@ -303,7 +561,7 @@ Setiap halaman mengikuti struktur konsisten:
 | Font      | Google Fonts (Inter + JetBrains Mono)  |
 | Geo API   | ip-api.com (free, 45 req/min)          |
 | Flag CDN  | flagcdn.com                            |
-| Keamanan  | RBAC, CSRF, XSS, reCAPTCHA, Auth Guard|
+| Keamanan  | RBAC, CSRF, XSS, reCAPTCHA, Auth Guard |
 | Musik     | Streaming radio (ilovemusic.de)        |
 | Translate | Google Translate Widget (6 bahasa)     |
 
@@ -360,15 +618,21 @@ Buka `http://localhost:8000` atau `http://kvt-hub.test` (Laragon).
 
 ### Akun Demo
 
-| Peran    | Email              | Password    |
-| -------- | ------------------ | ----------- |
-| Admin    | admin@kvthub.id    | admin123    |
-| Tim      | tim@kvthub.id      | tim123      |
-| Pengguna | pengguna@kvthub.id | pengguna123 |
+| Peran      | Email                  | Password       | Status       |
+| ---------- | ---------------------- | -------------- | ------------ |
+| Admin      | admin@kvthub.id        | admin123       | Verified     |
+| Guru       | guru@kvthub.id         | guru123        | Verified     |
+| Staff      | staff@kvthub.id        | staff123       | Verified     |
+| Siswa      | siswa@kvthub.id        | siswa123       | Verified     |
+| Mahasiswa  | mahasiswa@kvthub.id    | mahasiswa123   | Verified     |
+| Orang Tua  | orangtua@kvthub.id     | orangtua123    | Verified     |
+| Pengunjung | pengunjung@kvthub.id   | pengunjung123  | Verified     |
+| Guru (P)   | guru.pending@kvthub.id | guru123        | Pending      |
+| Siswa (P)  | siswa.pending@kvthub.id| siswa123       | Pending      |
 
 Kunci Admin: `KVT-ADMIN-2025-SECRET`
 
-**Seeder Data**: 63 user (1 admin, 11 tim, 51 pengguna), 10 kelas, 14 berita, 15 mitra, 150 pengunjung, 9 kurikulum, 14 organisasi, 26+ mata pelajaran, 8 pencapaian.
+**Seeder Data**: 70+ user (1 admin, 8 guru, 4 staff, 50+ siswa, mahasiswa, orang tua, pengunjung), 10 kelas, 14 berita, 15 mitra, 150 pengunjung, 9 kurikulum, 14 organisasi, 26+ mata pelajaran, 8 pencapaian.
 
 ## Struktur Proyek
 
@@ -377,71 +641,89 @@ kvt-hub/
 |-- app/
 |   |-- Http/
 |   |   |-- Controllers/
-|   |   |   |-- AdminController.php         # Admin user/kunci/paket
-|   |   |   |-- AuthController.php          # Login/register/OAuth
-|   |   |   |-- BerandaController.php       # Homepage + Auth branching
-|   |   |   |-- BeritaController.php        # Berita CRUD + ticker/popup API
-|   |   |   |-- DasborController.php        # User dashboard
-|   |   |   |-- KelasController.php         # Kelas management
-|   |   |   |-- KerjaSamaController.php     # Mitra/sponsor CRUD
-|   |   |   |-- KuisController.php          # Quiz system
-|   |   |   |-- LaporanController.php       # Reports + 30 charts
-|   |   |   |-- MateriController.php        # Materi video/artikel
-|   |   |   |-- PengunjungController.php    # Visitor analytics API
-|   |   |   +-- SearchController.php        # Search engine backend
+|   |   |   |-- AuthController.php              # Login/register/OAuth
+|   |   |   |-- BerandaController.php           # Homepage + Auth branching
+|   |   |   |-- BeritaController.php            # Berita publik + ticker/popup API
+|   |   |   |-- KelasController.php             # Kelas publik
+|   |   |   |-- KerjaSamaController.php         # Mitra publik
+|   |   |   |-- KuisController.php              # Quiz system
+|   |   |   |-- LaporanController.php           # Reports + 30 charts
+|   |   |   |-- MateriController.php            # Materi video/artikel
+|   |   |   |-- PengunjungController.php        # Visitor analytics API
+|   |   |   |-- SearchController.php            # Search engine backend
+|   |   |   |-- Admin/                          # 14 admin controllers
+|   |   |   |   |-- DasborController.php        # Admin dashboard stats
+|   |   |   |   |-- PenggunaController.php      # User CRUD + toggle
+|   |   |   |   |-- KelasController.php         # Admin kelas CRUD
+|   |   |   |   |-- BeritaController.php        # Berita CRUD (modal)
+|   |   |   |   |-- KerjaSamaController.php     # Mitra CRUD (modal)
+|   |   |   |   |-- KurikulumController.php     # Kurikulum CRUD
+|   |   |   |   |-- MataPelajaranController.php # Mapel CRUD
+|   |   |   |   |-- OrganisasiController.php    # Organisasi CRUD
+|   |   |   |   |-- KrsController.php           # KRS approval workflow
+|   |   |   |   |-- NilaiController.php         # Nilai CRUD + auto calc
+|   |   |   |   |-- BobotNilaiController.php    # Bobot upsert
+|   |   |   |   |-- LaporanAkademikController.php # Report generator
+|   |   |   |   |-- PaketController.php         # Paket CRUD + toggle
+|   |   |   |   |-- KunciController.php         # Kunci batch create
+|   |   |   |   +-- PengunjungController.php    # Visitor analytics
+|   |   |   |-- Pengajar/                       # Pengajar controllers
+|   |   |   |-- Staff/                          # Staff controllers
+|   |   |   +-- Pengguna/                       # Pengguna controllers
 |   |   +-- Middleware/
-|   |       |-- CekPeran.php                # Role check middleware
-|   |       +-- CatatPengunjung.php         # Visitor tracking middleware
-|   +-- Models/ (16 models)
-|       |-- Berita.php, Kehadiran.php, Kelas.php, KerjaSama.php
+|   |       |-- CekPeran.php                    # Role check (4 roles)
+|   |       +-- CatatPengunjung.php             # Visitor tracking
+|   +-- Models/ (25+ models)
+|       |-- Berita.php, BobotNilai.php, JenjangPengguna.php, Kehadiran.php
+|       |-- Kelas.php, KerjaSama.php, Krs.php, KrsDetail.php
 |       |-- Kuis.php, KuisHasil.php, KuisPertanyaan.php, KunciAdmin.php
-|       |-- Langganan.php, Laporan.php, Materi.php, MateriProgres.php
-|       |-- PaketEksklusif.php, Pencapaian.php, Pengunjung.php, User.php
+|       |-- Kurikulum.php, Langganan.php, Laporan.php, LaporanAkademik.php
+|       |-- MataPelajaran.php, Materi.php, MateriProgres.php, Nilai.php
+|       |-- Organisasi.php, PaketEksklusif.php, PaketSemester.php
+|       |-- Pencapaian.php, Pengunjung.php, User.php
 |-- database/
-|   |-- migrations/ (15 migration files)
-|   +-- seeders/DatabaseSeeder.php
-|-- public/images/                          # 9 SVG illustrations
-|   |-- hero-education.svg, ecosystem-hub.svg, flowchart-alur.svg
-|   |-- dashboard-preview.svg, sertifikat-preview.svg
-|   |-- keamanan-shield.svg, riset-lab.svg
-|   |-- jenjang-steps.svg, komunitas-network.svg
+|   |-- migrations/ (20+ migration files)
+|   +-- seeders/ (split per domain)
 |-- resources/views/
-|   |-- tata-letak/utama.blade.php          # Main layout (16 menus, ticker, footer, search, music player)
-|   |-- tata-letak/sidebar.blade.php        # Role-based sidebar navigation (admin/tim/pengguna)
-|   |-- beranda.blade.php                   # Guest homepage (~688 lines)
-|   |-- beranda-pengguna.blade.php          # Auth homepage (~240 lines)
-|   |-- berita/                             # index + tampilkan
-|   |-- kerja-sama/                         # index + tampilkan
-|   |-- admin/                              # berita/, kerja-sama/, pengunjung
-|   |-- auth/                               # masuk, daftar, masuk-admin
-|   |-- dasbor/, kelas/, materi/, kuis/, laporan/
-|   +-- halaman/                            # 66+ landing pages
-|       |-- jenjang-pendidikan.blade.php    # Induk: Jenjang
-|       |-- penjamin-mutu.blade.php         # Induk: Penjamin Mutu
-|       |-- riset-inovasi.blade.php         # Induk: Riset
-|       |-- karir-industri.blade.php        # Induk: Karir
-|       |-- komunitas.blade.php             # Induk: Komunitas
-|       |-- sertifikasi.blade.php           # Induk: Sertifikasi
-|       |-- sumber-daya.blade.php           # Induk: Sumber Daya
-|       |-- keamanan.blade.php              # Induk: Keamanan
-|       |-- kurikulum.blade.php             # Induk: Kurikulum (NEW v4)
-|       |-- alur-panduan.blade.php          # Induk: Alur & Panduan (NEW v4)
-|       |-- media.blade.php                 # Induk: Media (NEW v4)
-|       |-- dokumen.blade.php               # Induk: Dokumen (NEW v4)
-|       |-- pendidikan-dasar/               # 7 subpages (tk-paud, sd-mi, smp-mts, sma-ma, smk-*)
-|       |-- pendidikan-tinggi/              # 6 subpages (diploma, sarjana, magister, doktoral, post-doktoral, profesi)
-|       |-- riset/                          # 4 subpages (publikasi, kolaborasi, inovasi-paten, konferensi)
-|       |-- karir/                          # 4 subpages (mentoring, cv-builder, lowongan, magang)
-|       |-- komunitas/                      # 5 subpages (forum-diskusi, study-group, alumni-network, hackathon, open-source)
-|       |-- sertifikasi/                    # 3 subpages (kompetensi-nasional, cloud-tech, blockchain-credential)
-|       |-- sumber-daya/                    # 3 subpages (ebook-modul, dataset, dev-tools)
-|       |-- keamanan/                       # 2 subpages (tata-kelola-it, privasi-data)
-|       |-- kurikulum/                      # 4 subpages (silabus, rps-template, kalender-akademik, learning-outcomes) (NEW v4)
-|       |-- alur-panduan/                   # 4 subpages (flowchart-sistem, panduan-pengguna, sop-prosedur, faq-bantuan) (NEW v4)
-|       |-- media/                          # 4 subpages (video-tutorial, webinar-event, podcast-audio, galeri-foto) (NEW v4)
-|       +-- dokumen/                        # 4 subpages (kebijakan-privasi, template-administrasi, surat-formulir, arsip-regulasi) (NEW v4)
-|-- routes/web.php                           # 55+ halaman routes + API endpoints
-+-- bootstrap/app.php                       # Middleware registration
+|   |-- tata-letak/
+|   |   |-- utama.blade.php                    # Landing layout (16 menus, ticker, footer, search, music)
+|   |   |-- dasbor.blade.php                   # Dashboard layout (sidebar + topbar)
+|   |   |-- auth.blade.php                     # Auth layout (login/register)
+|   |   +-- sidebar.blade.php                  # Role-based sidebar (4 roles)
+|   |-- akun/
+|   |   |-- admin/                             # 14 modal-based CRUD views
+|   |   |   |-- dasbor.blade.php               # Admin dashboard
+|   |   |   |-- pengguna.blade.php             # User management
+|   |   |   |-- kelas.blade.php                # Class management
+|   |   |   |-- berita.blade.php               # News CRUD
+|   |   |   |-- kerja-sama.blade.php           # Partnership CRUD
+|   |   |   |-- kurikulum.blade.php            # Curriculum CRUD
+|   |   |   |-- mata-pelajaran.blade.php       # Subject CRUD
+|   |   |   |-- organisasi.blade.php           # Organization CRUD
+|   |   |   |-- krs.blade.php                  # KRS approval
+|   |   |   |-- nilai.blade.php                # Grades CRUD
+|   |   |   |-- bobot-nilai.blade.php          # Grade weights
+|   |   |   |-- laporan-akademik.blade.php     # Report list
+|   |   |   |-- laporan-akademik-detail.blade.php # Report detail
+|   |   |   |-- paket.blade.php                # Package CRUD
+|   |   |   |-- kunci.blade.php                # Admin key management
+|   |   |   +-- pengunjung.blade.php           # Visitor analytics
+|   |   |-- pengajar/                          # Pengajar dashboard & views
+|   |   |-- staff/                             # Staff dashboard & views
+|   |   +-- pengguna/                          # Pengguna dashboard & views
+|   |-- auth/                                  # masuk, daftar, masuk-admin
+|   |-- beranda.blade.php                      # Guest homepage
+|   |-- beranda-pengguna.blade.php             # Auth homepage
+|   |-- berita/, kerja-sama/                   # Public listing pages
+|   |-- kelas/, materi/, kuis/, laporan/       # Shared feature pages
+|   +-- halaman/                               # 66+ landing pages
+|-- routes/
+|   |-- web.php                                # Public + shared routes
+|   |-- admin.php                              # Admin routes (90+ endpoints)
+|   |-- pengajar.php                           # Pengajar routes
+|   |-- staff.php                              # Staff routes
+|   +-- pengguna.php                           # Pengguna routes
++-- bootstrap/app.php                          # Middleware registration
 ```
 
 ## Standar Keamanan & Tata Kelola
@@ -453,9 +735,175 @@ kvt-hub/
 - **SPK/DSS** -- AHP, TOPSIS, SAW decision support methods
 - **CRM** -- User segmentation, engagement tracking, lifecycle management
 
+## OOD (Object-Oriented Design)
+
+### Class Diagram — Model Layer
+
+```
+┌────────────────────────┐
+│         User           │
+│────────────────────────│
+│ - id: bigint           │
+│ - name: string         │
+│ - email: string        │
+│ - peran: enum          │
+│   (admin|pengajar|     │
+│    staff|pengguna)     │
+│ - level: int           │
+│ - xp: int              │
+│ - aktif: bool          │
+│────────────────────────│
+│ + krs(): HasMany       │
+│ + nilai(): HasMany     │
+│ + kelas(): HasMany     │
+│ + langganan(): HasMany │
+│ + pencapaian(): HasMany│
+│ + kehadiran(): HasMany │
+│ + kunci(): HasMany     │
+└────────────┬───────────┘
+             │ 1
+             │
+     ┌───────┴──────┬────────────┬──────────────┐
+     │ *            │ *          │ *             │ *
+┌────┴─────┐  ┌─────┴─────┐ ┌───┴─────┐  ┌─────┴──────┐
+│   Krs    │  │   Nilai   │ │  Kelas  │  │ Langganan  │
+│──────────│  │───────────│ │─────────│  │────────────│
+│ user_id  │  │ user_id   │ │pengajar │  │ user_id    │
+│kurikulum │  │ mapel_id  │ │_id      │  │ paket_id   │
+│_id       │  │ tugas     │ │ nama    │  │ mulai      │
+│ semester │  │ uts, uas  │ │ kode    │  │ selesai    │
+│ total_sks│  │ praktik   │ │ status  │  │ status     │
+│ status   │  │ partisi-  │ │ maks_   │  └────────────┘
+│──────────│  │ pasi      │ │ siswa   │        │ *
+│+detail():│  │ nilai_    │ │─────────│        │
+│ HasMany  │  │ akhir     │ │+materi()│  ┌─────┴──────┐
+│+kurikulum│  │ huruf_    │ │ HasMany │  │   Paket    │
+│ ()       │  │ mutu      │ └────┬────┘  │ Eksklusif  │
+└────┬─────┘  └───────────┘      │ 1     │────────────│
+     │ 1                         │       │ nama       │
+     │                     ┌─────┴──┐    │ harga      │
+┌────┴─────┐               │ Materi │    │ durasi_hari│
+│KrsDetail │               │────────│    │ xp_bonus   │
+│──────────│               │kelas_id│    │ fitur      │
+│ krs_id   │               │ judul  │    │ aktif      │
+│ mapel_id │               │ konten │    └────────────┘
+│ sks      │               │ tipe   │
+└──────────┘               │ urutan │
+                           └────────┘
+```
+
+### Class Diagram — Controller Layer (Admin)
+
+```
+┌──────────────────────────────────────────────────────┐
+│                 AdminController Layer                  │
+│   Middleware: auth + peran:admin                      │
+├──────────────────────────────────────────────────────┤
+│                                                      │
+│  DasborController         PenggunaController         │
+│  ├─ index()               ├─ index(search,peran)     │
+│                           ├─ simpan()                │
+│  KelasController          ├─ update($id)             │
+│  ├─ index(search,status)  ├─ hapus($id)              │
+│  ├─ simpan()              └─ toggleAktif($id)        │
+│  ├─ update($id)                                      │
+│  └─ hapus($id)            BeritaController           │
+│                           ├─ index(cari,status)      │
+│  KurikulumController      ├─ simpan() [+gambar]      │
+│  ├─ index(search,jenjang) ├─ update($id)             │
+│  ├─ simpan()              └─ hapus($id)              │
+│  ├─ update($id)                                      │
+│  └─ hapus($id)            KerjaSamaController        │
+│                           ├─ index(cari,tipe)        │
+│  MataPelajaranController  ├─ simpan() [+logo]        │
+│  ├─ index(search,kurik.)  ├─ update($id)             │
+│  ├─ simpan()              └─ hapus($id)              │
+│  ├─ update($id)                                      │
+│  └─ hapus($id)            OrganisasiController       │
+│                           ├─ index(search,tipe)      │
+│  NilaiController          ├─ simpan()                │
+│  ├─ index(search)         ├─ update($id)             │
+│  ├─ simpan() [auto-calc]  └─ hapus($id)              │
+│  ├─ update($id)                                      │
+│  └─ hapus($id)            KrsController              │
+│                           ├─ index(search,status)    │
+│  BobotNilaiController     ├─ setujui($id)            │
+│  ├─ index(kurikulum)      ├─ tolak($id)              │
+│  ├─ simpan() [upsert]     └─ hapus($id)              │
+│  ├─ update($id)                                      │
+│  └─ hapus($id)            LaporanAkademikController  │
+│                           ├─ index(tipe)             │
+│  PaketController          ├─ generate()              │
+│  ├─ index()               ├─ tampilkan($id)          │
+│  ├─ simpan()              └─ hapus($id)              │
+│  ├─ update($id)                                      │
+│  ├─ hapus($id)            KunciController            │
+│  └─ toggleAktif($id)     ├─ index()                  │
+│                           ├─ simpan() [batch 1-20]   │
+│  PengunjungController     ├─ hapus($id)              │
+│  └─ index()               └─ hapusSemua()            │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
+
+### Architecture Overview
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                         Browser (Client)                         │
+│   Tailwind CSS · Font Awesome · AOS · Chart.js · Vanilla JS     │
+└──────────────────────────┬───────────────────────────────────────┘
+                           │ HTTP Request
+                           ▼
+┌──────────────────────────────────────────────────────────────────┐
+│                      Laravel Router                              │
+│  web.php → admin.php / pengajar.php / staff.php / pengguna.php  │
+│  Middleware: auth, peran:{role}, guest                           │
+└──────────────────────────┬───────────────────────────────────────┘
+                           │
+              ┌────────────┼────────────┐
+              ▼            ▼            ▼
+     ┌────────────┐ ┌───────────┐ ┌──────────┐
+     │ Controller │ │   Model   │ │   View   │
+     │ (28 total) │ │(Eloquent) │ │ (Blade)  │
+     │            │ │           │ │          │
+     │ Admin/  14 │ │ User      │ │ tata-    │
+     │ Pengajar 4 │ │ Kelas     │ │ letak/   │
+     │ Staff    3 │ │ Krs+Detail│ │  utama   │
+     │ Publik   4 │ │ Nilai     │ │  dasbor  │
+     │ Auth     3 │ │ Kurikulum │ │  auth    │
+     │            │ │ Materi    │ │          │
+     │            │ │ (24 model)│ │ akun/    │
+     └──────┬─────┘ └─────┬─────┘ │  admin/  │
+            │              │       │  pengajar/│
+            │              │       │  staff/  │
+            │              ▼       │  pengguna/│
+            │     ┌────────────┐   └──────────┘
+            │     │ PostgreSQL │
+            │     │  14+ (DB)  │
+            └────>│ 20+ Tables │
+                  └────────────┘
+```
+
 ## Changelog
 
-### v5.0 (Current)
+### v6.0 (Current)
+
+- **4-Role System**: `tim` dipecah menjadi `pengajar` + `staff` — peran terpisah dengan akses, sidebar, dan dashboard masing-masing
+- **3 Layout Terpisah**: `tata-letak/utama.blade.php` (landing publik), `tata-letak/dasbor.blade.php` (dashboard), `tata-letak/auth.blade.php` (auth)
+- **Modal-Based CRUD**: Seluruh 14 admin CRUD menggunakan popup modal (create/edit/delete) — tidak ada halaman form terpisah
+- **14 Dedicated Admin Controllers**: Setiap domain (pengguna, kelas, berita, kurikulum, dll.) memiliki controller tersendiri
+- **View Reorganization**: Views dipindah ke `akun/admin/`, `akun/pengajar/`, `akun/staff/`, `akun/pengguna/` — flat file structure
+- **Route Separation**: `admin.php`, `pengajar.php`, `staff.php`, `pengguna.php` — file route terpisah per role
+- **DasborController Cleanup**: Hanya berisi index() — method pengguna/kunci/paket dipindah ke controller dedicated
+- **KurikulumController Refactor**: Dari 248 baris mega-controller → 65 baris kurikulum-only — 7 domain dipecah ke 6 controller
+- **Kurikulum Akademik**: KRS approval workflow, nilai auto-kalkulasi, bobot nilai upsert, laporan generate 4 tipe
+- **Report Generation**: Rekap Nilai, Statistik KRS, Performa Mahasiswa, Distribusi IPK — dengan visualisasi data
+- **25+ Models**: Tambahan BobotNilai, JenjangPengguna, Krs, KrsDetail, Kurikulum, LaporanAkademik, MataPelajaran, Nilai, Organisasi, PaketSemester
+- **20+ Migrations**: Tabel baru untuk akademik, organisasi, langganan, KRS, nilai, bobot, laporan
+- **Split Seeders**: Seeder dipecah per domain untuk maintenance lebih mudah
+
+### v5.0
 
 - **Rename peran**: `siswa` → `pengguna`, `guru` → `tim` — konsisten di seluruh controller, model, view, dan seeder
 - **Role-based sidebar** -- Sidebar navigasi unik per peran: Admin (15 menu), Tim (8 menu), Pengguna (10 menu)

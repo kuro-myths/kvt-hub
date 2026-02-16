@@ -7,7 +7,7 @@
     $menuAdmin = [
         ['label' => 'Dashboard', 'ikon' => 'fas fa-tachometer-alt', 'route' => 'admin.dasbor', 'warna' => 'red'],
         ['label' => 'Pengguna', 'ikon' => 'fas fa-users', 'route' => 'admin.pengguna', 'warna' => 'blue'],
-        ['label' => 'Kelas', 'ikon' => 'fas fa-chalkboard', 'route' => 'kelas.index', 'warna' => 'green'],
+        ['label' => 'Kelas', 'ikon' => 'fas fa-chalkboard', 'route' => 'admin.kelas.index', 'warna' => 'green'],
         ['label' => 'Berita', 'ikon' => 'fas fa-newspaper', 'route' => 'admin.berita.index', 'warna' => 'emerald'],
         ['label' => 'Kerja Sama', 'ikon' => 'fas fa-handshake', 'route' => 'admin.kerja-sama.index', 'warna' => 'yellow'],
         ['label' => 'Kurikulum', 'ikon' => 'fas fa-book-reader', 'route' => 'admin.kurikulum.index', 'warna' => 'indigo'],
@@ -17,24 +17,35 @@
         ['label' => 'Nilai', 'ikon' => 'fas fa-star-half-alt', 'route' => 'admin.nilai.index', 'warna' => 'amber'],
         ['label' => 'Bobot Nilai', 'ikon' => 'fas fa-balance-scale', 'route' => 'admin.bobot-nilai.index', 'warna' => 'teal'],
         ['label' => 'Laporan Akademik', 'ikon' => 'fas fa-file-medical-alt', 'route' => 'admin.laporan-akademik.index', 'warna' => 'orange'],
+        ['label' => 'Verifikasi Akun', 'ikon' => 'fas fa-user-check', 'route' => 'admin.verifikasi', 'warna' => 'cyan'],
         ['label' => 'Pengunjung', 'ikon' => 'fas fa-chart-line', 'route' => 'admin.pengunjung', 'warna' => 'lime'],
         ['label' => 'Paket Eksklusif', 'ikon' => 'fas fa-gem', 'route' => 'admin.paket', 'warna' => 'violet'],
         ['label' => 'Kunci Admin', 'ikon' => 'fas fa-key', 'route' => 'admin.kunci', 'warna' => 'rose'],
     ];
 
-    $menuTim = [
-        ['label' => 'Dashboard', 'ikon' => 'fas fa-tachometer-alt', 'route' => 'dasbor', 'warna' => 'green'],
-        ['label' => 'Kelas Saya', 'ikon' => 'fas fa-chalkboard-teacher', 'route' => 'kelas.index', 'warna' => 'blue'],
-        ['label' => 'Buat Kelas', 'ikon' => 'fas fa-plus-circle', 'route' => 'kelas.buat', 'warna' => 'kvt'],
-        ['label' => 'Buat Materi', 'ikon' => 'fas fa-file-medical', 'route' => 'materi.buat', 'warna' => 'purple'],
+    $menuPengajar = [
+        ['label' => 'Dashboard', 'ikon' => 'fas fa-tachometer-alt', 'route' => 'pengajar.dasbor', 'warna' => 'green'],
+        ['label' => 'Kelas Saya', 'ikon' => 'fas fa-chalkboard-teacher', 'route' => 'pengajar.kelas.index', 'warna' => 'blue'],
+        ['label' => 'Buat Kelas', 'ikon' => 'fas fa-plus-circle', 'route' => 'pengajar.kelas.buat', 'warna' => 'kvt'],
+        ['label' => 'Materi Saya', 'ikon' => 'fas fa-book', 'route' => 'pengajar.materi.index', 'warna' => 'purple'],
+        ['label' => 'Buat Materi', 'ikon' => 'fas fa-file-medical', 'route' => 'pengajar.materi.buat', 'warna' => 'indigo'],
         ['label' => 'Laporan & Diagram', 'ikon' => 'fas fa-chart-bar', 'route' => 'laporan.index', 'warna' => 'amber'],
-        ['label' => 'Kurikulum', 'ikon' => 'fas fa-book-reader', 'route' => 'halaman.kurikulum', 'warna' => 'indigo'],
+        ['label' => 'Kurikulum', 'ikon' => 'fas fa-book-reader', 'route' => 'halaman.kurikulum', 'warna' => 'teal'],
         ['label' => 'Sertifikasi', 'ikon' => 'fas fa-award', 'route' => 'halaman.sertifikasi', 'warna' => 'yellow'],
         ['label' => 'Komunitas', 'ikon' => 'fas fa-users', 'route' => 'halaman.komunitas', 'warna' => 'pink'],
     ];
 
+    $menuStaff = [
+        ['label' => 'Dashboard', 'ikon' => 'fas fa-tachometer-alt', 'route' => 'staff.dasbor', 'warna' => 'orange'],
+        ['label' => 'Data Pengguna', 'ikon' => 'fas fa-users-cog', 'route' => 'staff.pengguna.index', 'warna' => 'blue'],
+        ['label' => 'Kehadiran', 'ikon' => 'fas fa-calendar-check', 'route' => 'staff.kehadiran.index', 'warna' => 'green'],
+        ['label' => 'Rekap Kehadiran', 'ikon' => 'fas fa-clipboard-list', 'route' => 'staff.kehadiran.rekap', 'warna' => 'indigo'],
+        ['label' => 'Kelas', 'ikon' => 'fas fa-chalkboard', 'route' => 'kelas.index', 'warna' => 'purple'],
+        ['label' => 'Laporan & Diagram', 'ikon' => 'fas fa-chart-bar', 'route' => 'laporan.index', 'warna' => 'amber'],
+    ];
+
     $menuPengguna = [
-        ['label' => 'Dashboard', 'ikon' => 'fas fa-tachometer-alt', 'route' => 'dasbor', 'warna' => 'kvt'],
+        ['label' => 'Dashboard', 'ikon' => 'fas fa-tachometer-alt', 'route' => 'pengguna.dasbor', 'warna' => 'kvt'],
         ['label' => 'Kelas Saya', 'ikon' => 'fas fa-book-open', 'route' => 'kelas.index', 'warna' => 'blue'],
         ['label' => 'KRS Akademik', 'ikon' => 'fas fa-clipboard-list', 'route' => 'pengguna.krs.index', 'warna' => 'indigo'],
         ['label' => 'KHS', 'ikon' => 'fas fa-scroll', 'route' => 'pengguna.khs', 'warna' => 'emerald'],
@@ -48,32 +59,49 @@
 
     $menu = match($peran) {
         'admin' => $menuAdmin,
-        'tim' => $menuTim,
+        'pengajar', 'guru' => $menuPengajar,
+        'staff' => $menuStaff,
         default => $menuPengguna,
     };
 
     $peranWarna = match($peran) {
         'admin' => 'red',
-        'tim' => 'green',
+        'pengajar', 'guru' => 'green',
+        'staff' => 'orange',
+        'mahasiswa' => 'indigo',
+        'orang_tua' => 'amber',
+        'pengunjung' => 'gray',
         default => 'kvt',
     };
     $peranIkon = match($peran) {
         'admin' => 'fas fa-shield-alt',
-        'tim' => 'fas fa-chalkboard-teacher',
+        'pengajar', 'guru' => 'fas fa-chalkboard-teacher',
+        'staff' => 'fas fa-user-tie',
+        'mahasiswa' => 'fas fa-university',
+        'orang_tua' => 'fas fa-user-friends',
+        'pengunjung' => 'fas fa-eye',
         default => 'fas fa-user-graduate',
+    };
+    $peranLabel = match($peran) {
+        'admin' => 'Administrator',
+        'pengajar', 'guru' => 'Pengajar / Guru',
+        'staff' => 'Staff',
+        'siswa' => 'Siswa',
+        'mahasiswa' => 'Mahasiswa',
+        'orang_tua' => 'Orang Tua',
+        'pengunjung' => 'Pengunjung',
+        default => 'Pengguna',
     };
 @endphp
 
-{{-- Sidebar Toggle Button (Mobile) --}}
-<button onclick="toggleSidebar()" class="lg:hidden fixed top-24 left-4 z-30 w-10 h-10 bg-kvt-900/90 border border-kvt-700/30 rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition backdrop-blur" id="sidebarToggle">
-    <i class="fas fa-bars"></i>
-</button>
+{{-- Sidebar Toggle Button (Mobile) — only used on old utama layout --}}
+{{-- Toggle is now in the dashboard header --}}
 
 {{-- Sidebar Overlay (Mobile) --}}
 <div class="fixed inset-0 z-20 bg-black/50 backdrop-blur-sm hidden lg:hidden" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
 {{-- Sidebar --}}
-<aside class="fixed top-0 left-0 z-20 w-64 h-full bg-kvt-950/95 backdrop-blur border-r border-kvt-700/20 pt-24 pb-6 transition-transform duration-300 -translate-x-full lg:translate-x-0 overflow-y-auto" id="sidebarNav">
+<aside class="fixed top-0 left-0 z-20 w-64 h-full bg-kvt-950/95 backdrop-blur border-r border-kvt-700/20 pt-20 pb-6 transition-transform duration-300 -translate-x-full lg:translate-x-0 overflow-y-auto" id="sidebarNav">
 
     {{-- User Profile Card --}}
     <div class="px-4 mb-5">
@@ -86,7 +114,7 @@
                     <p class="text-sm font-bold text-white truncate">{{ auth()->user()->name }}</p>
                     <div class="flex items-center gap-1.5">
                         <i class="{{ $peranIkon }} text-{{ $peranWarna }}-400 text-[10px]"></i>
-                        <span class="text-[10px] text-{{ $peranWarna }}-400 font-semibold uppercase">{{ $peran }}</span>
+                        <span class="text-[10px] text-{{ $peranWarna }}-400 font-semibold uppercase">{{ $peranLabel }}</span>
                         @if(auth()->user()->level)
                         <span class="text-[10px] text-amber-400 ml-1">Lv.{{ auth()->user()->level }}</span>
                         @endif
@@ -98,7 +126,7 @@
 
     {{-- Navigation Menu --}}
     <nav class="px-3 space-y-0.5">
-        <p class="text-[10px] text-gray-600 uppercase tracking-widest font-bold px-3 mb-2">Menu {{ ucfirst($peran) }}</p>
+        <p class="text-[10px] text-gray-600 uppercase tracking-widest font-bold px-3 mb-2">Menu {{ $peranLabel }}</p>
 
         @foreach($menu as $item)
         @php
@@ -149,14 +177,4 @@
     </div>
 </aside>
 
-@push('scripts')
-<script>
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebarNav');
-    const overlay = document.getElementById('sidebarOverlay');
-    sidebar.classList.toggle('-translate-x-full');
-    overlay.classList.toggle('hidden');
-}
-</script>
-@endpush
 @endauth

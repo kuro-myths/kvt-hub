@@ -1,4 +1,4 @@
-@extends('tata-letak.utama')
+@extends('tata-letak.auth')
 
 @section('judul', 'Masuk - KVT Hub')
 

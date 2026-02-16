@@ -687,4 +687,147 @@
     </div>
 </section>
 
+{{-- TEKNOLOGI & INFRASTRUKTUR --}}
+<section class="py-20 relative overflow-hidden" id="teknologi">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-900/50 to-kvt-950"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-cyan-400 text-sm font-semibold tracking-wider uppercase">Teknologi</span>
+            <h2 class="text-4xl font-black text-white mt-2">Infrastruktur Modern</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Dibangun di atas teknologi terkini untuk performa, keamanan, dan skalabilitas terbaik</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @php
+            $techItems = [
+                ['ikon' => 'fab fa-laravel', 'judul' => 'Laravel Framework', 'desk' => 'Backend robust dengan Laravel terbaru, RESTful API, dan arsitektur MVC yang solid', 'warna' => 'from-red-500 to-orange-500'],
+                ['ikon' => 'fas fa-database', 'judul' => 'PostgreSQL', 'desk' => 'Database enterprise-grade dengan ACID compliance, JSON support, dan full-text search', 'warna' => 'from-blue-500 to-indigo-600'],
+                ['ikon' => 'fas fa-cloud', 'judul' => 'Cloud Infrastructure', 'desk' => 'Auto-scaling cloud hosting dengan CDN global, 99.99% uptime guarantee', 'warna' => 'from-cyan-500 to-blue-500'],
+                ['ikon' => 'fas fa-shield-alt', 'judul' => 'Security First', 'desk' => 'ISO 27001 certified, Zero Trust architecture, enkripsi end-to-end AES-256', 'warna' => 'from-green-500 to-emerald-600'],
+                ['ikon' => 'fas fa-chart-bar', 'judul' => 'Real-Time Analytics', 'desk' => 'Dashboard analitik real-time dengan 30+ jenis visualisasi data interaktif', 'warna' => 'from-purple-500 to-violet-600'],
+                ['ikon' => 'fas fa-robot', 'judul' => 'AI-Powered', 'desk' => 'Machine learning untuk rekomendasi pembelajaran personal dan analisis prediktif', 'warna' => 'from-pink-500 to-rose-600'],
+                ['ikon' => 'fas fa-mobile-alt', 'judul' => 'PWA Ready', 'desk' => 'Progressive Web App yang responsif, bisa diakses offline di semua perangkat', 'warna' => 'from-amber-500 to-yellow-500'],
+                ['ikon' => 'fas fa-code-branch', 'judul' => 'Open Source', 'desk' => 'Kode sumber terbuka di GitHub, kontribusi komunitas developer global', 'warna' => 'from-gray-500 to-slate-600'],
+            ];
+            @endphp
+            @foreach($techItems as $i => $item)
+            <div class="group bg-kvt-900/50 border border-kvt-700/30 rounded-2xl p-6 hover:border-cyan-500/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/5" data-aos="fade-up" data-aos-delay="{{ $i * 60 }}">
+                <div class="w-12 h-12 bg-gradient-to-br {{ $item['warna'] }} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+                    <i class="{{ $item['ikon'] }} text-white text-lg"></i>
+                </div>
+                <h3 class="text-white font-bold text-sm mb-2">{{ $item['judul'] }}</h3>
+                <p class="text-gray-400 text-xs leading-relaxed">{{ $item['desk'] }}</p>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- TESTIMONI & PENGHARGAAN --}}
+<section class="py-20 relative" id="testimoni">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="zoom-in">
+            <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Testimoni</span>
+            <h2 class="text-4xl font-black text-white mt-2">Dipercaya oleh Ribuan Pengguna</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Pendapat para pengguna, pengajar, dan mitra yang telah merasakan manfaat KVT Hub</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            @php
+            $testimoni = [
+                ['nama' => 'Dr. Sarah Pratiwi', 'peran' => 'Dosen Ilmu Komputer', 'uni' => 'Universitas Indonesia', 'teks' => 'KVT Hub mengubah cara saya mengajar. Platform ini sangat komprehensif, dari materi hingga analitik pembelajaran. Mahasiswa saya jauh lebih aktif dan termotivasi.', 'avatar' => 'S', 'warna' => 'from-blue-500 to-cyan-500'],
+                ['nama' => 'Andi Wijaya', 'peran' => 'Mahasiswa S2 Data Science', 'uni' => 'ITB Bandung', 'teks' => 'Fitur riset kolaborasi sangat membantu tesis saya. Saya bisa terhubung dengan peneliti dari 5 universitas berbeda. Plus, sertifikasi cloud-nya diakui industri!', 'avatar' => 'A', 'warna' => 'from-purple-500 to-violet-500'],
+                ['nama' => 'Prof. Budi Hartono', 'peran' => 'Rektor', 'uni' => 'Universitas Teknologi', 'teks' => 'Sebagai institusi, KVT Hub membantu kami mendigitalisasi seluruh kurikulum. Dashboard admin sangat powerful untuk monitoring kinerja akademik secara real-time.', 'avatar' => 'B', 'warna' => 'from-amber-500 to-orange-500'],
+            ];
+            @endphp
+            @foreach($testimoni as $i => $t)
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-2xl p-6 hover:border-amber-500/30 transition-all duration-300 relative" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                <div class="absolute -top-3 right-6 text-5xl text-kvt-700/30 font-serif">"</div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br {{ $t['warna'] }} rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg">{{ $t['avatar'] }}</div>
+                    <div>
+                        <h4 class="text-white font-bold text-sm">{{ $t['nama'] }}</h4>
+                        <p class="text-gray-500 text-xs">{{ $t['peran'] }}</p>
+                        <p class="text-kvt-400 text-[10px] font-semibold">{{ $t['uni'] }}</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed italic">"{{ $t['teks'] }}"</p>
+                <div class="flex gap-0.5 mt-4">
+                    @for($s = 0; $s < 5; $s++)
+                    <i class="fas fa-star text-amber-400 text-xs"></i>
+                    @endfor
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- STATISTIK PLATFORM --}}
+<section class="py-20 relative overflow-hidden" id="statistik">
+    <div class="absolute inset-0 bg-gradient-to-r from-kvt-950 via-purple-950/20 to-kvt-950"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-kvt-400 text-sm font-semibold tracking-wider uppercase">Statistik</span>
+            <h2 class="text-4xl font-black text-white mt-2">Platform dalam Angka</h2>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            @php
+            $stats = [
+                ['angka' => '50K+', 'label' => 'Peserta Didik', 'ikon' => 'fa-users', 'warna' => 'text-blue-400'],
+                ['angka' => '13', 'label' => 'Jenjang Pendidikan', 'ikon' => 'fa-graduation-cap', 'warna' => 'text-green-400'],
+                ['angka' => '150+', 'label' => 'Universitas Mitra', 'ikon' => 'fa-university', 'warna' => 'text-purple-400'],
+                ['angka' => '500+', 'label' => 'Perusahaan Industri', 'ikon' => 'fa-building', 'warna' => 'text-orange-400'],
+                ['angka' => '120+', 'label' => 'Program Sertifikasi', 'ikon' => 'fa-award', 'warna' => 'text-yellow-400'],
+                ['angka' => '35+', 'label' => 'Negara Kolaborator', 'ikon' => 'fa-globe-americas', 'warna' => 'text-cyan-400'],
+            ];
+            @endphp
+            @foreach($stats as $i => $s)
+            <div class="text-center p-4" data-aos="zoom-in" data-aos-delay="{{ $i * 80 }}">
+                <i class="fas {{ $s['ikon'] }} {{ $s['warna'] }} text-2xl mb-3"></i>
+                <div class="text-3xl font-black text-white">{{ $s['angka'] }}</div>
+                <div class="text-gray-500 text-xs mt-1">{{ $s['label'] }}</div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ SECTION --}}
+<section class="py-20 relative" id="faq">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-lime-400 text-sm font-semibold tracking-wider uppercase">FAQ</span>
+            <h2 class="text-4xl font-black text-white mt-2">Pertanyaan yang Sering Diajukan</h2>
+        </div>
+        <div class="space-y-3" data-aos="fade-up">
+            @php
+            $faqs = [
+                ['q' => 'Apakah KVT Hub gratis untuk digunakan?', 'a' => 'Ya! KVT Hub menyediakan akses gratis untuk fitur dasar termasuk kelas, materi, dan kuis. Untuk fitur premium seperti sertifikasi internasional dan akses riset, tersedia paket langganan yang terjangkau.'],
+                ['q' => 'Bagaimana sistem level dan pencapaian bekerja?', 'a' => 'Setiap aktivitas seperti menyelesaikan materi, lulus kuis, dan hadir harian akan memberikan poin. Poin akan meningkatkan level Anda dari Novice Scholar (Lv.1) hingga Grandmaster Scholar (Lv.100) dengan gelar dan badge unik.'],
+                ['q' => 'Apakah sertifikat yang diterbitkan diakui?', 'a' => 'Sertifikat KVT Hub terverifikasi blockchain dan terintegrasi dengan BNSP, LSP, serta lembaga sertifikasi internasional seperti AWS, Google Cloud, dan Microsoft Azure.'],
+                ['q' => 'Bagaimana cara menjadi pengajar di KVT Hub?', 'a' => 'Daftar sebagai pengajar melalui halaman pendaftaran khusus. Setelah verifikasi credential dan pengalaman, Anda bisa membuat kelas dan materi yang akan diakses oleh ribuan peserta didik.'],
+                ['q' => 'Apakah KVT Hub mendukung pembelajaran offline?', 'a' => 'KVT Hub adalah Progressive Web App (PWA) yang mendukung akses offline untuk materi yang sudah diunduh. Anda bisa belajar kapan saja tanpa koneksi internet.'],
+            ];
+            @endphp
+            @foreach($faqs as $i => $faq)
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-xl overflow-hidden group" x-data="{ open: false }">
+                <button onclick="this.parentElement.classList.toggle('faq-open')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/30 transition">
+                    <span class="text-white font-semibold text-sm pr-4">{{ $faq['q'] }}</span>
+                    <i class="fas fa-chevron-down text-kvt-400 text-xs transition-transform faq-chevron"></i>
+                </button>
+                <div class="faq-answer px-5 pb-0 max-h-0 overflow-hidden transition-all duration-300">
+                    <p class="text-gray-400 text-sm leading-relaxed pb-5">{{ $faq['a'] }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 @endsection
+
+@push('styles')
+<style>
+.faq-open .faq-chevron { transform:rotate(180deg) }
+.faq-open .faq-answer { max-height:200px;padding-bottom:1.25rem }
+</style>
+@endpush

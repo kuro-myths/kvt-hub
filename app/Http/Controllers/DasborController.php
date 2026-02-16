@@ -21,68 +21,14 @@ class DasborController extends Controller
             return redirect()->route('admin.dasbor');
         }
 
-        if ($user->adalahTim()) {
-            return $this->dasborTim();
+        if ($user->adalahPengajar()) {
+            return redirect()->route('pengajar.dasbor');
         }
 
-        return $this->dasborPengguna();
-    }
+        if ($user->adalahStaff()) {
+            return redirect()->route('staff.dasbor');
+        }
 
-    private function dasborPengguna()
-    {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        $kelasAktif = $user->kelasYangDiikuti()
-            ->wherePivot('status', 'aktif')
-            ->with('guru')
-            ->get();
-
-        $materiTerakhir = MateriProgres::where('user_id', $user->id)
-            ->where('status', '!=', 'selesai')
-            ->with('materi.kelas')
-            ->latest()
-            ->take(5)
-            ->get();
-
-        $kuisHasilTerakhir = KuisHasil::where('user_id', $user->id)
-            ->with('kuis.materi')
-            ->latest()
-            ->take(5)
-            ->get();
-
-        $kehadiranBulanIni = Kehadiran::where('user_id', $user->id)
-            ->whereMonth('tanggal', now()->month)
-            ->whereYear('tanggal', now()->year)
-            ->get();
-
-        $statistik = [
-            'total_kelas' => $kelasAktif->count(),
-            'materi_selesai' => MateriProgres::where('user_id', $user->id)->where('status', 'selesai')->count(),
-            'kuis_selesai' => KuisHasil::where('user_id', $user->id)->count(),
-            'hadir_bulan_ini' => $kehadiranBulanIni->where('status', 'hadir')->count(),
-        ];
-
-        return view('pengguna.dasbor', compact('user', 'kelasAktif', 'materiTerakhir', 'kuisHasilTerakhir', 'statistik'));
-    }
-
-    private function dasborTim()
-    {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        $kelasAktif = $user->kelasYangDiajar()
-            ->where('status', 'aktif')
-            ->withCount(['anggota' => fn($q) => $q->where('kelas_anggota.status', 'aktif')])
-            ->get();
-
-        $statistik = [
-            'total_kelas' => $kelasAktif->count(),
-            'total_pengguna' => $kelasAktif->sum('anggota_count'),
-            'total_materi' => Materi::where('guru_id', $user->id)->count(),
-            'materi_terbit' => Materi::where('guru_id', $user->id)->where('status', 'terbit')->count(),
-        ];
-
-        return view('tim.dasbor', compact('user', 'kelasAktif', 'statistik'));
+        return redirect()->route('pengguna.dasbor');
     }
 }

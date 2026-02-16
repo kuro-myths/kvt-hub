@@ -17,8 +17,28 @@ class CekPeran
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        if (!in_array($user->peran, $peran)) {
+
+        // Support 'pengguna' as alias for all learner roles
+        $peranDiperluas = [];
+        foreach ($peran as $p) {
+            if ($p === 'pengguna') {
+                $peranDiperluas = array_merge($peranDiperluas, ['siswa', 'mahasiswa', 'orang_tua', 'pengunjung']);
+            } else {
+                $peranDiperluas[] = $p;
+            }
+        }
+
+        if (!in_array($user->peran, $peranDiperluas)) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
+        // Check if user needs verification and hasn't been verified yet
+        if ($user->butuhVerifikasi() && !$user->sudahTerverifikasi() && !$user->dibuat_oleh_admin) {
+            // Allow access to verification status page
+            if (!$request->routeIs('verifikasi.*') && !$request->routeIs('keluar')) {
+                return redirect()->route('verifikasi.status')
+                    ->with('info', 'Akun Anda masih menunggu verifikasi admin.');
+            }
         }
 
         return $next($request);

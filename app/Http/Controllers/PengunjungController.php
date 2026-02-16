@@ -69,7 +69,7 @@ class PengunjungController extends Controller
             ->take(50)
             ->get();
 
-        return view('admin.pengunjung', compact(
+        return view('akun.admin.pengunjung', compact(
             'statistik',
             'perNegara',
             'mingguan',
