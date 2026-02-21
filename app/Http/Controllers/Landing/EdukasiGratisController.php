@@ -11,25 +11,16 @@ class EdukasiGratisController extends Controller
 {
     public function index(Request $request)
     {
-        $query = EdukasiGratis::aktif()->orderBy('unggulan', 'desc')->orderBy('urutan');
+        $semuaEdukasi = EdukasiGratis::aktif()
+            ->orderBy('unggulan', 'desc')
+            ->orderBy('urutan')
+            ->get();
 
-        if ($request->filled('kategori')) {
-            $query->where('kategori', $request->kategori);
-        }
-        if ($request->filled('cari')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('judul', 'ilike', '%' . $request->cari . '%')
-                  ->orWhere('deskripsi', 'ilike', '%' . $request->cari . '%')
-                  ->orWhere('platform', 'ilike', '%' . $request->cari . '%');
-            });
-        }
-
-        $edukasi = $query->paginate(12)->withQueryString();
         $kategoriList = EdukasiGratis::daftarKategori();
-        $totalEdukasi = EdukasiGratis::aktif()->count();
-        $unggulan = EdukasiGratis::aktif()->unggulan()->take(6)->get();
+        $totalEdukasi = $semuaEdukasi->count();
+        $unggulan = $semuaEdukasi->where('unggulan', true)->take(6);
 
-        return view('halaman.edukasi-gratis', compact('edukasi', 'kategoriList', 'totalEdukasi', 'unggulan'));
+        return view('halaman.edukasi-gratis', compact('semuaEdukasi', 'kategoriList', 'totalEdukasi', 'unggulan'));
     }
 
     public function tampilkan(EdukasiGratis $edukasiGratis)
