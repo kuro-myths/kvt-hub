@@ -63,20 +63,20 @@
                 <p class="text-gray-400">Tidak ada organisasi yang cocok dengan filter Anda.</p>
             </div>
             @else
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 @foreach($organisasi as $i => $org)
-                <div class="kaca rounded-xl p-5 border border-kvt-700/20 card-hover group" data-aos="fade-up" data-aos-delay="{{ ($i % 6) * 80 }}">
+                <a href="{{ route('halaman.komunitas.organisasi.detail', $org) }}" class="kaca rounded-xl p-5 border border-kvt-700/20 card-hover group block" data-aos="fade-up" data-aos-delay="{{ ($i % 6) * 80 }}">
                     <div class="flex items-start gap-4 mb-3">
                         <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-kvt-400/20 to-ungu-500/20 flex items-center justify-center flex-shrink-0 border border-kvt-700/20 overflow-hidden">
                             @if($org->logo)
-                            <img src="{{ $org->logo }}" alt="{{ $org->nama }}" class="w-full h-full object-contain p-1">
+                            <img src="{{ asset('storage/'.$org->logo) }}" alt="{{ $org->nama }}" class="w-full h-full object-contain p-1">
                             @else
                             <i class="fas fa-building text-kvt-400 text-xl"></i>
                             @endif
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2 mb-1 flex-wrap">
-                                <h3 class="text-white font-bold text-sm truncate">{{ $org->nama }}</h3>
+                                <h3 class="text-white font-bold text-sm truncate group-hover:text-kvt-400 transition">{{ $org->nama }}</h3>
                                 @if($org->unggulan)
                                 <i class="fas fa-star text-yellow-400 text-xs" title="Unggulan"></i>
                                 @endif
@@ -92,22 +92,20 @@
                     <div class="flex items-center justify-between">
                         <div class="flex gap-2">
                             <span class="text-[10px] px-2 py-0.5 rounded-full
-                                {{ $org->tipe === 'dalam' ? 'bg-blue-500/10 text-blue-400' : '' }}
-                                {{ $org->tipe === 'luar' ? 'bg-green-500/10 text-green-400' : '' }}
-                                {{ $org->tipe === 'mitra' ? 'bg-purple-500/10 text-purple-400' : '' }}
-                                {{ $org->tipe === 'sponsor' ? 'bg-yellow-500/10 text-yellow-400' : '' }}
+                                {{ $org->tipe === 'internal' ? 'bg-blue-500/10 text-blue-400' : '' }}
+                                {{ $org->tipe === 'eksternal' ? 'bg-green-500/10 text-green-400' : '' }}
+                                {{ $org->tipe === 'nasional' ? 'bg-purple-500/10 text-purple-400' : '' }}
+                                {{ $org->tipe === 'internasional' ? 'bg-yellow-500/10 text-yellow-400' : '' }}
                             ">{{ ucfirst($org->tipe) }}</span>
                             <span class="text-[10px] px-2 py-0.5 rounded-full bg-kvt-500/10 text-kvt-400">
                                 {{ ucfirst(str_replace('_', ' ', $org->kategori)) }}
                             </span>
                         </div>
-                        @if($org->website)
-                        <a href="{{ $org->website }}" target="_blank" class="text-kvt-400 text-xs hover:underline opacity-0 group-hover:opacity-100 transition">
-                            <i class="fas fa-external-link-alt mr-1"></i>Kunjungi
-                        </a>
-                        @endif
+                        <span class="text-kvt-400 text-xs opacity-0 group-hover:opacity-100 transition">
+                            Lihat Detail <i class="fas fa-arrow-right ml-1"></i>
+                        </span>
                     </div>
-                </div>
+                </a>
                 @endforeach
             </div>
 

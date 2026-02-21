@@ -6,6 +6,8 @@ use App\Http\Controllers\Landing\BerandaController;
 use App\Http\Controllers\Landing\HalamanController;
 use App\Http\Controllers\Landing\BeritaController;
 use App\Http\Controllers\Landing\KerjaSamaController;
+use App\Http\Controllers\Landing\EdukasiGratisController;
+use App\Http\Controllers\Landing\PendaftaranEdukasiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PengunjungController;
@@ -47,9 +49,18 @@ Route::get('/berita/{berita}', [BeritaController::class, 'tampilkan'])->name('be
 Route::get('/kerja-sama', [KerjaSamaController::class, 'index'])->name('kerja-sama.index');
 Route::get('/kerja-sama/{kerjaSama}', [KerjaSamaController::class, 'tampilkan'])->name('kerja-sama.tampilkan');
 
+// Edukasi Gratis (Publik)
+Route::get('/edukasi-gratis', [EdukasiGratisController::class, 'index'])->name('edukasi-gratis.index');
+Route::get('/edukasi-gratis/{edukasiGratis}', [EdukasiGratisController::class, 'tampilkan'])->name('edukasi-gratis.tampilkan');
+
 // Halaman Statis
 Route::view('/lisensi', 'halaman.lisensi')->name('lisensi');
 Route::view('/sponsor', 'halaman.sponsor')->name('sponsor');
+Route::get('/kuro', [HalamanController::class, 'kuro'])->name('halaman.kuro');
+Route::get('/bejotaro', [HalamanController::class, 'bejotaro'])->name('halaman.bejotaro');
+Route::get('/veteran', [HalamanController::class, 'veteran'])->name('halaman.veteran');
+Route::view('/universe', 'halaman.universe')->name('halaman.universe');
+Route::view('/donasi', 'halaman.donasi')->name('halaman.donasi');
 
 // ===================================================================
 // HALAMAN EKOSISTEM (Sub-pages, tetap pakai view statis existing)
@@ -88,6 +99,7 @@ Route::name('halaman.')->group(function () {
 
     // --- Komunitas Sub ---
     Route::get('/komunitas/organisasi', [OrganisasiController::class, 'index'])->name('komunitas.organisasi');
+    Route::get('/komunitas/organisasi/{organisasi}', [OrganisasiController::class, 'detail'])->name('komunitas.organisasi.detail');
     Route::view('/komunitas/forum-diskusi', 'halaman.komunitas.forum-diskusi')->name('komunitas.forum-diskusi');
     Route::view('/komunitas/study-group', 'halaman.komunitas.study-group')->name('komunitas.study-group');
     Route::view('/komunitas/alumni-network', 'halaman.komunitas.alumni-network')->name('komunitas.alumni-network');
@@ -210,6 +222,7 @@ Route::middleware('auth')->group(function () {
 
     // Materi (Shared)
     Route::get('/materi/{materi}', [MateriController::class, 'tampilkan'])->name('materi.tampilkan');
+    Route::get('/materi/{materi}/buku', [MateriController::class, 'buku'])->name('materi.buku');
     Route::post('/materi/{materi}/selesai', [MateriController::class, 'selesaikan'])->name('materi.selesai');
 
     // Kuis (Shared)
@@ -221,4 +234,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/buat', [LaporanController::class, 'buat'])->name('laporan.buat');
     Route::post('/laporan', [LaporanController::class, 'simpan'])->name('laporan.simpan');
     Route::get('/laporan/{laporan}', [LaporanController::class, 'tampilkan'])->name('laporan.tampilkan');
+
+    // Pendaftaran Edukasi (Shared)
+    Route::get('/pendaftaran-edukasi/{edukasiGratis}', [PendaftaranEdukasiController::class, 'buat'])->name('pendaftaran-edukasi.buat');
+    Route::post('/pendaftaran-edukasi/{edukasiGratis}', [PendaftaranEdukasiController::class, 'simpan'])->name('pendaftaran-edukasi.simpan');
+    Route::get('/riwayat-pendaftaran', [PendaftaranEdukasiController::class, 'riwayat'])->name('pendaftaran-edukasi.riwayat');
 });

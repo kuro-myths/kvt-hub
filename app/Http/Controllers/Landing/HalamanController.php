@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Landing;
 
 use App\Http\Controllers\Controller;
+use App\Models\KuroCerita;
+use App\Models\KarakterCerita;
 
 class HalamanController extends Controller
 {
@@ -95,5 +97,23 @@ class HalamanController extends Controller
     public function akun()
     {
         return view('halaman.akun');
+    }
+
+    public function kuro()
+    {
+        $chapters = KuroCerita::terbit()->urutChapter()->get();
+        return view('halaman.kuro', compact('chapters'));
+    }
+
+    public function bejotaro()
+    {
+        $chapters = KarakterCerita::ceritaKarakter('bejotaro');
+        return view('halaman.bejotaro', compact('chapters'));
+    }
+
+    public function veteran()
+    {
+        $chapters = KarakterCerita::ceritaKarakter('veteran');
+        return view('halaman.veteran', compact('chapters'));
     }
 }

@@ -170,26 +170,30 @@
             <h2 class="text-4xl font-black text-white mt-2">8 Pilar Ekosistem Global</h2>
             <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Dari pendidikan dasar, riset, karir, hingga keamanan informasi - semua dalam satu platform</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             @php
             $pilar = [
-                ['Jenjang Pendidikan', '13 jenjang TK-S3', 'fa-graduation-cap', 'from-blue-500 to-cyan-500', 'halaman.jenjang'],
-                ['Riset & Inovasi', '150+ universitas', 'fa-microscope', 'from-purple-500 to-violet-500', 'halaman.riset'],
-                ['Karir & Industri', '500+ perusahaan', 'fa-briefcase', 'from-orange-500 to-red-500', 'halaman.karir'],
-                ['Komunitas', '50K+ anggota', 'fa-users', 'from-pink-500 to-rose-500', 'halaman.komunitas'],
-                ['Sertifikasi', '120+ program', 'fa-award', 'from-amber-500 to-yellow-500', 'halaman.sertifikasi'],
-                ['Sumber Daya', '17K+ resources', 'fa-database', 'from-cyan-500 to-teal-500', 'halaman.sumber-daya'],
-                ['Keamanan', 'ISO 27001', 'fa-shield-alt', 'from-red-500 to-pink-500', 'halaman.keamanan'],
-                ['Penjamin Mutu', 'QA/QC & SPK', 'fa-check-double', 'from-teal-500 to-green-500', 'halaman.penjamin-mutu'],
+                ['Jenjang Pendidikan', '13 jenjang TK hingga S3/PhD, profesi, dan vokasi', 'fa-graduation-cap', 'from-blue-500 to-cyan-500', 'halaman.jenjang', 'Falsikom, Fasilkom & seluruh fakultas'],
+                ['Riset & Inovasi', '150+ universitas mitra riset global', 'fa-microscope', 'from-purple-500 to-violet-500', 'halaman.riset', 'Publikasi, kolaborasi & paten'],
+                ['Karir & Industri', '500+ perusahaan & startup mitra kerja', 'fa-briefcase', 'from-orange-500 to-red-500', 'halaman.karir', 'Lowongan, magang & mentoring'],
+                ['Komunitas', '50K+ anggota aktif & kontributor', 'fa-users', 'from-pink-500 to-rose-500', 'halaman.komunitas', 'Forum, study group & hackathon'],
+                ['Sertifikasi', '120+ program sertifikasi terakreditasi', 'fa-award', 'from-amber-500 to-yellow-500', 'halaman.sertifikasi', 'BNSP, AWS, Google & Microsoft'],
+                ['Sumber Daya', '17K+ resources & dev tools', 'fa-database', 'from-cyan-500 to-teal-500', 'halaman.sumber-daya', 'E-book, dataset & playground'],
+                ['Keamanan', 'ISO 27001 & Zero Trust Architecture', 'fa-shield-alt', 'from-red-500 to-pink-500', 'halaman.keamanan', 'Tata kelola IT & privasi data'],
+                ['Penjamin Mutu', 'QA/QC, SPK & audit sistem', 'fa-check-double', 'from-teal-500 to-green-500', 'halaman.penjamin-mutu', 'Standar mutu pendidikan'],
             ];
             @endphp
             @foreach($pilar as $i => $p)
-            <a href="{{ route($p[4]) }}" class="group kaca rounded-2xl p-5 hover:border-kvt-500/30 transition-all duration-300 hover:-translate-y-1" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
-                <div class="w-12 h-12 bg-gradient-to-br {{ $p[3] }} rounded-xl flex items-center justify-center mb-3 shadow-lg group-hover:scale-110 transition">
-                    <i class="fas {{ $p[2] }} text-white text-lg"></i>
+            <a href="{{ route($p[4]) }}" class="group kaca rounded-2xl p-6 hover:border-kvt-500/30 transition-all duration-300 hover:-translate-y-1 flex items-start gap-5" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
+                <div class="w-14 h-14 bg-gradient-to-br {{ $p[3] }} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition shrink-0">
+                    <i class="fas {{ $p[2] }} text-white text-xl"></i>
                 </div>
-                <h3 class="text-white font-bold mb-0.5">{{ $p[0] }}</h3>
-                <p class="text-gray-500 text-xs">{{ $p[1] }}</p>
+                <div class="flex-1">
+                    <h3 class="text-white font-bold text-lg mb-1">{{ $p[0] }}</h3>
+                    <p class="text-gray-400 text-sm mb-1">{{ $p[1] }}</p>
+                    <p class="text-gray-500 text-xs"><i class="fas fa-info-circle mr-1 text-kvt-500"></i>{{ $p[5] }}</p>
+                </div>
+                <i class="fas fa-chevron-right text-kvt-600 group-hover:text-kvt-400 transition mt-1"></i>
             </a>
             @endforeach
         </div>
@@ -378,63 +382,127 @@
 </section>
 @endif
 
-{{-- BERITA TERBARU --}}
-@if($beritaTerbaru->count() > 0)
-<section class="py-20 relative">
+{{-- BERITA TERBARU - AUTO SLIDESHOW + SCREENSHOT --}}
+<section class="py-20 relative" id="berita">
     <div class="absolute inset-0 bg-gradient-to-b from-kvt-950 to-kvt-900/50"></div>
     <div class="relative max-w-7xl mx-auto px-4">
         <div class="flex items-end justify-between mb-12" data-aos="fade-right">
             <div>
-                <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase">Berita & Update</span>
+                <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-newspaper mr-2"></i>Berita & Update</span>
                 <h2 class="text-4xl font-black text-white mt-2">Berita Terbaru</h2>
-                <p class="text-gray-400 mt-2">Informasi dan kabar terbaru seputar KVT Hub</p>
+                <p class="text-gray-400 mt-2">Klik untuk melihat detail laporan lengkap</p>
             </div>
             <a href="{{ route('berita.index') }}" class="hidden md:flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-semibold transition text-sm">
                 Lihat Semua <i class="fas fa-arrow-right"></i>
             </a>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($beritaTerbaru as $i => $berita)
-            <a href="{{ route('berita.tampilkan', $berita->slug) }}" class="group bg-kvt-900/50 border border-kvt-700/30 rounded-2xl overflow-hidden hover:border-emerald-500/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-emerald-500/5" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
-                <div class="h-44 bg-gradient-to-br from-emerald-700/20 to-kvt-900 flex items-center justify-center relative overflow-hidden">
-                    @if($berita->gambar_url)
-                    <img src="{{ $berita->gambar_url }}" alt="{{ $berita->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    @else
-                    <i class="fas fa-newspaper text-4xl text-emerald-400/30 group-hover:text-emerald-400/50 transition"></i>
-                    @endif
-                    @if($berita->unggulan)
-                    <div class="absolute top-3 left-3 bg-yellow-500/90 backdrop-blur text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">
-                        <i class="fas fa-star mr-1"></i>Unggulan
+        {{-- Auto-rotating news display --}}
+        <div class="relative" data-aos="fade-up">
+            <div id="beritaSlideshow" class="bg-kvt-900/70 border border-emerald-500/20 rounded-2xl overflow-hidden cursor-pointer hover:border-emerald-500/40 transition-all duration-500 group" onclick="bukaLaporanBerita()">
+                <div class="grid md:grid-cols-5 gap-0">
+                    {{-- Gambar / Visual --}}
+                    <div class="md:col-span-2 h-64 md:h-auto bg-gradient-to-br from-emerald-700/20 to-kvt-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="text-center p-8">
+                            <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                                <i class="fas fa-satellite-dish text-white text-3xl"></i>
+                            </div>
+                            <div class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Live Update</div>
+                            <div class="flex items-center justify-center gap-2 mt-2">
+                                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                                <span class="text-gray-400 text-xs">Auto-refresh setiap 15 detik</span>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-1 bg-kvt-800">
+                            <div id="beritaProgressBar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all" style="width:0%"></div>
+                        </div>
                     </div>
-                    @endif
-                    <div class="absolute top-3 right-3 bg-kvt-900/70 backdrop-blur text-gray-300 text-[10px] font-medium px-2.5 py-1 rounded-lg">
-                        <i class="far fa-clock mr-1"></i>{{ $berita->terbit_pada->diffForHumans() }}
+                    {{-- Konten berita aktif --}}
+                    <div class="md:col-span-3 p-8 flex flex-col justify-center">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-lg"><i class="fas fa-bolt mr-1"></i>Breaking</span>
+                            <span class="text-gray-500 text-xs" id="beritaWaktu"><i class="far fa-clock mr-1"></i>Baru saja</span>
+                        </div>
+                        <h3 id="beritaJudul" class="text-2xl lg:text-3xl font-black text-white mb-4 group-hover:text-emerald-400 transition leading-tight">KVT Hub v4.0 Resmi Diluncurkan dengan Fitur Terbaru</h3>
+                        <p id="beritaRingkasan" class="text-gray-400 text-sm leading-relaxed mb-6">Platform pendidikan dan riset digital global KVT Hub merilis versi 4.0 dengan berbagai peningkatan fitur termasuk donasi, profil karakter, dan tampilan yang lebih rapi.</p>
+                        <div class="flex items-center gap-4">
+                            <span class="text-emerald-400 font-semibold text-sm group-hover:translate-x-1 transition-transform"><i class="fas fa-expand-alt mr-2"></i>Klik untuk melihat laporan lengkap</span>
+                            <div class="flex gap-2">
+                                <button onclick="event.stopPropagation();gantiBerita(-1)" class="w-8 h-8 bg-kvt-800/50 hover:bg-kvt-700/50 rounded-lg flex items-center justify-center text-gray-400 hover:text-white transition"><i class="fas fa-chevron-left text-xs"></i></button>
+                                <button onclick="event.stopPropagation();gantiBerita(1)" class="w-8 h-8 bg-kvt-800/50 hover:bg-kvt-700/50 rounded-lg flex items-center justify-center text-gray-400 hover:text-white transition"><i class="fas fa-chevron-right text-xs"></i></button>
+                            </div>
+                        </div>
+                        {{-- Indikator slide --}}
+                        <div class="flex gap-2 mt-4" id="beritaDots"></div>
                     </div>
                 </div>
-                <div class="p-5">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider bg-emerald-500/10 px-2 py-0.5 rounded">{{ $berita->kategori ?? 'Umum' }}</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-emerald-400 transition line-clamp-2">{{ $berita->judul }}</h3>
-                    <p class="text-gray-400 text-sm line-clamp-2">{{ $berita->ringkasan }}</p>
-                    <div class="flex items-center justify-between mt-4 pt-3 border-t border-kvt-700/20">
-                        <span class="text-xs text-gray-500"><i class="fas fa-eye mr-1"></i>{{ number_format($berita->dilihat) }}x</span>
-                        <span class="text-xs text-emerald-400 font-semibold group-hover:translate-x-1 transition-transform">Baca <i class="fas fa-arrow-right ml-1"></i></span>
-                    </div>
-                </div>
-            </a>
-            @endforeach
+            </div>
         </div>
 
-        <div class="text-center mt-10 md:hidden" data-aos="fade-up">
+        <div class="text-center mt-8 md:hidden">
             <a href="{{ route('berita.index') }}" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-xl font-semibold transition">
                 <i class="fas fa-newspaper"></i> Lihat Semua Berita
             </a>
         </div>
     </div>
 </section>
-@endif
+
+{{-- MODAL LAPORAN BERITA (Fullscreen View) --}}
+<div id="modalLaporan" class="fixed inset-0 z-[999] bg-kvt-950/95 backdrop-blur-md hidden" onclick="tutupLaporan(event)">
+    <div class="max-w-4xl mx-auto px-4 py-8 h-full overflow-y-auto" onclick="event.stopPropagation()">
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-file-alt text-white"></i>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold">Laporan & Changelog</h4>
+                    <p class="text-gray-500 text-xs">KVT Hub - Tahun {{ date('Y') }}</p>
+                </div>
+            </div>
+            <button onclick="tutupLaporan(event)" class="w-10 h-10 bg-kvt-800/50 hover:bg-red-500/20 rounded-xl flex items-center justify-center text-gray-400 hover:text-red-400 transition">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+        </div>
+        <div id="laporanKonten" class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-8">
+            <div class="prose prose-invert max-w-none">
+                <h2 class="text-2xl font-black text-white mb-2" id="laporanJudul">KVT Hub v4.0 Changelog</h2>
+                <p class="text-gray-500 text-sm mb-6" id="laporanTanggal">16 Februari 2026</p>
+                <div id="laporanIsi" class="text-gray-300 text-sm leading-relaxed space-y-4">
+                    <div class="bg-emerald-500/5 border-l-4 border-emerald-500 p-4 rounded-r-xl">
+                        <h4 class="text-emerald-400 font-bold mb-2"><i class="fas fa-plus-circle mr-2"></i>Fitur Baru</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Halaman profil karakter Kuro - The Chosen One</li>
+                            <li>Fitur donasi untuk mendukung pengembangan</li>
+                            <li>Berita auto-slideshow dengan laporan interaktif</li>
+                            <li>Ekosistem pilar dengan layout 2 kolom yang rapi</li>
+                            <li>Visi & Misi card di halaman beranda</li>
+                            <li>Office illustration & visual enhancement</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-500/5 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                        <h4 class="text-blue-400 font-bold mb-2"><i class="fas fa-wrench mr-2"></i>Perbaikan</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Footer social links sudah sinkron dengan akun resmi</li>
+                            <li>Icon pada event/ekosistem sudah diperbaiki</li>
+                            <li>Layout responsif lebih rapi di mobile & desktop</li>
+                            <li>Warna dan bendera pada flag counter sinkron</li>
+                        </ul>
+                    </div>
+                    <div class="bg-purple-500/5 border-l-4 border-purple-500 p-4 rounded-r-xl">
+                        <h4 class="text-purple-400 font-bold mb-2"><i class="fas fa-code mr-2"></i>Teknis</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Versi: v4.0.0</li>
+                            <li>Framework: Laravel {{ app()->version() }}</li>
+                            <li>PHP: {{ PHP_VERSION }}</li>
+                            <li>Total baris kode: 10,000+</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {{-- RISET & INOVASI SECTION --}}
 <section class="py-20 relative" id="riset">
@@ -660,6 +728,155 @@
     </div>
 </section>
 
+{{-- VISI & MISI SECTION --}}
+<section class="py-20 relative" id="visi-misi">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-900/30 to-kvt-950"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-kvt-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-bullseye mr-2"></i>Visi & Misi</span>
+            <h2 class="text-4xl font-black text-white mt-2">Tujuan Kami</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+            {{-- Visi --}}
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-2xl p-8 hover:border-kvt-500/30 transition-all" data-aos="fade-right">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 bg-gradient-to-br from-kvt-500 to-ungu-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-eye text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-white">Visi</h3>
+                </div>
+                <p class="text-gray-400 leading-relaxed">Menjadi ekosistem pendidikan digital global terdepan yang mengintegrasikan seluruh jenjang pendidikan (TK-S3), riset, karir, dan sertifikasi dalam satu platform terunifikasi. Menghubungkan pelajar, pengajar, peneliti, dan industri di seluruh dunia.</p>
+                <div class="mt-6 flex items-center gap-3">
+                    <img src="{{ asset('gambar/kuro/kuro.png') }}" alt="Admin" class="w-10 h-10 rounded-xl object-cover border-2 border-kvt-500/30">
+                    <div>
+                        <p class="text-white text-sm font-bold">Kuro</p>
+                        <p class="text-gray-500 text-xs">Founder & The Chosen One</p>
+                    </div>
+                </div>
+            </div>
+            {{-- Misi --}}
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-2xl p-8 hover:border-kvt-500/30 transition-all" data-aos="fade-left">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-flag text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-white">Misi</h3>
+                </div>
+                <ul class="space-y-3">
+                    <li class="flex items-start gap-3 text-gray-400 text-sm"><i class="fas fa-check-circle text-emerald-400 mt-1 shrink-0"></i>Menyediakan pendidikan berkualitas yang dapat diakses oleh siapa saja, di mana saja</li>
+                    <li class="flex items-start gap-3 text-gray-400 text-sm"><i class="fas fa-check-circle text-emerald-400 mt-1 shrink-0"></i>Membangun jembatan antara dunia akademik dan industri profesional</li>
+                    <li class="flex items-start gap-3 text-gray-400 text-sm"><i class="fas fa-check-circle text-emerald-400 mt-1 shrink-0"></i>Mendorong kolaborasi riset lintas institusi dan lintas negara</li>
+                    <li class="flex items-start gap-3 text-gray-400 text-sm"><i class="fas fa-check-circle text-emerald-400 mt-1 shrink-0"></i>Mengembangkan sistem sertifikasi yang diakui secara global</li>
+                    <li class="flex items-start gap-3 text-gray-400 text-sm"><i class="fas fa-check-circle text-emerald-400 mt-1 shrink-0"></i>Menciptakan komunitas pembelajar yang saling mendukung dan menginspirasi</li>
+                </ul>
+            </div>
+        </div>
+
+        {{-- Veteran Profile Card Teaser --}}
+        <div class="mt-12 bg-gradient-to-r from-kvt-900/80 via-red-900/15 to-kvt-900/80 border border-red-500/20 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden" data-aos="zoom-in">
+            <div class="absolute inset-0 opacity-[0.02] pointer-events-none" style="background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,50,50,0.1) 3px, rgba(255,50,50,0.1) 4px);"></div>
+            <div class="w-32 h-32 rounded-2xl bg-gradient-to-br from-red-950/50 to-kvt-950 shadow-2xl border-2 border-red-500/30 flex items-center justify-center shrink-0 relative">
+                <i class="fas fa-bolt text-red-500/40 text-5xl"></i>
+            </div>
+            <div class="flex-1 text-center md:text-left relative">
+                <div class="inline-flex items-center bg-red-500/10 border border-red-500/20 rounded-full px-3 py-1 mb-3">
+                    <span class="text-red-400 text-xs font-bold"><i class="fas fa-trophy mr-1"></i>The Legend</span>
+                </div>
+                <h3 class="text-2xl font-black text-white mb-2">Veteran</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">Entitas pertama yang muncul sebelum KVT dan MYTHS ada. Muncul sebagai glitch — anomali digital yang menarik semua karakter lain. Di-input sebagai <code class="text-red-400 bg-red-500/10 px-1.5 py-0.5 rounded">the_veteran.kvt</code> dalam ekosistem mitos.</p>
+                <a href="{{ route('halaman.veteran') }}" class="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-6 py-2.5 rounded-xl font-semibold transition shadow-lg shadow-red-500/20 text-sm">
+                    <i class="fas fa-bolt"></i> Lihat Profil Lengkap
+                </a>
+            </div>
+        </div>
+
+        {{-- Bejotaro Profile Card Teaser --}}
+        <div class="mt-6 bg-gradient-to-r from-kvt-900/80 via-amber-900/20 to-kvt-900/80 border border-amber-500/20 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8" data-aos="zoom-in">
+            <div class="w-32 h-32 rounded-2xl bg-gradient-to-br from-amber-950/50 to-kvt-950 shadow-2xl border-2 border-amber-500/30 flex items-center justify-center shrink-0">
+                <i class="fas fa-dragon text-amber-500/40 text-5xl"></i>
+            </div>
+            <div class="flex-1 text-center md:text-left">
+                <div class="inline-flex items-center bg-amber-500/10 border border-amber-500/20 rounded-full px-3 py-1 mb-3">
+                    <span class="text-amber-400 text-xs font-bold"><i class="fas fa-crown mr-1"></i>Sang Leluhur</span>
+                </div>
+                <h3 class="text-2xl font-black text-white mb-2">Bejotaro</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">Anak yang terlahir dari sejarah budaya leluhur Nusantara. Keturunan Pandawa yang membawa kebijaksanaan, keberanian, dan kemuliaan. Di-input sebagai <code class="text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded">the_antaboga.kvt</code> dalam ekosistem mitos.</p>
+                <a href="{{ route('halaman.bejotaro') }}" class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-white px-6 py-2.5 rounded-xl font-semibold transition shadow-lg shadow-amber-500/20 text-sm">
+                    <i class="fas fa-dragon"></i> Lihat Profil Lengkap
+                </a>
+            </div>
+        </div>
+
+        {{-- Kuro Profile Card Teaser --}}
+        <div class="mt-12 bg-gradient-to-r from-kvt-900/80 via-purple-900/20 to-kvt-900/80 border border-purple-500/20 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8" data-aos="zoom-in">
+            <img src="{{ asset('gambar/kuro/kuro1.png') }}" alt="Kuro - The Chosen One" class="w-32 h-32 rounded-2xl object-cover shadow-2xl border-2 border-purple-500/30">
+            <div class="flex-1 text-center md:text-left">
+                <div class="inline-flex items-center bg-purple-500/10 border border-purple-500/20 rounded-full px-3 py-1 mb-3">
+                    <span class="text-purple-400 text-xs font-bold"><i class="fas fa-star mr-1"></i>The Chosen One</span>
+                </div>
+                <h3 class="text-2xl font-black text-white mb-2">Kuro</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">Karakter hidup yang diciptakan dengan inisial RH. Kuro adalah the_chosen_one yang menghidupkan dunia virtual KVT Hub. Karakter pertama yang di-input sebagai <code class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">the_chosen_one.kvt</code> dalam ekosistem mitos.</p>
+                <a href="{{ route('halaman.kuro') }}" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white px-6 py-2.5 rounded-xl font-semibold transition shadow-lg shadow-purple-500/20 text-sm">
+                    <i class="fas fa-user-secret"></i> Lihat Profil Lengkap
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- DONASI SECTION --}}
+<section class="py-20 relative" id="donasi">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="bg-gradient-to-br from-amber-900/20 via-kvt-900/50 to-orange-900/20 border border-amber-500/20 rounded-3xl p-10 md:p-16 relative overflow-hidden" data-aos="fade-up">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl"></div>
+            <div class="relative grid md:grid-cols-2 gap-10 items-center">
+                <div>
+                    <div class="inline-flex items-center bg-amber-500/10 border border-amber-500/20 rounded-full px-4 py-1.5 mb-4">
+                        <i class="fas fa-heart text-red-400 mr-2"></i>
+                        <span class="text-amber-400 text-sm font-bold">Dukung Kami</span>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-black text-white mb-4">Bantu Pengembangan KVT Hub</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">Donasi Anda akan digunakan untuk membeli perangkat kerja (PC/Laptop Rp 50.000.000) agar tim pengembang dapat terus membangun ekosistem pendidikan yang lebih baik untuk semua.</p>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-kvt-800/30 rounded-xl p-4 text-center border border-amber-700/20">
+                            <div class="text-2xl font-black text-amber-400">Rp 50 Jt</div>
+                            <div class="text-gray-500 text-xs mt-1">Target Dana</div>
+                        </div>
+                        <div class="bg-kvt-800/30 rounded-xl p-4 text-center border border-emerald-700/20">
+                            <div class="text-2xl font-black text-emerald-400">PC/Laptop</div>
+                            <div class="text-gray-500 text-xs mt-1">Perangkat Kerja</div>
+                        </div>
+                    </div>
+                    <a href="{{ route('halaman.donasi') }}" class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-amber-500/20">
+                        <i class="fas fa-donate"></i> Donasi Sekarang
+                    </a>
+                </div>
+                <div class="flex justify-center">
+                    <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6 w-full max-w-sm">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-laptop text-5xl text-amber-400 mb-3"></i>
+                            <h4 class="text-white font-bold">Spesifikasi Impian</h4>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm"><span class="text-gray-400"><i class="fas fa-microchip mr-2 text-blue-400"></i>Processor</span><span class="text-white font-semibold">i9 / Ryzen 9</span></div>
+                            <div class="flex justify-between text-sm"><span class="text-gray-400"><i class="fas fa-memory mr-2 text-green-400"></i>RAM</span><span class="text-white font-semibold">32-64 GB</span></div>
+                            <div class="flex justify-between text-sm"><span class="text-gray-400"><i class="fas fa-hdd mr-2 text-purple-400"></i>Storage</span><span class="text-white font-semibold">1TB NVMe SSD</span></div>
+                            <div class="flex justify-between text-sm"><span class="text-gray-400"><i class="fas fa-tv mr-2 text-cyan-400"></i>GPU</span><span class="text-white font-semibold">RTX 4070+</span></div>
+                            <div class="flex justify-between text-sm"><span class="text-gray-400"><i class="fas fa-desktop mr-2 text-amber-400"></i>Monitor</span><span class="text-white font-semibold">27" 4K IPS</span></div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-kvt-700/30">
+                            <div class="flex justify-between"><span class="text-gray-500 text-sm">Progress</span><span class="text-amber-400 text-sm font-bold">0%</span></div>
+                            <div class="w-full h-2.5 bg-kvt-800 rounded-full mt-2 overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" style="width:0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- CTA SECTION --}}
 <section class="py-20 relative">
     <div class="max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in-up">
@@ -829,5 +1046,96 @@
 <style>
 .faq-open .faq-chevron { transform:rotate(180deg) }
 .faq-open .faq-answer { max-height:200px;padding-bottom:1.25rem }
+.line-clamp-2 { display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+// === BERITA AUTO SLIDESHOW ===
+const daftarBeritaSlide = [
+    { judul: 'KVT Hub v4.0 Resmi Diluncurkan dengan Fitur Terbaru', ringkasan: 'Platform pendidikan dan riset digital global KVT Hub merilis versi 4.0 dengan fitur donasi, profil karakter Kuro, dan landing page yang lebih rapi.', waktu: '16 Feb 2026' },
+    { judul: 'Program Beasiswa Riset Global 2026 Dibuka untuk Mahasiswa', ringkasan: 'KVT Hub bekerja sama dengan 150+ universitas mitra membuka program beasiswa riset global. Pendaftaran dibuka hingga Maret 2026.', waktu: '15 Feb 2026' },
+    { judul: 'Fitur Real-Time Analytics Dashboard Kini Tersedia', ringkasan: 'Dashboard analitik real-time dengan 30+ jenis visualisasi data interaktif membantu pengajar memantau progres siswa secara langsung.', waktu: '14 Feb 2026' },
+    { judul: 'Kolaborasi dengan 50+ Perusahaan Teknologi Terkemuka', ringkasan: 'KVT Hub menjalin kerja sama strategis dengan perusahaan teknologi for program magang, sertifikasi, dan job placement.', waktu: '13 Feb 2026' },
+    { judul: 'Kuro - The Chosen One: Karakter Pertama yang Hidup', ringkasan: 'Cerita di balik terciptanya Kuro, karakter the_chosen_one.kvt yang diciptakan oleh RH dan menjadi simbol kreativitas di dunia digital.', waktu: '12 Feb 2026' },
+    { judul: 'Sistem Sertifikasi Blockchain Credential Diluncurkan', ringkasan: 'Sertifikat digital terverifikasi blockchain memastikan keaslian kredensial pendidikan yang tidak bisa dipalsukan.', waktu: '11 Feb 2026' },
+];
+
+let beritaIndex = 0;
+let beritaTimer = null;
+let progressInterval = null;
+
+function renderBeritaDots() {
+    const dots = document.getElementById('beritaDots');
+    if (!dots) return;
+    dots.innerHTML = daftarBeritaSlide.map((_, i) =>
+        `<button onclick="event.stopPropagation();keBerita(${i})" class="w-2 h-2 rounded-full transition-all ${i === beritaIndex ? 'bg-emerald-400 w-6' : 'bg-kvt-700 hover:bg-kvt-600'}"></button>`
+    ).join('');
+}
+
+function tampilBerita(i) {
+    const b = daftarBeritaSlide[i];
+    const judul = document.getElementById('beritaJudul');
+    const ringkasan = document.getElementById('beritaRingkasan');
+    const waktu = document.getElementById('beritaWaktu');
+    if (judul) judul.textContent = b.judul;
+    if (ringkasan) ringkasan.textContent = b.ringkasan;
+    if (waktu) waktu.innerHTML = '<i class="far fa-clock mr-1"></i>' + b.waktu;
+    renderBeritaDots();
+    mulaiProgress();
+}
+
+function mulaiProgress() {
+    const bar = document.getElementById('beritaProgressBar');
+    if (!bar) return;
+    bar.style.width = '0%';
+    let persen = 0;
+    clearInterval(progressInterval);
+    progressInterval = setInterval(() => {
+        persen += 0.67;
+        bar.style.width = persen + '%';
+        if (persen >= 100) clearInterval(progressInterval);
+    }, 100);
+}
+
+function gantiBerita(dir) {
+    beritaIndex = (beritaIndex + dir + daftarBeritaSlide.length) % daftarBeritaSlide.length;
+    tampilBerita(beritaIndex);
+    resetTimer();
+}
+
+function keBerita(i) {
+    beritaIndex = i;
+    tampilBerita(beritaIndex);
+    resetTimer();
+}
+
+function resetTimer() {
+    clearInterval(beritaTimer);
+    beritaTimer = setInterval(() => gantiBerita(1), 15000);
+}
+
+function bukaLaporanBerita() {
+    const modal = document.getElementById('modalLaporan');
+    const judul = document.getElementById('laporanJudul');
+    const tanggal = document.getElementById('laporanTanggal');
+    if (modal) modal.classList.remove('hidden');
+    if (judul) judul.textContent = daftarBeritaSlide[beritaIndex].judul;
+    if (tanggal) tanggal.textContent = daftarBeritaSlide[beritaIndex].waktu;
+    document.body.style.overflow = 'hidden';
+}
+
+function tutupLaporan(e) {
+    e.stopPropagation();
+    const modal = document.getElementById('modalLaporan');
+    if (modal) modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    tampilBerita(0);
+    beritaTimer = setInterval(() => gantiBerita(1), 15000);
+});
+</script>
 @endpush

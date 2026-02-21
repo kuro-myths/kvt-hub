@@ -24,6 +24,21 @@ class MateriController extends Controller
         return view('materi.tampilkan', compact('materi', 'progres'));
     }
 
+    public function buku(Materi $materi)
+    {
+        $materi->load(['kelas', 'guru', 'kuis.pertanyaan']);
+
+        $progres = null;
+        if (Auth::check()) {
+            $progres = MateriProgres::firstOrCreate(
+                ['user_id' => Auth::id(), 'materi_id' => $materi->id],
+                ['status' => 'sedang']
+            );
+        }
+
+        return view('materi.buku', compact('materi', 'progres'));
+    }
+
     public function selesaikan(Materi $materi)
     {
         /** @var \App\Models\User $user */

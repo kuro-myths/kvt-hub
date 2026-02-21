@@ -17,6 +17,12 @@ use App\Http\Controllers\Admin\PaketController;
 use App\Http\Controllers\Admin\KunciController;
 use App\Http\Controllers\Admin\PengunjungController;
 use App\Http\Controllers\Admin\VerifikasiController;
+use App\Http\Controllers\Admin\KuroCeritaController;
+use App\Http\Controllers\Admin\KarakterCeritaController;
+use App\Http\Controllers\Admin\MateriController;
+use App\Http\Controllers\Admin\EdukasiGratisController;
+use App\Http\Controllers\Admin\PendaftaranEdukasiController;
+use App\Http\Controllers\Admin\AturanEdukasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,8 +81,21 @@ Route::delete('/mata-pelajaran/{mataPelajaran}', [MataPelajaranController::class
 // Organisasi
 Route::get('/organisasi', [OrganisasiController::class, 'index'])->name('organisasi.index');
 Route::post('/organisasi', [OrganisasiController::class, 'simpan'])->name('organisasi.simpan');
+Route::get('/organisasi/{organisasi}', [OrganisasiController::class, 'detail'])->name('organisasi.detail');
 Route::put('/organisasi/{organisasi}', [OrganisasiController::class, 'update'])->name('organisasi.update');
 Route::delete('/organisasi/{organisasi}', [OrganisasiController::class, 'hapus'])->name('organisasi.hapus');
+
+// Organisasi - Kegiatan
+Route::post('/organisasi/{organisasi}/kegiatan', [OrganisasiController::class, 'simpanKegiatan'])->name('organisasi.kegiatan.simpan');
+Route::delete('/organisasi/{organisasi}/kegiatan/{kegiatan}', [OrganisasiController::class, 'hapusKegiatan'])->name('organisasi.kegiatan.hapus');
+
+// Organisasi - Pengurus
+Route::post('/organisasi/{organisasi}/pengurus', [OrganisasiController::class, 'simpanPengurus'])->name('organisasi.pengurus.simpan');
+Route::delete('/organisasi/{organisasi}/pengurus/{pengurus}', [OrganisasiController::class, 'hapusPengurus'])->name('organisasi.pengurus.hapus');
+
+// Organisasi - Galeri
+Route::post('/organisasi/{organisasi}/galeri', [OrganisasiController::class, 'simpanGaleri'])->name('organisasi.galeri.simpan');
+Route::delete('/organisasi/{organisasi}/galeri/{galeri}', [OrganisasiController::class, 'hapusGaleri'])->name('organisasi.galeri.hapus');
 
 // KRS Mahasiswa
 Route::get('/krs', [KrsController::class, 'index'])->name('krs.index');
@@ -117,3 +136,42 @@ Route::get('/kunci', [KunciController::class, 'index'])->name('kunci');
 Route::post('/kunci', [KunciController::class, 'simpan'])->name('kunci.simpan');
 Route::delete('/kunci/{kunci}', [KunciController::class, 'hapus'])->name('kunci.hapus');
 Route::delete('/kunci-semua', [KunciController::class, 'hapusSemua'])->name('kunci.hapus-semua');
+
+// Kuro Cerita (Chapters)
+Route::get('/kuro-cerita', [KuroCeritaController::class, 'index'])->name('kuro-cerita.index');
+Route::post('/kuro-cerita', [KuroCeritaController::class, 'simpan'])->name('kuro-cerita.simpan');
+Route::put('/kuro-cerita/{kuroCerita}', [KuroCeritaController::class, 'update'])->name('kuro-cerita.update');
+Route::delete('/kuro-cerita/{kuroCerita}', [KuroCeritaController::class, 'hapus'])->name('kuro-cerita.hapus');
+
+// Karakter Cerita (Bejotaro & Veteran Chapters)
+Route::get('/karakter-cerita', [KarakterCeritaController::class, 'index'])->name('karakter-cerita.index');
+Route::post('/karakter-cerita', [KarakterCeritaController::class, 'simpan'])->name('karakter-cerita.simpan');
+Route::put('/karakter-cerita/{karakterCerita}', [KarakterCeritaController::class, 'update'])->name('karakter-cerita.update');
+Route::delete('/karakter-cerita/{karakterCerita}', [KarakterCeritaController::class, 'hapus'])->name('karakter-cerita.hapus');
+
+// Materi (CRUD + XP)
+Route::get('/materi', [MateriController::class, 'index'])->name('materi.index');
+Route::post('/materi', [MateriController::class, 'simpan'])->name('materi.simpan');
+Route::put('/materi/{materi}', [MateriController::class, 'update'])->name('materi.update');
+Route::delete('/materi/{materi}', [MateriController::class, 'hapus'])->name('materi.hapus');
+
+// Edukasi Gratis (CRUD)
+Route::get('/edukasi-gratis', [EdukasiGratisController::class, 'index'])->name('edukasi-gratis.index');
+Route::post('/edukasi-gratis', [EdukasiGratisController::class, 'simpan'])->name('edukasi-gratis.simpan');
+Route::put('/edukasi-gratis/{edukasiGratis}', [EdukasiGratisController::class, 'update'])->name('edukasi-gratis.update');
+Route::delete('/edukasi-gratis/{edukasiGratis}', [EdukasiGratisController::class, 'hapus'])->name('edukasi-gratis.hapus');
+Route::put('/edukasi-gratis/{edukasiGratis}/toggle', [EdukasiGratisController::class, 'toggleAktif'])->name('edukasi-gratis.toggle');
+
+// Pendaftaran Edukasi (Manajemen)
+Route::get('/pendaftaran-edukasi', [PendaftaranEdukasiController::class, 'index'])->name('pendaftaran-edukasi.index');
+Route::get('/pendaftaran-edukasi/{pendaftaranEdukasi}', [PendaftaranEdukasiController::class, 'tampilkan'])->name('pendaftaran-edukasi.tampilkan');
+Route::put('/pendaftaran-edukasi/{pendaftaranEdukasi}/status', [PendaftaranEdukasiController::class, 'ubahStatus'])->name('pendaftaran-edukasi.status');
+Route::delete('/pendaftaran-edukasi/{pendaftaranEdukasi}', [PendaftaranEdukasiController::class, 'hapus'])->name('pendaftaran-edukasi.hapus');
+Route::post('/pendaftaran-edukasi/{pendaftaranEdukasi}/notifikasi', [PendaftaranEdukasiController::class, 'kirimNotifikasi'])->name('pendaftaran-edukasi.notifikasi');
+
+// Aturan Edukasi (CRUD)
+Route::get('/aturan-edukasi', [AturanEdukasiController::class, 'index'])->name('aturan-edukasi.index');
+Route::post('/aturan-edukasi', [AturanEdukasiController::class, 'simpan'])->name('aturan-edukasi.simpan');
+Route::put('/aturan-edukasi/{aturanEdukasi}', [AturanEdukasiController::class, 'update'])->name('aturan-edukasi.update');
+Route::delete('/aturan-edukasi/{aturanEdukasi}', [AturanEdukasiController::class, 'hapus'])->name('aturan-edukasi.hapus');
+Route::put('/aturan-edukasi/{aturanEdukasi}/toggle', [AturanEdukasiController::class, 'toggleAktif'])->name('aturan-edukasi.toggle');

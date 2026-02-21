@@ -21,6 +21,12 @@
         ['label' => 'Pengunjung', 'ikon' => 'fas fa-chart-line', 'route' => 'admin.pengunjung', 'warna' => 'lime'],
         ['label' => 'Paket Eksklusif', 'ikon' => 'fas fa-gem', 'route' => 'admin.paket', 'warna' => 'violet'],
         ['label' => 'Kunci Admin', 'ikon' => 'fas fa-key', 'route' => 'admin.kunci', 'warna' => 'rose'],
+        ['label' => 'Cerita Kuro', 'ikon' => 'fas fa-book-dead', 'route' => 'admin.kuro-cerita.index', 'warna' => 'violet'],
+        ['label' => 'Cerita Karakter', 'ikon' => 'fas fa-users', 'route' => 'admin.karakter-cerita.index', 'warna' => 'amber'],
+        ['label' => 'Materi', 'ikon' => 'fas fa-book-open', 'route' => 'admin.materi.index', 'warna' => 'sky'],
+        ['label' => 'Edukasi Gratis', 'ikon' => 'fas fa-gift', 'route' => 'admin.edukasi-gratis.index', 'warna' => 'green'],
+        ['label' => 'Pendaftaran Edukasi', 'ikon' => 'fas fa-clipboard-check', 'route' => 'admin.pendaftaran-edukasi.index', 'warna' => 'emerald'],
+        ['label' => 'Aturan Edukasi', 'ikon' => 'fas fa-exclamation-triangle', 'route' => 'admin.aturan-edukasi.index', 'warna' => 'red'],
     ];
 
     $menuPengajar = [
@@ -159,6 +165,9 @@
             </a>
             <a href="{{ route('kerja-sama.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-gray-500 hover:text-gray-300 hover:bg-kvt-800/50 transition">
                 <i class="fas fa-handshake text-xs w-8 text-center"></i> Kerja Sama
+            </a>
+            <a href="{{ route('edukasi-gratis.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-green-500/70 hover:text-green-400 hover:bg-green-500/5 transition">
+                <i class="fas fa-gift text-xs w-8 text-center"></i> Edukasi Gratis
             </a>
         </div>
     </div>

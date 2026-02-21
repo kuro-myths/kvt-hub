@@ -35,7 +35,15 @@
                         <span class="text-gray-500 text-xs">+{{ $materi->xp_reward }} XP</span>
                     </div>
 
-                    <h1 class="text-2xl font-black text-white mb-4">{{ $materi->judul }}</h1>
+                    <div class="flex items-center justify-between gap-4 mb-4">
+                        <h1 class="text-2xl font-black text-white">{{ $materi->judul }}</h1>
+                        @if($materi->konten)
+                            <a href="{{ route('materi.buku', $materi) }}"
+                               class="flex-shrink-0 bg-kvt-800/50 hover:bg-kvt-700/50 border border-kvt-600/30 hover:border-kvt-500/40 text-kvt-300 hover:text-white px-4 py-2 rounded-xl text-sm font-semibold transition group">
+                                <i class="fas fa-book-open mr-2 group-hover:animate-pulse"></i>Mode Buku
+                            </a>
+                        @endif
+                    </div>
 
                     @if($materi->deskripsi)
                         <p class="text-gray-400 mb-6">{{ $materi->deskripsi }}</p>

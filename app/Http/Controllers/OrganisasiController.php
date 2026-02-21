@@ -30,4 +30,17 @@ class OrganisasiController extends Controller
 
         return view('halaman.komunitas.organisasi', compact('organisasi', 'tipeList', 'kategoriList'));
     }
+
+    public function detail(Organisasi $organisasi)
+    {
+        if (!$organisasi->aktif) {
+            abort(404);
+        }
+
+        $organisasi->load(['kegiatan' => function ($q) {
+            $q->where('aktif', true)->orderByDesc('tanggal');
+        }, 'pengurus', 'galeri']);
+
+        return view('halaman.komunitas.organisasi-detail', compact('organisasi'));
+    }
 }

@@ -50,6 +50,7 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
@@ -243,41 +244,240 @@
             100% { opacity:0.92 }
         }
 
-        /* ===== LOADING SCREEN ===== */
+        /* ===== LOADING SCREEN (Enhanced) ===== */
         .loading-screen {
             position:fixed;inset:0;z-index:9999;
-            background:#021029;
+            background:#020a18;
             display:flex;flex-direction:column;align-items:center;justify-content:center;
-            transition:opacity 0.5s,visibility 0.5s;
+            transition:opacity 0.8s cubic-bezier(0.4,0,0.2,1),visibility 0.8s,transform 0.8s;
+            overflow:hidden;
         }
         .loading-screen.hide {
             opacity:0;visibility:hidden;pointer-events:none;
+            transform:scale(1.05);
+        }
+        .loading-screen.hide .loading-logo { transform:scale(1.3) rotate(10deg);opacity:0; }
+        .loading-screen.hide .loading-particles { opacity:0; }
+        .loading-screen.hide .loading-glow-orb { opacity:0;transform:translate(-50%,-50%) scale(1.5); }
+
+        /* Glow orbs */
+        .loading-glow-orb {
+            position:absolute;border-radius:50%;
+            filter:blur(80px);transition:all 1s ease;
+        }
+        .loading-glow-orb.orb-1 {
+            width:400px;height:400px;
+            background:radial-gradient(circle,rgba(51,153,255,0.15) 0%,transparent 70%);
+            top:30%;left:40%;
+            animation:orbFloat1 6s ease-in-out infinite;
+        }
+        .loading-glow-orb.orb-2 {
+            width:300px;height:300px;
+            background:radial-gradient(circle,rgba(139,92,246,0.12) 0%,transparent 70%);
+            top:50%;left:60%;
+            animation:orbFloat2 8s ease-in-out infinite;
+        }
+        .loading-glow-orb.orb-3 {
+            width:200px;height:200px;
+            background:radial-gradient(circle,rgba(59,130,246,0.08) 0%,transparent 70%);
+            top:60%;left:30%;
+            animation:orbFloat3 7s ease-in-out infinite;
+        }
+        @keyframes orbFloat1 {
+            0%,100%{transform:translate(-50%,-50%) scale(1)}
+            50%{transform:translate(-40%,-40%) scale(1.2)}
+        }
+        @keyframes orbFloat2 {
+            0%,100%{transform:translate(-50%,-50%) scale(1)}
+            50%{transform:translate(-60%,-60%) scale(0.8)}
+        }
+        @keyframes orbFloat3 {
+            0%,100%{transform:translate(-50%,-50%) scale(1)}
+            33%{transform:translate(-30%,-50%) scale(1.3)}
+            66%{transform:translate(-60%,-40%) scale(0.9)}
+        }
+
+        /* Grid lines */
+        .loading-grid {
+            position:absolute;inset:0;
+            background-image:
+                linear-gradient(rgba(51,153,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(51,153,255,0.03) 1px, transparent 1px);
+            background-size:60px 60px;
+            animation:gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0%{transform:translate(0,0)}
+            100%{transform:translate(60px,60px)}
+        }
+
+        /* Particles */
+        .loading-particles {
+            position:absolute;inset:0;overflow:hidden;transition:opacity 0.8s;
+        }
+        .loading-particle {
+            position:absolute;border-radius:50%;
+            animation:particleFloat linear infinite;
+        }
+        .loading-particle.particle-line {
+            border-radius:0;height:1px !important;
+            animation:particleLineSweep linear infinite;
+        }
+        @keyframes particleFloat {
+            0% { transform:translateY(100vh) rotate(0deg) scale(0);opacity:0; }
+            10% { opacity:1;transform:translateY(80vh) rotate(36deg) scale(1); }
+            90% { opacity:0.8; }
+            100% { transform:translateY(-10vh) rotate(360deg) scale(0);opacity:0; }
+        }
+        @keyframes particleLineSweep {
+            0% { transform:translateX(-100%);opacity:0; }
+            20% { opacity:0.6; }
+            80% { opacity:0.6; }
+            100% { transform:translateX(200vw);opacity:0; }
+        }
+
+        /* Logo container */
+        .loading-logo-wrap {
+            position:relative;z-index:2;
         }
         .loading-logo {
-            width:80px;height:80px;
-            background:linear-gradient(135deg,#3399FF,#8B5CF6);
-            border-radius:20px;
+            width:92px;height:92px;
+            background:linear-gradient(135deg,#1e40af,#3b82f6,#8b5cf6);
+            border-radius:24px;
             display:flex;align-items:center;justify-content:center;
-            animation:loadPulse 1.5s ease-in-out infinite;
-            box-shadow:0 0 40px rgba(51,153,255,0.3);
+            animation:loadPulse 2.5s ease-in-out infinite;
+            box-shadow:0 0 60px rgba(59,130,246,0.4),0 0 120px rgba(139,92,246,0.15),inset 0 1px 0 rgba(255,255,255,0.1);
+            transition:all 0.6s cubic-bezier(0.4,0,0.2,1);
+            position:relative;
+            overflow:hidden;
+        }
+        .loading-logo::before {
+            content:'';position:absolute;inset:-3px;
+            background:conic-gradient(from 0deg,#3b82f6,#8b5cf6,#06b6d4,#3b82f6);
+            border-radius:26px;z-index:-1;
+            animation:loadSpin 4s linear infinite;
+            opacity:0.7;
+        }
+        .loading-logo::after {
+            content:'';position:absolute;
+            top:-100%;left:-100%;width:300%;height:300%;
+            background:linear-gradient(transparent,transparent,rgba(255,255,255,0.06),transparent,transparent);
+            transform:rotate(45deg);
+            animation:loadShine 3s ease-in-out infinite;
+        }
+        .loading-logo .logo-k {
+            font-size:2.2rem;font-weight:900;
+            background:linear-gradient(180deg,#fff 20%,rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;
+            text-shadow:none;
+            filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));
         }
         @keyframes loadPulse {
-            0%,100% { transform:scale(1);box-shadow:0 0 40px rgba(51,153,255,0.3) }
-            50% { transform:scale(1.05);box-shadow:0 0 60px rgba(51,153,255,0.5) }
+            0%,100% { transform:scale(1);box-shadow:0 0 60px rgba(59,130,246,0.4),0 0 120px rgba(139,92,246,0.15) }
+            50% { transform:scale(1.08);box-shadow:0 0 80px rgba(59,130,246,0.6),0 0 140px rgba(139,92,246,0.3) }
         }
-        .loading-bar {
-            width:200px;height:3px;background:#0a1f4d;border-radius:3px;margin-top:24px;overflow:hidden;
+        @keyframes loadSpin { to { transform:rotate(360deg); } }
+        @keyframes loadShine {
+            0% { transform:rotate(45deg) translateY(0); }
+            100% { transform:rotate(45deg) translateY(-60%); }
         }
-        .loading-bar-inner {
-            width:0%;height:100%;background:linear-gradient(90deg,#3399FF,#8B5CF6);border-radius:3px;
-            animation:loadProgress 1.8s ease-in-out forwards;
+
+        /* Orbiting dots */
+        .loading-orbit {
+            position:absolute;border-radius:50%;
+            animation:loadOrbit linear infinite;
+        }
+        .loading-orbit::after {
+            content:'';position:absolute;
+            width:6px;height:6px;border-radius:50%;
+            top:-3px;left:50%;margin-left:-3px;
+        }
+        .loading-orbit:nth-child(1) {
+            width:160px;height:160px;animation-duration:3s;
+        }
+        .loading-orbit:nth-child(1)::after {
+            background:#3b82f6;box-shadow:0 0 12px rgba(59,130,246,0.8);
+        }
+        .loading-orbit:nth-child(2) {
+            width:220px;height:220px;animation-duration:5s;animation-direction:reverse;
+        }
+        .loading-orbit:nth-child(2)::after {
+            background:#8b5cf6;box-shadow:0 0 12px rgba(139,92,246,0.8);
+            width:4px;height:4px;margin-left:-2px;top:-2px;
+        }
+        .loading-orbit:nth-child(3) {
+            width:280px;height:280px;animation-duration:7s;
+        }
+        .loading-orbit:nth-child(3)::after {
+            background:#06b6d4;box-shadow:0 0 12px rgba(6,182,212,0.6);
+            width:3px;height:3px;margin-left:-1.5px;top:-1.5px;
+        }
+        @keyframes loadOrbit { to { transform:rotate(360deg); } }
+
+        /* Rings */
+        .loading-ring {
+            position:absolute;border-radius:50%;
+            border:1px solid rgba(59,130,246,0.1);
+            animation:loadRingPulse 3s ease-in-out infinite;
+        }
+        .loading-ring:nth-child(4) { width:140px;height:140px;animation-delay:0s;border-style:dashed;border-color:rgba(59,130,246,0.08); }
+        .loading-ring:nth-child(5) { width:200px;height:200px;animation-delay:0.5s;border-color:rgba(139,92,246,0.06); }
+        .loading-ring:nth-child(6) { width:260px;height:260px;animation-delay:1s;border-color:rgba(6,182,212,0.04); }
+        @keyframes loadRingPulse {
+            0%,100% { transform:scale(1);opacity:1; }
+            50% { transform:scale(1.08);opacity:0.2; }
+        }
+
+        /* Progress bar */
+        .loading-progress {
+            position:relative;
+            width:260px;height:3px;
+            background:rgba(59,130,246,0.06);
+            border-radius:4px;margin-top:32px;
+            overflow:hidden;z-index:2;
+        }
+        .loading-progress-fill {
+            width:0%;height:100%;
+            background:linear-gradient(90deg,#3b82f6,#8b5cf6,#06b6d4,#3b82f6);
+            background-size:300% 100%;
+            border-radius:4px;
+            animation:loadProgress 2.2s ease-in-out forwards, loadProgressShimmer 1.2s linear infinite;
+            box-shadow:0 0 12px rgba(59,130,246,0.4);
         }
         @keyframes loadProgress {
             0% { width:0% }
-            30% { width:40% }
-            60% { width:70% }
+            15% { width:20% }
+            40% { width:50% }
+            70% { width:80% }
+            90% { width:95% }
             100% { width:100% }
         }
+        @keyframes loadProgressShimmer {
+            0% { background-position:300% 0; }
+            100% { background-position:-300% 0; }
+        }
+
+        /* Percentage counter */
+        .loading-percent {
+            z-index:2;margin-top:14px;
+            font-size:22px;font-weight:900;
+            background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;
+            font-variant-numeric:tabular-nums;
+            letter-spacing:-0.5px;
+        }
+
+        /* Status text */
+        .loading-status {
+            z-index:2;margin-top:8px;
+            font-size:10px;color:#334155;
+            font-weight:600;letter-spacing:4px;
+            text-transform:uppercase;
+            transition:all 0.3s;
+        }
+        .loading-status.done { color:#3b82f6;letter-spacing:6px; }
 
         /* ===== SECTION DECORATIONS ===== */
         .section-glow::before {
@@ -296,11 +496,11 @@
 
         /* ===== SETTINGS SIDEBAR ===== */
         .settings-panel {
-            position:fixed;right:-380px;top:0;bottom:0;width:360px;z-index:200;
+            position:fixed;right:-420px;top:0;bottom:0;width:400px;z-index:200;
             background:rgba(4,16,41,0.97);backdrop-filter:blur(24px);
             border-left:1px solid rgba(51,153,255,0.15);
             transition:right 0.35s cubic-bezier(0.4,0,0.2,1);
-            overflow-y:auto;
+            display:flex;flex-direction:column;
         }
         .settings-panel.open { right:0 }
         .settings-overlay {
@@ -341,6 +541,51 @@
             background:#fff;border-radius:50%;transition:transform 0.3s;
         }
         .toggle-switch.active::after { transform:translateX(20px) }
+
+        /* Grid boxes for settings navigation */
+        .stg-box {
+            display:flex;flex-direction:column;align-items:center;gap:4px;
+            padding:8px 4px;border-radius:12px;border:1px solid rgba(51,153,255,0.06);
+            background:rgba(51,153,255,0.03);cursor:pointer;transition:all 0.2s;
+        }
+        .stg-box:hover { background:rgba(51,153,255,0.08);transform:translateY(-1px) }
+        .stg-box.active { background:rgba(51,153,255,0.12);border-color:rgba(51,153,255,0.25);box-shadow:0 0 12px rgba(51,153,255,0.1) }
+        .stg-box-icon { width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s }
+        .stg-box.active .stg-box-icon { transform:scale(1.1) }
+        .stg-box-label { font-size:9px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px }
+        .stg-box.active .stg-box-label { color:#94a3b8 }
+
+        .stg-tool-btn.active { background:rgba(51,153,255,0.12) !important;border-color:rgba(51,153,255,0.25) !important }
+
+        /* Sketch canvas overlay */
+        #sketsaOverlay {
+            position:fixed;inset:0;z-index:9999;cursor:crosshair;
+            touch-action:none;
+        }
+        #sketsaToolbar {
+            position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10000;
+            background:rgba(4,16,41,0.95);backdrop-filter:blur(20px);
+            border:1px solid rgba(51,153,255,0.2);border-radius:16px;
+            padding:8px 16px;display:flex;align-items:center;gap:8px;
+            box-shadow:0 8px 32px rgba(0,0,0,0.5);
+        }
+        #sketsaToolbar button {
+            width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+            background:rgba(51,153,255,0.08);border:1px solid rgba(51,153,255,0.1);
+            color:#94a3b8;cursor:pointer;transition:all 0.2s;font-size:14px;
+        }
+        #sketsaToolbar button:hover { background:rgba(51,153,255,0.15);color:#fff }
+        #sketsaToolbar button.active { background:rgba(51,153,255,0.2);color:#3399FF;border-color:rgba(51,153,255,0.3) }
+        #sketsaToolbar .divider { width:1px;height:24px;background:rgba(51,153,255,0.15) }
+
+        /* Screenshot area selection */
+        #ssSelectOverlay {
+            position:fixed;inset:0;z-index:9998;cursor:crosshair;background:rgba(0,0,0,0.3);
+        }
+        #ssSelectBox {
+            position:absolute;border:2px dashed #3399FF;background:rgba(51,153,255,0.1);
+            pointer-events:none;
+        }
     </style>
     @stack('styles')
 </head>
@@ -348,14 +593,42 @@
 
     {{-- ==================== LOADING SCREEN ==================== --}}
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo">
-            <span class="text-white font-black text-3xl tracking-tight">K</span>
+        {{-- Background effects --}}
+        <div class="loading-glow-orb orb-1"></div>
+        <div class="loading-glow-orb orb-2"></div>
+        <div class="loading-glow-orb orb-3"></div>
+        <div class="loading-grid"></div>
+
+        {{-- Floating particles --}}
+        <div class="loading-particles" id="loadParticles"></div>
+
+        {{-- Center content --}}
+        <div class="loading-logo-wrap flex flex-col items-center">
+            <div class="relative flex items-center justify-center" style="width:280px;height:280px;">
+                {{-- Orbiting dots --}}
+                <div class="loading-orbit"></div>
+                <div class="loading-orbit"></div>
+                <div class="loading-orbit"></div>
+                {{-- Pulsing rings --}}
+                <div class="loading-ring"></div>
+                <div class="loading-ring"></div>
+                <div class="loading-ring"></div>
+                {{-- Logo --}}
+                <div class="loading-logo" style="position:absolute;">
+                    <span class="logo-k">K</span>
+                </div>
+            </div>
+            <p class="text-gray-200 text-sm font-bold tracking-[0.3em] mt-1" style="z-index:2;">KVT HUB</p>
+            <p class="text-gray-600 text-[10px] tracking-widest mt-1.5" style="z-index:2;">PLATFORM PENDIDIKAN DIGITAL</p>
         </div>
-        <p class="text-gray-400 text-sm mt-4 font-semibold tracking-wider">KVT Hub</p>
-        <div class="loading-bar">
-            <div class="loading-bar-inner"></div>
+
+        {{-- Progress --}}
+        <div class="loading-progress">
+            <div class="loading-progress-fill"></div>
         </div>
-        <p class="text-gray-600 text-[10px] mt-3 tracking-widest uppercase">Memuat platform...</p>
+
+        <div class="loading-percent" id="loadPercent">0%</div>
+        <div class="loading-status" id="loadStatus">MEMUAT SISTEM</div>
     </div>
 
     <div class="salju-container" id="salju"></div>
@@ -975,7 +1248,7 @@
                     </div>
                 </div>
 
-                    {{-- 12. Keamanan --}}
+                    {{-- 13. Keamanan --}}
                     <div class="nav-item nav-menu-item" data-nav-page="2">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-shield-alt text-red-400"></i> Keamanan
@@ -1014,7 +1287,7 @@
                     </div>
                 </div>
 
-                    {{-- 13. Kurikulum --}}
+                    {{-- 14. Kurikulum --}}
                     <div class="nav-item nav-menu-item" data-nav-page="2">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-book-reader text-indigo-400"></i> Kurikulum
@@ -1046,7 +1319,7 @@
                     </div>
                 </div>
 
-                    {{-- 14. Panduan --}}
+                    {{-- 15. Panduan --}}
                     <div class="nav-item nav-menu-item" data-nav-page="2">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-project-diagram text-teal-400"></i> Panduan
@@ -1078,7 +1351,7 @@
                     </div>
                 </div>
 
-                    {{-- 15. Media --}}
+                    {{-- 16. Media --}}
                     <div class="nav-item nav-menu-item" data-nav-page="3">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-play-circle text-rose-400"></i> Media
@@ -1142,7 +1415,7 @@
                     </div>
                 </div>
 
-                    {{-- 18. Bantuan --}}
+                    {{-- 19. Bantuan --}}
                     <div class="nav-item nav-menu-item" data-nav-page="3">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-life-ring text-lime-400"></i> Bantuan
@@ -1170,7 +1443,48 @@
                     </div>
                 </div>
 
-                    {{-- 19. Statistik --}}
+                    {{-- 20. Edukasi Gratis --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="3">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-gift text-green-400"></i> Edukasi Gratis
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown dropdown-right">
+                        <div class="nav-dropdown-inner">
+                            <a href="{{ route('edukasi-gratis.index') }}" class="dropdown-item">
+                                <div class="item-icon bg-green-500/10"><i class="fas fa-graduation-cap text-green-400"></i></div>
+                                <div class="item-text"><div class="item-title">Semua Program</div><div class="item-desc">Lihat semua edukasi gratis</div></div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-section-title">Kategori Populer</div>
+                            <a href="{{ route('edukasi-gratis.index', ['kategori' => 'tools']) }}" class="dropdown-item">
+                                <div class="item-icon bg-kvt-500/10"><i class="fas fa-tools text-kvt-400"></i></div>
+                                <div class="item-text"><div class="item-title">Developer Tools</div><div class="item-desc">GitHub, JetBrains, IDE gratis</div></div>
+                            </a>
+                            <a href="{{ route('edukasi-gratis.index', ['kategori' => 'cloud']) }}" class="dropdown-item">
+                                <div class="item-icon bg-amber-500/10"><i class="fas fa-cloud text-amber-400"></i></div>
+                                <div class="item-text"><div class="item-title">Cloud & Hosting</div><div class="item-desc">Azure, GCP, AWS credit gratis</div></div>
+                            </a>
+                            <a href="{{ route('edukasi-gratis.index', ['kategori' => 'design']) }}" class="dropdown-item">
+                                <div class="item-icon bg-purple-500/10"><i class="fas fa-palette text-purple-400"></i></div>
+                                <div class="item-text"><div class="item-title">Desain & Kreativitas</div><div class="item-desc">Figma, Canva, Autodesk gratis</div></div>
+                            </a>
+                            <a href="{{ route('edukasi-gratis.index', ['kategori' => 'pendidikan']) }}" class="dropdown-item">
+                                <div class="item-icon bg-cyan-500/10"><i class="fas fa-book-open text-cyan-400"></i></div>
+                                <div class="item-text"><div class="item-title">Platform Pendidikan</div><div class="item-desc">Coursera, edX, Khan Academy</div></div>
+                            </a>
+                            @auth
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ route('pendaftaran-edukasi.riwayat') }}" class="dropdown-item">
+                                <div class="item-icon bg-emerald-500/10"><i class="fas fa-clipboard-check text-emerald-400"></i></div>
+                                <div class="item-text"><div class="item-title">Riwayat Pendaftaran</div><div class="item-desc">Lihat status pendaftaran Anda</div></div>
+                            </a>
+                            @endauth
+                        </div>
+                    </div>
+                </div>
+
+                    {{-- 21. Statistik --}}
                     <div class="nav-item nav-menu-item" data-nav-page="3">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-chart-line text-sky-400"></i> Statistik
@@ -1200,7 +1514,7 @@
                     </div>
                 </div>
 
-                    {{-- 20. Layanan --}}
+                    {{-- 22. Layanan --}}
                     <div class="nav-item nav-menu-item" data-nav-page="3">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-concierge-bell text-emerald-400"></i> Layanan
@@ -1359,6 +1673,10 @@
                 <a href="{{ route('halaman.komunitas') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-users w-6 text-pink-400"></i> Komunitas</a>
                 <a href="{{ route('halaman.sertifikasi') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-award w-6 text-yellow-400"></i> Sertifikasi</a>
                 <a href="{{ route('halaman.sumber-daya') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-database w-6 text-cyan-400"></i> Sumber Daya</a>
+                <a href="{{ route('edukasi-gratis.index') }}" class="block py-2.5 px-4 text-gray-300 hover:text-green-400 hover:bg-green-500/5 rounded-xl text-sm font-medium"><i class="fas fa-gift w-6 text-green-400"></i> Edukasi Gratis</a>
+                @auth
+                <a href="{{ route('pendaftaran-edukasi.riwayat') }}" class="block py-2.5 px-4 text-gray-300 hover:text-emerald-400 hover:bg-emerald-500/5 rounded-xl text-sm font-medium pl-10"><i class="fas fa-clipboard-check w-6 text-emerald-400"></i> Riwayat Pendaftaran</a>
+                @endauth
                 <a href="{{ route('kerja-sama.index') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-handshake w-6 text-yellow-400"></i> Kerja Sama</a>
 
                 <div class="border-t border-kvt-700/20 my-2 mx-4"></div>
@@ -1437,7 +1755,7 @@
                 </div>
                 <div class="px-5 py-3 border-t border-kvt-700/20 flex items-center justify-between text-[10px] text-gray-500">
                     <div class="flex items-center gap-3"><span><kbd class="bg-kvt-800 px-1.5 py-0.5 rounded">Tab</kbd> navigasi</span><span><kbd class="bg-kvt-800 px-1.5 py-0.5 rounded">Enter</kbd> buka</span></div>
-                    <span class="font-semibold">KVT Search Engine v4.0</span>
+                    <span class="font-semibold">KVT Search Engine v5.0</span>
                 </div>
             </div>
         </div>
@@ -1454,92 +1772,126 @@
     {{-- ==================== MAIN CONTENT ==================== --}}
     <main>@yield('konten')</main>
 
-    {{-- ==================== MEGA FOOTER ==================== --}}
-    <footer class="bg-kvt-950 border-t border-kvt-700/20 mt-20 relative">
+    {{-- ==================== MEGA FOOTER v5.0 ==================== --}}
+    <footer class="bg-kvt-950 border-t border-kvt-700/20 mt-20 relative overflow-hidden">
+        {{-- Decorative Background --}}
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-kvt-500/3 rounded-full blur-[150px]"></div>
+            <div class="absolute top-0 right-0 w-72 h-72 bg-purple-500/3 rounded-full blur-[120px]"></div>
+        </div>
+
         {{-- Visitor Stats Bar --}}
-        <div class="bg-kvt-900/50 border-b border-kvt-700/20 py-3">
+        <div class="relative bg-gradient-to-r from-kvt-900/80 via-kvt-900/50 to-kvt-900/80 border-b border-kvt-700/20 py-3">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center gap-6 text-xs text-gray-400">
-                    <span><i class="fas fa-eye text-kvt-400 mr-1"></i> Hari ini: <strong class="text-white" id="visitorToday">--</strong></span>
-                    <span><i class="fas fa-users text-green-400 mr-1"></i> Online: <strong class="text-green-400" id="visitorOnline">--</strong></span>
-                    <span><i class="fas fa-chart-line text-yellow-400 mr-1"></i> Total: <strong class="text-white" id="visitorTotal">--</strong></span>
-                    <span><i class="fas fa-fingerprint text-purple-400 mr-1"></i> Unik: <strong class="text-white" id="visitorUnik">--</strong></span>
+                    <span class="flex items-center gap-1.5"><i class="fas fa-eye text-kvt-400"></i> Hari ini: <strong class="text-white" id="visitorToday">--</strong></span>
+                    <span class="flex items-center gap-1.5"><i class="fas fa-users text-green-400"></i> Online: <strong class="text-green-400" id="visitorOnline">--</strong></span>
+                    <span class="flex items-center gap-1.5"><i class="fas fa-chart-line text-yellow-400"></i> Total: <strong class="text-white" id="visitorTotal">--</strong></span>
+                    <span class="flex items-center gap-1.5"><i class="fas fa-fingerprint text-purple-400"></i> Unik: <strong class="text-white" id="visitorUnik">--</strong></span>
                 </div>
-                <div class="flex items-center gap-2 text-xs text-gray-500">
+                <div class="flex items-center gap-2 text-xs">
                     <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                    <span>Sistem berjalan normal</span>
+                    <span class="text-green-400 font-semibold">Sistem berjalan normal</span>
+                    <span class="text-gray-600 mx-1">|</span>
+                    <span class="text-gray-500">v5.0</span>
                 </div>
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        {{-- Edukasi Gratis Banner --}}
+        <div class="relative bg-gradient-to-r from-green-500/5 via-kvt-500/5 to-purple-500/5 border-b border-kvt-700/10 py-4">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/20">
+                        <i class="fas fa-gift text-white"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-white">Edukasi Gratis untuk Semua</p>
+                        <p class="text-[11px] text-gray-400">Akses 30+ program edukasi premium gratis — GitHub Pro, Figma, Azure, dan lainnya</p>
+                    </div>
+                </div>
+                <a href="{{ route('edukasi-gratis.index') }}" class="inline-flex items-center gap-2 px-5 py-2 bg-green-600 hover:bg-green-500 text-white text-sm rounded-xl font-semibold transition hover:-translate-y-0.5 shadow-lg shadow-green-500/20">
+                    <i class="fas fa-arrow-right text-xs"></i> Jelajahi Sekarang
+                </a>
+            </div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-16">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10">
                 {{-- Col 1-2: Brand --}}
                 <div class="lg:col-span-2">
                     <div class="flex items-center gap-3 mb-5">
-                        <div class="w-12 h-12 bg-gradient-to-br from-kvt-400 via-ungu-500 to-kvt-600 rounded-xl flex items-center justify-center shadow-lg">
-                            <span class="text-white font-black text-xl">K</span>
+                        <div class="w-14 h-14 bg-gradient-to-br from-kvt-400 via-ungu-500 to-kvt-600 rounded-2xl flex items-center justify-center shadow-xl shadow-kvt-500/20 animate-glow">
+                            <span class="text-white font-black text-2xl">K</span>
                         </div>
                         <div>
-                            <span class="text-xl font-extrabold"><span class="text-white">KVT</span> <span class="text-kvt-400">Hub</span></span>
-                            <span class="block text-[10px] text-gray-500 tracking-[0.12em] font-semibold">Global Education & Research Ecosystem</span>
+                            <span class="text-2xl font-extrabold"><span class="text-white">KVT</span> <span class="teks-gradien">Hub</span></span>
+                            <span class="block text-[10px] text-gray-500 tracking-[0.15em] font-semibold uppercase">Global Education & Research Ecosystem</span>
                         </div>
                     </div>
-                    <p class="text-gray-400 text-sm max-w-md mb-5 leading-relaxed">
-                        Ekosistem pembelajaran, karir, dan riset digital terdepan. Mengintegrasikan pendidikan dari TK hingga S3 dengan teknologi modern.
+                    <p class="text-gray-400 text-sm max-w-md mb-6 leading-relaxed">
+                        Ekosistem pembelajaran, karir, dan riset digital terdepan. Mengintegrasikan pendidikan dari TK hingga S3 dengan teknologi modern, riset kolaboratif, dan jaringan industri global.
                     </p>
+
+                    {{-- Social Links --}}
                     <div class="flex gap-2 mb-6">
-                        <a href="#" class="w-10 h-10 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-700/50 transition hover:-translate-y-0.5"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="w-10 h-10 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-700/50 transition hover:-translate-y-0.5"><i class="fab fa-instagram"></i></a>
-                        <a href="https://github.com/kuro-myths/kvt-hub" target="_blank" class="w-10 h-10 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-700/50 transition hover:-translate-y-0.5"><i class="fab fa-github"></i></a>
-                        <a href="#" class="w-10 h-10 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-700/50 transition hover:-translate-y-0.5"><i class="fab fa-discord"></i></a>
-                        <a href="#" class="w-10 h-10 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-700/50 transition hover:-translate-y-0.5"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.youtube.com/@Kuro-MYTHS" target="_blank" class="group w-11 h-11 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-red-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/30"><i class="fab fa-youtube text-lg group-hover:scale-110 transition-transform"></i></a>
+                        <a href="https://www.instagram.com/mythskuro/" target="_blank" class="group w-11 h-11 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-pink-500/30"><i class="fab fa-instagram text-lg group-hover:scale-110 transition-transform"></i></a>
+                        <a href="https://github.com/kuro-myths" target="_blank" class="group w-11 h-11 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-gray-500/30"><i class="fab fa-github text-lg group-hover:scale-110 transition-transform"></i></a>
+                        <a href="https://www.linkedin.com/in/kuro-myths/" target="_blank" class="group w-11 h-11 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/30"><i class="fab fa-linkedin text-lg group-hover:scale-110 transition-transform"></i></a>
+                        <a href="https://discord.gg/" target="_blank" class="group w-11 h-11 bg-kvt-800/50 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-indigo-500 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-500/30"><i class="fab fa-discord text-lg group-hover:scale-110 transition-transform"></i></a>
                     </div>
-                    <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-xl p-4">
-                        <h5 class="text-sm font-semibold text-white mb-2"><i class="fas fa-envelope text-kvt-400 mr-2"></i>Kotak Saran</h5>
+
+                    {{-- Kotak Saran --}}
+                    <div class="bg-gradient-to-br from-kvt-900/80 to-kvt-800/30 border border-kvt-700/30 rounded-2xl p-5">
+                        <h5 class="text-sm font-bold text-white mb-3 flex items-center gap-2"><i class="fas fa-comment-dots text-kvt-400"></i>Kotak Saran</h5>
                         <form onsubmit="kirimSaran(event)">
-                            <textarea id="saranInput" rows="2" class="w-full bg-kvt-800/50 border border-kvt-700/30 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-kvt-500 resize-none" placeholder="Tulis saran atau masukan Anda..."></textarea>
-                            <button type="submit" class="mt-2 text-xs bg-kvt-600 hover:bg-kvt-500 text-white px-4 py-2 rounded-lg transition font-semibold"><i class="fas fa-paper-plane mr-1"></i>Kirim Saran</button>
+                            <textarea id="saranInput" rows="2" class="w-full bg-kvt-800/50 border border-kvt-700/30 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 outline-none focus:border-kvt-500 focus:ring-1 focus:ring-kvt-500/20 resize-none transition" placeholder="Tulis saran atau masukan Anda..."></textarea>
+                            <button type="submit" class="mt-2 text-xs bg-gradient-to-r from-kvt-600 to-kvt-500 hover:from-kvt-500 hover:to-kvt-400 text-white px-5 py-2.5 rounded-xl transition font-semibold shadow-lg shadow-kvt-500/10 hover:shadow-kvt-500/20"><i class="fas fa-paper-plane mr-1.5"></i>Kirim Saran</button>
                         </form>
                     </div>
                 </div>
 
                 {{-- Col 3: Platform --}}
                 <div>
-                    <h4 class="text-white font-bold mb-4 text-sm">Platform</h4>
+                    <h4 class="text-white font-bold mb-4 text-sm flex items-center gap-2"><div class="w-1.5 h-4 bg-kvt-400 rounded-full"></div>Platform</h4>
                     <ul class="space-y-2.5 text-sm">
-                        <li><a href="{{ route('beranda') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Beranda</a></li>
-                        <li><a href="{{ route('halaman.jenjang') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Jenjang Pendidikan</a></li>
-                        <li><a href="{{ route('halaman.riset') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Riset & Inovasi</a></li>
-                        <li><a href="{{ route('halaman.karir') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Karir & Industri</a></li>
-                        <li><a href="{{ route('halaman.komunitas') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Komunitas</a></li>
-                        <li><a href="{{ route('halaman.sertifikasi') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Sertifikasi</a></li>
-                        <li><a href="{{ route('halaman.sumber-daya') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Sumber Daya</a></li>
-                        <li><a href="{{ route('berita.index') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Berita</a></li>
-                        <li><a href="{{ route('kerja-sama.index') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Kerja Sama</a></li>
+                        <li><a href="{{ route('beranda') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Beranda</a></li>
+                        <li><a href="{{ route('halaman.jenjang') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Jenjang Pendidikan</a></li>
+                        <li><a href="{{ route('halaman.riset') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Riset & Inovasi</a></li>
+                        <li><a href="{{ route('halaman.karir') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Karir & Industri</a></li>
+                        <li><a href="{{ route('halaman.komunitas') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Komunitas</a></li>
+                        <li><a href="{{ route('halaman.sertifikasi') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Sertifikasi</a></li>
+                        <li><a href="{{ route('halaman.sumber-daya') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Sumber Daya</a></li>
+                        <li><a href="{{ route('berita.index') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Berita</a></li>
+                        <li><a href="{{ route('kerja-sama.index') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Kerja Sama</a></li>
+                        <li><a href="{{ route('edukasi-gratis.index') }}" class="text-green-400/80 hover:text-green-400 transition flex items-center gap-2 group font-medium"><i class="fas fa-gift text-[8px] text-green-500 group-hover:translate-x-0.5 transition-transform"></i>Edukasi Gratis <span class="text-[9px] bg-green-500/20 px-1.5 py-0.5 rounded-full">Baru</span></a></li>
                     </ul>
                 </div>
 
                 {{-- Col 4: Tata Kelola --}}
                 <div>
-                    <h4 class="text-white font-bold mb-4 text-sm">Tata Kelola</h4>
+                    <h4 class="text-white font-bold mb-4 text-sm flex items-center gap-2"><div class="w-1.5 h-4 bg-purple-400 rounded-full"></div>Tata Kelola</h4>
                     <ul class="space-y-2.5 text-sm">
-                        <li><a href="{{ route('halaman.keamanan') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Keamanan</a></li>
-                        <li><a href="{{ route('halaman.penjamin-mutu') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Penjamin Mutu</a></li>
-                        <li><a href="{{ route('tentang') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Tentang</a></li>
-                        <li><a href="{{ route('lisensi') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-[8px] text-kvt-600"></i>Lisensi</a></li>
+                        <li><a href="{{ route('halaman.keamanan') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Keamanan</a></li>
+                        <li><a href="{{ route('halaman.penjamin-mutu') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Penjamin Mutu</a></li>
+                        <li><a href="{{ route('tentang') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Tentang</a></li>
+                        <li><a href="{{ route('lisensi') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Lisensi</a></li>
+                        <li><a href="{{ route('halaman.alur-panduan.faq-bantuan') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>FAQ & Bantuan</a></li>
+                        <li><a href="{{ route('halaman.dokumen') }}" class="text-gray-400 hover:text-kvt-400 transition flex items-center gap-2 group"><i class="fas fa-chevron-right text-[8px] text-kvt-600 group-hover:translate-x-0.5 transition-transform"></i>Dokumen</a></li>
                     </ul>
-                    <h4 class="text-white font-bold mb-3 mt-6 text-sm">Standar</h4>
+
+                    <h4 class="text-white font-bold mb-3 mt-6 text-sm flex items-center gap-2"><div class="w-1.5 h-4 bg-green-400 rounded-full"></div>Standar</h4>
                     <div class="space-y-2">
-                        <div class="flex items-center gap-2 text-xs text-gray-400"><div class="w-6 h-6 bg-green-500/10 rounded flex items-center justify-center"><i class="fas fa-shield-alt text-green-400 text-[10px]"></i></div><span>ISO 27001</span></div>
-                        <div class="flex items-center gap-2 text-xs text-gray-400"><div class="w-6 h-6 bg-blue-500/10 rounded flex items-center justify-center"><i class="fas fa-sitemap text-blue-400 text-[10px]"></i></div><span>COBIT 2019</span></div>
-                        <div class="flex items-center gap-2 text-xs text-gray-400"><div class="w-6 h-6 bg-purple-500/10 rounded flex items-center justify-center"><i class="fas fa-check-double text-purple-400 text-[10px]"></i></div><span>QA/QC</span></div>
+                        <div class="flex items-center gap-2 text-xs text-gray-400 bg-kvt-800/30 rounded-lg px-2.5 py-1.5"><div class="w-6 h-6 bg-green-500/10 rounded flex items-center justify-center"><i class="fas fa-shield-alt text-green-400 text-[10px]"></i></div><span>ISO 27001</span></div>
+                        <div class="flex items-center gap-2 text-xs text-gray-400 bg-kvt-800/30 rounded-lg px-2.5 py-1.5"><div class="w-6 h-6 bg-blue-500/10 rounded flex items-center justify-center"><i class="fas fa-sitemap text-blue-400 text-[10px]"></i></div><span>COBIT 2019</span></div>
+                        <div class="flex items-center gap-2 text-xs text-gray-400 bg-kvt-800/30 rounded-lg px-2.5 py-1.5"><div class="w-6 h-6 bg-purple-500/10 rounded flex items-center justify-center"><i class="fas fa-check-double text-purple-400 text-[10px]"></i></div><span>QA/QC</span></div>
                     </div>
                 </div>
 
                 {{-- Col 5-6: Flag Counter --}}
                 <div class="lg:col-span-2">
-                    <div class="bg-[#1a2744] rounded-xl p-5 border border-gray-600/20">
+                    <div class="bg-gradient-to-br from-[#1a2744] to-[#162038] rounded-2xl p-5 border border-gray-600/20 shadow-xl">
                         <h4 class="text-white font-bold mb-4 text-sm flex items-center gap-2"><i class="fas fa-flag text-kvt-400"></i> Visitors by Country</h4>
                         <div id="flagCounterGrid" class="grid grid-cols-2 gap-x-4 gap-y-2 mb-4">
                             <div class="flag-item text-gray-400"><span>Memuat...</span></div>
@@ -1554,14 +1906,53 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            {{-- Bottom bar --}}
-            <div class="border-t border-kvt-700/20 mt-12 pt-6 flex flex-wrap items-center justify-between gap-4">
-                <p class="text-xs text-gray-500">&copy; {{ date('Y') }} KVT Hub - Global Education & Research Ecosystem. Seluruh hak dilindungi.</p>
-                <div class="flex items-center gap-4 text-xs text-gray-500">
-                    <span class="flex items-center gap-1"><i class="fas fa-database text-kvt-600"></i> PostgreSQL</span>
-                    <span class="flex items-center gap-1"><i class="fab fa-laravel text-red-500"></i> Laravel v{{ app()->version() }}</span>
-                    <span class="flex items-center gap-1"><i class="fab fa-php text-indigo-400"></i> PHP v{{ PHP_VERSION }}</span>
+        {{-- Tech Stack Bar --}}
+        <div class="relative border-t border-kvt-700/10 bg-gradient-to-r from-kvt-900/50 via-kvt-950 to-kvt-900/50 py-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <p class="text-xs text-gray-500 text-center mb-4 tracking-wider uppercase font-semibold">Powered by</p>
+                <div class="flex flex-wrap items-center justify-center gap-4">
+                    <div class="flex items-center gap-2 bg-kvt-800/30 hover:bg-kvt-800/50 rounded-xl px-4 py-2 border border-kvt-700/10 hover:border-kvt-700/30 transition group">
+                        <i class="fas fa-database text-blue-400 text-sm group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs text-gray-400 group-hover:text-white transition">PostgreSQL</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-kvt-800/30 hover:bg-kvt-800/50 rounded-xl px-4 py-2 border border-kvt-700/10 hover:border-kvt-700/30 transition group">
+                        <i class="fab fa-laravel text-red-400 text-sm group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs text-gray-400 group-hover:text-white transition">Laravel v{{ app()->version() }}</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-kvt-800/30 hover:bg-kvt-800/50 rounded-xl px-4 py-2 border border-kvt-700/10 hover:border-kvt-700/30 transition group">
+                        <i class="fab fa-php text-indigo-400 text-sm group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs text-gray-400 group-hover:text-white transition">PHP v{{ PHP_VERSION }}</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-kvt-800/30 hover:bg-kvt-800/50 rounded-xl px-4 py-2 border border-kvt-700/10 hover:border-kvt-700/30 transition group">
+                        <i class="fab fa-js text-yellow-400 text-sm group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs text-gray-400 group-hover:text-white transition">Tailwind CSS</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-kvt-800/30 hover:bg-kvt-800/50 rounded-xl px-4 py-2 border border-kvt-700/10 hover:border-kvt-700/30 transition group">
+                        <i class="fas fa-shield-alt text-green-400 text-sm group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs text-gray-400 group-hover:text-white transition">AES-256 Encrypted</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Bottom bar --}}
+        <div class="relative border-t border-kvt-700/10 bg-kvt-950 py-5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-black text-xs">K</span>
+                    </div>
+                    <p class="text-xs text-gray-500">&copy; {{ date('Y') }} <span class="text-gray-400 font-semibold">KVT Hub</span> — Global Education & Research Ecosystem. Seluruh hak dilindungi.</p>
+                </div>
+                <div class="flex items-center gap-3 text-xs text-gray-600">
+                    <a href="{{ route('tentang') }}" class="hover:text-gray-400 transition">Tentang</a>
+                    <span>·</span>
+                    <a href="{{ route('lisensi') }}" class="hover:text-gray-400 transition">Lisensi</a>
+                    <span>·</span>
+                    <a href="{{ route('halaman.keamanan') }}" class="hover:text-gray-400 transition">Keamanan</a>
+                    <span class="text-gray-700 ml-2">v5.0</span>
                 </div>
             </div>
         </div>
@@ -1577,7 +1968,8 @@
 
     {{-- ==================== SETTINGS SIDEBAR ==================== --}}
     <div class="settings-panel" id="settingsPanel">
-        <div class="p-6 border-b border-kvt-700/20">
+        {{-- Header --}}
+        <div class="p-5 border-b border-kvt-700/20">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-xl flex items-center justify-center">
@@ -1585,7 +1977,7 @@
                     </div>
                     <div>
                         <h3 class="text-white font-bold text-sm">Pengaturan</h3>
-                        <p class="text-[10px] text-gray-500">Kustomisasi tampilan</p>
+                        <p class="text-[10px] text-gray-500">Kustomisasi & Alat</p>
                     </div>
                 </div>
                 <button onclick="toggleSettings()" class="text-gray-500 hover:text-white transition p-2 rounded-lg hover:bg-kvt-800/50">
@@ -1594,10 +1986,58 @@
             </div>
         </div>
 
-        <div class="p-5 space-y-5">
-            {{-- EFEK VISUAL --}}
-            <div>
-                <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-sparkles mr-1.5"></i>Efek Visual</h4>
+        {{-- Grid Navigation --}}
+        <div class="p-4 border-b border-kvt-700/20">
+            <div class="grid grid-cols-5 gap-2" id="settingsGrid">
+                <button onclick="bukaPanelSetting('efek')" class="stg-box active" data-panel="efek" title="Efek Visual">
+                    <div class="stg-box-icon bg-blue-500/15"><i class="fas fa-sparkles text-blue-400"></i></div>
+                    <span class="stg-box-label">Efek</span>
+                </button>
+                <button onclick="bukaPanelSetting('led')" class="stg-box" data-panel="led" title="LED Panel">
+                    <div class="stg-box-icon bg-green-500/15"><i class="fas fa-tv text-green-400"></i></div>
+                    <span class="stg-box-label">LED</span>
+                </button>
+                <button onclick="bukaPanelSetting('tema')" class="stg-box" data-panel="tema" title="Tema & Warna">
+                    <div class="stg-box-icon bg-purple-500/15"><i class="fas fa-palette text-purple-400"></i></div>
+                    <span class="stg-box-label">Tema</span>
+                </button>
+                <button onclick="bukaPanelSetting('bahasa')" class="stg-box" data-panel="bahasa" title="Bahasa">
+                    <div class="stg-box-icon bg-cyan-500/15"><i class="fas fa-language text-cyan-400"></i></div>
+                    <span class="stg-box-label">Bahasa</span>
+                </button>
+                <button onclick="bukaPanelSetting('musik')" class="stg-box" data-panel="musik" title="Musik">
+                    <div class="stg-box-icon bg-emerald-500/15"><i class="fas fa-music text-emerald-400"></i></div>
+                    <span class="stg-box-label">Musik</span>
+                </button>
+                <button onclick="bukaPanelSetting('screenshot')" class="stg-box" data-panel="screenshot" title="Foto Layar">
+                    <div class="stg-box-icon bg-rose-500/15"><i class="fas fa-camera-retro text-rose-400"></i></div>
+                    <span class="stg-box-label">Layar</span>
+                </button>
+                <button onclick="bukaPanelSetting('kamera')" class="stg-box" data-panel="kamera" title="Kamera & Dokumen">
+                    <div class="stg-box-icon bg-amber-500/15"><i class="fas fa-camera text-amber-400"></i></div>
+                    <span class="stg-box-label">Kamera</span>
+                </button>
+                <button onclick="bukaPanelSetting('rekaman')" class="stg-box" data-panel="rekaman" title="Rekam Layar">
+                    <div class="stg-box-icon bg-red-500/15"><i class="fas fa-record-vinyl text-red-400"></i></div>
+                    <span class="stg-box-label">Rekam</span>
+                </button>
+                <button onclick="bukaPanelSetting('sketsa')" class="stg-box" data-panel="sketsa" title="Mode Sketsa">
+                    <div class="stg-box-icon bg-yellow-500/15"><i class="fas fa-pen-fancy text-yellow-400"></i></div>
+                    <span class="stg-box-label">Sketsa</span>
+                </button>
+                <button onclick="bukaPanelSetting('ai')" class="stg-box" data-panel="ai" title="AI Assistant">
+                    <div class="stg-box-icon bg-pink-500/15"><i class="fas fa-robot text-pink-400"></i></div>
+                    <span class="stg-box-label">AI</span>
+                </button>
+            </div>
+        </div>
+
+        {{-- Panel Content Area --}}
+        <div class="flex-1 overflow-y-auto" id="settingsPanelContent" style="max-height:calc(100vh - 220px)">
+
+            {{-- ===== PANEL: EFEK VISUAL ===== --}}
+            <div class="stg-panel p-5 space-y-3" id="panel-efek">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-sparkles text-blue-400"></i>Efek Visual</h4>
                 <div class="space-y-2.5">
                     <div class="setting-item">
                         <div class="flex items-center gap-3">
@@ -1616,9 +2056,9 @@
                 </div>
             </div>
 
-            {{-- LED DOT MATRIX PANEL --}}
-            <div>
-                <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-tv mr-1.5"></i>LED Panel Info</h4>
+            {{-- ===== PANEL: LED ===== --}}
+            <div class="stg-panel p-5 space-y-3 hidden" id="panel-led">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-tv text-green-400"></i>LED Panel Info</h4>
                 <div class="space-y-2.5">
                     <div class="setting-item">
                         <div class="flex items-center gap-3">
@@ -1627,7 +2067,7 @@
                         </div>
                         <div class="toggle-switch active" id="toggleLED" onclick="toggleLEDPanel()"></div>
                     </div>
-                    <div class="mt-3">
+                    <div>
                         <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Mode Tampilan</p>
                         <div class="space-y-1.5">
                             <button onclick="setLEDMode('shalat')" class="led-mode-btn w-full setting-item justify-start gap-3 text-left" data-mode="shalat">
@@ -1656,7 +2096,7 @@
                             <button onclick="applyCustomLED()" class="mt-1.5 w-full text-xs bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded-lg transition font-semibold"><i class="fas fa-check mr-1"></i>Terapkan</button>
                         </div>
                     </div>
-                    <div class="mt-3">
+                    <div>
                         <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Kecepatan Scroll</p>
                         <input type="range" min="10" max="80" value="40" class="w-full h-1 accent-green-500 cursor-pointer" id="ledSpeed" oninput="setLEDSpeed(this.value)" style="background:linear-gradient(to right,#00ff66 40%,#1e293b 40%)">
                         <div class="flex justify-between text-[10px] text-gray-600 mt-1"><span>Lambat</span><span>Cepat</span></div>
@@ -1664,41 +2104,42 @@
                 </div>
             </div>
 
-            {{-- TEMA --}}
-            <div>
-                <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-palette mr-1.5"></i>Warna Aksen</h4>
-                <div class="grid grid-cols-6 gap-2">
-                    <button onclick="gantiAksen('kvt')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-kvt-400 to-kvt-600 ring-2 ring-kvt-400 ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Biru (Default)"></button>
-                    <button onclick="gantiAksen('ungu')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Ungu"></button>
-                    <button onclick="gantiAksen('hijau')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Hijau"></button>
-                    <button onclick="gantiAksen('merah')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-400 to-rose-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Merah"></button>
-                    <button onclick="gantiAksen('emas')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Emas"></button>
-                    <button onclick="gantiAksen('cyan')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-cyan-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Cyan"></button>
+            {{-- ===== PANEL: TEMA ===== --}}
+            <div class="stg-panel p-5 space-y-4 hidden" id="panel-tema">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-palette text-purple-400"></i>Tema & Warna</h4>
+                <div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Warna Aksen</p>
+                    <div class="grid grid-cols-6 gap-2">
+                        <button onclick="gantiAksen('kvt')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-kvt-400 to-kvt-600 ring-2 ring-kvt-400 ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Biru"></button>
+                        <button onclick="gantiAksen('ungu')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Ungu"></button>
+                        <button onclick="gantiAksen('hijau')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Hijau"></button>
+                        <button onclick="gantiAksen('merah')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-400 to-rose-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Merah"></button>
+                        <button onclick="gantiAksen('emas')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Emas"></button>
+                        <button onclick="gantiAksen('cyan')" class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-cyan-600 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110" title="Cyan"></button>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Background</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="gantiBG('default')" class="p-3 rounded-xl bg-kvt-950 border-2 border-kvt-400 text-center transition hover:scale-105">
+                            <div class="w-full h-8 bg-gradient-to-b from-kvt-900 to-kvt-950 rounded-lg mb-1.5"></div>
+                            <span class="text-[10px] text-gray-400">Default</span>
+                        </button>
+                        <button onclick="gantiBG('galaxy')" class="p-3 rounded-xl bg-kvt-950 border-2 border-kvt-700/30 text-center transition hover:scale-105">
+                            <div class="w-full h-8 bg-gradient-to-b from-indigo-950 to-purple-950 rounded-lg mb-1.5"></div>
+                            <span class="text-[10px] text-gray-400">Galaxy</span>
+                        </button>
+                        <button onclick="gantiBG('midnight')" class="p-3 rounded-xl bg-kvt-950 border-2 border-kvt-700/30 text-center transition hover:scale-105">
+                            <div class="w-full h-8 bg-gradient-to-b from-gray-900 to-slate-950 rounded-lg mb-1.5"></div>
+                            <span class="text-[10px] text-gray-400">Midnight</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            {{-- BACKGROUND --}}
-            <div>
-                <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-image mr-1.5"></i>Background</h4>
-                <div class="grid grid-cols-3 gap-2">
-                    <button onclick="gantiBG('default')" class="p-3 rounded-xl bg-kvt-950 border-2 border-kvt-400 text-center transition hover:scale-105">
-                        <div class="w-full h-8 bg-gradient-to-b from-kvt-900 to-kvt-950 rounded-lg mb-1.5"></div>
-                        <span class="text-[10px] text-gray-400">Default</span>
-                    </button>
-                    <button onclick="gantiBG('galaxy')" class="p-3 rounded-xl bg-kvt-950 border-2 border-kvt-700/30 text-center transition hover:scale-105">
-                        <div class="w-full h-8 bg-gradient-to-b from-indigo-950 to-purple-950 rounded-lg mb-1.5"></div>
-                        <span class="text-[10px] text-gray-400">Galaxy</span>
-                    </button>
-                    <button onclick="gantiBG('midnight')" class="p-3 rounded-xl bg-kvt-950 border-2 border-kvt-700/30 text-center transition hover:scale-105">
-                        <div class="w-full h-8 bg-gradient-to-b from-gray-900 to-slate-950 rounded-lg mb-1.5"></div>
-                        <span class="text-[10px] text-gray-400">Midnight</span>
-                    </button>
-                </div>
-            </div>
-
-            {{-- BAHASA --}}
-            <div>
-                <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-language mr-1.5"></i>Bahasa / Language</h4>
+            {{-- ===== PANEL: BAHASA ===== --}}
+            <div class="stg-panel p-5 space-y-3 hidden" id="panel-bahasa">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-language text-cyan-400"></i>Bahasa / Language</h4>
                 <div class="space-y-2">
                     <button onclick="gantiBahasa('id')" class="w-full setting-item justify-start gap-3 border-kvt-400/30 bg-kvt-500/10" id="langId">
                         <img src="https://flagcdn.com/w20/id.png" class="w-5 h-3.5 rounded-sm object-cover" alt="ID">
@@ -1733,9 +2174,9 @@
                 </div>
             </div>
 
-            {{-- MUSIC PLAYER --}}
-            <div>
-                <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-music mr-1.5"></i>Musik Ambient</h4>
+            {{-- ===== PANEL: MUSIK ===== --}}
+            <div class="stg-panel p-5 space-y-3 hidden" id="panel-musik">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-music text-emerald-400"></i>Musik Ambient</h4>
                 <div class="setting-item flex-col items-start gap-3">
                     <div class="flex items-center gap-3 w-full">
                         <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shrink-0" id="musikAlbumArt">
@@ -1746,18 +2187,11 @@
                             <p class="text-[10px] text-gray-500 truncate" id="musikArtis">KVT Radio</p>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <button onclick="musikPrev()" class="w-7 h-7 rounded-lg bg-kvt-800/50 hover:bg-kvt-700/50 text-gray-400 hover:text-white flex items-center justify-center transition text-[10px]">
-                                <i class="fas fa-step-backward"></i>
-                            </button>
-                            <button onclick="musikToggle()" class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 text-white flex items-center justify-center transition hover:scale-105 shadow-lg shadow-green-500/30" id="musikPlayBtn">
-                                <i class="fas fa-play text-sm" id="musikPlayIcon"></i>
-                            </button>
-                            <button onclick="musikNext()" class="w-7 h-7 rounded-lg bg-kvt-800/50 hover:bg-kvt-700/50 text-gray-400 hover:text-white flex items-center justify-center transition text-[10px]">
-                                <i class="fas fa-step-forward"></i>
-                            </button>
+                            <button onclick="musikPrev()" class="w-7 h-7 rounded-lg bg-kvt-800/50 hover:bg-kvt-700/50 text-gray-400 hover:text-white flex items-center justify-center transition text-[10px]"><i class="fas fa-step-backward"></i></button>
+                            <button onclick="musikToggle()" class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 text-white flex items-center justify-center transition hover:scale-105 shadow-lg shadow-green-500/30" id="musikPlayBtn"><i class="fas fa-play text-sm" id="musikPlayIcon"></i></button>
+                            <button onclick="musikNext()" class="w-7 h-7 rounded-lg bg-kvt-800/50 hover:bg-kvt-700/50 text-gray-400 hover:text-white flex items-center justify-center transition text-[10px]"><i class="fas fa-step-forward"></i></button>
                         </div>
                     </div>
-                    {{-- Progress bar --}}
                     <div class="w-full mt-1">
                         <div class="flex items-center gap-2">
                             <span class="text-[10px] text-gray-500 font-mono w-8 text-right" id="musikWaktu">0:00</span>
@@ -1767,20 +2201,12 @@
                             <span class="text-[10px] text-gray-500 font-mono w-8" id="musikDurasi">0:00</span>
                         </div>
                     </div>
-                    {{-- Volume --}}
                     <div class="flex items-center gap-2 w-full">
-                        <button onclick="musikMute()" class="text-gray-500 hover:text-white transition">
-                            <i class="fas fa-volume-up text-xs" id="musikVolIcon"></i>
-                        </button>
+                        <button onclick="musikMute()" class="text-gray-500 hover:text-white transition"><i class="fas fa-volume-up text-xs" id="musikVolIcon"></i></button>
                         <input type="range" min="0" max="100" value="30" class="flex-1 h-1 accent-green-500 cursor-pointer" id="musikVolume" oninput="musikSetVol(this.value)" style="background:linear-gradient(to right,#10B981 30%,#1e293b 30%)">
-                        <button onclick="musikShuffle()" class="text-gray-500 hover:text-green-400 transition" id="btnShuffle" title="Acak">
-                            <i class="fas fa-random text-xs"></i>
-                        </button>
-                        <button onclick="musikRepeat()" class="text-gray-500 hover:text-green-400 transition" id="btnRepeat" title="Ulangi">
-                            <i class="fas fa-redo text-xs"></i>
-                        </button>
+                        <button onclick="musikShuffle()" class="text-gray-500 hover:text-green-400 transition" id="btnShuffle" title="Acak"><i class="fas fa-random text-xs"></i></button>
+                        <button onclick="musikRepeat()" class="text-gray-500 hover:text-green-400 transition" id="btnRepeat" title="Ulangi"><i class="fas fa-redo text-xs"></i></button>
                     </div>
-                    {{-- Playlist --}}
                     <div class="w-full mt-1">
                         <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Playlist</p>
                         <div class="space-y-1 max-h-32 overflow-y-auto" id="musikPlaylist"></div>
@@ -1788,14 +2214,159 @@
                 </div>
             </div>
 
-            {{-- AI ASSISTANT --}}
-            <div>
-                <h4 class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-3"><i class="fas fa-robot mr-1.5"></i>AI Assistant</h4>
+            {{-- ===== PANEL: SCREENSHOT ===== --}}
+            <div class="stg-panel p-5 space-y-3 hidden" id="panel-screenshot">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-camera-retro text-rose-400"></i>Foto Layar</h4>
+                <p class="text-[11px] text-gray-500 leading-relaxed">Ambil tangkapan layar halaman ini sebagai gambar PNG. Cocok untuk menyimpan catatan atau membagikan konten.</p>
+                <div class="space-y-2">
+                    <button onclick="ambilScreenshot('penuh')" class="w-full setting-item justify-start gap-3 hover:bg-rose-500/10 transition group">
+                        <div class="w-9 h-9 bg-rose-500/10 rounded-lg flex items-center justify-center group-hover:bg-rose-500/20 transition"><i class="fas fa-desktop text-rose-400 text-sm"></i></div>
+                        <div><p class="text-sm text-white font-medium">Screenshot Penuh</p><p class="text-[10px] text-gray-500">Tangkap seluruh halaman</p></div>
+                    </button>
+                    <button onclick="ambilScreenshot('area')" class="w-full setting-item justify-start gap-3 hover:bg-rose-500/10 transition group">
+                        <div class="w-9 h-9 bg-rose-500/10 rounded-lg flex items-center justify-center group-hover:bg-rose-500/20 transition"><i class="fas fa-crop-alt text-rose-400 text-sm"></i></div>
+                        <div><p class="text-sm text-white font-medium">Screenshot Area</p><p class="text-[10px] text-gray-500">Pilih area tertentu</p></div>
+                    </button>
+                </div>
+                <div id="ssPreview" class="hidden mt-3">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Preview</p>
+                    <div class="rounded-xl overflow-hidden border border-kvt-700/30">
+                        <img id="ssPreviewImg" class="w-full" alt="Screenshot preview">
+                    </div>
+                    <div class="flex gap-2 mt-2">
+                        <button onclick="downloadScreenshot()" class="flex-1 text-xs bg-rose-600 hover:bg-rose-500 text-white px-3 py-2 rounded-lg transition font-semibold"><i class="fas fa-download mr-1"></i>Unduh</button>
+                        <button onclick="salinScreenshot()" class="flex-1 text-xs bg-kvt-700 hover:bg-kvt-600 text-white px-3 py-2 rounded-lg transition font-semibold"><i class="fas fa-copy mr-1"></i>Salin</button>
+                    </div>
+                </div>
+            </div>
+
+            {{-- ===== PANEL: KAMERA ===== --}}
+            <div class="stg-panel p-5 space-y-3 hidden" id="panel-kamera">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-camera text-amber-400"></i>Kamera & Dokumen</h4>
+                <p class="text-[11px] text-gray-500 leading-relaxed">Ambil foto dokumen, tugas, atau catatan langsung dari kamera perangketmu.</p>
+                <div class="rounded-xl overflow-hidden bg-black border border-kvt-700/30 relative" id="kameraContainer">
+                    <video id="kameraVideo" class="w-full" autoplay playsinline style="display:none;max-height:220px;object-fit:cover"></video>
+                    <canvas id="kameraCanvas" class="w-full hidden"></canvas>
+                    <div id="kameraPlaceholder" class="flex flex-col items-center justify-center py-10 text-center">
+                        <div class="w-16 h-16 bg-amber-500/10 rounded-2xl flex items-center justify-center mb-3"><i class="fas fa-camera text-amber-400 text-2xl"></i></div>
+                        <p class="text-xs text-gray-500">Kamera belum aktif</p>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="toggleKamera()" id="btnKamera" class="flex-1 text-xs bg-amber-600 hover:bg-amber-500 text-white px-3 py-2.5 rounded-lg transition font-semibold">
+                        <i class="fas fa-power-off mr-1"></i><span id="btnKameraLabel">Nyalakan Kamera</span>
+                    </button>
+                    <button onclick="ambilFoto()" id="btnFoto" class="text-xs bg-kvt-700 hover:bg-kvt-600 text-white px-4 py-2.5 rounded-lg transition font-semibold disabled:opacity-30" disabled>
+                        <i class="fas fa-circle"></i>
+                    </button>
+                    <button onclick="flipKamera()" class="text-xs bg-kvt-700 hover:bg-kvt-600 text-white px-3 py-2.5 rounded-lg transition font-semibold" title="Ganti Kamera">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div id="fotoPreview" class="hidden">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Hasil Foto</p>
+                    <div class="rounded-xl overflow-hidden border border-kvt-700/30"><img id="fotoHasil" class="w-full" alt="Foto"></div>
+                    <div class="flex gap-2 mt-2">
+                        <button onclick="downloadFoto()" class="flex-1 text-xs bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg transition font-semibold"><i class="fas fa-download mr-1"></i>Unduh</button>
+                        <button onclick="ulangiFoto()" class="flex-1 text-xs bg-kvt-700 hover:bg-kvt-600 text-white px-3 py-2 rounded-lg transition font-semibold"><i class="fas fa-redo mr-1"></i>Ulangi</button>
+                    </div>
+                </div>
+            </div>
+
+            {{-- ===== PANEL: REKAMAN ===== --}}
+            <div class="stg-panel p-5 space-y-3 hidden" id="panel-rekaman">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-record-vinyl text-red-400"></i>Rekam Layar</h4>
+                <p class="text-[11px] text-gray-500 leading-relaxed">Rekam aktivitas layar untuk tutorial, presentasi, atau dokumentasi pembelajaran.</p>
+                <div class="space-y-2">
+                    <div class="setting-item">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-red-500/10 rounded-lg flex items-center justify-center"><i class="fas fa-microphone text-red-400 text-sm"></i></div>
+                            <div><p class="text-sm text-white font-medium">Sertakan Audio</p><p class="text-[10px] text-gray-500">Rekam suara mikrofon</p></div>
+                        </div>
+                        <div class="toggle-switch active" id="toggleRekamanAudio" onclick="this.classList.toggle('active')"></div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center"><i class="fas fa-volume-up text-blue-400 text-sm"></i></div>
+                            <div><p class="text-sm text-white font-medium">Audio Sistem</p><p class="text-[10px] text-gray-500">Rekam suara tab/sistem</p></div>
+                        </div>
+                        <div class="toggle-switch" id="toggleSystemAudio" onclick="this.classList.toggle('active')"></div>
+                    </div>
+                </div>
+                <div id="rekamanStatus" class="hidden">
+                    <div class="setting-item bg-red-500/10 border-red-500/30">
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                            <div><p class="text-sm text-red-400 font-bold">Sedang Merekam</p><p class="text-[10px] text-gray-400" id="rekamanTimer">00:00</p></div>
+                        </div>
+                        <button onclick="hentikanRekaman()" class="text-xs bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg transition font-semibold"><i class="fas fa-stop mr-1"></i>Stop</button>
+                    </div>
+                </div>
+                <button onclick="mulaiRekaman()" id="btnMulaiRekam" class="w-full text-sm bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-4 py-3 rounded-xl transition font-semibold shadow-lg shadow-red-500/20">
+                    <i class="fas fa-circle mr-2 text-xs"></i>Mulai Rekam Layar
+                </button>
+                <div id="rekamanPreview" class="hidden">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Hasil Rekaman</p>
+                    <video id="rekamanVideo" class="w-full rounded-xl border border-kvt-700/30" controls></video>
+                    <button onclick="downloadRekaman()" class="w-full mt-2 text-xs bg-red-600 hover:bg-red-500 text-white px-3 py-2 rounded-lg transition font-semibold"><i class="fas fa-download mr-1"></i>Unduh Rekaman</button>
+                </div>
+            </div>
+
+            {{-- ===== PANEL: SKETSA ===== --}}
+            <div class="stg-panel p-5 space-y-3 hidden" id="panel-sketsa">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-pen-fancy text-yellow-400"></i>Mode Sketsa</h4>
+                <p class="text-[11px] text-gray-500 leading-relaxed">Gambar, tandai, atau tulis catatan langsung di atas layar. Seperti whiteboard di Zoom!</p>
+                <div class="space-y-2">
+                    <button onclick="mulaiSketsa()" id="btnSketsa" class="w-full text-sm bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-500 hover:to-amber-500 text-white px-4 py-3 rounded-xl transition font-semibold shadow-lg shadow-yellow-500/20">
+                        <i class="fas fa-pen mr-2"></i>Buka Mode Sketsa
+                    </button>
+                </div>
+                <div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Warna Pena</p>
+                    <div class="flex gap-2 flex-wrap" id="sketsaWarnaList">
+                        <button onclick="setSketsaWarna('#FF3B30')" class="w-8 h-8 rounded-lg bg-red-500 ring-2 ring-red-400 ring-offset-2 ring-offset-kvt-950 transition hover:scale-110 sketsa-warna active"></button>
+                        <button onclick="setSketsaWarna('#007AFF')" class="w-8 h-8 rounded-lg bg-blue-500 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110 sketsa-warna"></button>
+                        <button onclick="setSketsaWarna('#34C759')" class="w-8 h-8 rounded-lg bg-green-500 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110 sketsa-warna"></button>
+                        <button onclick="setSketsaWarna('#FFCC00')" class="w-8 h-8 rounded-lg bg-yellow-400 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110 sketsa-warna"></button>
+                        <button onclick="setSketsaWarna('#FFFFFF')" class="w-8 h-8 rounded-lg bg-white ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110 sketsa-warna"></button>
+                        <button onclick="setSketsaWarna('#AF52DE')" class="w-8 h-8 rounded-lg bg-purple-500 ring-2 ring-transparent ring-offset-2 ring-offset-kvt-950 transition hover:scale-110 sketsa-warna"></button>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Ukuran Pena</p>
+                    <input type="range" min="1" max="20" value="3" class="w-full h-1 accent-yellow-500 cursor-pointer" id="sketsaSize" oninput="setSketsaSize(this.value)">
+                    <div class="flex justify-between text-[10px] text-gray-600 mt-1"><span>Tipis</span><span id="sketsaSizeVal">3px</span><span>Tebal</span></div>
+                </div>
+                <div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Alat</p>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button onclick="setSketsaTool('pen')" class="stg-tool-btn active setting-item flex-col gap-1 py-2" data-tool="pen" title="Pena">
+                            <i class="fas fa-pen text-yellow-400"></i><span class="text-[9px] text-gray-400">Pena</span>
+                        </button>
+                        <button onclick="setSketsaTool('highlighter')" class="stg-tool-btn setting-item flex-col gap-1 py-2" data-tool="highlighter" title="Stabilo">
+                            <i class="fas fa-highlighter text-green-400"></i><span class="text-[9px] text-gray-400">Stabilo</span>
+                        </button>
+                        <button onclick="setSketsaTool('eraser')" class="stg-tool-btn setting-item flex-col gap-1 py-2" data-tool="eraser" title="Penghapus">
+                            <i class="fas fa-eraser text-gray-400"></i><span class="text-[9px] text-gray-400">Hapus</span>
+                        </button>
+                        <button onclick="setSketsaTool('text')" class="stg-tool-btn setting-item flex-col gap-1 py-2" data-tool="text" title="Teks">
+                            <i class="fas fa-font text-cyan-400"></i><span class="text-[9px] text-gray-400">Teks</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="sketsaUndo()" class="setting-item flex-col gap-1 py-2 hover:bg-kvt-800/50"><i class="fas fa-undo text-gray-400 text-xs"></i><span class="text-[9px] text-gray-400">Undo</span></button>
+                    <button onclick="sketsaClear()" class="setting-item flex-col gap-1 py-2 hover:bg-red-500/10"><i class="fas fa-trash text-red-400 text-xs"></i><span class="text-[9px] text-gray-400">Bersihkan</span></button>
+                    <button onclick="sketsaSave()" class="setting-item flex-col gap-1 py-2 hover:bg-green-500/10"><i class="fas fa-save text-green-400 text-xs"></i><span class="text-[9px] text-gray-400">Simpan</span></button>
+                </div>
+            </div>
+
+            {{-- ===== PANEL: AI ===== --}}
+            <div class="stg-panel p-5 space-y-3 hidden" id="panel-ai">
+                <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-robot text-pink-400"></i>AI Assistant</h4>
                 <div class="setting-item flex-col items-start gap-3">
                     <div class="flex items-center gap-3 w-full">
-                        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shrink-0">
-                            <i class="fas fa-robot text-white"></i>
-                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-robot text-white"></i></div>
                         <div class="flex-1">
                             <p class="text-sm text-white font-semibold">KVT AI Tutor</p>
                             <p class="text-[10px] text-gray-500">Asisten belajar cerdas</p>
@@ -1803,26 +2374,23 @@
                         <span class="text-[10px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full font-bold">Segera</span>
                     </div>
                     <div class="w-full bg-kvt-800/30 rounded-lg p-3 mt-1">
-                        <p class="text-[11px] text-gray-400 leading-relaxed">
-                            <i class="fas fa-info-circle text-kvt-400 mr-1"></i>
-                            AI Tutor, AI Research Assistant, dan AI Career Advisor sedang dalam tahap pengembangan
-                        </p>
+                        <p class="text-[11px] text-gray-400 leading-relaxed"><i class="fas fa-info-circle text-kvt-400 mr-1"></i>AI Tutor, AI Research Assistant, dan AI Career Advisor sedang dalam tahap pengembangan</p>
                     </div>
                 </div>
             </div>
 
-            {{-- RESET --}}
-            <div class="pt-3 border-t border-kvt-700/20">
+            {{-- Reset --}}
+            <div class="p-5 pt-0">
                 <button onclick="resetPengaturan()" class="w-full py-2.5 px-4 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2">
-                    <i class="fas fa-undo text-xs"></i> Reset ke Default
+                    <i class="fas fa-undo text-xs"></i> Atur Ulang
                 </button>
             </div>
         </div>
 
-        <div class="p-5 border-t border-kvt-700/20 mt-2">
+        <div class="p-4 border-t border-kvt-700/20">
             <div class="flex items-center gap-2 text-[10px] text-gray-600">
                 <i class="fas fa-code"></i>
-                <span>KVT Hub v3.1 - Settings Panel</span>
+                <span>KVT Hub v5.0 - Settings & Tools</span>
             </div>
         </div>
     </div>
@@ -1853,15 +2421,95 @@
     {{-- ==================== SCRIPTS ==================== --}}
     <script>
         // ========================
-        // LOADING SCREEN
+        // LOADING SCREEN (Enhanced)
         // ========================
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                var ls = document.getElementById('loadingScreen');
-                if(ls) ls.classList.add('hide');
-                setTimeout(function() { if(ls) ls.style.display='none'; }, 600);
-            }, 1200);
-        });
+        (function() {
+            // Create floating particles + line particles
+            var pc = document.getElementById('loadParticles');
+            if (pc) {
+                var colors = ['rgba(59,130,246,0.4)', 'rgba(139,92,246,0.35)', 'rgba(6,182,212,0.3)', 'rgba(59,130,246,0.15)', 'rgba(139,92,246,0.15)'];
+                for (var i = 0; i < 40; i++) {
+                    var p = document.createElement('div');
+                    p.className = 'loading-particle';
+                    var size = Math.random() * 4 + 1.5;
+                    p.style.width = size + 'px';
+                    p.style.height = size + 'px';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    p.style.animationDuration = (Math.random() * 5 + 4) + 's';
+                    p.style.animationDelay = (Math.random() * 4) + 's';
+                    p.style.boxShadow = '0 0 ' + (size * 2) + 'px ' + colors[Math.floor(Math.random() * colors.length)];
+                    pc.appendChild(p);
+                }
+                // Add line particles
+                for (var j = 0; j < 5; j++) {
+                    var lp = document.createElement('div');
+                    lp.className = 'loading-particle particle-line';
+                    lp.style.width = (Math.random() * 100 + 50) + 'px';
+                    lp.style.top = (Math.random() * 100) + '%';
+                    lp.style.background = 'linear-gradient(90deg, transparent, ' + colors[j % colors.length] + ', transparent)';
+                    lp.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                    lp.style.animationDelay = (Math.random() * 5) + 's';
+                    pc.appendChild(lp);
+                }
+            }
+
+            // Animated percentage counter
+            var percentEl = document.getElementById('loadPercent');
+            var statusEl = document.getElementById('loadStatus');
+            var statuses = [
+                {at: 0, text: 'MEMUAT SISTEM'},
+                {at: 20, text: 'INISIALISASI MODUL'},
+                {at: 45, text: 'MENYIAPKAN ANTARMUKA'},
+                {at: 70, text: 'MEMUAT KONTEN'},
+                {at: 90, text: 'HAMPIR SIAP'},
+            ];
+            var currentPercent = 0;
+            var targetPercent = 0;
+            var statusIdx = 0;
+
+            // Animate to target
+            var loadAnim = setInterval(function() {
+                if (currentPercent < targetPercent) {
+                    currentPercent += Math.ceil((targetPercent - currentPercent) * 0.15) || 1;
+                    if (currentPercent > targetPercent) currentPercent = targetPercent;
+                    if (percentEl) percentEl.textContent = currentPercent + '%';
+                    // Check status milestones
+                    while (statusIdx < statuses.length - 1 && currentPercent >= statuses[statusIdx + 1].at) {
+                        statusIdx++;
+                        if (statusEl) statusEl.textContent = statuses[statusIdx].text;
+                    }
+                }
+            }, 30);
+
+            // Simulate progress
+            var progressSteps = [
+                {delay: 0, target: 15},
+                {delay: 300, target: 35},
+                {delay: 600, target: 55},
+                {delay: 1000, target: 75},
+                {delay: 1400, target: 90},
+            ];
+            progressSteps.forEach(function(step) {
+                setTimeout(function() { targetPercent = step.target; }, step.delay);
+            });
+
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    targetPercent = 100;
+                    setTimeout(function() {
+                        clearInterval(loadAnim);
+                        if (percentEl) percentEl.textContent = '100%';
+                        if (statusEl) { statusEl.textContent = 'SELESAI'; statusEl.classList.add('done'); }
+                        setTimeout(function() {
+                            var ls = document.getElementById('loadingScreen');
+                            if (ls) ls.classList.add('hide');
+                            setTimeout(function() { if (ls) ls.style.display = 'none'; }, 900);
+                        }, 400);
+                    }, 500);
+                }, 600);
+            });
+        })();
 
         // AOS (deferred)
         document.addEventListener('DOMContentLoaded', function() {
@@ -2210,7 +2858,7 @@
         // NEWS TICKER
         // ========================
         const tickerFallback = [
-            { judul: 'KVT Hub v3.0 Resmi Diluncurkan dengan Fitur Real-Time Analytics', slug: '#' },
+            { judul: 'KVT Hub v5.0 Resmi Diluncurkan dengan Fitur Edukasi Gratis & Real-Time Analytics', slug: '#' },
             { judul: 'Program Beasiswa Riset Global 2025 Dibuka untuk Mahasiswa', slug: '#' },
             { judul: 'Workshop Cybersecurity: Mengamankan Aplikasi Web Modern', slug: '#' },
             { judul: 'Kompetisi Coding Nasional: KVT Code Challenge 2025', slug: '#' },
@@ -2555,6 +3203,461 @@
             localStorage.removeItem('kvt_led_speed');
             localStorage.removeItem('kvt_led_custom');
             location.reload();
+        }
+
+        // ========================
+        // GRID PANEL NAVIGATION
+        // ========================
+        function bukaPanelSetting(panel) {
+            document.querySelectorAll('.stg-panel').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.stg-box').forEach(b => b.classList.remove('active'));
+            const target = document.getElementById('panel-' + panel);
+            const btn = document.querySelector('.stg-box[data-panel="' + panel + '"]');
+            if(target) target.classList.remove('hidden');
+            if(btn) btn.classList.add('active');
+        }
+
+        // ========================
+        // SCREENSHOT (FOTO LAYAR)
+        // ========================
+        let lastScreenshotBlob = null;
+
+        function ambilScreenshot(mode) {
+            toggleSettings(); // close panel first
+            if(mode === 'area') {
+                mulaiAreaSelect();
+                return;
+            }
+            setTimeout(() => {
+                if(typeof html2canvas === 'undefined') {
+                    alert('html2canvas sedang dimuat, coba lagi dalam beberapa detik.');
+                    return;
+                }
+                html2canvas(document.body, {
+                    useCORS: true,
+                    allowTaint: true,
+                    scale: window.devicePixelRatio || 1,
+                    logging: false,
+                    ignoreElements: el => el.id === 'settingsPanel' || el.id === 'settingsOverlay' || el.id === 'settingsBtn'
+                }).then(canvas => {
+                    canvas.toBlob(blob => {
+                        lastScreenshotBlob = blob;
+                        const url = URL.createObjectURL(blob);
+                        document.getElementById('ssPreviewImg').src = url;
+                        document.getElementById('ssPreview').classList.remove('hidden');
+                        toggleSettings(); // reopen
+                        bukaPanelSetting('screenshot');
+                    });
+                });
+            }, 400);
+        }
+
+        function mulaiAreaSelect() {
+            const overlay = document.createElement('div');
+            overlay.id = 'ssSelectOverlay';
+            const box = document.createElement('div');
+            box.id = 'ssSelectBox';
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+
+            let sx, sy, dragging = false;
+            overlay.addEventListener('mousedown', e => { sx = e.clientX; sy = e.clientY; dragging = true; });
+            overlay.addEventListener('mousemove', e => {
+                if(!dragging) return;
+                const x = Math.min(sx, e.clientX), y = Math.min(sy, e.clientY);
+                const w = Math.abs(e.clientX - sx), h = Math.abs(e.clientY - sy);
+                box.style.left = x + 'px'; box.style.top = y + 'px';
+                box.style.width = w + 'px'; box.style.height = h + 'px';
+            });
+            overlay.addEventListener('mouseup', e => {
+                dragging = false;
+                const rect = { x: parseInt(box.style.left), y: parseInt(box.style.top), w: parseInt(box.style.width), h: parseInt(box.style.height) };
+                overlay.remove();
+                if(rect.w < 10 || rect.h < 10) return;
+                html2canvas(document.body, {
+                    useCORS: true, allowTaint: true, scale: window.devicePixelRatio || 1, logging: false,
+                    x: rect.x + window.scrollX, y: rect.y + window.scrollY,
+                    width: rect.w, height: rect.h,
+                    ignoreElements: el => el.id === 'settingsPanel' || el.id === 'settingsOverlay' || el.id === 'settingsBtn'
+                }).then(canvas => {
+                    canvas.toBlob(blob => {
+                        lastScreenshotBlob = blob;
+                        const url = URL.createObjectURL(blob);
+                        document.getElementById('ssPreviewImg').src = url;
+                        document.getElementById('ssPreview').classList.remove('hidden');
+                        toggleSettings();
+                        bukaPanelSetting('screenshot');
+                    });
+                });
+            });
+        }
+
+        function downloadScreenshot() {
+            if(!lastScreenshotBlob) return;
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(lastScreenshotBlob);
+            a.download = 'KVTHub_Screenshot_' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'-') + '.png';
+            a.click();
+        }
+
+        async function salinScreenshot() {
+            if(!lastScreenshotBlob) return;
+            try {
+                await navigator.clipboard.write([new ClipboardItem({'image/png': lastScreenshotBlob})]);
+                alert('Screenshot berhasil disalin ke clipboard!');
+            } catch(e) { alert('Browser tidak mendukung salin gambar. Silakan unduh saja.'); }
+        }
+
+        // ========================
+        // KAMERA & DOKUMEN
+        // ========================
+        let kameraStream = null;
+        let kameraFacing = 'environment'; // rear camera default
+
+        async function toggleKamera() {
+            const video = document.getElementById('kameraVideo');
+            const placeholder = document.getElementById('kameraPlaceholder');
+            const canvas = document.getElementById('kameraCanvas');
+            const btn = document.getElementById('btnKamera');
+            const label = document.getElementById('btnKameraLabel');
+            const fotoBtn = document.getElementById('btnFoto');
+
+            if(kameraStream) {
+                kameraStream.getTracks().forEach(t => t.stop());
+                kameraStream = null;
+                video.style.display = 'none';
+                placeholder.style.display = '';
+                canvas.classList.add('hidden');
+                label.textContent = 'Nyalakan Kamera';
+                btn.classList.remove('bg-red-600','hover:bg-red-500');
+                btn.classList.add('bg-amber-600','hover:bg-amber-500');
+                fotoBtn.disabled = true;
+                return;
+            }
+
+            try {
+                kameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: kameraFacing, width: { ideal: 1280 }, height: { ideal: 720 } },
+                    audio: false
+                });
+                video.srcObject = kameraStream;
+                video.style.display = 'block';
+                placeholder.style.display = 'none';
+                canvas.classList.add('hidden');
+                label.textContent = 'Matikan Kamera';
+                btn.classList.remove('bg-amber-600','hover:bg-amber-500');
+                btn.classList.add('bg-red-600','hover:bg-red-500');
+                fotoBtn.disabled = false;
+                document.getElementById('fotoPreview').classList.add('hidden');
+            } catch(e) {
+                alert('Tidak dapat mengakses kamera. Pastikan izin kamera diaktifkan.');
+            }
+        }
+
+        function ambilFoto() {
+            const video = document.getElementById('kameraVideo');
+            const canvas = document.getElementById('kameraCanvas');
+            if(!kameraStream) return;
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            const dataURL = canvas.toDataURL('image/png');
+            document.getElementById('fotoHasil').src = dataURL;
+            document.getElementById('fotoPreview').classList.remove('hidden');
+            // Flash effect
+            video.style.filter = 'brightness(3)';
+            setTimeout(() => video.style.filter = '', 150);
+        }
+
+        async function flipKamera() {
+            kameraFacing = kameraFacing === 'environment' ? 'user' : 'environment';
+            if(kameraStream) {
+                kameraStream.getTracks().forEach(t => t.stop());
+                kameraStream = null;
+                await toggleKamera();
+            }
+        }
+
+        function downloadFoto() {
+            const img = document.getElementById('fotoHasil');
+            if(!img.src) return;
+            const a = document.createElement('a');
+            a.href = img.src;
+            a.download = 'KVTHub_Foto_' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'-') + '.png';
+            a.click();
+        }
+
+        function ulangiFoto() {
+            document.getElementById('fotoPreview').classList.add('hidden');
+        }
+
+        // ========================
+        // REKAM LAYAR
+        // ========================
+        let mediaRecorder = null;
+        let rekamanChunks = [];
+        let rekamanBlob = null;
+        let rekamanInterval = null;
+        let rekamanStartTime = 0;
+
+        async function mulaiRekaman() {
+            const withMic = document.getElementById('toggleRekamanAudio').classList.contains('active');
+            const withSystem = document.getElementById('toggleSystemAudio').classList.contains('active');
+
+            try {
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { cursor: 'always' },
+                    audio: withSystem
+                });
+
+                let combinedStream = screenStream;
+
+                if(withMic) {
+                    try {
+                        const micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                        const tracks = [...screenStream.getTracks(), ...micStream.getAudioTracks()];
+                        combinedStream = new MediaStream(tracks);
+                    } catch(e) {
+                        console.warn('Mikrofon tidak tersedia, merekam tanpa mic');
+                    }
+                }
+
+                rekamanChunks = [];
+                mediaRecorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm;codecs=vp9' });
+
+                mediaRecorder.ondataavailable = e => { if(e.data.size > 0) rekamanChunks.push(e.data); };
+                mediaRecorder.onstop = () => {
+                    rekamanBlob = new Blob(rekamanChunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(rekamanBlob);
+                    document.getElementById('rekamanVideo').src = url;
+                    document.getElementById('rekamanPreview').classList.remove('hidden');
+                    document.getElementById('rekamanStatus').classList.add('hidden');
+                    document.getElementById('btnMulaiRekam').classList.remove('hidden');
+                    clearInterval(rekamanInterval);
+                    combinedStream.getTracks().forEach(t => t.stop());
+                };
+
+                mediaRecorder.start(1000);
+                rekamanStartTime = Date.now();
+                document.getElementById('rekamanStatus').classList.remove('hidden');
+                document.getElementById('btnMulaiRekam').classList.add('hidden');
+                document.getElementById('rekamanPreview').classList.add('hidden');
+
+                rekamanInterval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - rekamanStartTime) / 1000);
+                    const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                    const s = String(elapsed % 60).padStart(2, '0');
+                    document.getElementById('rekamanTimer').textContent = m + ':' + s;
+                }, 1000);
+
+                // Stop if user stops screen sharing
+                screenStream.getVideoTracks()[0].onended = () => hentikanRekaman();
+
+            } catch(e) {
+                if(e.name !== 'NotAllowedError') alert('Gagal memulai rekaman: ' + e.message);
+            }
+        }
+
+        function hentikanRekaman() {
+            if(mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+        }
+
+        function downloadRekaman() {
+            if(!rekamanBlob) return;
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(rekamanBlob);
+            a.download = 'KVTHub_Rekaman_' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'-') + '.webm';
+            a.click();
+        }
+
+        // ========================
+        // MODE SKETSA (Whiteboard)
+        // ========================
+        let sketsaCanvas = null;
+        let sketsaCtx = null;
+        let sketsaActive = false;
+        let sketsaDrawing = false;
+        let sketsaColor = '#FF3B30';
+        let sketsaPenSize = 3;
+        let sketsaTool = 'pen';
+        let sketsaHistory = [];
+        let sketsaToolbarEl = null;
+
+        function mulaiSketsa() {
+            if(sketsaActive) { hentikanSketsa(); return; }
+
+            toggleSettings(); // close panel
+
+            setTimeout(() => {
+                // Create canvas overlay
+                const overlay = document.createElement('canvas');
+                overlay.id = 'sketsaOverlay';
+                overlay.width = window.innerWidth;
+                overlay.height = window.innerHeight;
+                document.body.appendChild(overlay);
+                sketsaCanvas = overlay;
+                sketsaCtx = overlay.getContext('2d');
+                sketsaActive = true;
+
+                // Create floating toolbar
+                const tb = document.createElement('div');
+                tb.id = 'sketsaToolbar';
+                tb.innerHTML = `
+                    <button class="active" onclick="setSketsaToolLive('pen')" title="Pena" data-tool="pen"><i class="fas fa-pen"></i></button>
+                    <button onclick="setSketsaToolLive('highlighter')" title="Stabilo" data-tool="highlighter"><i class="fas fa-highlighter"></i></button>
+                    <button onclick="setSketsaToolLive('eraser')" title="Penghapus" data-tool="eraser"><i class="fas fa-eraser"></i></button>
+                    <button onclick="setSketsaToolLive('text')" title="Teks" data-tool="text"><i class="fas fa-font"></i></button>
+                    <div class="divider"></div>
+                    <button onclick="sketsaUndo()" title="Undo"><i class="fas fa-undo"></i></button>
+                    <button onclick="sketsaClear()" title="Bersihkan"><i class="fas fa-trash"></i></button>
+                    <div class="divider"></div>
+                    <input type="color" value="${sketsaColor}" onchange="sketsaColor=this.value" style="width:32px;height:32px;border:none;border-radius:8px;cursor:pointer;background:transparent" title="Warna">
+                    <input type="range" min="1" max="20" value="${sketsaPenSize}" oninput="sketsaPenSize=parseInt(this.value)" style="width:70px;accent-color:#3399FF" title="Ukuran">
+                    <div class="divider"></div>
+                    <button onclick="sketsaSave()" title="Simpan" style="color:#10B981"><i class="fas fa-save"></i></button>
+                    <button onclick="hentikanSketsa()" title="Tutup" style="color:#F43F5E"><i class="fas fa-times"></i></button>
+                `;
+                document.body.appendChild(tb);
+                sketsaToolbarEl = tb;
+
+                // Event listeners
+                overlay.addEventListener('mousedown', sketsaMouseDown);
+                overlay.addEventListener('mousemove', sketsaMouseMove);
+                overlay.addEventListener('mouseup', sketsaMouseUp);
+                overlay.addEventListener('mouseleave', sketsaMouseUp);
+                // Touch support
+                overlay.addEventListener('touchstart', sketsaTouchStart, {passive:false});
+                overlay.addEventListener('touchmove', sketsaTouchMove, {passive:false});
+                overlay.addEventListener('touchend', sketsaMouseUp);
+
+                // Save initial state
+                sketsaHistory = [sketsaCtx.getImageData(0, 0, overlay.width, overlay.height)];
+
+                // Update button in panel
+                const btn = document.getElementById('btnSketsa');
+                if(btn) { btn.innerHTML = '<i class="fas fa-times mr-2"></i>Tutup Mode Sketsa'; btn.classList.add('from-red-600','to-rose-600'); btn.classList.remove('from-yellow-600','to-amber-600'); }
+            }, 300);
+        }
+
+        function hentikanSketsa() {
+            if(sketsaCanvas) { sketsaCanvas.remove(); sketsaCanvas = null; sketsaCtx = null; }
+            if(sketsaToolbarEl) { sketsaToolbarEl.remove(); sketsaToolbarEl = null; }
+            sketsaActive = false;
+            sketsaHistory = [];
+            const btn = document.getElementById('btnSketsa');
+            if(btn) { btn.innerHTML = '<i class="fas fa-pen mr-2"></i>Buka Mode Sketsa'; btn.classList.remove('from-red-600','to-rose-600'); btn.classList.add('from-yellow-600','to-amber-600'); }
+        }
+
+        function sketsaMouseDown(e) {
+            if(sketsaTool === 'text') {
+                const text = prompt('Ketik teks:');
+                if(text) {
+                    sketsaCtx.font = `${sketsaPenSize * 5}px 'Plus Jakarta Sans', sans-serif`;
+                    sketsaCtx.fillStyle = sketsaColor;
+                    sketsaCtx.fillText(text, e.offsetX, e.offsetY);
+                    sketsaHistory.push(sketsaCtx.getImageData(0, 0, sketsaCanvas.width, sketsaCanvas.height));
+                }
+                return;
+            }
+            sketsaDrawing = true;
+            sketsaCtx.beginPath();
+            sketsaCtx.moveTo(e.offsetX, e.offsetY);
+        }
+
+        function sketsaMouseMove(e) {
+            if(!sketsaDrawing) return;
+            sketsaCtx.lineWidth = sketsaTool === 'highlighter' ? sketsaPenSize * 3 : (sketsaTool === 'eraser' ? sketsaPenSize * 4 : sketsaPenSize);
+            sketsaCtx.lineCap = 'round';
+            sketsaCtx.lineJoin = 'round';
+            if(sketsaTool === 'eraser') {
+                sketsaCtx.globalCompositeOperation = 'destination-out';
+                sketsaCtx.strokeStyle = 'rgba(0,0,0,1)';
+            } else if(sketsaTool === 'highlighter') {
+                sketsaCtx.globalCompositeOperation = 'source-over';
+                sketsaCtx.strokeStyle = sketsaColor + '55';
+            } else {
+                sketsaCtx.globalCompositeOperation = 'source-over';
+                sketsaCtx.strokeStyle = sketsaColor;
+            }
+            sketsaCtx.lineTo(e.offsetX, e.offsetY);
+            sketsaCtx.stroke();
+        }
+
+        function sketsaMouseUp() {
+            if(sketsaDrawing && sketsaCanvas) {
+                sketsaDrawing = false;
+                sketsaHistory.push(sketsaCtx.getImageData(0, 0, sketsaCanvas.width, sketsaCanvas.height));
+            }
+        }
+
+        function sketsaTouchStart(e) {
+            e.preventDefault();
+            const t = e.touches[0];
+            const rect = sketsaCanvas.getBoundingClientRect();
+            sketsaMouseDown({ offsetX: t.clientX - rect.left, offsetY: t.clientY - rect.top });
+        }
+
+        function sketsaTouchMove(e) {
+            e.preventDefault();
+            const t = e.touches[0];
+            const rect = sketsaCanvas.getBoundingClientRect();
+            sketsaMouseMove({ offsetX: t.clientX - rect.left, offsetY: t.clientY - rect.top });
+        }
+
+        function sketsaUndo() {
+            if(sketsaHistory.length > 1 && sketsaCtx) {
+                sketsaHistory.pop();
+                sketsaCtx.putImageData(sketsaHistory[sketsaHistory.length - 1], 0, 0);
+            }
+        }
+
+        function sketsaClear() {
+            if(sketsaCtx && sketsaCanvas) {
+                sketsaCtx.clearRect(0, 0, sketsaCanvas.width, sketsaCanvas.height);
+                sketsaHistory = [sketsaCtx.getImageData(0, 0, sketsaCanvas.width, sketsaCanvas.height)];
+            }
+        }
+
+        function sketsaSave() {
+            if(!sketsaCanvas) return;
+            const a = document.createElement('a');
+            a.href = sketsaCanvas.toDataURL('image/png');
+            a.download = 'KVTHub_Sketsa_' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'-') + '.png';
+            a.click();
+        }
+
+        function setSketsaWarna(warna) {
+            sketsaColor = warna;
+            document.querySelectorAll('.sketsa-warna').forEach(b => {
+                b.classList.remove('ring-red-400','ring-blue-400','ring-green-400','ring-yellow-400','ring-white','ring-purple-400');
+                b.classList.add('ring-transparent');
+            });
+            event.target.closest('button').classList.remove('ring-transparent');
+            const wMap = {'#FF3B30':'ring-red-400','#007AFF':'ring-blue-400','#34C759':'ring-green-400','#FFCC00':'ring-yellow-400','#FFFFFF':'ring-white','#AF52DE':'ring-purple-400'};
+            event.target.closest('button').classList.add(wMap[warna] || 'ring-white');
+        }
+
+        function setSketsaSize(val) {
+            sketsaPenSize = parseInt(val);
+            document.getElementById('sketsaSizeVal').textContent = val + 'px';
+        }
+
+        function setSketsaTool(tool) {
+            sketsaTool = tool;
+            document.querySelectorAll('.stg-tool-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.stg-tool-btn[data-tool="'+tool+'"]').classList.add('active');
+        }
+
+        function setSketsaToolLive(tool) {
+            sketsaTool = tool;
+            if(sketsaToolbarEl) {
+                sketsaToolbarEl.querySelectorAll('button[data-tool]').forEach(b => b.classList.remove('active'));
+                const btn = sketsaToolbarEl.querySelector('button[data-tool="'+tool+'"]');
+                if(btn) btn.classList.add('active');
+            }
         }
 
         // ========================
