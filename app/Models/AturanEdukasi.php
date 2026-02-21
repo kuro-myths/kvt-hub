@@ -63,10 +63,11 @@ class AturanEdukasi extends Model
     public static function daftarTipe(): array
     {
         return [
+            'tentang' => ['label' => 'Tentang Program', 'warna' => 'indigo', 'ikon' => 'fas fa-info-circle'],
             'larangan' => ['label' => 'Larangan', 'warna' => 'red', 'ikon' => 'fas fa-ban'],
             'peringatan' => ['label' => 'Peringatan', 'warna' => 'yellow', 'ikon' => 'fas fa-exclamation-triangle'],
-            'tips' => ['label' => 'Tips & Solusi', 'warna' => 'green', 'ikon' => 'fas fa-lightbulb'],
             'prosedur' => ['label' => 'Prosedur Aman', 'warna' => 'blue', 'ikon' => 'fas fa-shield-alt'],
+            'tips' => ['label' => 'Tips & Solusi', 'warna' => 'green', 'ikon' => 'fas fa-lightbulb'],
         ];
     }
 

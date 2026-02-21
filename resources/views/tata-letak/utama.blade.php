@@ -244,240 +244,93 @@
             100% { opacity:0.92 }
         }
 
-        /* ===== LOADING SCREEN (Enhanced) ===== */
+        /* ===== LOADING SCREEN (GitHub / Bumi Digital Style) ===== */
         .loading-screen {
             position:fixed;inset:0;z-index:9999;
-            background:#020a18;
+            background:#0d1117;
             display:flex;flex-direction:column;align-items:center;justify-content:center;
-            transition:opacity 0.8s cubic-bezier(0.4,0,0.2,1),visibility 0.8s,transform 0.8s;
+            transition:opacity 0.6s cubic-bezier(0.4,0,0.2,1),visibility 0.6s;
             overflow:hidden;
         }
         .loading-screen.hide {
             opacity:0;visibility:hidden;pointer-events:none;
-            transform:scale(1.05);
         }
-        .loading-screen.hide .loading-logo { transform:scale(1.3) rotate(10deg);opacity:0; }
-        .loading-screen.hide .loading-particles { opacity:0; }
-        .loading-screen.hide .loading-glow-orb { opacity:0;transform:translate(-50%,-50%) scale(1.5); }
+        .loading-screen.hide .ld-logo { transform:scale(0.9);opacity:0; }
+        .loading-screen.hide .ld-ring { opacity:0;transform:scale(1.2); }
 
-        /* Glow orbs */
-        .loading-glow-orb {
-            position:absolute;border-radius:50%;
-            filter:blur(80px);transition:all 1s ease;
-        }
-        .loading-glow-orb.orb-1 {
-            width:400px;height:400px;
-            background:radial-gradient(circle,rgba(51,153,255,0.15) 0%,transparent 70%);
-            top:30%;left:40%;
-            animation:orbFloat1 6s ease-in-out infinite;
-        }
-        .loading-glow-orb.orb-2 {
-            width:300px;height:300px;
-            background:radial-gradient(circle,rgba(139,92,246,0.12) 0%,transparent 70%);
-            top:50%;left:60%;
-            animation:orbFloat2 8s ease-in-out infinite;
-        }
-        .loading-glow-orb.orb-3 {
-            width:200px;height:200px;
-            background:radial-gradient(circle,rgba(59,130,246,0.08) 0%,transparent 70%);
-            top:60%;left:30%;
-            animation:orbFloat3 7s ease-in-out infinite;
-        }
-        @keyframes orbFloat1 {
-            0%,100%{transform:translate(-50%,-50%) scale(1)}
-            50%{transform:translate(-40%,-40%) scale(1.2)}
-        }
-        @keyframes orbFloat2 {
-            0%,100%{transform:translate(-50%,-50%) scale(1)}
-            50%{transform:translate(-60%,-60%) scale(0.8)}
-        }
-        @keyframes orbFloat3 {
-            0%,100%{transform:translate(-50%,-50%) scale(1)}
-            33%{transform:translate(-30%,-50%) scale(1.3)}
-            66%{transform:translate(-60%,-40%) scale(0.9)}
-        }
-
-        /* Grid lines */
-        .loading-grid {
+        /* Dot grid background */
+        .ld-dots {
             position:absolute;inset:0;
-            background-image:
-                linear-gradient(rgba(51,153,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(51,153,255,0.03) 1px, transparent 1px);
-            background-size:60px 60px;
-            animation:gridMove 20s linear infinite;
-        }
-        @keyframes gridMove {
-            0%{transform:translate(0,0)}
-            100%{transform:translate(60px,60px)}
+            background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
+            background-size:24px 24px;
         }
 
-        /* Particles */
-        .loading-particles {
-            position:absolute;inset:0;overflow:hidden;transition:opacity 0.8s;
+        /* Subtle gradient glow */
+        .ld-glow {
+            position:absolute;top:50%;left:50%;
+            width:500px;height:500px;
+            transform:translate(-50%,-50%);
+            background:radial-gradient(circle, rgba(88,166,255,0.06) 0%, rgba(139,92,246,0.03) 40%, transparent 70%);
+            border-radius:50%;
+            animation:ldGlowPulse 4s ease-in-out infinite;
         }
-        .loading-particle {
-            position:absolute;border-radius:50%;
-            animation:particleFloat linear infinite;
-        }
-        .loading-particle.particle-line {
-            border-radius:0;height:1px !important;
-            animation:particleLineSweep linear infinite;
-        }
-        @keyframes particleFloat {
-            0% { transform:translateY(100vh) rotate(0deg) scale(0);opacity:0; }
-            10% { opacity:1;transform:translateY(80vh) rotate(36deg) scale(1); }
-            90% { opacity:0.8; }
-            100% { transform:translateY(-10vh) rotate(360deg) scale(0);opacity:0; }
-        }
-        @keyframes particleLineSweep {
-            0% { transform:translateX(-100%);opacity:0; }
-            20% { opacity:0.6; }
-            80% { opacity:0.6; }
-            100% { transform:translateX(200vw);opacity:0; }
+        @keyframes ldGlowPulse {
+            0%,100% { opacity:0.6;transform:translate(-50%,-50%) scale(1); }
+            50% { opacity:1;transform:translate(-50%,-50%) scale(1.1); }
         }
 
-        /* Logo container */
-        .loading-logo-wrap {
-            position:relative;z-index:2;
-        }
-        .loading-logo {
-            width:92px;height:92px;
-            background:linear-gradient(135deg,#1e40af,#3b82f6,#8b5cf6);
-            border-radius:24px;
+        /* Logo */
+        .ld-logo {
+            width:72px;height:72px;
+            background:linear-gradient(135deg,#1f6feb,#8b5cf6);
+            border-radius:18px;
             display:flex;align-items:center;justify-content:center;
-            animation:loadPulse 2.5s ease-in-out infinite;
-            box-shadow:0 0 60px rgba(59,130,246,0.4),0 0 120px rgba(139,92,246,0.15),inset 0 1px 0 rgba(255,255,255,0.1);
-            transition:all 0.6s cubic-bezier(0.4,0,0.2,1);
-            position:relative;
-            overflow:hidden;
+            position:relative;z-index:2;
+            transition:all 0.5s cubic-bezier(0.4,0,0.2,1);
+            box-shadow:0 0 40px rgba(31,111,235,0.2),0 0 80px rgba(139,92,246,0.08);
         }
-        .loading-logo::before {
-            content:'';position:absolute;inset:-3px;
-            background:conic-gradient(from 0deg,#3b82f6,#8b5cf6,#06b6d4,#3b82f6);
-            border-radius:26px;z-index:-1;
-            animation:loadSpin 4s linear infinite;
-            opacity:0.7;
-        }
-        .loading-logo::after {
-            content:'';position:absolute;
-            top:-100%;left:-100%;width:300%;height:300%;
-            background:linear-gradient(transparent,transparent,rgba(255,255,255,0.06),transparent,transparent);
-            transform:rotate(45deg);
-            animation:loadShine 3s ease-in-out infinite;
-        }
-        .loading-logo .logo-k {
-            font-size:2.2rem;font-weight:900;
-            background:linear-gradient(180deg,#fff 20%,rgba(255,255,255,0.7) 100%);
-            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-            background-clip:text;
-            text-shadow:none;
-            filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));
-        }
-        @keyframes loadPulse {
-            0%,100% { transform:scale(1);box-shadow:0 0 60px rgba(59,130,246,0.4),0 0 120px rgba(139,92,246,0.15) }
-            50% { transform:scale(1.08);box-shadow:0 0 80px rgba(59,130,246,0.6),0 0 140px rgba(139,92,246,0.3) }
-        }
-        @keyframes loadSpin { to { transform:rotate(360deg); } }
-        @keyframes loadShine {
-            0% { transform:rotate(45deg) translateY(0); }
-            100% { transform:rotate(45deg) translateY(-60%); }
+        .ld-logo .logo-k {
+            font-size:1.8rem;font-weight:900;color:#fff;
+            filter:drop-shadow(0 1px 4px rgba(0,0,0,0.3));
         }
 
-        /* Orbiting dots */
-        .loading-orbit {
-            position:absolute;border-radius:50%;
-            animation:loadOrbit linear infinite;
+        /* Spinner ring */
+        .ld-ring {
+            position:absolute;
+            width:104px;height:104px;
+            border-radius:50%;
+            border:2px solid rgba(48,54,61,0.6);
+            border-top-color:#58a6ff;
+            animation:ldSpin 1s linear infinite;
+            transition:all 0.5s;
         }
-        .loading-orbit::after {
-            content:'';position:absolute;
-            width:6px;height:6px;border-radius:50%;
-            top:-3px;left:50%;margin-left:-3px;
-        }
-        .loading-orbit:nth-child(1) {
-            width:160px;height:160px;animation-duration:3s;
-        }
-        .loading-orbit:nth-child(1)::after {
-            background:#3b82f6;box-shadow:0 0 12px rgba(59,130,246,0.8);
-        }
-        .loading-orbit:nth-child(2) {
-            width:220px;height:220px;animation-duration:5s;animation-direction:reverse;
-        }
-        .loading-orbit:nth-child(2)::after {
-            background:#8b5cf6;box-shadow:0 0 12px rgba(139,92,246,0.8);
-            width:4px;height:4px;margin-left:-2px;top:-2px;
-        }
-        .loading-orbit:nth-child(3) {
-            width:280px;height:280px;animation-duration:7s;
-        }
-        .loading-orbit:nth-child(3)::after {
-            background:#06b6d4;box-shadow:0 0 12px rgba(6,182,212,0.6);
-            width:3px;height:3px;margin-left:-1.5px;top:-1.5px;
-        }
-        @keyframes loadOrbit { to { transform:rotate(360deg); } }
-
-        /* Rings */
-        .loading-ring {
-            position:absolute;border-radius:50%;
-            border:1px solid rgba(59,130,246,0.1);
-            animation:loadRingPulse 3s ease-in-out infinite;
-        }
-        .loading-ring:nth-child(4) { width:140px;height:140px;animation-delay:0s;border-style:dashed;border-color:rgba(59,130,246,0.08); }
-        .loading-ring:nth-child(5) { width:200px;height:200px;animation-delay:0.5s;border-color:rgba(139,92,246,0.06); }
-        .loading-ring:nth-child(6) { width:260px;height:260px;animation-delay:1s;border-color:rgba(6,182,212,0.04); }
-        @keyframes loadRingPulse {
-            0%,100% { transform:scale(1);opacity:1; }
-            50% { transform:scale(1.08);opacity:0.2; }
-        }
+        @keyframes ldSpin { to { transform:rotate(360deg); } }
 
         /* Progress bar */
-        .loading-progress {
-            position:relative;
-            width:260px;height:3px;
-            background:rgba(59,130,246,0.06);
-            border-radius:4px;margin-top:32px;
+        .ld-progress {
+            width:200px;height:2px;
+            background:rgba(48,54,61,0.5);
+            border-radius:2px;
+            margin-top:32px;
             overflow:hidden;z-index:2;
         }
-        .loading-progress-fill {
+        .ld-progress-fill {
             width:0%;height:100%;
-            background:linear-gradient(90deg,#3b82f6,#8b5cf6,#06b6d4,#3b82f6);
-            background-size:300% 100%;
-            border-radius:4px;
-            animation:loadProgress 2.2s ease-in-out forwards, loadProgressShimmer 1.2s linear infinite;
-            box-shadow:0 0 12px rgba(59,130,246,0.4);
-        }
-        @keyframes loadProgress {
-            0% { width:0% }
-            15% { width:20% }
-            40% { width:50% }
-            70% { width:80% }
-            90% { width:95% }
-            100% { width:100% }
-        }
-        @keyframes loadProgressShimmer {
-            0% { background-position:300% 0; }
-            100% { background-position:-300% 0; }
+            background:linear-gradient(90deg,#1f6feb,#58a6ff);
+            border-radius:2px;
+            transition:width 0.3s ease;
         }
 
-        /* Percentage counter */
-        .loading-percent {
-            z-index:2;margin-top:14px;
-            font-size:22px;font-weight:900;
-            background:linear-gradient(135deg,#3b82f6,#8b5cf6);
-            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-            background-clip:text;
-            font-variant-numeric:tabular-nums;
-            letter-spacing:-0.5px;
-        }
-
-        /* Status text */
-        .loading-status {
-            z-index:2;margin-top:8px;
-            font-size:10px;color:#334155;
-            font-weight:600;letter-spacing:4px;
+        /* Text */
+        .ld-text {
+            z-index:2;margin-top:20px;
+            font-size:11px;font-weight:600;
+            color:#484f58;
+            letter-spacing:3px;
             text-transform:uppercase;
-            transition:all 0.3s;
+            transition:color 0.3s;
         }
-        .loading-status.done { color:#3b82f6;letter-spacing:6px; }
+        .ld-text.done { color:#58a6ff; }
 
         /* ===== SECTION DECORATIONS ===== */
         .section-glow::before {
@@ -593,42 +446,21 @@
 
     {{-- ==================== LOADING SCREEN ==================== --}}
     <div class="loading-screen" id="loadingScreen">
-        {{-- Background effects --}}
-        <div class="loading-glow-orb orb-1"></div>
-        <div class="loading-glow-orb orb-2"></div>
-        <div class="loading-glow-orb orb-3"></div>
-        <div class="loading-grid"></div>
+        <div class="ld-dots"></div>
+        <div class="ld-glow"></div>
 
-        {{-- Floating particles --}}
-        <div class="loading-particles" id="loadParticles"></div>
-
-        {{-- Center content --}}
-        <div class="loading-logo-wrap flex flex-col items-center">
-            <div class="relative flex items-center justify-center" style="width:280px;height:280px;">
-                {{-- Orbiting dots --}}
-                <div class="loading-orbit"></div>
-                <div class="loading-orbit"></div>
-                <div class="loading-orbit"></div>
-                {{-- Pulsing rings --}}
-                <div class="loading-ring"></div>
-                <div class="loading-ring"></div>
-                <div class="loading-ring"></div>
-                {{-- Logo --}}
-                <div class="loading-logo" style="position:absolute;">
-                    <span class="logo-k">K</span>
-                </div>
+        <div class="relative flex items-center justify-center" style="z-index:2;">
+            <div class="ld-ring"></div>
+            <div class="ld-logo">
+                <span class="logo-k">K</span>
             </div>
-            <p class="text-gray-200 text-sm font-bold tracking-[0.3em] mt-1" style="z-index:2;">KVT HUB</p>
-            <p class="text-gray-600 text-[10px] tracking-widest mt-1.5" style="z-index:2;">PLATFORM PENDIDIKAN DIGITAL</p>
         </div>
 
-        {{-- Progress --}}
-        <div class="loading-progress">
-            <div class="loading-progress-fill"></div>
+        <div class="ld-progress">
+            <div class="ld-progress-fill" id="ldProgressFill"></div>
         </div>
 
-        <div class="loading-percent" id="loadPercent">0%</div>
-        <div class="loading-status" id="loadStatus">MEMUAT SISTEM</div>
+        <div class="ld-text" id="ldText">MEMUAT</div>
     </div>
 
     <div class="salju-container" id="salju"></div>
@@ -2421,93 +2253,37 @@
     {{-- ==================== SCRIPTS ==================== --}}
     <script>
         // ========================
-        // LOADING SCREEN (Enhanced)
+        // LOADING SCREEN (GitHub Style)
         // ========================
         (function() {
-            // Create floating particles + line particles
-            var pc = document.getElementById('loadParticles');
-            if (pc) {
-                var colors = ['rgba(59,130,246,0.4)', 'rgba(139,92,246,0.35)', 'rgba(6,182,212,0.3)', 'rgba(59,130,246,0.15)', 'rgba(139,92,246,0.15)'];
-                for (var i = 0; i < 40; i++) {
-                    var p = document.createElement('div');
-                    p.className = 'loading-particle';
-                    var size = Math.random() * 4 + 1.5;
-                    p.style.width = size + 'px';
-                    p.style.height = size + 'px';
-                    p.style.left = Math.random() * 100 + '%';
-                    p.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    p.style.animationDuration = (Math.random() * 5 + 4) + 's';
-                    p.style.animationDelay = (Math.random() * 4) + 's';
-                    p.style.boxShadow = '0 0 ' + (size * 2) + 'px ' + colors[Math.floor(Math.random() * colors.length)];
-                    pc.appendChild(p);
-                }
-                // Add line particles
-                for (var j = 0; j < 5; j++) {
-                    var lp = document.createElement('div');
-                    lp.className = 'loading-particle particle-line';
-                    lp.style.width = (Math.random() * 100 + 50) + 'px';
-                    lp.style.top = (Math.random() * 100) + '%';
-                    lp.style.background = 'linear-gradient(90deg, transparent, ' + colors[j % colors.length] + ', transparent)';
-                    lp.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                    lp.style.animationDelay = (Math.random() * 5) + 's';
-                    pc.appendChild(lp);
-                }
-            }
+            var fill = document.getElementById('ldProgressFill');
+            var text = document.getElementById('ldText');
+            var progress = 0;
 
-            // Animated percentage counter
-            var percentEl = document.getElementById('loadPercent');
-            var statusEl = document.getElementById('loadStatus');
-            var statuses = [
-                {at: 0, text: 'MEMUAT SISTEM'},
-                {at: 20, text: 'INISIALISASI MODUL'},
-                {at: 45, text: 'MENYIAPKAN ANTARMUKA'},
-                {at: 70, text: 'MEMUAT KONTEN'},
-                {at: 90, text: 'HAMPIR SIAP'},
+            // Smooth progress
+            var steps = [
+                {delay:0, to:30},
+                {delay:200, to:60},
+                {delay:500, to:85},
             ];
-            var currentPercent = 0;
-            var targetPercent = 0;
-            var statusIdx = 0;
-
-            // Animate to target
-            var loadAnim = setInterval(function() {
-                if (currentPercent < targetPercent) {
-                    currentPercent += Math.ceil((targetPercent - currentPercent) * 0.15) || 1;
-                    if (currentPercent > targetPercent) currentPercent = targetPercent;
-                    if (percentEl) percentEl.textContent = currentPercent + '%';
-                    // Check status milestones
-                    while (statusIdx < statuses.length - 1 && currentPercent >= statuses[statusIdx + 1].at) {
-                        statusIdx++;
-                        if (statusEl) statusEl.textContent = statuses[statusIdx].text;
-                    }
-                }
-            }, 30);
-
-            // Simulate progress
-            var progressSteps = [
-                {delay: 0, target: 15},
-                {delay: 300, target: 35},
-                {delay: 600, target: 55},
-                {delay: 1000, target: 75},
-                {delay: 1400, target: 90},
-            ];
-            progressSteps.forEach(function(step) {
-                setTimeout(function() { targetPercent = step.target; }, step.delay);
+            steps.forEach(function(s) {
+                setTimeout(function() {
+                    progress = s.to;
+                    if (fill) fill.style.width = progress + '%';
+                }, s.delay);
             });
 
             window.addEventListener('load', function() {
                 setTimeout(function() {
-                    targetPercent = 100;
+                    progress = 100;
+                    if (fill) fill.style.width = '100%';
+                    if (text) { text.textContent = 'SIAP'; text.classList.add('done'); }
                     setTimeout(function() {
-                        clearInterval(loadAnim);
-                        if (percentEl) percentEl.textContent = '100%';
-                        if (statusEl) { statusEl.textContent = 'SELESAI'; statusEl.classList.add('done'); }
-                        setTimeout(function() {
-                            var ls = document.getElementById('loadingScreen');
-                            if (ls) ls.classList.add('hide');
-                            setTimeout(function() { if (ls) ls.style.display = 'none'; }, 900);
-                        }, 400);
-                    }, 500);
-                }, 600);
+                        var ls = document.getElementById('loadingScreen');
+                        if (ls) ls.classList.add('hide');
+                        setTimeout(function() { if (ls) ls.style.display = 'none'; }, 700);
+                    }, 300);
+                }, 200);
             });
         })();
 

@@ -95,7 +95,7 @@
 
             @php
                 $grouped = $aturan->groupBy('tipe');
-                $tipeOrder = ['larangan', 'peringatan', 'prosedur', 'tips'];
+                $tipeOrder = ['tentang', 'larangan', 'peringatan', 'prosedur', 'tips'];
                 $tipeConfig = \App\Models\AturanEdukasi::daftarTipe();
             @endphp
 

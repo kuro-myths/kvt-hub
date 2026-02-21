@@ -104,7 +104,7 @@
                     $tipeConfig = \App\Models\AturanEdukasi::daftarTipe();
                 @endphp
 
-                @foreach(['larangan', 'peringatan', 'prosedur', 'tips'] as $tipe)
+                @foreach(['tentang', 'larangan', 'peringatan', 'prosedur', 'tips'] as $tipe)
                     @if(isset($grouped[$tipe]))
                     @php $cfg = $tipeConfig[$tipe]; @endphp
                     <div>

@@ -39,7 +39,7 @@ class EdukasiGratisController extends Controller
 
         $aturan = AturanEdukasi::aktif()
             ->untukProgram($edukasiGratis->id)
-            ->orderByRaw("CASE tipe WHEN 'larangan' THEN 1 WHEN 'peringatan' THEN 2 WHEN 'prosedur' THEN 3 WHEN 'tips' THEN 4 END")
+            ->orderByRaw("CASE tipe WHEN 'tentang' THEN 0 WHEN 'larangan' THEN 1 WHEN 'peringatan' THEN 2 WHEN 'prosedur' THEN 3 WHEN 'tips' THEN 4 END")
             ->orderBy('urutan')
             ->get();
 
