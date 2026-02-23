@@ -6,14 +6,14 @@
 
 <p align="center">
   <strong>Ekosistem pendidikan, karir, dan riset digital global.</strong><br>
-  Dari TK hingga S3/PhD · 7 Peran · 130+ Halaman · Gamifikasi RPG · Musik Streaming · LED Dot Matrix
+  Dari TK hingga S3/PhD · 7 Peran · 130+ Halaman · Gamifikasi RPG · Musik Streaming · LED Dot Matrix · AI VTuber
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Laravel-11-red?logo=laravel&logoColor=white" alt="Laravel 11">
   <img src="https://img.shields.io/badge/PHP-8.3+-blue?logo=php&logoColor=white" alt="PHP 8.3+">
   <img src="https://img.shields.io/badge/PostgreSQL-14+-336791?logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Version-7.0-orange" alt="Version 7.0">
+  <img src="https://img.shields.io/badge/Version-8.0-orange" alt="Version 8.0">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
   <img src="https://img.shields.io/badge/ISO-27001-brightgreen" alt="ISO 27001">
   <img src="https://img.shields.io/badge/COBIT-2019-blue" alt="COBIT 2019">
@@ -21,7 +21,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Halaman-130+-blueviolet" alt="130+ Halaman">
-  <img src="https://img.shields.io/badge/Menu-20-teal" alt="20 Menu">
+  <img src="https://img.shields.io/badge/Menu-40-teal" alt="40 Menu">
   <img src="https://img.shields.io/badge/Roles-7-crimson" alt="7 Roles">
   <img src="https://img.shields.io/badge/Sidebar-Role--Based-purple" alt="Sidebar">
   <img src="https://img.shields.io/badge/Music-Streaming-ff69b4" alt="Music">
@@ -64,7 +64,7 @@
 
 ## ✨ Apa itu KVT Hub?
 
-**KVT Hub v7.0** adalah platform ekosistem digital all-in-one yang menghubungkan **13 jenjang pendidikan** (TK–S3/PhD), **7 peran pengguna**, dan **130+ halaman** dalam satu sistem terintegrasi.
+**KVT Hub v8.0** adalah platform ekosistem digital all-in-one yang menghubungkan **13 jenjang pendidikan** (TK–S3/PhD), **7 peran pengguna**, dan **130+ halaman** dalam satu sistem terintegrasi.
 
 | Fitur | Deskripsi |
 |-------|-----------|
@@ -78,22 +78,22 @@
 | 📊 **30+ Diagram** | Bar, Line, Pie, Doughnut, Radar, Polar via Chart.js v4 |
 | 🌍 **Visitor Analytics** | Tracking real-time, geo-lokasi, flag counter |
 | 🛡️ **ISO 27001 + COBIT** | Standar keamanan enterprise |
+| 🤖 **AI VTuber Assistant** | Karakter VTuber interaktif dengan model 3D |
+| 📌 **40 Menu Navigasi** | 10 halaman x 4 menu, scrollable & customizable |
 
 > 📖 **Selengkapnya:** [docs/TENTANG.md](docs/TENTANG.md)
 
 ---
 
-## 🆕 Apa yang Baru di v7.0
+## 🆕 Apa yang Baru di v8.0
 
-- 💡 **LED Dot Matrix Panel** — Panel LED hijau neon (#00ff66) dengan 5 mode di top bar
-- ⏳ **Loading Screen** — Animasi logo "K", progress bar, auto-hide 1.2 detik
-- 📌 **20 Menu Navigasi** — Dari 16 → 20 menu dengan arrow slider
-- ☰ **Menu Layanan** — Paket Langganan, Sertifikat, CV Builder, FAQ, Hubungi Kami
-- 📰 **4 Section Baru Landing** — Teknologi, Testimoni, Statistik, FAQ
-- ⚡ **PHP 8.3 Upgrade** — 8.1.10 → 8.3.25 untuk Laravel 11
-- 🚀 **Performa** — Cache config, route, view
+- 🤖 **AI VTuber Assistant** — Karakter VTuber interaktif dengan dukungan model 3D (Live2D/VRM)
+- 📌 **40 Menu → 10 Halaman** — Navigasi lebih rapi, 4 menu per halaman (sebelumnya 5 per halaman)
+- 🖱️ **Scroll Navbar** — Navigasi antar halaman menu langsung dari navbar dengan tombol panah & mouse wheel
+- 🔄 **Header & Footer Sinkron** — Data footer diperbarui sesuai header (versi, menu, link)
+- 🎯 **Menu Kustomisasi** — Atur menu ke 10 halaman berbeda
 
-> 📋 **Changelog lengkap v1.0 — v7.0:** [CHANGELOG.md](CHANGELOG.md)
+> 📋 **Changelog lengkap v1.0 — v8.0:** [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
@@ -134,7 +134,7 @@
 
 ---
 
-## 📊 12 Pilar Ekosistem (20 Menu)
+## 📊 12 Pilar Ekosistem (40 Menu)
 
 | No | Pilar | Menu | Sub | Deskripsi |
 |----|-------|------|-----|-----------|
@@ -355,7 +355,7 @@ Gunakan script auto-commit untuk mempercepat workflow:
 
 <p align="center">
   <img src="gambar/kuro/kuro.png" alt="Kuro" width="60"><br>
-  <strong>KVT Hub v7.0</strong> — Global Education & Research Ecosystem<br>
+  <strong>KVT Hub v8.0</strong> — Global Education & Research Ecosystem<br>
   Dibuat oleh <a href="https://github.com/kuro-myths">@kuro-myths</a><br>
   © 2025–2026 KVT Hub. Semua hak dilindungi.
 </p>

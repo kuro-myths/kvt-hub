@@ -1,12 +1,38 @@
 <h1 align="center">📋 Changelog — KVT Hub</h1>
 
 <p align="center">
-  Riwayat perubahan dari versi 1.0 hingga 7.0
+  Riwayat perubahan dari versi 1.0 hingga 8.0
 </p>
 
 ---
 
-## v7.0 — LED Dot Matrix & Loading Screen *(Current)*
+## v8.0 — AI VTuber Assistant & Nav Overhaul *(Current)*
+
+> Tanggal: Februari 2026
+
+### Fitur Baru
+- **AI VTuber Assistant (Kuro AI)** — Karakter VTuber interaktif sebagai asisten platform:
+  - Chat widget floating di pojok kiri bawah
+  - Avatar karakter Kuro dengan animasi
+  - Knowledge base untuk navigasi, fitur, jenjang, edukasi gratis
+  - Quick action buttons untuk pertanyaan umum
+  - Mode 3D fullscreen (siap untuk model Live2D/VRM/GLB)
+  - Voice input placeholder (Web Speech API)
+  - Typing indicator & response animation
+- **Navbar Scroll di Luar Popup** — Tombol panah kiri/kanan langsung di navbar
+- **Mouse Wheel Navigation** — Scroll mouse wheel di area menu untuk ganti halaman
+- **4 Menu Per Halaman** — Lebih rapi, dari 5 → 4 menu per halaman (10 halaman total)
+- **10 Halaman Kustomisasi** — Menu customizer mendukung 10 halaman
+
+### Perbaikan
+- **HTML Fix** — Perbaiki tag `<button>` yang hilang pada menu Berita & Media
+- **Header & Footer Sinkron** — Versi footer diperbarui ke v8.0
+- **README Audit** — Badge, versi, dan deskripsi fitur diperbarui ke v8.0
+- **CHANGELOG** — Riwayat diperbarui hingga v8.0
+
+---
+
+## v7.0 — LED Dot Matrix & Loading Screen
 
 > Tanggal: Februari 2026
 
