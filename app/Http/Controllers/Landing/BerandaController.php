@@ -51,7 +51,7 @@ class BerandaController extends Controller
             $kuisDikerjakan = KuisHasil::where('pengguna_id', $user->id)->count();
             $totalPencapaian = Pencapaian::where('pengguna_id', $user->id)->count();
 
-            return view('beranda-pengguna', compact(
+            return view('beranda.pengguna', compact(
                 'statistik',
                 'kelasPopuler',
                 'beritaTerbaru',
@@ -66,6 +66,6 @@ class BerandaController extends Controller
         $paketEksklusif = PaketEksklusif::where('aktif', true)->take(3)->get();
         $mitraTampil = KerjaSama::aktif()->tampilBeranda()->orderBy('urutan')->get();
 
-        return view('beranda', compact('statistik', 'kelasPopuler', 'paketEksklusif', 'beritaTerbaru', 'mitraTampil'));
+        return view('beranda.index', compact('statistik', 'kelasPopuler', 'paketEksklusif', 'beritaTerbaru', 'mitraTampil'));
     }
 }

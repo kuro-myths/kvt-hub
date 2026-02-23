@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="gambar/kuro/kuro.png" alt="KVT Hub Sponsor" width="100">
+  <img src="public/gambar/kuro/kuro.png" alt="KVT Hub Sponsor" width="100">
 </p>
 
 <h1 align="center">💎 Sponsor & Dukungan — KVT Hub</h1>
@@ -190,7 +190,7 @@ A: Dana yang sudah digunakan tidak dapat di-refund, namun saldo yang belum terpa
 ---
 
 <p align="center">
-  <img src="gambar/kuro/kuro.png" alt="Kuro" width="40"><br>
+  <img src="public/gambar/kuro/kuro.png" alt="Kuro" width="40"><br>
   <strong>Terima kasih atas dukungan Anda!</strong><br>
   Bersama, kita memajukan pendidikan Indonesia. 🇮🇩<br><br>
   📧 <a href="mailto:sponsor@kvthub.id">sponsor@kvthub.id</a> · 

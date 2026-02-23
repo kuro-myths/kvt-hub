@@ -41,6 +41,27 @@ Route::get('/bantuan', [HalamanController::class, 'bantuan'])->name('halaman.ban
 Route::get('/statistik', [HalamanController::class, 'statistik'])->name('halaman.statistik');
 Route::get('/akun', [HalamanController::class, 'akun'])->name('halaman.akun');
 
+// Halaman Baru (Menu 22-40)
+Route::get('/webinar', [HalamanController::class, 'webinar'])->name('halaman.webinar');
+Route::get('/beasiswa', [HalamanController::class, 'beasiswa'])->name('halaman.beasiswa');
+Route::get('/laboratorium', [HalamanController::class, 'laboratorium'])->name('halaman.laboratorium');
+Route::get('/perpustakaan', [HalamanController::class, 'perpustakaan'])->name('halaman.perpustakaan');
+Route::get('/forum', [HalamanController::class, 'forum'])->name('halaman.forum');
+Route::get('/mentoring', [HalamanController::class, 'mentoring'])->name('halaman.mentoring');
+Route::get('/magang', [HalamanController::class, 'magang'])->name('halaman.magang');
+Route::get('/alumni', [HalamanController::class, 'alumni'])->name('halaman.alumni');
+Route::get('/portofolio', [HalamanController::class, 'portofolio'])->name('halaman.portofolio');
+Route::get('/kompetisi', [HalamanController::class, 'kompetisi'])->name('halaman.kompetisi');
+Route::get('/workshop', [HalamanController::class, 'workshop'])->name('halaman.workshop');
+Route::get('/jurnal', [HalamanController::class, 'jurnal'])->name('halaman.jurnal');
+Route::get('/podcast', [HalamanController::class, 'podcast'])->name('halaman.podcast');
+Route::get('/pelatihan', [HalamanController::class, 'pelatihan'])->name('halaman.pelatihan');
+Route::get('/konsultasi', [HalamanController::class, 'konsultasi'])->name('halaman.konsultasi');
+Route::get('/e-learning', [HalamanController::class, 'eLearning'])->name('halaman.e-learning');
+Route::get('/akreditasi', [HalamanController::class, 'akreditasi'])->name('halaman.akreditasi');
+Route::get('/galeri', [HalamanController::class, 'galeri'])->name('halaman.galeri');
+Route::get('/pengumuman', [HalamanController::class, 'pengumuman'])->name('halaman.pengumuman');
+
 // Berita (Publik)
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{berita}', [BeritaController::class, 'tampilkan'])->name('berita.tampilkan');

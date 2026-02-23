@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="gambar/kuro/kuro.png" alt="KVT Hub Logo" width="120">
+  <img src="public/gambar/kuro/kuro.png" alt="KVT Hub Logo" width="120">
 </p>
 
 <h1 align="center">KVT Hub — Global Education & Research Ecosystem</h1>
@@ -44,18 +44,18 @@
 
 <table>
   <tr>
-    <td align="center"><strong>🏫 Sekolah</strong><br><img src="gambar/sekolah.png" alt="Sekolah" width="280"></td>
-    <td align="center"><strong>📚 Kelas</strong><br><img src="gambar/kelas.png" alt="Kelas" width="280"></td>
-    <td align="center"><strong>🔬 Lab</strong><br><img src="gambar/lab.png" alt="Lab" width="280"></td>
+    <td align="center"><strong>🏫 Sekolah</strong><br><img src="public/gambar/sekolah.png" alt="Sekolah" width="280"></td>
+    <td align="center"><strong>📚 Kelas</strong><br><img src="public/gambar/kelas.png" alt="Kelas" width="280"></td>
+    <td align="center"><strong>🔬 Lab</strong><br><img src="public/gambar/lab.png" alt="Lab" width="280"></td>
   </tr>
   <tr>
-    <td align="center"><strong>🏟️ Lapangan</strong><br><img src="gambar/lapangan.png" alt="Lapangan" width="280"></td>
-    <td align="center"><strong>🛠️ Praktek</strong><br><img src="gambar/pratek.png" alt="Praktek" width="280"></td>
-    <td align="center"><strong>📖 Perpustakaan</strong><br><img src="gambar/perpustakaan.png" alt="Perpustakaan" width="280"></td>
+    <td align="center"><strong>🏟️ Lapangan</strong><br><img src="public/gambar/lapangan.png" alt="Lapangan" width="280"></td>
+    <td align="center"><strong>🛠️ Praktek</strong><br><img src="public/gambar/pratek.png" alt="Praktek" width="280"></td>
+    <td align="center"><strong>📖 Perpustakaan</strong><br><img src="public/gambar/perpustakaan.png" alt="Perpustakaan" width="280"></td>
   </tr>
   <tr>
-    <td align="center"><strong>👨‍💼 Admin Panel</strong><br><img src="gambar/admin.png" alt="Admin" width="280"></td>
-    <td align="center" colspan="2"><strong>🐱 Kuro — Maskot KVT Hub</strong><br><img src="gambar/kuro/kuro.png" alt="Kuro Maskot" width="280"></td>
+    <td align="center"><strong>👨‍💼 Admin Panel</strong><br><img src="public/gambar/admin.png" alt="Admin" width="280"></td>
+    <td align="center" colspan="2"><strong>🐱 Kuro — Maskot KVT Hub</strong><br><img src="public/gambar/kuro/kuro.png" alt="Kuro Maskot" width="280"></td>
   </tr>
 </table>
 

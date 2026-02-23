@@ -99,6 +99,103 @@ class HalamanController extends Controller
         return view('halaman.akun');
     }
 
+    // ===== MENU 22-40 (New Landing Pages) =====
+
+    public function webinar()
+    {
+        return view('halaman.webinar');
+    }
+
+    public function beasiswa()
+    {
+        return view('halaman.beasiswa');
+    }
+
+    public function laboratorium()
+    {
+        return view('halaman.laboratorium');
+    }
+
+    public function perpustakaan()
+    {
+        return view('halaman.perpustakaan');
+    }
+
+    public function forum()
+    {
+        return view('halaman.forum');
+    }
+
+    public function mentoring()
+    {
+        return view('halaman.mentoring');
+    }
+
+    public function magang()
+    {
+        return view('halaman.magang');
+    }
+
+    public function alumni()
+    {
+        return view('halaman.alumni');
+    }
+
+    public function portofolio()
+    {
+        return view('halaman.portofolio');
+    }
+
+    public function kompetisi()
+    {
+        return view('halaman.kompetisi');
+    }
+
+    public function workshop()
+    {
+        return view('halaman.workshop');
+    }
+
+    public function jurnal()
+    {
+        return view('halaman.jurnal');
+    }
+
+    public function podcast()
+    {
+        return view('halaman.podcast');
+    }
+
+    public function pelatihan()
+    {
+        return view('halaman.pelatihan');
+    }
+
+    public function konsultasi()
+    {
+        return view('halaman.konsultasi');
+    }
+
+    public function eLearning()
+    {
+        return view('halaman.e-learning');
+    }
+
+    public function akreditasi()
+    {
+        return view('halaman.akreditasi');
+    }
+
+    public function galeri()
+    {
+        return view('halaman.galeri');
+    }
+
+    public function pengumuman()
+    {
+        return view('halaman.pengumuman');
+    }
+
     public function kuro()
     {
         $chapters = KuroCerita::terbit()->urutChapter()->get();

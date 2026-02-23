@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="gambar/kuro/kuro.png" alt="KVT Hub" width="80">
+  <img src="public/gambar/kuro/kuro.png" alt="KVT Hub" width="80">
 </p>
 
 <h1 align="center">🤝 Panduan Kontribusi — KVT Hub</h1>
@@ -476,7 +476,7 @@ Punya pertanyaan tentang kontribusi?
 ---
 
 <p align="center">
-  <img src="gambar/kuro/kuro.png" alt="Kuro" width="40"><br>
+  <img src="public/gambar/kuro/kuro.png" alt="Kuro" width="40"><br>
   <strong>Terima kasih telah berkontribusi di KVT Hub!</strong><br>
   Setiap baris kode Anda membantu memajukan pendidikan Indonesia. 🇮🇩
 </p>
