@@ -47,36 +47,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const tipeDiagram = '{{ $laporan->tipe_diagram }}';
 
     const chartTypeMap = {
-        'Bar Chart': 'bar',
-        'Horizontal Bar': 'bar',
-        'Stacked Bar': 'bar',
-        'Line Chart': 'line',
-        'Area Chart': 'line',
-        'Multi-Line': 'line',
-        'Stepped Line': 'line',
-        'Pie Chart': 'pie',
-        'Doughnut Chart': 'doughnut',
-        'Polar Area': 'polarArea',
-        'Radar Chart': 'radar',
-        'Scatter Plot': 'scatter',
-        'Bubble Chart': 'bubble',
-        'Mixed Chart': 'bar',
-        'Combo Chart': 'bar',
-        'Waterfall Chart': 'bar',
-        'Funnel Chart': 'bar',
-        'Gantt Chart': 'bar',
-        'Histogram': 'bar',
-        'Box Plot': 'bar',
-        'Heatmap': 'bar',
-        'Treemap': 'bar',
-        'Sunburst': 'doughnut',
-        'Sankey Diagram': 'bar',
-        'Gauge Chart': 'doughnut',
-        'Sparkline': 'line',
-        'Candlestick': 'bar',
-        'Timeline': 'bar',
-        'Progress Bar': 'bar',
-        'KPI Card': 'bar'
+        'Bar Chart': 'bar', 'Horizontal Bar': 'bar', 'Stacked Bar': 'bar', 'Grouped Bar': 'bar',
+        'Rounded Bar': 'bar', 'Gradient Bar': 'bar', 'Negative Bar': 'bar', 'Floating Bar': 'bar',
+        'Line Chart': 'line', 'Area Chart': 'line', 'Multi-Line': 'line', 'Stepped Line': 'line',
+        'Curved Line': 'line', 'Dashed Line': 'line', 'Point Line': 'line', 'Multi-Axis Line': 'line',
+        'Pie Chart': 'pie', 'Doughnut Chart': 'doughnut', 'Semi Doughnut': 'doughnut',
+        'Nested Doughnut': 'doughnut', 'Polar Area': 'polarArea', 'Rose Chart': 'polarArea',
+        'Radar Chart': 'radar', 'Filled Radar': 'radar', 'Scatter Plot': 'scatter',
+        'Bubble Chart': 'bubble', 'XY Scatter': 'scatter', 'Cluster Scatter': 'scatter',
+        'Mixed Chart': 'bar', 'Combo Chart': 'bar', 'Bar-Line Combo': 'bar', 'Dual Axis': 'line',
+        'Histogram': 'bar', 'Box Plot': 'bar', 'Waterfall Chart': 'bar', 'Pareto Chart': 'bar',
+        'Bell Curve': 'line', 'Error Bar': 'bar',
+        'Funnel Chart': 'bar', 'Pyramid Chart': 'bar', 'Sankey Diagram': 'bar', 'Sunburst': 'doughnut',
+        'Gauge Chart': 'doughnut', 'Progress Bar': 'bar', 'KPI Card': 'bar', 'Speedometer': 'doughnut',
+        'Heatmap': 'bar', 'Treemap': 'bar', 'Candlestick': 'bar', 'Timeline': 'bar',
     };
 
     const chartType = chartTypeMap[tipeDiagram] || 'bar';
@@ -123,9 +107,16 @@ document.addEventListener('DOMContentLoaded', function() {
         options.scales.y.stacked = true;
     }
 
-    if (tipeDiagram === 'Stepped Line') {
-        datasets.forEach(ds => ds.stepped = true);
-    }
+    if (tipeDiagram === 'Stepped Line') datasets.forEach(ds => ds.stepped = true);
+    if (tipeDiagram === 'Dashed Line') datasets.forEach(ds => ds.borderDash = [8, 4]);
+    if (tipeDiagram === 'Curved Line') datasets.forEach(ds => ds.tension = 0.6);
+    if (tipeDiagram === 'Point Line') datasets.forEach(ds => ds.pointRadius = 6);
+    if (tipeDiagram === 'Filled Radar') datasets.forEach(ds => ds.fill = true);
+    if (tipeDiagram === 'Bell Curve') datasets.forEach(ds => ds.tension = 0.5);
+    if (tipeDiagram === 'Funnel Chart' || tipeDiagram === 'Pyramid Chart') options.indexAxis = 'y';
+    if (tipeDiagram === 'Semi Doughnut') { options.circumference = 180; options.rotation = -90; }
+    if (tipeDiagram === 'Gauge Chart' || tipeDiagram === 'Speedometer') { options.circumference = 270; options.rotation = -135; options.cutout = '70%'; }
+    if (['Bar-Line Combo','Combo Chart','Pareto Chart'].includes(tipeDiagram)) { datasets.slice(1).forEach(ds => { ds.type = 'line'; ds.fill = false; ds.borderWidth = 3; }); }
 
     new Chart(ctx, {
         type: chartType,

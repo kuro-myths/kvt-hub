@@ -254,6 +254,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/buat', [LaporanController::class, 'buat'])->name('laporan.buat');
     Route::post('/laporan', [LaporanController::class, 'simpan'])->name('laporan.simpan');
+
+    // Diagram Builder
+    Route::get('/diagram-builder', [LaporanController::class, 'builder'])->name('laporan.builder');
+    Route::get('/diagram-builder/{laporan}', [LaporanController::class, 'builderEdit'])->name('laporan.builder-edit');
+    Route::post('/diagram-builder/simpan', [LaporanController::class, 'simpanBuilder'])->name('laporan.simpan-builder');
+    Route::get('/laporan/{laporan}/json', [LaporanController::class, 'json'])->name('laporan.json');
+    Route::delete('/laporan/{laporan}', [LaporanController::class, 'hapus'])->name('laporan.hapus');
+
     Route::get('/laporan/{laporan}', [LaporanController::class, 'tampilkan'])->name('laporan.tampilkan');
 
     // Pendaftaran Edukasi (Shared)

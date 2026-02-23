@@ -1,12 +1,53 @@
 <h1 align="center">📋 Changelog — KVT Hub</h1>
 
 <p align="center">
-  Riwayat perubahan dari versi 1.0 hingga 8.0
+  Riwayat perubahan dari versi 1.0 hingga 8.2
 </p>
 
 ---
 
-## v8.0 — AI VTuber Assistant & Nav Overhaul *(Current)*
+## v8.2 — Diagram Builder 50 Jenis *(Current)*
+
+> Tanggal: Februari 2026
+
+### Fitur Baru
+- **Diagram Builder Visual** — Antarmuka visual interaktif untuk membuat diagram:
+  - 50 jenis diagram (naik dari 30): Batang, Garis, Lingkaran, Radar, Scatter, Kombinasi, Statistik, Flow, Indikator, dan lainnya
+  - 4-tab panel: Tipe, Data, Gaya, Opsi
+  - Live preview canvas dengan Chart.js
+  - 6 template cepat: Siswa, Nilai, Kehadiran, Bulanan, Perbandingan, Kosong
+  - 6 palet warna: Default, Ocean, Sunset, Forest, Neon, Monochrome
+  - Kustomisasi gaya: border, radius, opacity, tension, font family
+  - Opsi lanjutan: legend, title, grid, animasi, fill, stacked, aspect ratio
+  - Dataset dinamis: tambah/hapus/ubah warna per dataset
+  - Ekspor gambar PNG/JPG
+  - Mode fullscreen
+  - Edit, duplikat, hapus diagram yang tersimpan
+  - JSON editor (advanced, collapsible)
+- **CRUD Diagram Lengkap** — Edit, duplikat, dan hapus diagram dari builder & index
+- **Akses Semua Role** — Diagram Builder tersedia untuk pengajar, staff, dan pengguna via sidebar
+
+### Perbaikan
+- **Tampilkan Diagram** — Chart type map diperluas ke 50 jenis dengan opsi spesifik per tipe
+- **Index Laporan** — Deskripsi diperbarui ke 50 jenis, tombol Builder ditambahkan, link edit per diagram
+
+---
+
+## v8.1 — Fitur Pengajar: Silabus, Jurnal, Nilai
+
+> Tanggal: Februari 2026
+
+### Fitur Baru
+- **Silabus CRUD** — Kelola silabus per mata pelajaran (kompetensi inti/dasar, materi, metode, penilaian, sumber)
+- **Jurnal Mengajar** — Catatan harian mengajar per kelas (topik, kegiatan, catatan, kehadiran)
+- **Nilai & Penilaian** — Input nilai siswa per kelas:
+  - Mode spreadsheet (input langsung di tabel)
+  - Ekspor/impor data
+  - Statistik nilai otomatis
+
+---
+
+## v8.0 — AI VTuber Assistant & Nav Overhaul
 
 > Tanggal: Februari 2026
 

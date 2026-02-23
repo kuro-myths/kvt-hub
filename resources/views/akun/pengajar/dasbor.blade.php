@@ -117,6 +117,9 @@
                     <a href="{{ route('pengajar.nilai.index') }}" class="flex items-center gap-3 p-3 rounded-xl bg-kvt-800/30 hover:bg-kvt-700/30 transition text-sm text-gray-300 hover:text-white">
                         <i class="fas fa-star-half-alt text-amber-400 w-5"></i> Nilai & Penilaian
                     </a>
+                    <a href="{{ route('laporan.builder') }}" class="flex items-center gap-3 p-3 rounded-xl bg-kvt-800/30 hover:bg-kvt-700/30 transition text-sm text-gray-300 hover:text-white">
+                        <i class="fas fa-chart-pie text-indigo-400 w-5"></i> Diagram Builder
+                    </a>
                     <a href="{{ route('laporan.index') }}" class="flex items-center gap-3 p-3 rounded-xl bg-kvt-800/30 hover:bg-kvt-700/30 transition text-sm text-gray-300 hover:text-white">
                         <i class="fas fa-chart-line text-orange-400 w-5"></i> Lihat Laporan
                     </a>

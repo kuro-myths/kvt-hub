@@ -6,17 +6,22 @@
         <div class="flex items-center justify-between mb-8" data-aos="fade-right">
             <div>
                 <h1 class="text-2xl font-black text-white"><i class="fas fa-chart-bar mr-3 text-kvt-400"></i>Laporan & Diagram</h1>
-                <p class="text-gray-400 text-sm mt-1">Visualisasi data pembelajaran dengan 30 jenis diagram</p>
+                <p class="text-gray-400 text-sm mt-1">Visualisasi data pembelajaran dengan 50 jenis diagram</p>
             </div>
-            @if(auth()->user()->peran !== 'pengguna')
-                <a href="{{ route('laporan.buat') }}" class="bg-gradient-to-r from-kvt-500 to-kvt-600 hover:from-kvt-400 hover:to-kvt-500 text-white px-5 py-2.5 rounded-xl font-bold transition shadow-lg text-sm">
-                    <i class="fas fa-plus mr-2"></i>Buat Laporan
+            <div class="flex items-center gap-2">
+                <a href="{{ route('laporan.builder') }}" class="bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white px-5 py-2.5 rounded-xl font-bold transition shadow-lg text-sm">
+                    <i class="fas fa-magic mr-2"></i>Diagram Builder
                 </a>
-            @endif
+                @if(auth()->user()->peran !== 'pengguna')
+                    <a href="{{ route('laporan.buat') }}" class="bg-gradient-to-r from-kvt-500 to-kvt-600 hover:from-kvt-400 hover:to-kvt-500 text-white px-5 py-2.5 rounded-xl font-bold transition shadow-lg text-sm">
+                        <i class="fas fa-plus mr-2"></i>Buat Manual
+                    </a>
+                @endif
+            </div>
         </div>
 
         <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6 mb-6" data-aos="fade-up">
-            <h2 class="text-lg font-bold text-white mb-4"><i class="fas fa-chart-pie mr-2 text-kvt-400"></i>30 Jenis Diagram Tersedia</h2>
+            <h2 class="text-lg font-bold text-white mb-4"><i class="fas fa-chart-pie mr-2 text-kvt-400"></i>50 Jenis Diagram Tersedia</h2>
             <div class="flex flex-wrap gap-2">
                 @php
                     $tipeDiagram = \App\Models\Laporan::tipeDiagram();
@@ -29,23 +34,32 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @forelse($laporanList as $laporan)
-                <a href="{{ route('laporan.tampilkan', $laporan) }}" class="bg-kvt-900/80 border border-kvt-700/30 hover:border-kvt-500/30 rounded-2xl p-6 transition group" data-aos="fade-up">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 bg-kvt-500/20 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-chart-line text-kvt-400"></i>
+                <div class="bg-kvt-900/80 border border-kvt-700/30 hover:border-kvt-500/30 rounded-2xl p-6 transition group" data-aos="fade-up">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-kvt-500/20 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-chart-line text-kvt-400"></i>
+                            </div>
+                            <span class="text-xs bg-kvt-800/50 text-gray-400 px-2 py-1 rounded-lg">{{ $laporan->tipe_diagram }}</span>
                         </div>
-                        <span class="text-xs bg-kvt-800/50 text-gray-400 px-2 py-1 rounded-lg">{{ $laporan->tipe_diagram }}</span>
+                        @if($laporan->user_id === auth()->id())
+                        <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition">
+                            <a href="{{ route('laporan.builder-edit', $laporan) }}" class="text-indigo-400 hover:text-indigo-300 text-xs px-1"><i class="fas fa-pen"></i></a>
+                        </div>
+                        @endif
                     </div>
-                    <h3 class="text-white font-bold group-hover:text-kvt-400 transition">{{ $laporan->judul }}</h3>
-                    @if($laporan->deskripsi)
-                        <p class="text-gray-500 text-sm mt-2">{{ Str::limit($laporan->deskripsi, 80) }}</p>
-                    @endif
-                    <div class="flex items-center gap-2 mt-3 text-gray-600 text-xs">
-                        <span>{{ $laporan->pembuat->name }}</span>
-                        <span>•</span>
-                        <span>{{ $laporan->created_at->diffForHumans() }}</span>
-                    </div>
-                </a>
+                    <a href="{{ route('laporan.tampilkan', $laporan) }}" class="block">
+                        <h3 class="text-white font-bold group-hover:text-kvt-400 transition">{{ $laporan->judul }}</h3>
+                        @if($laporan->deskripsi)
+                            <p class="text-gray-500 text-sm mt-2">{{ Str::limit($laporan->deskripsi, 80) }}</p>
+                        @endif
+                        <div class="flex items-center gap-2 mt-3 text-gray-600 text-xs">
+                            <span>{{ $laporan->pembuat->name }}</span>
+                            <span>•</span>
+                            <span>{{ $laporan->created_at->diffForHumans() }}</span>
+                        </div>
+                    </a>
+                </div>
             @empty
                 <div class="col-span-full text-center py-16">
                     <i class="fas fa-chart-bar text-gray-700 text-5xl mb-4"></i>

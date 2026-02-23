@@ -38,6 +38,7 @@
         ['label' => 'Silabus', 'ikon' => 'fas fa-scroll', 'route' => 'pengajar.silabus.index', 'warna' => 'teal'],
         ['label' => 'Jurnal Mengajar', 'ikon' => 'fas fa-journal-whills', 'route' => 'pengajar.jurnal.index', 'warna' => 'violet'],
         ['label' => 'Nilai & Penilaian', 'ikon' => 'fas fa-star-half-alt', 'route' => 'pengajar.nilai.index', 'warna' => 'amber'],
+        ['label' => 'Diagram Builder', 'ikon' => 'fas fa-chart-pie', 'route' => 'laporan.builder', 'warna' => 'indigo'],
         ['label' => 'Laporan & Diagram', 'ikon' => 'fas fa-chart-bar', 'route' => 'laporan.index', 'warna' => 'orange'],
         ['label' => 'Kurikulum', 'ikon' => 'fas fa-book-reader', 'route' => 'halaman.kurikulum', 'warna' => 'cyan'],
         ['label' => 'Sertifikasi', 'ikon' => 'fas fa-award', 'route' => 'halaman.sertifikasi', 'warna' => 'yellow'],
@@ -50,6 +51,7 @@
         ['label' => 'Kehadiran', 'ikon' => 'fas fa-calendar-check', 'route' => 'staff.kehadiran.index', 'warna' => 'green'],
         ['label' => 'Rekap Kehadiran', 'ikon' => 'fas fa-clipboard-list', 'route' => 'staff.kehadiran.rekap', 'warna' => 'indigo'],
         ['label' => 'Kelas', 'ikon' => 'fas fa-chalkboard', 'route' => 'kelas.index', 'warna' => 'purple'],
+        ['label' => 'Diagram Builder', 'ikon' => 'fas fa-chart-pie', 'route' => 'laporan.builder', 'warna' => 'violet'],
         ['label' => 'Laporan & Diagram', 'ikon' => 'fas fa-chart-bar', 'route' => 'laporan.index', 'warna' => 'amber'],
     ];
 
@@ -58,6 +60,7 @@
         ['label' => 'Kelas Saya', 'ikon' => 'fas fa-book-open', 'route' => 'kelas.index', 'warna' => 'blue'],
         ['label' => 'KRS Akademik', 'ikon' => 'fas fa-clipboard-list', 'route' => 'pengguna.krs.index', 'warna' => 'indigo'],
         ['label' => 'KHS', 'ikon' => 'fas fa-scroll', 'route' => 'pengguna.khs', 'warna' => 'emerald'],
+        ['label' => 'Diagram Builder', 'ikon' => 'fas fa-chart-pie', 'route' => 'laporan.builder', 'warna' => 'indigo'],
         ['label' => 'Laporan & Diagram', 'ikon' => 'fas fa-chart-bar', 'route' => 'laporan.index', 'warna' => 'amber'],
         ['label' => 'Kurikulum', 'ikon' => 'fas fa-book-reader', 'route' => 'halaman.kurikulum', 'warna' => 'purple'],
         ['label' => 'Sertifikasi', 'ikon' => 'fas fa-award', 'route' => 'halaman.sertifikasi', 'warna' => 'yellow'],
