@@ -29,7 +29,7 @@
         </div>
 
         {{-- Statistik --}}
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             @php
                 $kartuStat = [
                     ['label' => 'Total Kelas', 'nilai' => $statistik['total_kelas'], 'ikon' => 'fa-school', 'warna' => 'from-kvt-400 to-kvt-600'],
@@ -47,6 +47,28 @@
                     <div class="text-3xl font-black text-white">{{ $stat['nilai'] }}</div>
                     <div class="text-gray-500 text-sm">{{ $stat['label'] }}</div>
                 </div>
+            @endforeach
+        </div>
+
+        {{-- Statistik Fitur Baru --}}
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            @php
+                $kartuBaru = [
+                    ['label' => 'Total Silabus', 'nilai' => $statistik['total_silabus'], 'ikon' => 'fa-scroll', 'warna' => 'from-teal-400 to-teal-600', 'route' => 'pengajar.silabus.index'],
+                    ['label' => 'Silabus Aktif', 'nilai' => $statistik['silabus_aktif'], 'ikon' => 'fa-check-double', 'warna' => 'from-emerald-400 to-emerald-600', 'route' => 'pengajar.silabus.index'],
+                    ['label' => 'Total Jurnal', 'nilai' => $statistik['total_jurnal'], 'ikon' => 'fa-journal-whills', 'warna' => 'from-violet-400 to-violet-600', 'route' => 'pengajar.jurnal.index'],
+                    ['label' => 'Jurnal Bulan Ini', 'nilai' => $statistik['jurnal_bulan_ini'], 'ikon' => 'fa-calendar-day', 'warna' => 'from-rose-400 to-rose-600', 'route' => 'pengajar.jurnal.index'],
+                ];
+            @endphp
+
+            @foreach($kartuBaru as $i => $stat)
+                <a href="{{ route($stat['route']) }}" class="bg-kvt-900/50 border border-kvt-700/30 rounded-xl p-5 hover:border-kvt-500/30 transition group" data-aos="fade-up" data-aos-delay="{{ ($i + 4) * 100 }}">
+                    <div class="w-10 h-10 bg-gradient-to-br {{ $stat['warna'] }} rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition">
+                        <i class="fas {{ $stat['ikon'] }} text-white"></i>
+                    </div>
+                    <div class="text-3xl font-black text-white">{{ $stat['nilai'] }}</div>
+                    <div class="text-gray-500 text-sm">{{ $stat['label'] }}</div>
+                </a>
             @endforeach
         </div>
 
@@ -86,11 +108,17 @@
                     <a href="{{ route('pengajar.materi.index') }}" class="flex items-center gap-3 p-3 rounded-xl bg-kvt-800/30 hover:bg-kvt-700/30 transition text-sm text-gray-300 hover:text-white">
                         <i class="fas fa-book text-purple-400 w-5"></i> Kelola Materi
                     </a>
-                    <a href="{{ route('pengajar.materi.buat') }}" class="flex items-center gap-3 p-3 rounded-xl bg-kvt-800/30 hover:bg-kvt-700/30 transition text-sm text-gray-300 hover:text-white">
-                        <i class="fas fa-file-medical text-indigo-400 w-5"></i> Buat Materi Baru
+                    <a href="{{ route('pengajar.silabus.index') }}" class="flex items-center gap-3 p-3 rounded-xl bg-kvt-800/30 hover:bg-kvt-700/30 transition text-sm text-gray-300 hover:text-white">
+                        <i class="fas fa-scroll text-teal-400 w-5"></i> Silabus Pembelajaran
+                    </a>
+                    <a href="{{ route('pengajar.jurnal.index') }}" class="flex items-center gap-3 p-3 rounded-xl bg-kvt-800/30 hover:bg-kvt-700/30 transition text-sm text-gray-300 hover:text-white">
+                        <i class="fas fa-journal-whills text-violet-400 w-5"></i> Jurnal Mengajar
+                    </a>
+                    <a href="{{ route('pengajar.nilai.index') }}" class="flex items-center gap-3 p-3 rounded-xl bg-kvt-800/30 hover:bg-kvt-700/30 transition text-sm text-gray-300 hover:text-white">
+                        <i class="fas fa-star-half-alt text-amber-400 w-5"></i> Nilai & Penilaian
                     </a>
                     <a href="{{ route('laporan.index') }}" class="flex items-center gap-3 p-3 rounded-xl bg-kvt-800/30 hover:bg-kvt-700/30 transition text-sm text-gray-300 hover:text-white">
-                        <i class="fas fa-chart-line text-amber-400 w-5"></i> Lihat Laporan
+                        <i class="fas fa-chart-line text-orange-400 w-5"></i> Lihat Laporan
                     </a>
                 </div>
             </div>

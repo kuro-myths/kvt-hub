@@ -35,8 +35,11 @@
         ['label' => 'Buat Kelas', 'ikon' => 'fas fa-plus-circle', 'route' => 'pengajar.kelas.buat', 'warna' => 'kvt'],
         ['label' => 'Materi Saya', 'ikon' => 'fas fa-book', 'route' => 'pengajar.materi.index', 'warna' => 'purple'],
         ['label' => 'Buat Materi', 'ikon' => 'fas fa-file-medical', 'route' => 'pengajar.materi.buat', 'warna' => 'indigo'],
-        ['label' => 'Laporan & Diagram', 'ikon' => 'fas fa-chart-bar', 'route' => 'laporan.index', 'warna' => 'amber'],
-        ['label' => 'Kurikulum', 'ikon' => 'fas fa-book-reader', 'route' => 'halaman.kurikulum', 'warna' => 'teal'],
+        ['label' => 'Silabus', 'ikon' => 'fas fa-scroll', 'route' => 'pengajar.silabus.index', 'warna' => 'teal'],
+        ['label' => 'Jurnal Mengajar', 'ikon' => 'fas fa-journal-whills', 'route' => 'pengajar.jurnal.index', 'warna' => 'violet'],
+        ['label' => 'Nilai & Penilaian', 'ikon' => 'fas fa-star-half-alt', 'route' => 'pengajar.nilai.index', 'warna' => 'amber'],
+        ['label' => 'Laporan & Diagram', 'ikon' => 'fas fa-chart-bar', 'route' => 'laporan.index', 'warna' => 'orange'],
+        ['label' => 'Kurikulum', 'ikon' => 'fas fa-book-reader', 'route' => 'halaman.kurikulum', 'warna' => 'cyan'],
         ['label' => 'Sertifikasi', 'ikon' => 'fas fa-award', 'route' => 'halaman.sertifikasi', 'warna' => 'yellow'],
         ['label' => 'Komunitas', 'ikon' => 'fas fa-users', 'route' => 'halaman.komunitas', 'warna' => 'pink'],
     ];
