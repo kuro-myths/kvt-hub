@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\AturanEdukasiController;
 
 // Dashboard
 Route::get('/', [DasborController::class, 'index'])->name('dasbor');
+Route::get('/ekspor-pengguna', [DasborController::class, 'eksporExcel'])->name('ekspor.pengguna');
 
 // Pengguna
 Route::get('/pengguna', [PenggunaController::class, 'index'])->name('pengguna');

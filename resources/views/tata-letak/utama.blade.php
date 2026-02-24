@@ -139,21 +139,145 @@
         .loader-bar-fill { height:100%;background:linear-gradient(90deg,#3399FF,#8B5CF6,#3399FF);background-size:200%;border-radius:3px;animation:loaderBar 1.8s ease-in-out infinite }
         @keyframes loaderBar { 0%{width:0;background-position:0%} 50%{width:70%;background-position:100%} 100%{width:100%;background-position:0%} }
 
-        /* ===== NAVIGATION DROPDOWNS ===== */
-        .nav-row { display:flex;align-items:center }
-        .nav-item { position:relative }
-        .nav-link {
-            display:flex;align-items:center;gap:6px;padding:9px 14px;font-size:13px;font-weight:600;
-            color:rgba(209,213,219,1);border-radius:10px;white-space:nowrap;transition:all 0.2s;
-            text-transform:uppercase;letter-spacing:0.03em;
+        /* ===== HEADER STYLE SWITCHER ===== */
+        .header-block { display:none }
+        .header-block.header-aktif { display:block }
+
+        /* Header 2: Compact - grouped dropdowns */
+        .header-compact .compact-group-btn {
+            display:flex;align-items:center;gap:6px;padding:8px 16px;font-size:12px;font-weight:700;
+            color:#d1d5db;border-radius:10px;white-space:nowrap;transition:all 0.2s;
+            text-transform:uppercase;letter-spacing:0.04em;background:rgba(51,153,255,0.05);
+            border:1px solid rgba(51,153,255,0.08);
         }
-        /* Nav page arrow buttons */
-        .nav-page-arrow {
+        .header-compact .compact-group-btn:hover,
+        .header-compact .compact-group-btn.aktif {
+            color:#5CADFF;background:rgba(51,153,255,0.12);border-color:rgba(51,153,255,0.25);
+        }
+        .header-compact .compact-dropdown {
+            position:absolute;top:100%;left:0;min-width:520px;padding-top:6px;
+            opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-4px);
+            transition:all 0.25s cubic-bezier(0.4,0,0.2,1);z-index:200;
+        }
+        .header-compact .compact-group.open .compact-dropdown {
+            opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);
+        }
+
+        /* Header 3: Center - logo centered, menu below */
+        .header-center .center-logo-row {
+            display:flex;align-items:center;justify-content:center;padding:12px 0 4px;
+        }
+        .header-center .center-menu-row {
+            display:flex;align-items:center;justify-content:center;gap:2px;padding:4px 0 8px;
+            flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+        }
+        .header-center .center-menu-row::-webkit-scrollbar { display:none }
+
+        /* Header 4: Carousel Paginated */
+        .header-carousel .carousel-track {
+            display:flex;align-items:center;gap:2px;
+            transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .header-carousel .carousel-item {
+            opacity:0;transform:translateY(8px) scale(0.95);
+            animation:carouselItemIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        .header-carousel .carousel-item:nth-child(1) { animation-delay:0s }
+        .header-carousel .carousel-item:nth-child(2) { animation-delay:0.05s }
+        .header-carousel .carousel-item:nth-child(3) { animation-delay:0.1s }
+        .header-carousel .carousel-item:nth-child(4) { animation-delay:0.15s }
+        .header-carousel .carousel-item:nth-child(5) { animation-delay:0.2s }
+        @keyframes carouselItemIn {
+            to { opacity:1;transform:translateY(0) scale(1) }
+        }
+        .header-carousel .carousel-nav-pill {
+            display:inline-flex;align-items:center;gap:4px;
+            background:rgba(4,31,77,0.7);border:1px solid rgba(51,153,255,0.15);
+            border-radius:20px;padding:5px 8px;
+            backdrop-filter:blur(8px);
+        }
+        .header-carousel .carousel-dot {
+            width:7px;height:7px;border-radius:50%;
+            background:rgba(51,153,255,0.2);border:1px solid rgba(51,153,255,0.15);
+            cursor:pointer;transition:all 0.3s;
+        }
+        .header-carousel .carousel-dot:hover {
+            background:rgba(51,153,255,0.4);transform:scale(1.2);
+        }
+        .header-carousel .carousel-dot.aktif {
+            background:linear-gradient(135deg,#3399FF,#8B5CF6);
+            border-color:transparent;width:20px;border-radius:10px;
+            box-shadow:0 0 10px rgba(51,153,255,0.4);
+        }
+        .header-carousel .carousel-arrow {
             display:flex;align-items:center;justify-content:center;
-            width:26px;height:20px;border-radius:7px;
+            width:24px;height:24px;border-radius:50%;
             background:rgba(51,153,255,0.08);border:1px solid rgba(51,153,255,0.15);
             color:#5CADFF;cursor:pointer;transition:all 0.25s;flex-shrink:0;
         }
+        .header-carousel .carousel-arrow:hover:not(:disabled) {
+            background:linear-gradient(135deg,rgba(51,153,255,0.25),rgba(139,92,246,0.2));
+            color:#fff;transform:scale(1.1);border-color:rgba(92,173,255,0.4);
+        }
+        .header-carousel .carousel-arrow:disabled { opacity:0.2;cursor:not-allowed }
+        .header-carousel .carousel-semua {
+            display:flex;align-items:center;gap:5px;padding:5px 12px;
+            font-size:11px;font-weight:700;color:#fff;
+            border-radius:20px;border:none;
+            background:linear-gradient(135deg,rgba(51,153,255,0.2),rgba(139,92,246,0.2));
+            transition:all 0.3s;white-space:nowrap;
+            text-transform:uppercase;letter-spacing:0.04em;
+            cursor:pointer;position:relative;overflow:hidden;
+        }
+        .header-carousel .carousel-semua::before {
+            content:'';position:absolute;inset:0;border-radius:20px;
+            border:1px solid rgba(92,173,255,0.25);
+            transition:border-color 0.3s;
+        }
+        .header-carousel .carousel-semua:hover {
+            background:linear-gradient(135deg,rgba(51,153,255,0.35),rgba(139,92,246,0.3));
+            transform:translateY(-1px);box-shadow:0 4px 15px rgba(51,153,255,0.2);
+        }
+        .header-carousel .carousel-semua:hover::before {
+            border-color:rgba(92,173,255,0.5);
+        }
+        .header-carousel .carousel-badge {
+            font-size:9px;font-weight:800;padding:2px 6px;border-radius:8px;
+            background:linear-gradient(135deg,#3399FF,#8B5CF6);color:#fff;
+            line-height:1;
+        }
+
+        /* Header style preview cards */
+        .header-style-card {
+            padding:10px;border-radius:12px;border:2px solid rgba(51,153,255,0.1);
+            background:rgba(4,31,77,0.3);cursor:pointer;transition:all 0.25s;text-align:center;
+        }
+        .header-style-card:hover { border-color:rgba(51,153,255,0.3);background:rgba(51,153,255,0.08) }
+        .header-style-card.aktif { border-color:#5CADFF;background:rgba(51,153,255,0.15);box-shadow:0 0 20px rgba(51,153,255,0.15) }
+        .header-style-card .preview-bar {
+            height:32px;border-radius:6px;background:rgba(2,16,41,0.8);border:1px solid rgba(51,153,255,0.1);
+            margin-bottom:6px;display:flex;align-items:center;padding:0 6px;gap:3px;overflow:hidden;
+        }
+
+        /* ===== NAVIGATION DROPDOWNS ===== */
+        .nav-row { display:flex;align-items:center;width:100% }
+        .nav-item { position:relative;flex:1;min-width:0 }
+        .nav-link {
+            display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 6px;font-size:11.5px;font-weight:600;
+            color:rgba(209,213,219,1);border-radius:10px;white-space:nowrap;transition:all 0.2s;
+            text-transform:uppercase;letter-spacing:0.03em;width:100%;
+        }
+        @media(min-width:1280px) { .nav-link { font-size:12.5px;padding:8px 10px;gap:6px } }
+        /* Nav page arrow buttons */
+        .nav-page-arrow {
+            display:flex;align-items:center;justify-content:center;
+            width:28px;height:28px;border-radius:8px;
+            background:rgba(51,153,255,0.08);border:1px solid rgba(51,153,255,0.15);
+            color:#5CADFF;cursor:pointer;transition:all 0.25s;flex-shrink:0;
+        }
+        .nav-dot { width:6px;height:6px;border-radius:50%;background:rgba(92,173,255,0.2);transition:all 0.3s;cursor:pointer }
+        .nav-dot.aktif { background:#5CADFF;width:18px;border-radius:4px }
+        .nav-dot:hover:not(.aktif) { background:rgba(92,173,255,0.45) }
         .nav-page-arrow:hover:not(:disabled) { background:rgba(51,153,255,0.25);color:#fff;transform:scale(1.1) }
         .nav-page-arrow:disabled { opacity:0.25;cursor:not-allowed }
         .nav-page-arrow i { transition:transform 0.3s }
@@ -197,6 +321,7 @@
             color:#5CADFF;background:rgba(51,153,255,0.08);
         }
         .nav-link .chevron-icon { font-size:8px;transition:transform 0.25s;margin-left:2px }
+        @media(max-width:1279px) { .nav-link .chevron-icon { display:none } .nav-link i:first-child { display:none } }
         .nav-item.dropdown-open > .nav-link .chevron-icon { transform:rotate(180deg) }
 
         /* Primary dropdown (Level 1) */
@@ -603,31 +728,124 @@
         </div>
     </div>
 
-    {{-- ==================== MAIN NAVIGATION (2-Row like SMAN Kebumen) ==================== --}}
-    <nav class="sticky top-0 w-full z-40 transition-all duration-300 kaca-nav" id="navbar">
-        <div class="max-w-[1600px] mx-auto px-4 sm:px-5">
+    {{-- ==================== HEADER 1: DEFAULT (Split 2-Row: Top=Auth, Bottom=Menu) ==================== --}}
+    <nav class="sticky top-0 w-full z-40 transition-all duration-300 header-block header-aktif" id="navbar" data-header="1">
 
-            {{-- ===== ROW 1: Logo + Primary Menus + Search/Auth ===== --}}
-            <div class="flex items-center h-[68px]">
+        {{-- ===== TOP ROW: Logo + Search + Notification + Auth ===== --}}
+        <div class="kaca-nav border-b border-kvt-700/10">
+            <div class="max-w-[1600px] mx-auto px-4 sm:px-5">
+                <div class="flex items-center h-[56px]">
 
-                {{-- Logo (spacious, not cramped) --}}
-                <a href="{{ route('beranda') }}" class="flex items-center gap-3 shrink-0 mr-4 group">
-                    <div class="w-11 h-11 bg-gradient-to-br from-kvt-400 via-ungu-500 to-kvt-600 rounded-xl flex items-center justify-center shadow-lg shadow-kvt-500/20 group-hover:shadow-kvt-500/40 transition-shadow animate-glow">
-                        <span class="text-white font-black text-xl tracking-tight">K</span>
+                    {{-- Logo --}}
+                    <a href="{{ route('beranda') }}" class="flex items-center gap-3 shrink-0 mr-4 group">
+                        <div class="w-10 h-10 bg-gradient-to-br from-kvt-400 via-ungu-500 to-kvt-600 rounded-xl flex items-center justify-center shadow-lg shadow-kvt-500/20 group-hover:shadow-kvt-500/40 transition-shadow animate-glow">
+                            <span class="text-white font-black text-lg tracking-tight">K</span>
+                        </div>
+                        <div class="leading-tight">
+                            <span class="text-lg font-extrabold tracking-tight">
+                                <span class="text-white">KVT</span><span class="text-kvt-400">Hub</span>
+                            </span>
+                            <span class="block text-[9px] text-gray-500 tracking-[0.15em] font-semibold">GLOBAL EDUCATION</span>
+                        </div>
+                    </a>
+
+                    {{-- Spacer --}}
+                    <div class="flex-1"></div>
+
+                    {{-- Right Controls: Search, Notif, Auth --}}
+                    <div class="hidden lg:flex items-center gap-1.5 shrink-0">
+                        {{-- Search --}}
+                        <button onclick="bukaSearch()" class="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/50 transition" title="Cari (Ctrl+K)">
+                            <i class="fas fa-search text-sm"></i>
+                        </button>
+
+                        {{-- Notification Bell --}}
+                        <div class="relative" id="notifWrapper">
+                            <button onclick="toggleNotifikasi()" class="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-yellow-400 hover:bg-kvt-800/50 transition relative" title="Notifikasi">
+                                <i class="fas fa-bell text-sm"></i>
+                                <span id="notifBadge" class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center hidden">0</span>
+                            </button>
+                            {{-- Notification Dropdown --}}
+                            <div id="notifDropdown" class="hidden absolute right-0 top-full mt-2 w-80 nav-dropdown-inner rounded-2xl overflow-hidden shadow-2xl shadow-black/50 z-50" style="border-radius:16px">
+                                <div class="bg-gradient-to-r from-kvt-600 to-ungu-600 p-3 flex items-center justify-between">
+                                    <h4 class="text-white font-bold text-sm flex items-center gap-2"><i class="fas fa-bell"></i> Notifikasi</h4>
+                                    <button onclick="tandaiSemuaDibaca()" class="text-[10px] text-white/70 hover:text-white transition">Tandai semua dibaca</button>
+                                </div>
+                                <div id="notifContent" class="max-h-[300px] overflow-y-auto p-2 space-y-1">
+                                    <div class="text-center py-6 text-gray-500 text-sm">Memuat notifikasi...</div>
+                                </div>
+                                <div class="p-2 border-t border-kvt-700/20 text-center">
+                                    <a href="{{ route('berita.index') }}" class="text-[11px] text-kvt-400 hover:text-kvt-300 transition font-semibold"><i class="fas fa-arrow-right mr-1"></i> Lihat semua berita</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-px h-6 bg-kvt-700/30 mx-1.5"></div>
+
+                        @guest
+                        <a href="{{ route('masuk') }}" class="px-5 py-2 text-sm text-gray-300 hover:text-white bg-kvt-800/50 hover:bg-kvt-700/50 rounded-xl transition font-semibold border border-kvt-700/30 flex items-center gap-2"><i class="fas fa-sign-in-alt text-xs text-kvt-400"></i> Masuk</a>
+                        <a href="{{ route('daftar') }}" class="px-5 py-2 text-sm bg-gradient-to-r from-kvt-500 to-ungu-500 hover:from-kvt-400 hover:to-ungu-400 text-white rounded-xl transition font-bold shadow-lg shadow-kvt-500/20 flex items-center gap-2"><i class="fas fa-user-plus text-xs"></i> Daftar</a>
+                        @else
+                        <div class="relative" id="userMenuWrapper">
+                            <button onclick="toggleUserMenu()" class="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-kvt-800/50 transition group">
+                                <div class="w-8 h-8 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow">
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                </div>
+                                <div class="leading-tight text-left">
+                                    <span class="text-xs text-white font-semibold block max-w-[80px] truncate">{{ Auth::user()->name }}</span>
+                                    <div class="flex items-center gap-1">
+                                        <div class="w-12 h-1 bg-kvt-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-gradient-to-r from-kvt-400 to-ungu-500 rounded-full" style="width:{{ min(Auth::user()->level ?? 0, 100) }}%"></div>
+                                        </div>
+                                        <span class="text-[9px] text-gray-500">Lv.{{ Auth::user()->level ?? 0 }}</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-down text-[8px] text-gray-500 group-hover:text-gray-300 transition"></i>
+                            </button>
+                            <div id="userDropdown" class="hidden absolute right-0 top-full mt-2 w-56 nav-dropdown-inner rounded-2xl overflow-hidden shadow-2xl shadow-black/50 z-50" style="border-radius:14px">
+                                <div class="p-3 border-b border-kvt-700/20">
+                                    <p class="text-sm text-white font-semibold">{{ Auth::user()->name }}</p>
+                                    <p class="text-[11px] text-gray-500">{{ Auth::user()->email }}</p>
+                                    <span class="inline-block mt-1 text-[10px] px-2 py-0.5 rounded-full font-bold {{ Auth::user()->peran === 'admin' ? 'bg-red-500/20 text-red-400' : (Auth::user()->peran === 'pengajar' ? 'bg-green-500/20 text-green-400' : (Auth::user()->peran === 'staff' ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/20 text-blue-400')) }}">
+                                        {{ ucfirst(Auth::user()->peran ?? 'pengguna') }}
+                                    </span>
+                                </div>
+                                <div class="p-2 space-y-0.5">
+                                    <a href="{{ route('dasbor') }}" class="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-kvt-800/50 rounded-lg transition"><i class="fas fa-tachometer-alt w-5 text-kvt-400 text-xs"></i> Dasbor</a>
+                                    @if(Auth::user()->peran === 'admin')
+                                    <a href="{{ route('admin.dasbor') }}" class="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-kvt-800/50 rounded-lg transition"><i class="fas fa-crown w-5 text-yellow-400 text-xs"></i> Admin Panel</a>
+                                    @endif
+                                </div>
+                                <div class="p-2 border-t border-kvt-700/20">
+                                    <form action="{{ route('keluar') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition"><i class="fas fa-sign-out-alt w-5 text-xs"></i> Keluar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @endguest
                     </div>
-                    <div class="leading-tight">
-                        <span class="text-xl font-extrabold tracking-tight">
-                            <span class="text-white">KVT</span><span class="text-kvt-400">Hub</span>
-                        </span>
-                        <span class="block text-[10px] text-gray-500 tracking-[0.15em] font-semibold">GLOBAL EDUCATION</span>
-                    </div>
-                </a>
 
-                {{-- Separator --}}
-                <div class="hidden lg:block w-px h-8 bg-kvt-700/30 mr-2"></div>
+                    {{-- Mobile Toggle --}}
+                    <button onclick="toggleMobile()" class="lg:hidden ml-2 w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-800/50 transition">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-                {{-- All Menu Items - Single Row with Pagination --}}
-                <div class="hidden lg:flex items-center flex-1 relative" id="navMenuWrapper">
+        {{-- ===== BOTTOM ROW: Menu Navigation (separate bar) ===== --}}
+        <div class="hidden lg:block kaca-nav border-b border-kvt-700/10" id="navMenuBar">
+            <div class="max-w-[1600px] mx-auto px-4 sm:px-5">
+                <div class="flex items-center h-[46px]">
+                    {{-- All Menu Items - Single Row with Pagination --}}
+                    <div class="flex items-center flex-1 relative" id="navMenuWrapper">
+
+                    {{-- Left Arrow --}}
+                    <button onclick="navMundur()" class="nav-page-arrow shrink-0 mr-1.5" title="Menu sebelumnya" id="navBtnPrev">
+                        <i class="fas fa-chevron-left text-[9px]"></i>
+                    </button>
 
                     {{-- Sliding Menu Container --}}
                     <div class="flex-1 overflow-visible" id="navSlider">
@@ -1937,104 +2155,25 @@
                         </div>{{-- /navMenuItems --}}
                     </div>{{-- /navSlider --}}
 
-                    {{-- Nav Scroll Arrows + Lainnya --}}
-                    <div class="flex items-center ml-2 shrink-0 gap-1">
-                        <button onclick="navMundur()" class="nav-page-arrow" title="Menu sebelumnya" id="navBtnPrev">
-                            <i class="fas fa-chevron-left text-[9px]"></i>
-                        </button>
-                        <button onclick="navMaju()" class="nav-page-arrow" title="Menu berikutnya" id="navBtnNext">
-                            <i class="fas fa-chevron-right text-[9px]"></i>
-                        </button>
+                    {{-- Right Arrow --}}
+                    <button onclick="navMaju()" class="nav-page-arrow shrink-0 ml-1.5" title="Menu berikutnya" id="navBtnNext">
+                        <i class="fas fa-chevron-right text-[9px]"></i>
+                    </button>
+
+                    {{-- Dot Indicators + Lainnya --}}
+                    <div class="flex items-center ml-2.5 shrink-0 gap-2.5">
+                        <div class="flex items-center gap-1" id="navDotIndicators"></div>
                         <button onclick="bukaSemuaMenu()" class="btn-semua-menu" title="Semua menu & kustomisasi">
                             <i class="fas fa-th-large text-[12px]"></i>
                             <span class="hidden xl:inline">Lainnya</span>
-                            <span class="text-[9px] bg-kvt-700/50 px-1.5 py-0.5 rounded-md ml-1 font-bold" id="navPageBadge">1/10</span>
+                            <span class="text-[9px] bg-kvt-700/50 px-1.5 py-0.5 rounded-md ml-1 font-bold" id="navPageBadge">1/5</span>
                         </button>
                     </div>
 
                 </div>{{-- /navMenuWrapper --}}
-
-                {{-- ===== RIGHT SIDE CONTROLS ===== --}}
-                <div class="hidden lg:flex items-center gap-1 shrink-0 ml-3">
-                    {{-- Search --}}
-                    <button onclick="bukaSearch()" class="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/50 transition" title="Cari (Ctrl+K)">
-                        <i class="fas fa-search text-sm"></i>
-                    </button>
-
-                    {{-- Notification Bell --}}
-                    <div class="relative" id="notifWrapper">
-                        <button onclick="toggleNotifikasi()" class="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-yellow-400 hover:bg-kvt-800/50 transition relative" title="Notifikasi">
-                            <i class="fas fa-bell text-sm"></i>
-                            <span id="notifBadge" class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center hidden">0</span>
-                        </button>
-                        {{-- Notification Dropdown --}}
-                        <div id="notifDropdown" class="hidden absolute right-0 top-full mt-2 w-80 nav-dropdown-inner rounded-2xl overflow-hidden shadow-2xl shadow-black/50 z-50" style="border-radius:16px">
-                            <div class="bg-gradient-to-r from-kvt-600 to-ungu-600 p-3 flex items-center justify-between">
-                                <h4 class="text-white font-bold text-sm flex items-center gap-2"><i class="fas fa-bell"></i> Notifikasi</h4>
-                                <button onclick="tandaiSemuaDibaca()" class="text-[10px] text-white/70 hover:text-white transition">Tandai semua dibaca</button>
-                            </div>
-                            <div id="notifContent" class="max-h-[300px] overflow-y-auto p-2 space-y-1">
-                                <div class="text-center py-6 text-gray-500 text-sm">Memuat notifikasi...</div>
-                            </div>
-                            <div class="p-2 border-t border-kvt-700/20 text-center">
-                                <a href="{{ route('berita.index') }}" class="text-[11px] text-kvt-400 hover:text-kvt-300 transition font-semibold"><i class="fas fa-arrow-right mr-1"></i> Lihat semua berita</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="w-px h-6 bg-kvt-700/30 mx-1"></div>
-
-                    @guest
-                    <a href="{{ route('masuk') }}" class="px-5 py-2 text-sm text-gray-300 hover:text-white bg-kvt-800/50 hover:bg-kvt-700/50 rounded-xl transition font-semibold border border-kvt-700/30 flex items-center gap-2"><i class="fas fa-sign-in-alt text-xs text-kvt-400"></i> Masuk</a>
-                    <a href="{{ route('daftar') }}" class="px-5 py-2 text-sm bg-gradient-to-r from-kvt-500 to-ungu-500 hover:from-kvt-400 hover:to-ungu-400 text-white rounded-xl transition font-bold shadow-lg shadow-kvt-500/20 flex items-center gap-2"><i class="fas fa-user-plus text-xs"></i> Daftar</a>
-                    @else
-                    <div class="relative" id="userMenuWrapper">
-                        <button onclick="toggleUserMenu()" class="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-kvt-800/50 transition group">
-                            <div class="w-8 h-8 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                            </div>
-                            <div class="leading-tight text-left">
-                                <span class="text-xs text-white font-semibold block max-w-[80px] truncate">{{ Auth::user()->name }}</span>
-                                <div class="flex items-center gap-1">
-                                    <div class="w-12 h-1 bg-kvt-800 rounded-full overflow-hidden">
-                                        <div class="h-full bg-gradient-to-r from-kvt-400 to-ungu-500 rounded-full" style="width:{{ min(Auth::user()->level ?? 0, 100) }}%"></div>
-                                    </div>
-                                    <span class="text-[9px] text-gray-500">Lv.{{ Auth::user()->level ?? 0 }}</span>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-down text-[8px] text-gray-500 group-hover:text-gray-300 transition"></i>
-                        </button>
-                        <div id="userDropdown" class="hidden absolute right-0 top-full mt-2 w-56 nav-dropdown-inner rounded-2xl overflow-hidden shadow-2xl shadow-black/50 z-50" style="border-radius:14px">
-                            <div class="p-3 border-b border-kvt-700/20">
-                                <p class="text-sm text-white font-semibold">{{ Auth::user()->name }}</p>
-                                <p class="text-[11px] text-gray-500">{{ Auth::user()->email }}</p>
-                                <span class="inline-block mt-1 text-[10px] px-2 py-0.5 rounded-full font-bold {{ Auth::user()->peran === 'admin' ? 'bg-red-500/20 text-red-400' : (Auth::user()->peran === 'pengajar' ? 'bg-green-500/20 text-green-400' : (Auth::user()->peran === 'staff' ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/20 text-blue-400')) }}">
-                                    {{ ucfirst(Auth::user()->peran ?? 'pengguna') }}
-                                </span>
-                            </div>
-                            <div class="p-2 space-y-0.5">
-                                <a href="{{ route('dasbor') }}" class="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-kvt-800/50 rounded-lg transition"><i class="fas fa-tachometer-alt w-5 text-kvt-400 text-xs"></i> Dasbor</a>
-                                @if(Auth::user()->peran === 'admin')
-                                <a href="{{ route('admin.dasbor') }}" class="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-kvt-800/50 rounded-lg transition"><i class="fas fa-crown w-5 text-yellow-400 text-xs"></i> Admin Panel</a>
-                                @endif
-                            </div>
-                            <div class="p-2 border-t border-kvt-700/20">
-                                <form action="{{ route('keluar') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition"><i class="fas fa-sign-out-alt w-5 text-xs"></i> Keluar</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    @endguest
-                </div>
-
-                {{-- Mobile Toggle --}}
-                <button onclick="toggleMobile()" class="lg:hidden ml-auto w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-800/50 transition">
-                    <i class="fas fa-bars text-lg"></i>
-                </button>
-
-            </div>{{-- /flex row --}}
+                </div>{{-- /flex row menu bar --}}
+            </div>
+        </div>{{-- /navMenuBar --}}
 
         {{-- ===== MOBILE MENU ===== --}}
         <div id="mobileMenu" class="hidden lg:hidden border-t border-kvt-700/20">
@@ -2087,6 +2226,349 @@
             </div>
         </div>
     </nav>
+
+    {{-- ==================== HEADER 2: COMPACT (Grouped Dropdowns) ==================== --}}
+    <nav class="sticky top-0 w-full z-40 transition-all duration-300 kaca-nav header-block header-compact" id="navbar2" data-header="2">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-5">
+            <div class="flex items-center h-[60px]">
+                {{-- Logo --}}
+                <a href="{{ route('beranda') }}" class="flex items-center gap-2.5 shrink-0 mr-4 group">
+                    <div class="w-10 h-10 bg-gradient-to-br from-kvt-400 via-ungu-500 to-kvt-600 rounded-xl flex items-center justify-center shadow-lg shadow-kvt-500/20 group-hover:shadow-kvt-500/40 transition-shadow animate-glow">
+                        <span class="text-white font-black text-lg tracking-tight">K</span>
+                    </div>
+                    <div class="leading-tight hidden xl:block">
+                        <span class="text-lg font-extrabold tracking-tight"><span class="text-white">KVT</span><span class="text-kvt-400">Hub</span></span>
+                    </div>
+                </a>
+
+                <div class="hidden lg:block w-px h-7 bg-kvt-700/30 mr-3"></div>
+
+                {{-- Compact Grouped Menus --}}
+                <div class="hidden lg:flex items-center gap-1 flex-1">
+                    {{-- Grup: Utama --}}
+                    <div class="compact-group relative" data-compact-group>
+                        <button class="compact-group-btn" data-compact-toggle>
+                            <i class="fas fa-home text-kvt-400 text-xs"></i> Utama <i class="fas fa-chevron-down text-[7px] ml-1 opacity-50"></i>
+                        </button>
+                        <div class="compact-dropdown">
+                            <div class="nav-dropdown-inner" style="min-width:300px">
+                                <a href="{{ route('beranda') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-home text-kvt-400"></i></div><div class="item-text"><div class="item-title">Beranda</div><div class="item-desc">Halaman utama</div></div></a>
+                                @auth<a href="{{ route('dasbor') }}" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-tachometer-alt text-green-400"></i></div><div class="item-text"><div class="item-title">Dasbor</div><div class="item-desc">Panel kontrol</div></div></a>@endauth
+                                <a href="{{ route('tentang') }}" class="dropdown-item"><div class="item-icon bg-purple-500/10"><i class="fas fa-landmark text-purple-400"></i></div><div class="item-text"><div class="item-title">Tentang</div><div class="item-desc">Visi & misi</div></div></a>
+                                <a href="{{ route('berita.index') }}" class="dropdown-item"><div class="item-icon bg-emerald-500/10"><i class="fas fa-newspaper text-emerald-400"></i></div><div class="item-text"><div class="item-title">Berita</div><div class="item-desc">Info terbaru</div></div></a>
+                                <a href="{{ route('halaman.pengumuman') }}" class="dropdown-item"><div class="item-icon bg-red-500/10"><i class="fas fa-bullhorn text-red-400"></i></div><div class="item-text"><div class="item-title">Pengumuman</div><div class="item-desc">Info resmi</div></div></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Grup: Akademik --}}
+                    <div class="compact-group relative" data-compact-group>
+                        <button class="compact-group-btn" data-compact-toggle>
+                            <i class="fas fa-graduation-cap text-green-400 text-xs"></i> Akademik <i class="fas fa-chevron-down text-[7px] ml-1 opacity-50"></i>
+                        </button>
+                        <div class="compact-dropdown">
+                            <div class="nav-dropdown-inner" style="min-width:300px">
+                                <a href="{{ route('halaman.jenjang') }}" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-graduation-cap text-green-400"></i></div><div class="item-text"><div class="item-title">Jenjang</div><div class="item-desc">TK hingga S3</div></div></a>
+                                <a href="{{ route('halaman.kurikulum') }}" class="dropdown-item"><div class="item-icon bg-indigo-500/10"><i class="fas fa-book-reader text-indigo-400"></i></div><div class="item-text"><div class="item-title">Kurikulum</div><div class="item-desc">Standar kurikulum</div></div></a>
+                                <a href="{{ route('halaman.platform') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-laptop-code text-kvt-400"></i></div><div class="item-text"><div class="item-title">Platform</div><div class="item-desc">Fitur & teknologi</div></div></a>
+                                <a href="{{ route('halaman.sertifikasi') }}" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-award text-yellow-400"></i></div><div class="item-text"><div class="item-title">Sertifikasi</div><div class="item-desc">120+ program</div></div></a>
+                                <a href="{{ route('halaman.akreditasi') }}" class="dropdown-item"><div class="item-icon bg-emerald-500/10"><i class="fas fa-check-double text-emerald-400"></i></div><div class="item-text"><div class="item-title">Akreditasi</div><div class="item-desc">Standar mutu</div></div></a>
+                                <a href="{{ route('edukasi-gratis.index') }}" class="dropdown-item"><div class="item-icon bg-lime-500/10"><i class="fas fa-gift text-lime-400"></i></div><div class="item-text"><div class="item-title">Edukasi Gratis</div><div class="item-desc">Program gratis</div></div></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Grup: Digital --}}
+                    <div class="compact-group relative" data-compact-group>
+                        <button class="compact-group-btn" data-compact-toggle>
+                            <i class="fas fa-laptop text-purple-400 text-xs"></i> Digital <i class="fas fa-chevron-down text-[7px] ml-1 opacity-50"></i>
+                        </button>
+                        <div class="compact-dropdown">
+                            <div class="nav-dropdown-inner" style="min-width:300px">
+                                <a href="{{ route('halaman.e-learning') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-laptop text-kvt-400"></i></div><div class="item-text"><div class="item-title">E-Learning</div><div class="item-desc">1000+ kursus</div></div></a>
+                                <a href="{{ route('halaman.webinar') }}" class="dropdown-item"><div class="item-icon bg-red-500/10"><i class="fas fa-video text-red-400"></i></div><div class="item-text"><div class="item-title">Webinar</div><div class="item-desc">Live & on-demand</div></div></a>
+                                <a href="{{ route('halaman.workshop') }}" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-tools text-green-400"></i></div><div class="item-text"><div class="item-title">Workshop</div><div class="item-desc">Pelatihan praktis</div></div></a>
+                                <a href="{{ route('halaman.laboratorium') }}" class="dropdown-item"><div class="item-icon bg-cyan-500/10"><i class="fas fa-flask text-cyan-400"></i></div><div class="item-text"><div class="item-title">Lab Virtual</div><div class="item-desc">80+ lab</div></div></a>
+                                <a href="{{ route('halaman.podcast') }}" class="dropdown-item"><div class="item-icon bg-pink-500/10"><i class="fas fa-podcast text-pink-400"></i></div><div class="item-text"><div class="item-title">Podcast</div><div class="item-desc">200+ episode</div></div></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Grup: Riset & Karir --}}
+                    <div class="compact-group relative" data-compact-group>
+                        <button class="compact-group-btn" data-compact-toggle>
+                            <i class="fas fa-microscope text-amber-400 text-xs"></i> Riset <i class="fas fa-chevron-down text-[7px] ml-1 opacity-50"></i>
+                        </button>
+                        <div class="compact-dropdown">
+                            <div class="nav-dropdown-inner" style="min-width:300px">
+                                <a href="{{ route('halaman.riset') }}" class="dropdown-item"><div class="item-icon bg-purple-500/10"><i class="fas fa-microscope text-purple-400"></i></div><div class="item-text"><div class="item-title">Riset</div><div class="item-desc">Pusat penelitian</div></div></a>
+                                <a href="{{ route('halaman.karir') }}" class="dropdown-item"><div class="item-icon bg-orange-500/10"><i class="fas fa-briefcase text-orange-400"></i></div><div class="item-text"><div class="item-title">Karir</div><div class="item-desc">Lowongan & peluang</div></div></a>
+                                <a href="{{ route('halaman.magang') }}" class="dropdown-item"><div class="item-icon bg-amber-500/10"><i class="fas fa-building text-amber-400"></i></div><div class="item-text"><div class="item-title">Magang</div><div class="item-desc">200+ perusahaan</div></div></a>
+                                <a href="{{ route('halaman.beasiswa') }}" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-award text-yellow-400"></i></div><div class="item-text"><div class="item-title">Beasiswa</div><div class="item-desc">Pendanaan studi</div></div></a>
+                                <a href="{{ route('halaman.kompetisi') }}" class="dropdown-item"><div class="item-icon bg-rose-500/10"><i class="fas fa-medal text-rose-400"></i></div><div class="item-text"><div class="item-title">Kompetisi</div><div class="item-desc">100+ event</div></div></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Grup: Komunitas --}}
+                    <div class="compact-group relative" data-compact-group>
+                        <button class="compact-group-btn" data-compact-toggle>
+                            <i class="fas fa-users text-pink-400 text-xs"></i> Komunitas <i class="fas fa-chevron-down text-[7px] ml-1 opacity-50"></i>
+                        </button>
+                        <div class="compact-dropdown">
+                            <div class="nav-dropdown-inner" style="min-width:300px">
+                                <a href="{{ route('halaman.komunitas') }}" class="dropdown-item"><div class="item-icon bg-pink-500/10"><i class="fas fa-users text-pink-400"></i></div><div class="item-text"><div class="item-title">Komunitas</div><div class="item-desc">Kolaborasi</div></div></a>
+                                <a href="{{ route('halaman.forum') }}" class="dropdown-item"><div class="item-icon bg-indigo-500/10"><i class="fas fa-comments text-indigo-400"></i></div><div class="item-text"><div class="item-title">Forum</div><div class="item-desc">50K+ diskusi</div></div></a>
+                                <a href="{{ route('halaman.mentoring') }}" class="dropdown-item"><div class="item-icon bg-violet-500/10"><i class="fas fa-chalkboard-teacher text-violet-400"></i></div><div class="item-text"><div class="item-title">Mentoring</div><div class="item-desc">300+ mentor</div></div></a>
+                                <a href="{{ route('halaman.alumni') }}" class="dropdown-item"><div class="item-icon bg-rose-500/10"><i class="fas fa-user-graduate text-rose-400"></i></div><div class="item-text"><div class="item-title">Alumni</div><div class="item-desc">25K+ anggota</div></div></a>
+                                <a href="{{ route('halaman.konsultasi') }}" class="dropdown-item"><div class="item-icon bg-teal-500/10"><i class="fas fa-headset text-teal-400"></i></div><div class="item-text"><div class="item-title">Konsultasi</div><div class="item-desc">Bimbingan ahli</div></div></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Grup: Lainnya --}}
+                    <div class="compact-group relative" data-compact-group>
+                        <button class="compact-group-btn" data-compact-toggle>
+                            <i class="fas fa-ellipsis-h text-cyan-400 text-xs"></i> Lainnya <i class="fas fa-chevron-down text-[7px] ml-1 opacity-50"></i>
+                        </button>
+                        <div class="compact-dropdown" style="right:0;left:auto">
+                            <div class="nav-dropdown-inner" style="min-width:300px">
+                                <a href="{{ route('halaman.sumber-daya') }}" class="dropdown-item"><div class="item-icon bg-cyan-500/10"><i class="fas fa-database text-cyan-400"></i></div><div class="item-text"><div class="item-title">Sumber Daya</div><div class="item-desc">Library & tools</div></div></a>
+                                <a href="{{ route('halaman.keamanan') }}" class="dropdown-item"><div class="item-icon bg-red-500/10"><i class="fas fa-shield-alt text-red-400"></i></div><div class="item-text"><div class="item-title">Keamanan</div><div class="item-desc">ISO 27001</div></div></a>
+                                <a href="{{ route('halaman.langganan') }}" class="dropdown-item"><div class="item-icon bg-amber-500/10"><i class="fas fa-crown text-amber-400"></i></div><div class="item-text"><div class="item-title">Langganan</div><div class="item-desc">Paket premium</div></div></a>
+                                <a href="{{ route('halaman.media') }}" class="dropdown-item"><div class="item-icon bg-rose-500/10"><i class="fas fa-play-circle text-rose-400"></i></div><div class="item-text"><div class="item-title">Media</div><div class="item-desc">Video & audio</div></div></a>
+                                <a href="{{ route('halaman.alur-panduan') }}" class="dropdown-item"><div class="item-icon bg-teal-500/10"><i class="fas fa-project-diagram text-teal-400"></i></div><div class="item-text"><div class="item-title">Panduan</div><div class="item-desc">Alur & SOP</div></div></a>
+                                <a href="{{ route('kerja-sama.index') }}" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-handshake text-yellow-400"></i></div><div class="item-text"><div class="item-title">Kerja Sama</div><div class="item-desc">150+ mitra</div></div></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Semua Menu --}}
+                    <button onclick="bukaSemuaMenu()" class="btn-semua-menu ml-auto" title="Semua menu">
+                        <i class="fas fa-th-large text-[11px]"></i> <span class="hidden xl:inline">Semua</span>
+                    </button>
+                </div>
+
+                {{-- Right Controls --}}
+                <div class="hidden lg:flex items-center gap-1 shrink-0 ml-3">
+                    <button onclick="bukaSearch()" class="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/50 transition" title="Cari"><i class="fas fa-search text-sm"></i></button>
+                    @guest
+                    <a href="{{ route('masuk') }}" class="px-4 py-2 text-xs text-gray-300 hover:text-white bg-kvt-800/50 hover:bg-kvt-700/50 rounded-xl transition font-semibold border border-kvt-700/30"><i class="fas fa-sign-in-alt text-xs text-kvt-400 mr-1"></i> Masuk</a>
+                    <a href="{{ route('daftar') }}" class="px-4 py-2 text-xs bg-gradient-to-r from-kvt-500 to-ungu-500 text-white rounded-xl font-bold shadow-lg shadow-kvt-500/20"><i class="fas fa-user-plus text-xs mr-1"></i> Daftar</a>
+                    @else
+                    <button onclick="toggleUserMenu()" class="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-kvt-800/50 transition">
+                        <div class="w-8 h-8 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
+                    </button>
+                    @endguest
+                </div>
+
+                <button onclick="toggleMobile()" class="lg:hidden ml-auto w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-800/50 transition"><i class="fas fa-bars text-lg"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    {{-- ==================== HEADER 3: CENTER (Logo Center, Menu Below) ==================== --}}
+    <nav class="sticky top-0 w-full z-40 transition-all duration-300 kaca-nav header-block header-center" id="navbar3" data-header="3">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-5">
+            {{-- Row 1: Logo Centered --}}
+            <div class="center-logo-row">
+                <a href="{{ route('beranda') }}" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-gradient-to-br from-kvt-400 via-ungu-500 to-kvt-600 rounded-xl flex items-center justify-center shadow-lg shadow-kvt-500/20 animate-glow">
+                        <span class="text-white font-black text-lg tracking-tight">K</span>
+                    </div>
+                    <span class="text-xl font-extrabold tracking-tight"><span class="text-white">KVT</span><span class="text-kvt-400">Hub</span></span>
+                </a>
+
+                {{-- Right side: Search + Auth (absolute positioned) --}}
+                <div class="hidden lg:flex items-center gap-2 absolute right-5">
+                    <button onclick="bukaSearch()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/50 transition"><i class="fas fa-search text-sm"></i></button>
+                    @guest
+                    <a href="{{ route('masuk') }}" class="px-3 py-1.5 text-xs text-gray-300 bg-kvt-800/50 rounded-lg font-semibold border border-kvt-700/30">Masuk</a>
+                    @else
+                    <button onclick="toggleUserMenu()" class="w-8 h-8 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-lg flex items-center justify-center text-white text-xs font-bold">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</button>
+                    @endguest
+                </div>
+            </div>
+
+            {{-- Row 2: Menu Centered --}}
+            <div class="hidden lg:flex center-menu-row relative">
+                <a href="{{ route('beranda') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-home text-kvt-400 text-[10px]"></i> Beranda</a>
+                <a href="{{ route('halaman.jenjang') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-graduation-cap text-green-400 text-[10px]"></i> Jenjang</a>
+                <a href="{{ route('berita.index') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-newspaper text-emerald-400 text-[10px]"></i> Berita</a>
+                <a href="{{ route('halaman.riset') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-microscope text-purple-400 text-[10px]"></i> Riset</a>
+                <a href="{{ route('halaman.karir') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-briefcase text-orange-400 text-[10px]"></i> Karir</a>
+                <a href="{{ route('halaman.komunitas') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-users text-pink-400 text-[10px]"></i> Komunitas</a>
+                <a href="{{ route('halaman.e-learning') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-laptop text-kvt-400 text-[10px]"></i> E-Learning</a>
+                <a href="{{ route('kerja-sama.index') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-handshake text-yellow-400 text-[10px]"></i> Kerja Sama</a>
+                <a href="{{ route('halaman.keamanan') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-shield-alt text-red-400 text-[10px]"></i> Keamanan</a>
+                <a href="{{ route('tentang') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-landmark text-indigo-400 text-[10px]"></i> Tentang</a>
+                <button onclick="bukaSemuaMenu()" class="nav-link text-xs !py-2 !px-3 text-kvt-400"><i class="fas fa-th-large text-[10px]"></i> Lainnya</button>
+            </div>
+
+            <button onclick="toggleMobile()" class="lg:hidden ml-auto w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-800/50 transition absolute right-4 top-3"><i class="fas fa-bars text-lg"></i></button>
+        </div>
+    </nav>
+
+    {{-- ==================== HEADER 4: CAROUSEL PAGINATED (5 items per page, dots + LAINNYA integrated) ==================== --}}
+    <nav class="sticky top-0 w-full z-40 transition-all duration-300 kaca-nav header-block header-carousel" id="navbar4" data-header="4">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-5">
+            <div class="flex items-center h-[64px] gap-3">
+                {{-- Logo --}}
+                <a href="{{ route('beranda') }}" class="flex items-center gap-2.5 shrink-0 group">
+                    <div class="w-10 h-10 bg-gradient-to-br from-kvt-400 via-ungu-500 to-kvt-600 rounded-xl flex items-center justify-center shadow-lg shadow-kvt-500/20 animate-glow">
+                        <span class="text-white font-black text-lg">K</span>
+                    </div>
+                    <div class="leading-tight hidden md:block">
+                        <span class="text-lg font-extrabold tracking-tight"><span class="text-white">KVT</span><span class="text-kvt-400">Hub</span></span>
+                        <span class="block text-[9px] text-gray-500 tracking-[0.12em] font-semibold">GLOBAL EDUCATION</span>
+                    </div>
+                </a>
+
+                <div class="hidden lg:block w-px h-7 bg-kvt-700/30"></div>
+
+                {{-- Carousel Paginated Menu --}}
+                <div class="hidden lg:flex items-center flex-1 gap-0">
+
+                    {{-- Menu Items Container --}}
+                    <div class="flex-1 overflow-hidden" id="carouselSlider">
+                        <div class="carousel-track" id="carouselTrack">
+                            {{-- Page items will be toggled by JS --}}
+                        </div>
+                    </div>
+
+                    {{-- Unified Nav Pill: Arrows + Dots + Lainnya --}}
+                    <div class="carousel-nav-pill ml-2" id="carouselNavPill">
+                        <button onclick="carouselPrev()" class="carousel-arrow" id="carouselBtnPrev" title="Sebelumnya">
+                            <i class="fas fa-chevron-left text-[8px]"></i>
+                        </button>
+
+                        <div class="flex items-center gap-1.5 px-1" id="carouselDots">
+                            {{-- Dots generated by JS --}}
+                        </div>
+
+                        <button onclick="carouselNext()" class="carousel-arrow" id="carouselBtnNext" title="Berikutnya">
+                            <i class="fas fa-chevron-right text-[8px]"></i>
+                        </button>
+
+                        <div class="w-px h-4 bg-kvt-700/30 mx-1"></div>
+
+                        <button onclick="bukaSemuaMenu()" class="carousel-semua" title="Semua menu">
+                            <i class="fas fa-th-large text-[10px]"></i>
+                            <span class="hidden xl:inline">Lainnya</span>
+                            <span class="carousel-badge" id="carouselBadge">1/4</span>
+                        </button>
+                    </div>
+                </div>
+
+                {{-- Right Controls --}}
+                <div class="hidden lg:flex items-center gap-1 shrink-0">
+                    <button onclick="bukaSearch()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/50 transition"><i class="fas fa-search text-sm"></i></button>
+                    @guest
+                    <a href="{{ route('masuk') }}" class="px-3 py-1.5 text-xs text-gray-300 bg-kvt-800/50 rounded-lg font-semibold border border-kvt-700/30">Masuk</a>
+                    <a href="{{ route('daftar') }}" class="px-3 py-1.5 text-xs bg-gradient-to-r from-kvt-500 to-ungu-500 text-white rounded-lg font-bold shadow-lg shadow-kvt-500/20">Daftar</a>
+                    @else
+                    <button onclick="toggleUserMenu()" class="w-8 h-8 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-lg flex items-center justify-center text-white text-xs font-bold">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</button>
+                    @endguest
+                </div>
+
+                <button onclick="toggleMobile()" class="lg:hidden ml-auto w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-800/50 transition"><i class="fas fa-bars text-lg"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    {{-- ==================== KOTAK SARAN POPUP ==================== --}}
+    <div id="saranOverlay" class="fixed inset-0 z-[90] hidden" style="backdrop-filter:blur(20px);background:rgba(2,16,41,0.92)">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-kvt-900/95 border border-kvt-700/30 rounded-3xl shadow-2xl shadow-black/50 w-full max-w-2xl popup-enter" style="border-radius:24px">
+                {{-- Header --}}
+                <div class="bg-gradient-to-r from-kvt-600 to-ungu-600 p-5 flex items-center justify-between" style="border-radius:24px 24px 0 0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-comment-dots text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-bold text-lg">Kotak Saran & Masukan</h3>
+                            <p class="text-white/70 text-xs">Bantu kami menjadi lebih baik</p>
+                        </div>
+                    </div>
+                    <button onclick="tutupSaranPopup()" class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                {{-- Body --}}
+                <form id="formSaran" onsubmit="kirimSaran(event)" class="p-6 space-y-5">
+                    {{-- Kategori --}}
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-2"><i class="fas fa-tag text-kvt-400 mr-1.5"></i>Kategori Saran</label>
+                        <div class="flex flex-wrap gap-2">
+                            @php $kategori = ['Fitur Baru','Bug / Error','Tampilan / UI','Konten','Performa','Lainnya']; @endphp
+                            @foreach($kategori as $i => $kat)
+                            <label class="cursor-pointer">
+                                <input type="radio" name="kategori_saran" value="{{ $kat }}" class="hidden peer" {{ $i === 0 ? 'checked' : '' }}>
+                                <span class="inline-block px-4 py-2 text-xs font-semibold rounded-xl border border-kvt-700/30 text-gray-400 bg-kvt-800/30 peer-checked:bg-kvt-600 peer-checked:text-white peer-checked:border-kvt-500 transition cursor-pointer hover:bg-kvt-800/50">{{ $kat }}</span>
+                            </label>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    {{-- Pesan --}}
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-2"><i class="fas fa-pencil-alt text-kvt-400 mr-1.5"></i>Pesan / Saran Anda</label>
+                        <textarea id="saranInput" rows="5" class="w-full bg-kvt-800/50 border border-kvt-700/30 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 resize-none transition" placeholder="Tuliskan saran, masukan, atau laporan bug Anda disini... Semakin detail semakin baik!"></textarea>
+                        <p class="text-[11px] text-gray-600 mt-1 flex items-center gap-1"><i class="fas fa-info-circle"></i> Minimal 10 karakter</p>
+                    </div>
+
+                    {{-- Lampiran --}}
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-2"><i class="fas fa-paperclip text-kvt-400 mr-1.5"></i>Lampiran (Opsional)</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {{-- Dokumen --}}
+                            <label class="cursor-pointer group">
+                                <input type="file" id="saranDokumen" accept=".pdf,.doc,.docx,.txt,.xlsx,.csv" class="hidden" onchange="tampilNamaFile(this,'saranDokNama')">
+                                <div class="flex items-center gap-3 bg-kvt-800/30 border border-dashed border-kvt-700/40 rounded-xl px-4 py-3 group-hover:border-kvt-500/50 group-hover:bg-kvt-800/50 transition">
+                                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-file-alt text-blue-400"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <span class="text-xs font-semibold text-gray-300 block">Upload Dokumen</span>
+                                        <span id="saranDokNama" class="text-[10px] text-gray-500 truncate block">PDF, DOC, XLSX, TXT (Maks 5MB)</span>
+                                    </div>
+                                </div>
+                            </label>
+                            {{-- Video/Gambar --}}
+                            <label class="cursor-pointer group">
+                                <input type="file" id="saranMedia" accept="image/*,video/*" class="hidden" onchange="tampilNamaFile(this,'saranMediaNama')">
+                                <div class="flex items-center gap-3 bg-kvt-800/30 border border-dashed border-kvt-700/40 rounded-xl px-4 py-3 group-hover:border-kvt-500/50 group-hover:bg-kvt-800/50 transition">
+                                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0">
+                                        <i class="fas fa-photo-video text-purple-400"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <span class="text-xs font-semibold text-gray-300 block">Upload Media</span>
+                                        <span id="saranMediaNama" class="text-[10px] text-gray-500 truncate block">Gambar / Video (Maks 20MB)</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    {{-- Kontak balik --}}
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-2"><i class="fas fa-envelope text-kvt-400 mr-1.5"></i>Email (Opsional)</label>
+                        <input type="email" id="saranEmail" class="w-full bg-kvt-800/50 border border-kvt-700/30 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 outline-none focus:border-kvt-500 focus:ring-2 focus:ring-kvt-500/20 transition" placeholder="email@contoh.com — untuk respon balik dari tim">
+                    </div>
+
+                    {{-- Tombol Kirim --}}
+                    <div class="flex items-center justify-between pt-2">
+                        <p class="text-[11px] text-gray-600"><i class="fas fa-lock mr-1"></i>Saran Anda bersifat rahasia</p>
+                        <button type="submit" id="btnKirimSaran" class="bg-gradient-to-r from-kvt-500 to-ungu-500 hover:from-kvt-400 hover:to-ungu-400 text-white px-8 py-3 rounded-xl font-bold transition shadow-lg shadow-kvt-500/20 hover:shadow-kvt-500/30 flex items-center gap-2 text-sm">
+                            <i class="fas fa-paper-plane"></i> Kirim Saran
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     {{-- ==================== SEARCH ENGINE POPUP ==================== --}}
     <div id="searchOverlay" class="fixed inset-0 z-[100] hidden search-overlay">
@@ -2185,11 +2667,6 @@
                             <button onclick="navPindahHalaman(2)" class="nav-page-tab" data-page="2">3</button>
                             <button onclick="navPindahHalaman(3)" class="nav-page-tab" data-page="3">4</button>
                             <button onclick="navPindahHalaman(4)" class="nav-page-tab" data-page="4">5</button>
-                            <button onclick="navPindahHalaman(5)" class="nav-page-tab" data-page="5">6</button>
-                            <button onclick="navPindahHalaman(6)" class="nav-page-tab" data-page="6">7</button>
-                            <button onclick="navPindahHalaman(7)" class="nav-page-tab" data-page="7">8</button>
-                            <button onclick="navPindahHalaman(8)" class="nav-page-tab" data-page="8">9</button>
-                            <button onclick="navPindahHalaman(9)" class="nav-page-tab" data-page="9">10</button>
                         </div>
                         <button onclick="navMundur()" class="nav-page-arrow ml-1" title="Sebelumnya" id="navBtnAtas"><i class="fas fa-chevron-left text-[9px]"></i></button>
                         <button onclick="navMaju()" class="nav-page-arrow" title="Berikutnya" id="navBtnBawah"><i class="fas fa-chevron-right text-[9px]"></i></button>
@@ -2557,13 +3034,11 @@
                         <li class="flex items-center gap-2"><i class="fas fa-envelope text-kvt-400 text-[11px] w-4"></i> support@kvthub.id</li>
                     </ul>
 
-                    {{-- Kotak Saran --}}
-                    <div class="mt-5 bg-kvt-900/60 border border-kvt-700/30 rounded-xl p-4">
-                        <h5 class="text-xs font-bold text-white mb-2 flex items-center gap-1.5"><i class="fas fa-comment-dots text-kvt-400 text-[10px]"></i>Kotak Saran</h5>
-                        <form onsubmit="kirimSaran(event)">
-                            <textarea id="saranInput" rows="2" class="w-full bg-kvt-800/50 border border-kvt-700/30 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-500 outline-none focus:border-kvt-500 resize-none transition" placeholder="Tulis saran Anda..."></textarea>
-                            <button type="submit" class="mt-2 w-full text-[11px] bg-kvt-600 hover:bg-kvt-500 text-white px-3 py-2 rounded-lg transition font-semibold"><i class="fas fa-paper-plane mr-1"></i>Kirim</button>
-                        </form>
+                    {{-- Kotak Saran - Tombol Buka Popup --}}
+                    <div class="mt-5">
+                        <button onclick="bukaSaranPopup()" class="w-full bg-gradient-to-r from-kvt-600 to-ungu-600 hover:from-kvt-500 hover:to-ungu-500 text-white px-4 py-3 rounded-xl transition font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-kvt-500/20 hover:shadow-kvt-500/30 hover:-translate-y-0.5 active:translate-y-0">
+                            <i class="fas fa-comment-dots"></i> Kotak Saran & Masukan
+                        </button>
                     </div>
                 </div>
 
@@ -3016,6 +3491,82 @@
             {{-- ===== PANEL: TEMA ===== --}}
             <div class="stg-panel p-5 space-y-4 hidden" id="panel-tema">
                 <h4 class="text-xs text-gray-400 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-palette text-purple-400"></i>Tema & Warna</h4>
+
+                {{-- Gaya Header --}}
+                <div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2"><i class="fas fa-columns mr-1"></i>Gaya Header / Navbar</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        {{-- Header 1: Default --}}
+                        <button onclick="gantiHeader(1)" class="header-style-card aktif" data-header-card="1">
+                            <div class="preview-bar">
+                                <div class="w-4 h-4 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded flex-shrink-0" style="border-radius:3px"></div>
+                                <div class="flex gap-0.5 flex-1 ml-1">
+                                    <div class="h-1.5 w-5 bg-gray-600 rounded-sm"></div>
+                                    <div class="h-1.5 w-5 bg-gray-600 rounded-sm"></div>
+                                    <div class="h-1.5 w-5 bg-gray-600 rounded-sm"></div>
+                                    <div class="h-1.5 w-3 bg-kvt-500/40 rounded-sm ml-auto"></div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-gray-400 font-bold">Default</span>
+                            <p class="text-[8px] text-gray-600">Horizontal + Pagination</p>
+                        </button>
+
+                        {{-- Header 2: Compact --}}
+                        <button onclick="gantiHeader(2)" class="header-style-card" data-header-card="2">
+                            <div class="preview-bar">
+                                <div class="w-4 h-4 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded flex-shrink-0" style="border-radius:3px"></div>
+                                <div class="flex gap-0.5 flex-1 ml-1">
+                                    <div class="h-1.5 w-6 bg-kvt-500/30 rounded-sm border border-kvt-600/20"></div>
+                                    <div class="h-1.5 w-6 bg-kvt-500/30 rounded-sm border border-kvt-600/20"></div>
+                                    <div class="h-1.5 w-6 bg-kvt-500/30 rounded-sm border border-kvt-600/20"></div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-gray-400 font-bold">Compact</span>
+                            <p class="text-[8px] text-gray-600">Grouped Dropdowns</p>
+                        </button>
+
+                        {{-- Header 3: Center --}}
+                        <button onclick="gantiHeader(3)" class="header-style-card" data-header-card="3">
+                            <div class="preview-bar flex-col !h-auto !p-1 gap-1">
+                                <div class="flex items-center justify-center gap-1 w-full">
+                                    <div class="w-3 h-3 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded" style="border-radius:2px"></div>
+                                    <div class="h-1 w-6 bg-gray-500 rounded-sm"></div>
+                                </div>
+                                <div class="flex gap-0.5 justify-center w-full">
+                                    <div class="h-1 w-4 bg-gray-600 rounded-sm"></div>
+                                    <div class="h-1 w-4 bg-gray-600 rounded-sm"></div>
+                                    <div class="h-1 w-4 bg-gray-600 rounded-sm"></div>
+                                    <div class="h-1 w-4 bg-gray-600 rounded-sm"></div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-gray-400 font-bold">Center</span>
+                            <p class="text-[8px] text-gray-600">Logo Tengah + Menu Bawah</p>
+                        </button>
+
+                        {{-- Header 4: Carousel --}}
+                        <button onclick="gantiHeader(4)" class="header-style-card" data-header-card="4">
+                            <div class="preview-bar">
+                                <div class="w-4 h-4 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded flex-shrink-0" style="border-radius:3px"></div>
+                                <div class="flex gap-0.5 flex-1 ml-1 items-center">
+                                    <div class="h-1.5 w-5 bg-kvt-500/40 rounded-sm"></div>
+                                    <div class="h-1.5 w-5 bg-kvt-500/40 rounded-sm"></div>
+                                    <div class="h-1.5 w-5 bg-kvt-500/40 rounded-sm"></div>
+                                    <div class="h-1.5 w-5 bg-kvt-500/40 rounded-sm"></div>
+                                    <div class="h-1.5 w-5 bg-kvt-500/40 rounded-sm"></div>
+                                </div>
+                                <div class="flex gap-0.5 ml-auto items-center">
+                                    <div class="w-1.5 h-1.5 bg-kvt-500/30 rounded-full"></div>
+                                    <div class="w-3 h-1.5 bg-gradient-to-r from-kvt-500 to-ungu-500 rounded-full"></div>
+                                    <div class="w-1.5 h-1.5 bg-kvt-500/30 rounded-full"></div>
+                                    <div class="w-1.5 h-1.5 bg-kvt-500/30 rounded-full"></div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-gray-400 font-bold">Carousel</span>
+                            <p class="text-[8px] text-gray-600">5 Menu + Dots + Lainnya</p>
+                        </button>
+                    </div>
+                </div>
+
                 <div>
                     <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Warna Aksen</p>
                     <div class="grid grid-cols-6 gap-2">
@@ -3385,15 +3936,157 @@
 
         // Navbar shadow on scroll
         window.addEventListener('scroll', function() {
-            const n = document.getElementById('navbar');
-            if(window.scrollY > 20) {
-                n.classList.add('shadow-lg','shadow-kvt-950/50');
-                n.style.borderColor = 'rgba(51,153,255,0.15)';
-            } else {
-                n.classList.remove('shadow-lg','shadow-kvt-950/50');
-                n.style.borderColor = '';
+            const activeNav = document.querySelector('.header-block.header-aktif');
+            if(activeNav && window.scrollY > 20) {
+                activeNav.classList.add('shadow-lg','shadow-kvt-950/50');
+                activeNav.style.borderColor = 'rgba(51,153,255,0.15)';
+            } else if(activeNav) {
+                activeNav.classList.remove('shadow-lg','shadow-kvt-950/50');
+                activeNav.style.borderColor = '';
             }
         });
+
+        // ========================
+        // HEADER STYLE SWITCHER
+        // ========================
+        function gantiHeader(num) {
+            // Hide all headers
+            document.querySelectorAll('.header-block').forEach(h => {
+                h.classList.remove('header-aktif');
+            });
+            // Show selected
+            const target = document.querySelector('[data-header="'+num+'"]');
+            if (target) target.classList.add('header-aktif');
+
+            // Update settings cards
+            document.querySelectorAll('.header-style-card').forEach(c => c.classList.remove('aktif'));
+            const card = document.querySelector('[data-header-card="'+num+'"]');
+            if (card) card.classList.add('aktif');
+
+            // Save preference
+            localStorage.setItem('kvt_header_style', num);
+
+            // Toast notification
+            const names = {1:'Default',2:'Compact',3:'Center',4:'Vertikal'};
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-20 right-4 z-[200] bg-kvt-500/90 backdrop-blur text-white px-5 py-2.5 rounded-xl shadow-lg text-sm font-semibold flex items-center gap-2';
+            toast.innerHTML = '<i class="fas fa-columns"></i> Header: ' + (names[num]||'Default');
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.transition='opacity 0.3s';toast.style.opacity='0';setTimeout(()=>toast.remove(),300) }, 1500);
+        }
+
+        // Load saved header on init
+        (function(){
+            const saved = parseInt(localStorage.getItem('kvt_header_style')) || 1;
+            if (saved !== 1) gantiHeader(saved);
+        })();
+
+        // ========================
+        // HEADER 2: COMPACT DROPDOWN LOGIC
+        // ========================
+        document.querySelectorAll('[data-compact-toggle]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const group = this.closest('[data-compact-group]');
+                const wasOpen = group.classList.contains('open');
+
+                // Close all compact groups
+                document.querySelectorAll('[data-compact-group]').forEach(g => g.classList.remove('open'));
+
+                if (!wasOpen) group.classList.add('open');
+            });
+        });
+
+        // Close compact dropdowns on click outside
+        document.addEventListener('click', function() {
+            document.querySelectorAll('[data-compact-group]').forEach(g => g.classList.remove('open'));
+        });
+
+        // ========================
+        // HEADER 4: CAROUSEL PAGINATED LOGIC
+        // ========================
+        const carouselMenuData = [
+            { label: 'Beranda', icon: 'fa-home', color: 'text-kvt-400', url: '{{ route("beranda") }}' },
+            { label: 'Jenjang', icon: 'fa-graduation-cap', color: 'text-green-400', url: '{{ route("halaman.jenjang") }}' },
+            { label: 'Berita', icon: 'fa-newspaper', color: 'text-emerald-400', url: '{{ route("berita.index") }}' },
+            { label: 'Riset', icon: 'fa-microscope', color: 'text-purple-400', url: '{{ route("halaman.riset") }}' },
+            { label: 'Karir', icon: 'fa-briefcase', color: 'text-orange-400', url: '{{ route("halaman.karir") }}' },
+            { label: 'Komunitas', icon: 'fa-users', color: 'text-pink-400', url: '{{ route("halaman.komunitas") }}' },
+            { label: 'E-Learning', icon: 'fa-laptop', color: 'text-kvt-400', url: '{{ route("halaman.e-learning") }}' },
+            { label: 'Kerja Sama', icon: 'fa-handshake', color: 'text-yellow-400', url: '{{ route("kerja-sama.index") }}' },
+            { label: 'Sertifikasi', icon: 'fa-award', color: 'text-yellow-400', url: '{{ route("halaman.sertifikasi") }}' },
+            { label: 'Keamanan', icon: 'fa-shield-alt', color: 'text-red-400', url: '{{ route("halaman.keamanan") }}' },
+            { label: 'Kurikulum', icon: 'fa-book-reader', color: 'text-indigo-400', url: '{{ route("halaman.kurikulum") }}' },
+            { label: 'Webinar', icon: 'fa-video', color: 'text-red-400', url: '{{ route("halaman.webinar") }}' },
+            { label: 'Workshop', icon: 'fa-tools', color: 'text-green-400', url: '{{ route("halaman.workshop") }}' },
+            { label: 'Forum', icon: 'fa-comments', color: 'text-indigo-400', url: '{{ route("halaman.forum") }}' },
+            { label: 'Media', icon: 'fa-play-circle', color: 'text-rose-400', url: '{{ route("halaman.media") }}' },
+            { label: 'Sumber Daya', icon: 'fa-database', color: 'text-cyan-400', url: '{{ route("halaman.sumber-daya") }}' },
+            { label: 'Tentang', icon: 'fa-landmark', color: 'text-purple-400', url: '{{ route("tentang") }}' },
+            { label: 'Langganan', icon: 'fa-crown', color: 'text-amber-400', url: '{{ route("halaman.langganan") }}' },
+            { label: 'Panduan', icon: 'fa-project-diagram', color: 'text-teal-400', url: '{{ route("halaman.alur-panduan") }}' },
+        ];
+        const CAROUSEL_PER_PAGE = 5;
+        let carouselPage = 0;
+        const carouselTotalPages = Math.ceil(carouselMenuData.length / CAROUSEL_PER_PAGE);
+
+        function carouselRender(page) {
+            const track = document.getElementById('carouselTrack');
+            const dots = document.getElementById('carouselDots');
+            const badge = document.getElementById('carouselBadge');
+            if (!track) return;
+
+            carouselPage = page;
+            const start = page * CAROUSEL_PER_PAGE;
+            const items = carouselMenuData.slice(start, start + CAROUSEL_PER_PAGE);
+
+            // Render menu items
+            track.innerHTML = items.map((m, i) =>
+                `<a href="${m.url}" class="carousel-item nav-link text-xs !py-2 !px-3" style="animation-delay:${i*0.05}s">`+
+                `<i class="fas ${m.icon} ${m.color} text-[11px]"></i> ${m.label}</a>`
+            ).join('');
+
+            // Render dots
+            if (dots) {
+                dots.innerHTML = '';
+                for (let i = 0; i < carouselTotalPages; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'carousel-dot' + (i === page ? ' aktif' : '');
+                    dot.title = 'Halaman ' + (i+1);
+                    dot.onclick = () => carouselRender(i);
+                    dots.appendChild(dot);
+                }
+            }
+
+            // Update badge
+            if (badge) badge.textContent = (page+1) + '/' + carouselTotalPages;
+
+            // Update arrows
+            const prev = document.getElementById('carouselBtnPrev');
+            const next = document.getElementById('carouselBtnNext');
+            if (prev) prev.disabled = page === 0;
+            if (next) next.disabled = page >= carouselTotalPages - 1;
+        }
+
+        function carouselPrev() {
+            if (carouselPage > 0) carouselRender(carouselPage - 1);
+        }
+
+        function carouselNext() {
+            if (carouselPage < carouselTotalPages - 1) carouselRender(carouselPage + 1);
+        }
+
+        // Init carousel
+        carouselRender(0);
+
+        // Mouse wheel on carousel
+        const carouselSlider = document.getElementById('carouselSlider');
+        if (carouselSlider) {
+            carouselSlider.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                if (e.deltaY > 0) carouselNext(); else carouselPrev();
+            }, { passive: false });
+        }
 
         // Snow
         function buatSalju() {
@@ -3524,28 +4217,26 @@
         // ========================
         // NAV PAGINATION (Scroll Up/Down)
         // ========================
-        const ITEMS_PER_PAGE = 4;
+        const ITEMS_PER_PAGE = 8;
         let currentNavPage = 0;
-        let totalNavPages = 10;
+        let totalNavPages = 5;
 
-        // Default page assignments (40 menus / 4 per page = 10 pages)
+        // Default page assignments (40 menus / 8 per page = 5 pages)
         const defaultPageMap = {
-            'beranda':0,'jenjang':0,'platform':0,'kerjasama':0,
-            'berita':1,'tentang':1,'riset':1,'karir':1,
-            'komunitas':2,'sertifikasi':2,'langganan':2,'sumberdaya':2,
-            'keamanan':3,'kurikulum':3,'panduan':3,'media':3,
-            'dokumen':4,'bantuan':4,'edukasi':4,'statistik':4,
-            'layanan':5,'webinar':5,'beasiswa':5,'laboratorium':5,
-            'perpustakaan':6,'forum':6,'mentoring':6,'magang':6,
-            'alumni':7,'portofolio':7,'kompetisi':7,'workshop':7,
-            'jurnal':8,'podcast':8,'pelatihan':8,'konsultasi':8,
-            'elearning':9,'akreditasi':9,'galeri':9,'pengumuman':9
+            'beranda':0,'jenjang':0,'platform':0,'kerjasama':0,'berita':0,'tentang':0,'riset':0,'karir':0,
+            'komunitas':1,'sertifikasi':1,'langganan':1,'sumberdaya':1,'keamanan':1,'kurikulum':1,'panduan':1,'media':1,
+            'dokumen':2,'bantuan':2,'edukasi':2,'statistik':2,'layanan':2,'webinar':2,'beasiswa':2,'laboratorium':2,
+            'perpustakaan':3,'forum':3,'mentoring':3,'magang':3,'alumni':3,'portofolio':3,'kompetisi':3,'workshop':3,
+            'jurnal':4,'podcast':4,'pelatihan':4,'konsultasi':4,'elearning':4,'akreditasi':4,'galeri':4,'pengumuman':4
         };
 
         function getPageMap() {
             try {
                 const saved = localStorage.getItem('kvt_nav_pages');
-                if (saved) return JSON.parse(saved);
+                const ver = localStorage.getItem('kvt_nav_ver');
+                if (saved && ver === '2') return JSON.parse(saved);
+                // Clear old format
+                localStorage.removeItem('kvt_nav_pages');
             } catch(e) {}
             return {...defaultPageMap};
         }
@@ -3601,6 +4292,23 @@
             // Update badge on Lainnya button
             const badge = document.getElementById('navPageBadge');
             if (badge) badge.textContent = (currentNavPage + 1) + '/' + totalNavPages;
+            // Update dot indicators
+            const dotsContainer = document.getElementById('navDotIndicators');
+            if (dotsContainer) {
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < totalNavPages; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'nav-dot' + (i === currentNavPage ? ' aktif' : '');
+                    dot.title = 'Halaman ' + (i + 1);
+                    dot.onclick = () => renderNavPage(i);
+                    dotsContainer.appendChild(dot);
+                }
+            }
+            // Disable/enable arrow buttons
+            const prevBtn = document.getElementById('navBtnPrev');
+            const nextBtn = document.getElementById('navBtnNext');
+            if (prevBtn) prevBtn.disabled = currentNavPage === 0;
+            if (nextBtn) nextBtn.disabled = currentNavPage >= totalNavPages - 1;
         }
 
         // Navigate to specific page (called from popup tabs)
@@ -3683,7 +4391,7 @@
                     <i class="fas ${menuIcons[id] || 'fa-circle'} text-kvt-400 text-xs w-4 text-center"></i>
                     <span class="text-white text-xs font-medium flex-1">${menuLabels[id]}</span>
                     <select data-kustom-id="${id}" class="bg-kvt-900 border border-kvt-700/30 text-white text-[11px] rounded-lg px-2 py-1 focus:outline-none focus:border-kvt-400 cursor-pointer" onchange="tandaiKustomBerubah()">
-                        ${[0,1,2,3,4,5,6,7,8,9].map(p => `<option value="${p}" ${page===p?'selected':''}>Hal ${p+1}</option>`).join('')}
+                        ${Array.from({length:totalNavPages},(_,p) => `<option value="${p}" ${page===p?'selected':''}>Hal ${p+1}</option>`).join('')}
                     </select>
                 `;
                 grid.appendChild(card);
@@ -3700,6 +4408,7 @@
                 map[sel.dataset.kustomId] = parseInt(sel.value);
             });
             localStorage.setItem('kvt_nav_pages', JSON.stringify(map));
+            localStorage.setItem('kvt_nav_ver', '2');
             applyPageMap();
             renderNavPage(0);
             kustomBerubah = false;
@@ -3973,7 +4682,29 @@
         document.getElementById('popupBerita').addEventListener('click',function(e){if(e.target===this) tutupPopupBerita()});
         tampilkanPopupBerita();
 
-        function kirimSaran(e){e.preventDefault();const i=document.getElementById('saranInput');if(i.value.trim()){i.value='';alert('Terima kasih atas saran Anda! Tim KVT akan meninjau masukan ini.')}}
+        function kirimSaran(e){
+            e.preventDefault();
+            const inp=document.getElementById('saranInput');
+            const email=document.getElementById('saranEmail');
+            const kat=document.querySelector('input[name="kategori_saran"]:checked');
+            if(!inp.value.trim()||inp.value.trim().length<10){alert('Pesan saran minimal 10 karakter.');inp.focus();return}
+            const btn=document.getElementById('btnKirimSaran');
+            btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+            setTimeout(()=>{
+                inp.value='';if(email)email.value='';
+                const dokInp=document.getElementById('saranDokumen');const medInp=document.getElementById('saranMedia');
+                if(dokInp)dokInp.value='';if(medInp)medInp.value='';
+                document.getElementById('saranDokNama').textContent='PDF, DOC, XLSX, TXT (Maks 5MB)';
+                document.getElementById('saranMediaNama').textContent='Gambar / Video (Maks 20MB)';
+                btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane"></i> Kirim Saran';
+                tutupSaranPopup();
+                alert('Terima kasih atas saran Anda! Tim KVT akan meninjau masukan ini dan menghubungi Anda jika perlu.');
+            },1500);
+        }
+        function bukaSaranPopup(){document.getElementById('saranOverlay').classList.remove('hidden');document.body.style.overflow='hidden'}
+        function tutupSaranPopup(){document.getElementById('saranOverlay').classList.add('hidden');document.body.style.overflow=''}
+        function tampilNamaFile(inp,targetId){const n=inp.files[0]?inp.files[0].name:'Tidak ada file';document.getElementById(targetId).textContent=n;document.getElementById(targetId).classList.add('text-kvt-400');document.getElementById(targetId).classList.remove('text-gray-500')}
+        document.getElementById('saranOverlay').addEventListener('click',function(e){if(e.target===this) tutupSaranPopup()});
 
         // ========================
         // LED DOT MATRIX PANEL

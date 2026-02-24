@@ -20,7 +20,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Halaman-130+-blueviolet" alt="130+ Halaman">
+  <img src="https://img.shields.io/badge/Halaman-174+-blueviolet" alt="174+ Halaman">
   <img src="https://img.shields.io/badge/Menu-40-teal" alt="40 Menu">
   <img src="https://img.shields.io/badge/Roles-7-crimson" alt="7 Roles">
   <img src="https://img.shields.io/badge/Sidebar-Role--Based-purple" alt="Sidebar">
@@ -70,7 +70,7 @@
 |-------|-----------|
 | 🎓 **13 Jenjang** | TK, SD, SMP, SMA, SMK (3 jurusan), D1-D3, S1, S2, S3, Post-Doc, Profesi |
 | 👥 **7 Peran** | Admin, Staff, Guru, Siswa, Mahasiswa, Orang Tua, Pengunjung |
-| 📄 **130+ Halaman** | 82 landing publik + 48 halaman dashboard/panel |
+| 📄 **174+ Halaman** | 80+ landing publik + 90+ halaman dashboard/panel |
 | 🎮 **Gamifikasi RPG** | 100 level, 10 rank, XP system, achievement badges |
 | 🎵 **Music Player** | 5 stasiun radio streaming (Lo-Fi, Jazz, Deep House, Ambient, Classical) |
 | 💡 **LED Dot Matrix** | Panel LED hijau neon, 5 mode (Shalat, Waktu Dunia, Motivasi, Info, Kustom) |
@@ -92,42 +92,108 @@
 - 🖱️ **Scroll Navbar** — Navigasi antar halaman menu langsung dari navbar dengan tombol panah & mouse wheel
 - 🔄 **Header & Footer Sinkron** — Data footer diperbarui sesuai header (versi, menu, link)
 - 🎯 **Menu Kustomisasi** — Atur menu ke 10 halaman berbeda
+- 🏗️ **Split Header 2-Row** — Header 1 dipecah: top row (Auth/Search/Notif) + bottom row (Menu navigasi)
+- 🎠 **Header 4 Carousel** — Menu carousel paginated dengan dots indicator + tombol LAINNYA
+- 📬 **Kotak Saran Popup** — Saran di footer jadi popup besar dengan upload dokumen & video
+- 📜 **Kuro Dokumen Resmi** — Halaman Kuro punya popup dokumen resmi lengkap dengan tanda tangan
+- 🎯 **Visi Misi Tujuan** — Beranda diperluas: section visi-misi-tujuan + pilar detail
+- 📊 **Chart Fungsional** — Admin dashboard dengan Chart.js (bar+line & doughnut) + data real
+- 📥 **Ekspor CSV/Excel** — Fitur ekspor data pengguna ke CSV dari admin panel
 
 > 📋 **Changelog lengkap v1.0 — v8.0:** [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
-## 🏗️ Arsitektur
+## 🏗️ Arsitektur & Flowchart
+
+### Arsitektur Sistem
 
 ```
-┌─────────────────────────────────────────────────┐
-│               Browser (Client)                   │
-│  Tailwind CSS · Chart.js · Font Awesome · AOS   │
-└──────────────────────┬──────────────────────────┘
-                       │ HTTP
-                       ▼
-┌─────────────────────────────────────────────────┐
-│              Laravel 11 Router                   │
-│  web.php · admin.php · pengajar.php · staff.php │
-│  Middleware: auth, peran:{role}, CatatPengunjung │
-└──────────────────────┬──────────────────────────┘
-                       │
-          ┌────────────┼────────────┐
-          ▼            ▼            ▼
-   ┌────────────┐ ┌─────────┐ ┌─────────┐
-   │ Controller │ │  Model  │ │  View   │
-   │  28 total  │ │ 25+ ORM │ │ Blade   │
-   │            │ │         │ │ 130+    │
-   │ Admin (14) │ │ User    │ │ halaman │
-   │ Publik (4) │ │ Kelas   │ │         │
-   │ Auth   (3) │ │ Krs     │ │ 4 layout│
-   │ Role   (7) │ │ Nilai   │ │ sidebar │
-   └──────┬─────┘ └────┬────┘ └─────────┘
-          │             │
-          │        ┌────┴────┐
-          └───────>│PostgreSQL│
-                   │ 20+ tbl │
-                   └─────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    Browser (Client)                          │
+│   Tailwind CSS · Chart.js v4 · Font Awesome · AOS · html2canvas │
+└────────────────────────────┬────────────────────────────────┘
+                             │ HTTP / HTTPS
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    Laravel 11 Router                          │
+│   web.php · admin.php · pengajar.php · staff.php · pengguna.php │
+│   Middleware: auth, cek.peran:{role}, CatatPengunjung          │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+          ┌──────────────────┼──────────────────┐
+          ▼                  ▼                  ▼
+   ┌─────────────┐   ┌────────────┐    ┌────────────┐
+   │  Controller  │   │   Model    │    │   View     │
+   │   49 total   │   │  36 ORM   │    │  Blade     │
+   │              │   │            │    │  174 files │
+   │ Admin   (14) │   │ User      │    │            │
+   │ Pengajar (6) │   │ Kelas     │    │ 4 layouts  │
+   │ Staff    (4) │   │ Krs/KHS   │    │ 4 headers  │
+   │ Pengguna (6) │   │ Laporan   │    │ 4 sidebars │
+   │ Publik  (19) │   │ Nilai     │    │ 80+ pages  │
+   └──────┬───────┘   └─────┬─────┘    └────────────┘
+          │                  │
+          │             ┌────┴────┐
+          └────────────>│PostgreSQL│
+                        │ 25+ tbl │
+                        └─────────┘
+```
+
+### User Flow (Alur Pengguna)
+
+```
+                    ┌──────────────┐
+                    │   Pengunjung  │
+                    └──────┬───────┘
+                           │
+                    ┌──────▼───────┐
+                    │  Beranda /   │
+                    │  Landing Page │
+                    └──────┬───────┘
+                           │
+               ┌───────────┼───────────┐
+               ▼           │           ▼
+        ┌────────────┐     │    ┌────────────┐
+        │   Daftar   │     │    │   Masuk    │
+        │  (Register) │     │    │   (Login)  │
+        └──────┬─────┘     │    └──────┬─────┘
+               │           │           │
+               └───────────┼───────────┘
+                           │
+                    ┌──────▼───────┐
+                    │  Verifikasi  │
+                    │    Email     │
+                    └──────┬───────┘
+                           │
+              ┌────────────┼────────────────┐
+              ▼            ▼                ▼
+       ┌──────────┐ ┌──────────┐    ┌──────────┐
+       │  Admin   │ │ Pengajar │    │ Pengguna │
+       │ Dashboard│ │ Dashboard│    │ Dashboard│
+       └────┬─────┘ └────┬─────┘    └────┬─────┘
+            │             │               │
+     ┌──────┼──────┐   ┌──┼──┐      ┌────┼────┐
+     ▼      ▼      ▼   ▼  ▼  ▼      ▼    ▼    ▼
+   CRUD  Chart  Ekspor Kelas Kuis   KRS  Materi Level
+   User  Stats  Excel  Mgmt  Mgmt   KHS  Progres System
+```
+
+### Header Navigation Flow (v8.0 — Split 2-Row)
+
+```
+┌──────────────────────────────────────────────────────┐
+│ TOP ROW:  [Logo]  ────────   [🔍] [🔔] [Masuk|Daftar] │
+├──────────────────────────────────────────────────────┤
+│ BTM ROW:  [◀][Menu1|Menu2|Menu3|Menu4|Menu5][▶] dots │
+│           Paginated: 5 items/page, 4 pages           │
+└──────────────────────────────────────────────────────┘
+
+4 Header Styles (switchable via ⚙️ Settings):
+  ├── Header 1: Default (Split 2-Row — Top: Auth, Bottom: Menu)
+  ├── Header 2: Compact (Grouped Dropdowns)
+  ├── Header 3: Center (Centered Navigation)
+  └── Header 4: Carousel (Paginated with Dots + LAINNYA)
 ```
 
 > 🏗️ **Diagram lengkap (ERD, Use Case, Flowchart, Class Diagram):** [docs/ALUR.md](docs/ALUR.md)
@@ -240,39 +306,132 @@ php artisan view:cache
 
 ---
 
-## 📂 Struktur Proyek
+## 📂 Struktur Proyek (Tree)
 
 ```
 kvt-hub/
 ├── app/
-│   ├── Http/Controllers/       # 28 controllers
-│   │   ├── Admin/              # 14 admin CRUD controllers
-│   │   ├── Pengajar/           # Pengajar controllers
-│   │   ├── Staff/              # Staff controllers
-│   │   └── Pengguna/           # Pengguna controllers
-│   ├── Models/                 # 25+ Eloquent models
-│   └── Middleware/             # CekPeran, CatatPengunjung
+│   ├── Http/
+│   │   ├── Controllers/                    # 49 controllers total
+│   │   │   ├── Admin/                      # 14 admin CRUD controllers
+│   │   │   │   ├── DasborController.php    #   Dashboard + Chart + Ekspor Excel
+│   │   │   │   ├── PenggunaController.php  #   CRUD pengguna
+│   │   │   │   ├── KelasController.php     #   CRUD kelas
+│   │   │   │   ├── MateriController.php    #   CRUD materi
+│   │   │   │   ├── KuisController.php      #   CRUD kuis & pertanyaan
+│   │   │   │   ├── NilaiController.php     #   CRUD nilai
+│   │   │   │   ├── KehadiranController.php #   CRUD kehadiran
+│   │   │   │   ├── LaporanAkademikController.php
+│   │   │   │   ├── BeritaController.php    #   CRUD berita
+│   │   │   │   ├── PaketController.php     #   CRUD paket eksklusif
+│   │   │   │   ├── KunciController.php     #   Generate kunci admin
+│   │   │   │   ├── OrganisasiController.php
+│   │   │   │   ├── JurnalMengajarController.php
+│   │   │   │   └── EdukasiGratisController.php
+│   │   │   ├── Pengajar/                   # 6 pengajar controllers
+│   │   │   ├── Staff/                      # 4 staff controllers
+│   │   │   ├── Pengguna/                   # 6 pengguna controllers
+│   │   │   ├── Auth/                       # Login, Register, Verifikasi
+│   │   │   ├── BerandaController.php       # Landing page + statistik
+│   │   │   ├── DasborController.php        # Router ke role dashboard
+│   │   │   ├── LaporanController.php       # Diagram Builder + CRUD
+│   │   │   ├── KelasController.php         # Kelas publik
+│   │   │   └── ... (19 publik controllers)
+│   │   └── Middleware/
+│   │       ├── CekPeran.php                # Role-based access control
+│   │       └── CatatPengunjung.php         # Visitor tracking
+│   ├── Models/                             # 36 Eloquent models
+│   │   ├── User.php                        # 7 peran, level, poin
+│   │   ├── Kelas.php                       # Relasi guru, siswa, materi
+│   │   ├── Krs.php / KrsDetail.php         # Kartu Rencana Studi
+│   │   ├── Laporan.php                     # Diagram builder data
+│   │   ├── KuroCerita.php                  # Cerita karakter Kuro
+│   │   ├── KerjaSama.php                   # Mitra & sponsor
+│   │   └── ... (30 more models)
+│   └── Providers/
+│       └── AppServiceProvider.php
 ├── database/
-│   ├── migrations/             # 20+ migration files
-│   └── seeders/                # Split per domain
-├── resources/views/
-│   ├── tata-letak/             # 4 layout (utama, dasbor, auth, sidebar)
-│   ├── akun/                   # Dashboard per role
-│   ├── halaman/                # 66+ landing pages
-│   └── auth/                   # Login, register, verifikasi
+│   ├── migrations/                         # 25+ migration files
+│   │   ├── create_users_table.php
+│   │   ├── create_kelas_table.php
+│   │   ├── create_laporan_table.php
+│   │   └── ...
+│   ├── seeders/                            # Split per domain
+│   │   ├── AkunSeeder.php                  # 7 akun demo per role
+│   │   └── ...
+│   └── factories/
+│       └── UserFactory.php
+├── resources/views/                        # 174 blade views total
+│   ├── tata-letak/                         # Layout templates
+│   │   ├── utama.blade.php                 # Main layout (5600+ lines!)
+│   │   │                                   #   4 headers, footer, CSS, JS
+│   │   │                                   #   Music player, LED panel
+│   │   │                                   #   Search engine, Settings
+│   │   │                                   #   VTuber, Kotak Saran popup
+│   │   ├── dasbor.blade.php                # Dashboard layout + sidebar
+│   │   ├── auth.blade.php                  # Auth layout
+│   │   └── sidebar.blade.php               # Sidebar per role
+│   ├── akun/                               # Dashboard per role
+│   │   ├── admin/                          # Admin dashboard + charts
+│   │   │   ├── dasbor.blade.php            #   Chart.js (bar, doughnut)
+│   │   │   ├── pengguna.blade.php          #   CRUD table + Excel
+│   │   │   └── ...
+│   │   ├── pengajar/                       # Pengajar dashboard
+│   │   ├── staff/                          # Staff dashboard
+│   │   └── pengguna/                       # Pengguna dashboard
+│   ├── halaman/                            # 80+ landing pages
+│   │   ├── pendidikan-dasar/               # TK, SD, SMP, SMA, SMK
+│   │   ├── pendidikan-tinggi/              # D1-D4, S1, S2, S3, Post-Doc
+│   │   ├── riset/                          # Publikasi, Kolaborasi, Paten
+│   │   ├── karir/                          # Lowongan, Magang, Mentoring
+│   │   ├── komunitas/                      # Forum, Alumni, Hackathon
+│   │   ├── sumber-daya/                    # E-Book, Dataset, Dev Tools
+│   │   ├── keamanan/                       # ISO 27001, Privasi
+│   │   ├── kurikulum/                      # Silabus, RPS, Kalender
+│   │   ├── alur-panduan/                   # Flowchart, SOP, FAQ
+│   │   ├── media/                          # Video, Webinar, Podcast
+│   │   ├── dokumen/                        # Kebijakan, Template, Regulasi
+│   │   ├── tentang/                        # Profil KVT, Profil Kuro
+│   │   ├── kuro.blade.php                  # Karakter Kuro + Dokumen popup
+│   │   └── ...
+│   ├── beranda/
+│   │   └── index.blade.php                 # Landing: Hero, Visi-Misi, 8 Pilar,
+│   │                                       #   Fasilitas, Fitur, Virtual Campus,
+│   │                                       #   Kelas, Berita slideshow
+│   ├── laporan/
+│   │   ├── builder.blade.php               # Diagram Builder (Chart.js)
+│   │   ├── index.blade.php                 # List laporan
+│   │   └── tampilkan.blade.php             # Detail laporan
+│   ├── auth/                               # Login, Register, Email verify
+│   └── komponen/                           # Reusable Blade components
 ├── routes/
-│   ├── web.php                 # Public routes
-│   ├── admin.php               # Admin routes (90+ endpoints)
-│   ├── pengajar.php / staff.php / pengguna.php
-├── gambar/                     # Gambar fasilitas & Kuro
-├── docs/                       # Dokumentasi tambahan
-│   ├── TENTANG.md              # Detail lengkap KVT Hub
-│   ├── ALUR.md                 # ERD, Use Case, Flowchart
-│   ├── README-v7-lengkap.md    # README versi detail (backup)
-│   └── screenshots/            # Screenshot website
-├── CHANGELOG.md                # Riwayat v1.0 — v7.0
-├── SPONSOR.md                  # Sponsor & donasi
-└── LICENSE                     # MIT License
+│   ├── web.php                             # Public routes (270+ lines)
+│   ├── admin.php                           # Admin routes (90+ endpoints)
+│   ├── pengajar.php                        # Pengajar routes
+│   ├── staff.php                           # Staff routes
+│   ├── pengguna.php                        # Pengguna routes
+│   └── console.php                         # Artisan commands
+├── public/
+│   ├── gambar/kuro/                        # Kuro mascot images
+│   ├── images/                             # Fasilitas images
+│   └── models/                             # 3D VTuber models
+├── docs/                                   # Documentation
+│   ├── TENTANG.md                          # Detail lengkap KVT Hub
+│   ├── ALUR.md                             # ERD, Use Case, Flowchart
+│   ├── README-v7-lengkap.md                # Full README backup
+│   ├── SPONSOR.md                          # Sponsor info
+│   └── screenshots/                        # Website screenshots
+├── scripts/                                # Auto-commit scripts
+│   ├── auto-commit.ps1                     # Windows PowerShell
+│   └── auto-commit.sh                      # Linux/macOS
+├── CHANGELOG.md                            # v1.0 → v8.0 changelog
+├── CONTRIBUTING.md                         # Contribution guide
+├── SPONSOR.md                              # Sponsor tiers
+├── LICENSE                                 # MIT License
+├── composer.json                           # PHP dependencies
+├── package.json                            # Node dependencies
+├── vite.config.js                          # Build config
+└── phpunit.xml                             # Test config
 ```
 
 ---
@@ -283,7 +442,7 @@ kvt-hub/
 |---------|-----|
 | 📖 [docs/TENTANG.md](docs/TENTANG.md) | Apa itu KVT Hub, fitur detail, 130 halaman, API endpoints |
 | 🏗️ [docs/ALUR.md](docs/ALUR.md) | ERD, Use Case, Flowchart, Class Diagram |
-| 📋 [CHANGELOG.md](CHANGELOG.md) | Riwayat perubahan v1.0 → v7.0 |
+| 📋 [CHANGELOG.md](CHANGELOG.md) | Riwayat perubahan v1.0 → v8.0 |
 | 💎 [SPONSOR.md](SPONSOR.md) | Informasi sponsor, tier, cara berkontribusi |
 | 🤝 [CONTRIBUTING.md](CONTRIBUTING.md) | Panduan kontribusi, commit convention, auto-commit |
 | 📜 [LICENSE](LICENSE) | MIT License + Lisensi Kerja Sama & Sponsor |

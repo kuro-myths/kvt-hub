@@ -162,6 +162,95 @@
 </section>
 @endif
 
+{{-- ==================== VISI, MISI & TUJUAN ==================== --}}
+<section class="py-20 relative overflow-hidden" id="visi-misi">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-950 via-kvt-900 to-kvt-950"></div>
+    <div class="absolute top-0 left-0 w-80 h-80 bg-kvt-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-ungu-400/5 rounded-full blur-3xl"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-kvt-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-bullseye mr-2"></i>Landasan Kami</span>
+            <h2 class="text-4xl font-black text-white mt-2">Visi, Misi & Tujuan</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Membangun ekosistem pendidikan digital yang inklusif, inovatif, dan berdampak global</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            {{-- VISI --}}
+            <div class="group" data-aos="fade-up" data-aos-delay="0">
+                <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-kvt-500/30 transition-all duration-500 hover:-translate-y-2 h-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-kvt-500/5 rounded-full blur-2xl group-hover:bg-kvt-500/10 transition"></div>
+                    <div class="relative">
+                        <div class="w-16 h-16 bg-gradient-to-br from-kvt-400 to-kvt-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-kvt-500/20 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-eye text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-white mb-4">Visi</h3>
+                        <p class="text-gray-300 leading-relaxed text-sm mb-5">
+                            Menjadi <span class="text-kvt-400 font-semibold">ekosistem pendidikan digital terdepan</span> di dunia yang menghubungkan
+                            seluruh jenjang pendidikan dari TK hingga S3/PhD dalam satu platform terintegrasi, inklusif, dan inovatif.
+                        </p>
+                        <div class="bg-kvt-800/30 rounded-xl p-4 border border-kvt-700/20">
+                            <p class="text-xs text-gray-400 italic">"Education without limits, innovation without borders."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- MISI --}}
+            <div class="group" data-aos="fade-up" data-aos-delay="100">
+                <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-ungu-500/30 transition-all duration-500 hover:-translate-y-2 h-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-ungu-500/5 rounded-full blur-2xl group-hover:bg-ungu-500/10 transition"></div>
+                    <div class="relative">
+                        <div class="w-16 h-16 bg-gradient-to-br from-ungu-400 to-ungu-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-ungu-500/20 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-rocket text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-white mb-4">Misi</h3>
+                        <ul class="space-y-3 text-sm text-gray-300">
+                            <li class="flex items-start gap-2.5"><i class="fas fa-check-circle text-ungu-400 mt-0.5 shrink-0"></i> Menyediakan kurikulum terintegrasi dari pendidikan dasar hingga tinggi</li>
+                            <li class="flex items-start gap-2.5"><i class="fas fa-check-circle text-ungu-400 mt-0.5 shrink-0"></i> Menghubungkan 150+ universitas & 500+ industri secara global</li>
+                            <li class="flex items-start gap-2.5"><i class="fas fa-check-circle text-ungu-400 mt-0.5 shrink-0"></i> Mengembangkan gamifikasi RPG 100 level untuk motivasi belajar</li>
+                            <li class="flex items-start gap-2.5"><i class="fas fa-check-circle text-ungu-400 mt-0.5 shrink-0"></i> Mendukung riset & inovasi dengan teknologi terkini</li>
+                            <li class="flex items-start gap-2.5"><i class="fas fa-check-circle text-ungu-400 mt-0.5 shrink-0"></i> Memastikan keamanan data standar ISO 27001 & COBIT 2019</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {{-- TUJUAN --}}
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-green-500/30 transition-all duration-500 hover:-translate-y-2 h-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-2xl group-hover:bg-green-500/10 transition"></div>
+                    <div class="relative">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-500/20 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-flag-checkered text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-white mb-4">Tujuan</h3>
+                        <div class="space-y-3">
+                            @php
+                            $tujuan = [
+                                ['Akses Merata', 'Pendidikan berkualitas untuk semua kalangan', 'fa-universal-access', 'text-blue-400'],
+                                ['SDM Berkualitas', 'Mencetak lulusan siap industri global', 'fa-user-graduate', 'text-purple-400'],
+                                ['Riset Unggulan', 'Kolaborasi riset lintas negara & disiplin', 'fa-microscope', 'text-teal-400'],
+                                ['Inovasi Digital', 'Teknologi mutakhir dalam pendidikan', 'fa-lightbulb', 'text-yellow-400'],
+                            ];
+                            @endphp
+                            @foreach($tujuan as $t)
+                            <div class="flex items-start gap-3 bg-kvt-800/20 rounded-lg p-3 hover:bg-kvt-800/40 transition">
+                                <i class="fas {{ $t[2] }} {{ $t[3] }} mt-0.5 w-5 text-center shrink-0"></i>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">{{ $t[0] }}</span>
+                                    <span class="text-gray-500 text-xs block">{{ $t[1] }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- ECOSYSTEM PILLARS --}}
 <section class="py-20 relative" id="ekosistem">
     <div class="max-w-7xl mx-auto px-4">
@@ -173,27 +262,37 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             @php
             $pilar = [
-                ['Jenjang Pendidikan', '13 jenjang TK hingga S3/PhD, profesi, dan vokasi', 'fa-graduation-cap', 'from-blue-500 to-cyan-500', 'halaman.jenjang', 'Falsikom, Fasilkom & seluruh fakultas'],
-                ['Riset & Inovasi', '150+ universitas mitra riset global', 'fa-microscope', 'from-purple-500 to-violet-500', 'halaman.riset', 'Publikasi, kolaborasi & paten'],
-                ['Karir & Industri', '500+ perusahaan & startup mitra kerja', 'fa-briefcase', 'from-orange-500 to-red-500', 'halaman.karir', 'Lowongan, magang & mentoring'],
-                ['Komunitas', '50K+ anggota aktif & kontributor', 'fa-users', 'from-pink-500 to-rose-500', 'halaman.komunitas', 'Forum, study group & hackathon'],
-                ['Sertifikasi', '120+ program sertifikasi terakreditasi', 'fa-award', 'from-amber-500 to-yellow-500', 'halaman.sertifikasi', 'BNSP, AWS, Google & Microsoft'],
-                ['Sumber Daya', '17K+ resources & dev tools', 'fa-database', 'from-cyan-500 to-teal-500', 'halaman.sumber-daya', 'E-book, dataset & playground'],
-                ['Keamanan', 'ISO 27001 & Zero Trust Architecture', 'fa-shield-alt', 'from-red-500 to-pink-500', 'halaman.keamanan', 'Tata kelola IT & privasi data'],
-                ['Penjamin Mutu', 'QA/QC, SPK & audit sistem', 'fa-check-double', 'from-teal-500 to-green-500', 'halaman.penjamin-mutu', 'Standar mutu pendidikan'],
+                ['Jenjang Pendidikan', '13 jenjang TK hingga S3/PhD, profesi, dan vokasi', 'fa-graduation-cap', 'from-blue-500 to-cyan-500', 'halaman.jenjang', 'Falsikom, Fasilkom & seluruh fakultas', 'Meliputi TK/PAUD, SD/MI, SMP/MTs, SMA/MA, SMK (Teknologi/Bisnis/Kesehatan), D1-D4, S1, S2, S3, Post-Doctoral, dan Profesi. Setiap jenjang memiliki kurikulum khusus.', '13 Jenjang', '200+ Kurikulum'],
+                ['Riset & Inovasi', '150+ universitas mitra riset global', 'fa-microscope', 'from-purple-500 to-violet-500', 'halaman.riset', 'Publikasi, kolaborasi & paten', 'Pusat riset multidisipliner dengan laboratorium virtual, kolaborasi lintas institusi, dan program publikasi ilmiah terintegrasi.', '150+ Mitra', '50+ Riset Aktif'],
+                ['Karir & Industri', '500+ perusahaan & startup mitra kerja', 'fa-briefcase', 'from-orange-500 to-red-500', 'halaman.karir', 'Lowongan, magang & mentoring', 'Job placement, program magang, mentoring industri, dan sertifikasi profesional yang diakui secara global oleh perusahaan ternama.', '500+ Perusahaan', '1K+ Lowongan'],
+                ['Komunitas', '50K+ anggota aktif & kontributor', 'fa-users', 'from-pink-500 to-rose-500', 'halaman.komunitas', 'Forum, study group & hackathon', 'Wadah kolaborasi dengan forum diskusi, study group, hackathon, konferensi virtual, dan program volunteer multi-regional.', '50K+ Member', '30+ Events'],
+                ['Sertifikasi', '120+ program sertifikasi terakreditasi', 'fa-award', 'from-amber-500 to-yellow-500', 'halaman.sertifikasi', 'BNSP, AWS, Google & Microsoft', 'Program sertifikasi dari lembaga resmi nasional (BNSP) dan internasional (AWS, Google, Microsoft, Cisco, Oracle).', '120+ Program', 'Blockchain Verified'],
+                ['Sumber Daya', '17K+ resources & dev tools', 'fa-database', 'from-cyan-500 to-teal-500', 'halaman.sumber-daya', 'E-book, dataset & playground', 'Library digital dengan e-book, jurnal, dataset, sandbox coding, API playground, dan template proyek untuk semua tingkat kemampuan.', '17K+ Resources', '24/7 Akses'],
+                ['Keamanan', 'ISO 27001 & Zero Trust Architecture', 'fa-shield-alt', 'from-red-500 to-pink-500', 'halaman.keamanan', 'Tata kelola IT & privasi data', 'Infrastruktur keamanan enterprise dengan standar ISO 27001, COBIT 2019, Zero Trust Architecture, dan enkripsi end-to-end.', 'ISO 27001', 'Zero Trust'],
+                ['Penjamin Mutu', 'QA/QC, SPK & audit sistem', 'fa-check-double', 'from-teal-500 to-green-500', 'halaman.penjamin-mutu', 'Standar mutu pendidikan', 'Quality assurance komprehensif dengan sistem audit berkontinyu, standar akreditasi BAN-PT, dan penilaian berbasis outcome.', 'BAN-PT', 'Audit Berkontinyu'],
             ];
             @endphp
             @foreach($pilar as $i => $p)
-            <a href="{{ route($p[4]) }}" class="group kaca rounded-2xl p-6 hover:border-kvt-500/30 transition-all duration-300 hover:-translate-y-1 flex items-start gap-5" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
-                <div class="w-14 h-14 bg-gradient-to-br {{ $p[3] }} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition shrink-0">
-                    <i class="fas {{ $p[2] }} text-white text-xl"></i>
+            <a href="{{ route($p[4]) }}" class="group kaca rounded-2xl p-6 hover:border-kvt-500/30 transition-all duration-300 hover:-translate-y-1 flex flex-col gap-4" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
+                <div class="flex items-start gap-5">
+                    <div class="w-14 h-14 bg-gradient-to-br {{ $p[3] }} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition shrink-0">
+                        <i class="fas {{ $p[2] }} text-white text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-white font-bold text-lg mb-1">{{ $p[0] }}</h3>
+                        <p class="text-gray-400 text-sm mb-1">{{ $p[1] }}</p>
+                        <p class="text-gray-500 text-xs"><i class="fas fa-info-circle mr-1 text-kvt-500"></i>{{ $p[5] }}</p>
+                    </div>
+                    <i class="fas fa-chevron-right text-kvt-600 group-hover:text-kvt-400 transition mt-1"></i>
                 </div>
-                <div class="flex-1">
-                    <h3 class="text-white font-bold text-lg mb-1">{{ $p[0] }}</h3>
-                    <p class="text-gray-400 text-sm mb-1">{{ $p[1] }}</p>
-                    <p class="text-gray-500 text-xs"><i class="fas fa-info-circle mr-1 text-kvt-500"></i>{{ $p[5] }}</p>
+                {{-- Expanded detail --}}
+                <div class="bg-kvt-800/20 rounded-xl p-4 border border-kvt-700/10">
+                    <p class="text-gray-400 text-xs leading-relaxed mb-3">{{ $p[6] }}</p>
+                    <div class="flex items-center gap-3">
+                        <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-white bg-kvt-800/50 px-3 py-1.5 rounded-lg border border-kvt-700/20"><i class="fas fa-chart-bar text-kvt-400 text-[10px]"></i>{{ $p[7] }}</span>
+                        <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-white bg-kvt-800/50 px-3 py-1.5 rounded-lg border border-kvt-700/20"><i class="fas fa-star text-yellow-400 text-[10px]"></i>{{ $p[8] }}</span>
+                    </div>
                 </div>
-                <i class="fas fa-chevron-right text-kvt-600 group-hover:text-kvt-400 transition mt-1"></i>
             </a>
             @endforeach
         </div>

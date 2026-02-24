@@ -45,6 +45,9 @@
                     <a href="https://www.instagram.com/mythskuro/" target="_blank" class="bg-pink-600/10 hover:bg-pink-600/20 text-pink-400 px-6 py-3 rounded-xl font-semibold transition border border-pink-700/30 text-sm">
                         <i class="fab fa-instagram mr-2"></i>Instagram
                     </a>
+                    <button onclick="bukaKuroDokumen()" class="bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500/30 hover:to-yellow-500/30 text-amber-400 px-6 py-3 rounded-xl font-semibold transition border border-amber-700/30 text-sm">
+                        <i class="fas fa-file-signature mr-2"></i>Dokumen Resmi
+                    </button>
                 </div>
 
                 <div class="flex gap-8 pt-4 border-t border-purple-800/30">
@@ -1163,5 +1166,145 @@ document.addEventListener('keydown', function(e) {
         </div>
     </div>
 </section>
+
+{{-- ==================== DOKUMEN RESMI KURO POPUP ==================== --}}
+<div id="kuroDokumenOverlay" class="fixed inset-0 z-[100] hidden" style="backdrop-filter:blur(20px);background:rgba(2,16,41,0.95)">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="w-full max-w-3xl animate-fade-in">
+            {{-- Close --}}
+            <div class="flex justify-end mb-4">
+                <button onclick="tutupKuroDokumen()" class="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            {{-- Document Page --}}
+            <div class="bg-gradient-to-b from-amber-50 to-white rounded-2xl shadow-2xl overflow-hidden" id="kuroDokumenKertas">
+                {{-- Header Ornamental --}}
+                <div class="bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800 py-1"></div>
+                <div class="px-8 sm:px-12 pt-8 pb-4 text-center border-b-2 border-amber-200/50">
+                    <div class="flex justify-center mb-3">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-lg">
+                            <span class="text-white font-black text-2xl">K</span>
+                        </div>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-black text-amber-900 tracking-wide">KVT Hub — Global Education Ecosystem</h2>
+                    <p class="text-amber-700/60 text-xs tracking-[0.3em] font-semibold mt-1">SURAT PERNYATAAN RESMI</p>
+                    <div class="flex justify-center gap-2 mt-2">
+                        <span class="w-8 h-0.5 bg-amber-300 rounded"></span>
+                        <span class="w-2 h-0.5 bg-amber-400 rounded"></span>
+                        <span class="w-8 h-0.5 bg-amber-300 rounded"></span>
+                    </div>
+                </div>
+
+                {{-- Document Body --}}
+                <div class="px-8 sm:px-12 py-8 space-y-6 text-amber-900">
+                    <div class="text-center text-sm text-amber-600 font-semibold">
+                        No: KVT/KURO/DOC/{{ date('Y') }}/001
+                    </div>
+
+                    <div class="text-center">
+                        <h3 class="text-lg font-bold text-amber-900">DEKLARASI STATUS KARAKTER</h3>
+                        <h4 class="text-sm font-semibold text-amber-700">"Kuro — The Chosen One"</h4>
+                    </div>
+
+                    <div class="space-y-4 text-sm leading-relaxed text-amber-800">
+                        <p>Dengan ini kami menyatakan bahwa karakter bernama <strong class="text-purple-800">Kuro</strong> dengan kode file <code class="bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded text-xs font-mono">the_chosen_one.kvt</code> adalah:</p>
+
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-3">
+                            <div class="flex items-start gap-3">
+                                <span class="w-6 h-6 bg-purple-600 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">1</span>
+                                <div><strong>Karakter Pertama</strong> — Karakter hidup pertama yang diciptakan dalam ekosistem KVT Hub, dirancang sebagai maskot dan simbol pendidikan digital global.</div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="w-6 h-6 bg-purple-600 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">2</span>
+                                <div><strong>The Chosen One</strong> — Dipilih dari 5 aliansi karakter sebagai pemimpin dan representasi utama misi pendidikan KVT Hub.</div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="w-6 h-6 bg-purple-600 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">3</span>
+                                <div><strong>Hak Intelektual</strong> — Seluruh desain, cerita, dan konten terkait Kuro merupakan karya orisinal milik KVT Hub dengan inisial kreator <strong>RH</strong>.</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="font-bold text-amber-900 mb-2"><i class="fas fa-eye mr-1.5"></i>Visi Karakter:</h5>
+                            <p class="italic text-amber-700 bg-amber-50/50 border-l-4 border-purple-400 pl-4 py-2 rounded-r-lg">"Menjadikan karakter digital sebagai jembatan kreativitas dan pendidikan, menginspirasi generasi muda untuk belajar, berkarya, dan berinovasi tanpa batas."</p>
+                        </div>
+
+                        <div>
+                            <h5 class="font-bold text-amber-900 mb-2"><i class="fas fa-bullseye mr-1.5"></i>Misi Karakter:</h5>
+                            <ul class="space-y-1.5 ml-3">
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-600 mt-0.5 text-xs"></i> Menjadi maskot resmi KVT Hub dalam semua media dan platform</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-600 mt-0.5 text-xs"></i> Menghubungkan dunia virtual dan nyata melalui cerita interaktif</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-600 mt-0.5 text-xs"></i> Mendukung 8 pilar ekosistem pendidikan global</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-600 mt-0.5 text-xs"></i> Memotivasi peserta didik dari semua jenjang (TK—S3/PhD)</li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-600 mt-0.5 text-xs"></i> Membangun komunitas kreatif yang inklusif dan kolaboratif</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- Signature --}}
+                    <div class="pt-6 border-t-2 border-dashed border-amber-200">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
+                            <div class="text-sm text-amber-700">
+                                <p>Ditetapkan di: <strong>KVT Hub Digital HQ</strong></p>
+                                <p>Tanggal: <strong>{{ \Carbon\Carbon::now()->locale('id')->isoFormat('D MMMM Y') }}</strong></p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-28 h-20 border-2 border-dashed border-amber-300 rounded-xl flex items-center justify-center mb-2 bg-amber-50/50 mx-auto">
+                                    <div class="text-center">
+                                        <i class="fas fa-signature text-amber-400 text-2xl"></i>
+                                        <div class="text-[9px] text-amber-400 font-semibold mt-1">TERTANDATANGAN</div>
+                                    </div>
+                                </div>
+                                <p class="text-sm font-bold text-amber-900">Kreator (RH)</p>
+                                <p class="text-xs text-amber-600">Founder & Creator — KVT Hub</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Stamp --}}
+                    <div class="flex justify-center pt-4">
+                        <div class="w-24 h-24 rounded-full border-4 border-purple-500/30 flex items-center justify-center relative">
+                            <div class="absolute inset-1 rounded-full border-2 border-dashed border-purple-400/40"></div>
+                            <div class="text-center">
+                                <i class="fas fa-shield-alt text-purple-500 text-lg"></i>
+                                <div class="text-[8px] font-black text-purple-600 tracking-wider">VERIFIED</div>
+                                <div class="text-[7px] text-purple-400">KVT HUB</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Footer ornamental --}}
+                <div class="bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800 py-1"></div>
+            </div>
+
+            {{-- Actions --}}
+            <div class="flex justify-center gap-3 mt-4">
+                <button onclick="cetakKuroDokumen()" class="bg-white/10 hover:bg-white/20 text-white px-6 py-2.5 rounded-xl font-semibold transition text-sm border border-white/10">
+                    <i class="fas fa-print mr-2"></i>Cetak Dokumen
+                </button>
+                <button onclick="tutupKuroDokumen()" class="bg-purple-600 hover:bg-purple-500 text-white px-6 py-2.5 rounded-xl font-semibold transition text-sm">
+                    <i class="fas fa-times mr-2"></i>Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+function bukaKuroDokumen(){document.getElementById('kuroDokumenOverlay').classList.remove('hidden');document.body.style.overflow='hidden'}
+function tutupKuroDokumen(){document.getElementById('kuroDokumenOverlay').classList.add('hidden');document.body.style.overflow=''}
+document.getElementById('kuroDokumenOverlay').addEventListener('click',function(e){if(e.target===this)tutupKuroDokumen()});
+function cetakKuroDokumen(){
+    const el=document.getElementById('kuroDokumenKertas');
+    if(typeof html2canvas!=='undefined'){
+        html2canvas(el,{scale:2,backgroundColor:'#FFFBEB'}).then(c=>{const a=document.createElement('a');a.download='Dokumen-Resmi-Kuro-KVT-Hub.png';a.href=c.toDataURL();a.click()});
+    } else { window.print() }
+}
+</script>
+@endpush
 
 @endsection
