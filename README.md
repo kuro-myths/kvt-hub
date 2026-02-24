@@ -6,14 +6,14 @@
 
 <p align="center">
   <strong>Ekosistem pendidikan, karir, dan riset digital global.</strong><br>
-  Dari TK hingga S3/PhD · 7 Peran · 130+ Halaman · Gamifikasi RPG · Musik Streaming · LED Dot Matrix · AI VTuber
+  Dari TK hingga S3/PhD · 7 Peran · 174+ Halaman · Gamifikasi RPG · Musik Streaming · LED Dot Matrix · AI VTuber
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Laravel-11-red?logo=laravel&logoColor=white" alt="Laravel 11">
-  <img src="https://img.shields.io/badge/PHP-8.3+-blue?logo=php&logoColor=white" alt="PHP 8.3+">
+  <img src="https://img.shields.io/badge/Laravel-12-red?logo=laravel&logoColor=white" alt="Laravel 12">
+  <img src="https://img.shields.io/badge/PHP-8.5+-blue?logo=php&logoColor=white" alt="PHP 8.5+">
   <img src="https://img.shields.io/badge/PostgreSQL-14+-336791?logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Version-8.0-orange" alt="Version 8.0">
+  <img src="https://img.shields.io/badge/Version-8.3-orange" alt="Version 8.3">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
   <img src="https://img.shields.io/badge/ISO-27001-brightgreen" alt="ISO 27001">
   <img src="https://img.shields.io/badge/COBIT-2019-blue" alt="COBIT 2019">
@@ -64,7 +64,7 @@
 
 ## ✨ Apa itu KVT Hub?
 
-**KVT Hub v8.0** adalah platform ekosistem digital all-in-one yang menghubungkan **13 jenjang pendidikan** (TK–S3/PhD), **7 peran pengguna**, dan **130+ halaman** dalam satu sistem terintegrasi.
+**KVT Hub v8.3** adalah platform ekosistem digital all-in-one yang menghubungkan **13 jenjang pendidikan** (TK–S3/PhD), **7 peran pengguna**, dan **174+ halaman** dalam satu sistem terintegrasi.
 
 | Fitur | Deskripsi |
 |-------|-----------|
@@ -75,7 +75,8 @@
 | 🎵 **Music Player** | 5 stasiun radio streaming (Lo-Fi, Jazz, Deep House, Ambient, Classical) |
 | 💡 **LED Dot Matrix** | Panel LED hijau neon, 5 mode (Shalat, Waktu Dunia, Motivasi, Info, Kustom) |
 | 🔍 **Search Engine** | 3 mode pencarian (Internal, Web, AI Explorer) |
-| 📊 **30+ Diagram** | Bar, Line, Pie, Doughnut, Radar, Polar via Chart.js v4 |
+| 📊 **50+ Diagram** | Bar, Line, Pie, Doughnut, Radar, Scatter, Flow via Chart.js v4 |
+| 📥 **Ekspor 5 Format** | Excel, PDF, Word, CSV, PowerPoint — semua halaman admin |
 | 🌍 **Visitor Analytics** | Tracking real-time, geo-lokasi, flag counter |
 | 🛡️ **ISO 27001 + COBIT** | Standar keamanan enterprise |
 | 🤖 **AI VTuber Assistant** | Karakter VTuber interaktif dengan model 3D |
@@ -85,22 +86,22 @@
 
 ---
 
-## 🆕 Apa yang Baru di v8.0
+## 🆕 Apa yang Baru di v8.3
 
+- 📥 **Universal Export 5 Format** — Semua 21 halaman admin bisa diekspor ke Excel, PDF, Word, CSV, dan PowerPoint
+- 📊 **Diagram Builder 50 Jenis** — Visual builder interaktif: 4-tab panel, live preview, 6 template, 6 palet warna, ekspor PNG/JPG
+- 👨‍🏫 **Fitur Pengajar Lengkap** — Silabus CRUD, Jurnal Mengajar, Input Nilai spreadsheet
 - 🤖 **AI VTuber Assistant** — Karakter VTuber interaktif dengan dukungan model 3D (Live2D/VRM)
-- 📌 **40 Menu → 10 Halaman** — Navigasi lebih rapi, 4 menu per halaman (sebelumnya 5 per halaman)
-- 🖱️ **Scroll Navbar** — Navigasi antar halaman menu langsung dari navbar dengan tombol panah & mouse wheel
-- 🔄 **Header & Footer Sinkron** — Data footer diperbarui sesuai header (versi, menu, link)
-- 🎯 **Menu Kustomisasi** — Atur menu ke 10 halaman berbeda
-- 🏗️ **Split Header 2-Row** — Header 1 dipecah: top row (Auth/Search/Notif) + bottom row (Menu navigasi)
-- 🎠 **Header 4 Carousel** — Menu carousel paginated dengan dots indicator + tombol LAINNYA
-- 📬 **Kotak Saran Popup** — Saran di footer jadi popup besar dengan upload dokumen & video
-- 📜 **Kuro Dokumen Resmi** — Halaman Kuro punya popup dokumen resmi lengkap dengan tanda tangan
+- 📌 **40 Menu → 10 Halaman** — Navigasi carousel paginated dengan dots indicator
+- 🏗️ **Split Header 2-Row** — Top row (Auth/Search/Notif) + bottom row (Menu navigasi)
+- 📬 **Kotak Saran Popup** — Popup besar dengan upload dokumen & video
+- 📜 **Kuro Dokumen Resmi** — Halaman Kuro punya popup dokumen resmi lengkap
 - 🎯 **Visi Misi Tujuan** — Beranda diperluas: section visi-misi-tujuan + pilar detail
 - 📊 **Chart Fungsional** — Admin dashboard dengan Chart.js (bar+line & doughnut) + data real
-- 📥 **Ekspor CSV/Excel** — Fitur ekspor data pengguna ke CSV dari admin panel
+- 🛡️ **Route Audit Clean** — 286 rute diaudit, 0 error, 0 mismatch
+- 📅 **Roadmap 2026** — Semua tanggal dan kalender akademik dinormalisasi ke 2026/2027
 
-> 📋 **Changelog lengkap v1.0 — v8.0:** [CHANGELOG.md](CHANGELOG.md)
+> 📋 **Changelog lengkap v1.0 — v8.3:** [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
@@ -116,7 +117,7 @@
                              │ HTTP / HTTPS
                              ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    Laravel 11 Router                          │
+│                    Laravel 12 Router                          │
 │   web.php · admin.php · pengajar.php · staff.php · pengguna.php │
 │   Middleware: auth, cek.peran:{role}, CatatPengunjung          │
 └────────────────────────────┬────────────────────────────────┘
@@ -234,10 +235,11 @@
 
 | Kategori | Stack |
 |----------|-------|
-| **Backend** | Laravel 11, PHP 8.3+ |
+| **Backend** | Laravel 12, PHP 8.5+ |
 | **Database** | PostgreSQL 14+ |
-| **Frontend** | Tailwind CSS (CDN), Blade Templates |
-| **Charting** | Chart.js v4 (30+ jenis diagram) |
+| **Frontend** | Tailwind CSS (CDN), Alpine.js 3.14, Blade Templates |
+| **Charting** | Chart.js v4 (50+ jenis diagram) |
+| **Ekspor** | SheetJS (Excel), jsPDF (PDF), PptxGenJS (PPT), CSV, Word |
 | **Animasi** | AOS v2.3.4, CSS Snow, Ticker |
 | **Ikon** | Font Awesome 6.5.1 |
 | **Font** | Google Fonts (Plus Jakarta Sans, Press Start 2P) |
@@ -302,7 +304,7 @@ php artisan view:cache
 | 👪 Orang Tua | orangtua@kvthub.id | orangtua123 |
 | 👤 Pengunjung | pengunjung@kvthub.id | pengunjung123 |
 
-**Kunci Admin:** `KVT-ADMIN-2025-SECRET`
+**Kunci Admin:** `KVT-ADMIN-2026-SECRET`
 
 ---
 
@@ -314,7 +316,7 @@ kvt-hub/
 │   ├── Http/
 │   │   ├── Controllers/                    # 49 controllers total
 │   │   │   ├── Admin/                      # 14 admin CRUD controllers
-│   │   │   │   ├── DasborController.php    #   Dashboard + Chart + Ekspor Excel
+│   │   │   │   ├── DasborController.php    #   Dashboard + Chart + Ekspor 5 Format
 │   │   │   │   ├── PenggunaController.php  #   CRUD pengguna
 │   │   │   │   ├── KelasController.php     #   CRUD kelas
 │   │   │   │   ├── MateriController.php    #   CRUD materi
@@ -374,7 +376,7 @@ kvt-hub/
 │   ├── akun/                               # Dashboard per role
 │   │   ├── admin/                          # Admin dashboard + charts
 │   │   │   ├── dasbor.blade.php            #   Chart.js (bar, doughnut)
-│   │   │   ├── pengguna.blade.php          #   CRUD table + Excel
+│   │   │   ├── pengguna.blade.php          #   CRUD table + Ekspor 5 Format
 │   │   │   └── ...
 │   │   ├── pengajar/                       # Pengajar dashboard
 │   │   ├── staff/                          # Staff dashboard
@@ -424,7 +426,7 @@ kvt-hub/
 ├── scripts/                                # Auto-commit scripts
 │   ├── auto-commit.ps1                     # Windows PowerShell
 │   └── auto-commit.sh                      # Linux/macOS
-├── CHANGELOG.md                            # v1.0 → v8.0 changelog
+├── CHANGELOG.md                            # v1.0 → v8.3 changelog
 ├── CONTRIBUTING.md                         # Contribution guide
 ├── SPONSOR.md                              # Sponsor tiers
 ├── LICENSE                                 # MIT License
@@ -442,7 +444,7 @@ kvt-hub/
 |---------|-----|
 | 📖 [docs/TENTANG.md](docs/TENTANG.md) | Apa itu KVT Hub, fitur detail, 130 halaman, API endpoints |
 | 🏗️ [docs/ALUR.md](docs/ALUR.md) | ERD, Use Case, Flowchart, Class Diagram |
-| 📋 [CHANGELOG.md](CHANGELOG.md) | Riwayat perubahan v1.0 → v8.0 |
+| 📋 [CHANGELOG.md](CHANGELOG.md) | Riwayat perubahan v1.0 → v8.3 |
 | 💎 [SPONSOR.md](SPONSOR.md) | Informasi sponsor, tier, cara berkontribusi |
 | 🤝 [CONTRIBUTING.md](CONTRIBUTING.md) | Panduan kontribusi, commit convention, auto-commit |
 | 📜 [LICENSE](LICENSE) | MIT License + Lisensi Kerja Sama & Sponsor |
@@ -514,7 +516,7 @@ Gunakan script auto-commit untuk mempercepat workflow:
 
 <p align="center">
   <img src="public/gambar/kuro/kuro.png" alt="Kuro" width="60"><br>
-  <strong>KVT Hub v8.0</strong> — Global Education & Research Ecosystem<br>
+  <strong>KVT Hub v8.3</strong> — Global Education & Research Ecosystem<br>
   Dibuat oleh <a href="https://github.com/kuro-myths">@kuro-myths</a><br>
   © 2025–2026 KVT Hub. Semua hak dilindungi.
 </p>

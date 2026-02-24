@@ -79,11 +79,11 @@
         @php
         $fotoGrid = [
             ['label' => 'Workshop AI Jakarta', 'warna' => 'blue', 'span' => 'col-span-2 row-span-2', 'thumb' => 'https://placehold.co/640x640/0f172a/3B82F6?text=Workshop+AI'],
-            ['label' => 'Hackathon 2025', 'warna' => 'green', 'span' => '', 'thumb' => 'https://placehold.co/320x320/0f172a/22C55E?text=Hackathon'],
+            ['label' => 'Hackathon 2026', 'warna' => 'green', 'span' => '', 'thumb' => 'https://placehold.co/320x320/0f172a/22C55E?text=Hackathon'],
             ['label' => 'Wisuda Digital Batch 8', 'warna' => 'purple', 'span' => '', 'thumb' => 'https://placehold.co/320x320/0f172a/A855F7?text=Wisuda'],
             ['label' => 'Seminar Nasional EdTech', 'warna' => 'amber', 'span' => '', 'thumb' => 'https://placehold.co/320x320/0f172a/F59E0B?text=Seminar'],
             ['label' => 'Study Tour Silicon Valley', 'warna' => 'cyan', 'span' => '', 'thumb' => 'https://placehold.co/320x320/0f172a/06B6D4?text=Study+Tour'],
-            ['label' => 'Career Fair 2025', 'warna' => 'rose', 'span' => 'col-span-2', 'thumb' => 'https://placehold.co/640x320/0f172a/F43F5E?text=Career+Fair'],
+            ['label' => 'Career Fair 2026', 'warna' => 'rose', 'span' => 'col-span-2', 'thumb' => 'https://placehold.co/640x320/0f172a/F43F5E?text=Career+Fair'],
             ['label' => 'Olimpiade Sains', 'warna' => 'indigo', 'span' => '', 'thumb' => 'https://placehold.co/320x320/0f172a/6366F1?text=Olimpiade'],
             ['label' => 'Pelatihan Guru Digital', 'warna' => 'emerald', 'span' => '', 'thumb' => 'https://placehold.co/320x320/0f172a/10B981?text=Pelatihan'],
         ];
@@ -116,9 +116,9 @@
     @php
     $dokumentasi = [
         ['judul' => 'Workshop AI & Machine Learning Jakarta', 'tanggal' => '05 Feb 2026', 'lokasi' => 'Jakarta Convention Center', 'foto' => 45, 'peserta' => 200, 'warna' => 'blue'],
-        ['judul' => 'Hackathon Edu-Tech Nasional 2025', 'tanggal' => '20 Des 2025', 'lokasi' => 'Bandung Digital Valley', 'foto' => 120, 'peserta' => 500, 'warna' => 'green'],
-        ['judul' => 'Wisuda Digital Batch 8 KVT Hub', 'tanggal' => '15 Des 2025', 'lokasi' => 'Virtual Ceremony', 'foto' => 80, 'peserta' => 1200, 'warna' => 'purple'],
-        ['judul' => 'Seminar Nasional Pendidikan 4.0', 'tanggal' => '01 Des 2025', 'lokasi' => 'Surabaya Tech Park', 'foto' => 65, 'peserta' => 350, 'warna' => 'amber'],
+        ['judul' => 'Hackathon Edu-Tech Nasional 2026', 'tanggal' => '20 Jan 2026', 'lokasi' => 'Bandung Digital Valley', 'foto' => 120, 'peserta' => 500, 'warna' => 'green'],
+        ['judul' => 'Wisuda Digital Batch 8 KVT Hub', 'tanggal' => '15 Jan 2026', 'lokasi' => 'Virtual Ceremony', 'foto' => 80, 'peserta' => 1200, 'warna' => 'purple'],
+        ['judul' => 'Seminar Nasional Pendidikan 4.0', 'tanggal' => '01 Feb 2026', 'lokasi' => 'Surabaya Tech Park', 'foto' => 65, 'peserta' => 350, 'warna' => 'amber'],
     ];
     @endphp
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

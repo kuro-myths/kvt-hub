@@ -107,10 +107,14 @@
         </form>
     </div>
 
+    <div class="flex justify-end mb-3">
+        @include('komponen.tombol-ekspor', ['tabelId' => 'tabel-data', 'namaFile' => 'data-pendaftaran-edukasi', 'judul' => 'Data Pendaftaran Edukasi'])
+    </div>
+
     {{-- Data Table --}}
     <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table id="tabel-data" class="w-full text-sm">
                 <thead>
                     <tr class="border-b border-kvt-700/20 text-gray-400">
                         <th class="text-left px-4 py-3 font-semibold">#</th>

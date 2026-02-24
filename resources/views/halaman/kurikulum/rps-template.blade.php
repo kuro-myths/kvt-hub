@@ -140,7 +140,7 @@
         </div>
         @php $faq = [
             ['q'=>'Apa perbedaan RPS dengan RPP?','a'=>'RPS (Rencana Pembelajaran Semester) digunakan di perguruan tinggi, sedangkan RPP (Rencana Pelaksanaan Pembelajaran) digunakan di sekolah dasar dan menengah. Di Kurikulum Merdeka, RPP diganti dengan Modul Ajar yang lebih fleksibel.'],
-            ['q'=>'Apakah template ini sesuai Kurikulum Merdeka?','a'=>'Ya, semua template sudah disesuaikan dengan format terbaru Kurikulum Merdeka (Kemendikbudristek 2024) termasuk integrasi Capaian Pembelajaran, Projek P5, dan asesmen diagnostik.'],
+            ['q'=>'Apakah template ini sesuai Kurikulum Merdeka?','a'=>'Ya, semua template sudah disesuaikan dengan format terbaru Kurikulum Merdeka (Kemendikbudristek 2026) termasuk integrasi Capaian Pembelajaran, Projek P5, dan asesmen diagnostik.'],
             ['q'=>'Bisakah saya mengedit template yang sudah didownload?','a'=>'Tentu! Template DOCX bisa langsung diedit di Microsoft Word atau Google Docs. Kami juga menyediakan panduan pengisian di setiap bagian template.'],
             ['q'=>'Apakah tersedia template untuk semua mata pelajaran?','a'=>'Saat ini kami menyediakan template umum yang bisa diadaptasi ke semua mata pelajaran, plus template khusus untuk MIPA, IPS, Bahasa, dan Informatika.'],
             ['q'=>'Bagaimana cara menggunakan template RPS berbasis OBE?','a'=>'Template OBE kami sudah dilengkapi kolom CPMK (Capaian Pembelajaran Mata Kuliah), Sub-CPMK, metode asesmen, dan rubrik. Ikuti panduan 6 langkah di atas untuk pengisian.'],

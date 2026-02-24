@@ -1,12 +1,35 @@
 <h1 align="center">📋 Changelog — KVT Hub</h1>
 
 <p align="center">
-  Riwayat perubahan dari versi 1.0 hingga 8.2
+  Riwayat perubahan dari versi 1.0 hingga 8.3
 </p>
 
 ---
 
-## v8.2 — Diagram Builder 50 Jenis *(Current)*
+## v8.3 — Universal Export & Route Audit *(Current)*
+
+> Tanggal: Februari 2026
+
+### Fitur Baru
+- **Universal Export 5 Format** — Seluruh 21 halaman admin kini bisa diekspor:
+  - Excel (.xlsx) via SheetJS — tabel lengkap dengan header
+  - PDF (.pdf) via jsPDF + AutoTable — landscape A4, branding KVT Hub, page numbers
+  - Word (.doc) via HTML Blob — styling Calibri, tabel rapi
+  - CSV (.csv) — UTF-8 BOM compatible, delimiter koma
+  - PowerPoint (.pptx) via PptxGenJS — title slide + data slides (12 baris/slide)
+- **Komponen Tombol Ekspor** — `komponen/tombol-ekspor.blade.php` reusable untuk semua halaman admin
+- **CDN Libraries** — Alpine.js 3.14.3, SheetJS 0.18.5, jsPDF 2.5.1, jsPDF-AutoTable 3.8.1, PptxGenJS 3.12.0 ditambahkan ke layout dasbor
+- **Normalisasi Tanggal 2026** — Kalender akademik, pengumuman, event, statistik dinormalisasi ke 2026/2027
+
+### Perbaikan
+- **Route Audit Komprehensif** — 286 rute diverifikasi terhadap 178 blade file, 0 error, 0 mismatch
+- **Paket Admin Export** — Card grid paket mendapat hidden table untuk kompatibilitas ekspor
+- **Pengunjung Analytics Export** — Halaman analytics mendapat tombol ekspor di section Recent Visitors
+- **README.md** — Badges, fitur, teknologi, dan roadmap diperbarui ke v8.3
+
+---
+
+## v8.2 — Diagram Builder 50 Jenis
 
 > Tanggal: Februari 2026
 
@@ -215,7 +238,11 @@
 | v4.0 | 66+ Landing Pages | 66+ | 16 | 3 | PostgreSQL |
 | v5.0 | Music + Role Rename | 66+ | 16 | 3 | PostgreSQL |
 | v6.0 | 4-Role + Modal CRUD | 100+ | 16 | 4 | PostgreSQL |
-| **v7.0** | **LED + Loading + 20 Menu** | **130+** | **20** | **7** | **PostgreSQL** |
+| v7.0 | LED + Loading + 20 Menu | 130+ | 20 | 7 | PostgreSQL |
+| v8.0 | AI VTuber + Nav Overhaul | 174+ | 40 | 7 | PostgreSQL |
+| v8.1 | Pengajar: Silabus, Jurnal | 174+ | 40 | 7 | PostgreSQL |
+| v8.2 | Diagram Builder 50 Jenis | 174+ | 40 | 7 | PostgreSQL |
+| **v8.3** | **Universal Export 5 Format** | **174+** | **40** | **7** | **PostgreSQL** |
 
 ---
 

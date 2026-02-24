@@ -14,12 +14,13 @@
                 @foreach($kurikulum as $k)<option value="{{ $k->id }}" {{ request('kurikulum_id')==$k->id?'selected':'' }}>{{ $k->nama }}</option>@endforeach
             </select>
         </form>
+        @include('komponen.tombol-ekspor', ['tabelId' => 'tabel-data', 'namaFile' => 'data-bobot-nilai', 'judul' => 'Data Bobot Nilai'])
         <button onclick="bukaModal('modal-tambah')" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg text-white text-sm font-semibold transition whitespace-nowrap"><i class="fas fa-plus mr-1"></i> Tambah Bobot</button>
     </div>
 
     <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table id="tabel-data" class="w-full text-sm">
                 <thead><tr class="border-b border-kvt-700/30">
                     <th class="text-left text-gray-400 font-semibold px-4 py-3">#</th>
                     <th class="text-center text-gray-400 font-semibold px-4 py-3">Huruf</th>

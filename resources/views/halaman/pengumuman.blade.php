@@ -53,8 +53,8 @@
         <div class="space-y-4">
             @php
             $pengumuman = [
-                ['judul'=>'Pendaftaran Semester Genap 2025/2026 Dibuka','kategori'=>'Akademik','tgl'=>'20 Feb 2026','prioritas'=>'Penting','color'=>'red','desc'=>'Pendaftaran mata kuliah semester genap dibuka mulai 20 Februari hingga 5 Maret 2026. Pastikan KRS sudah diisi lengkap.','icon'=>'fa-exclamation-circle'],
-                ['judul'=>'Jadwal UTS Semester Genap 2025/2026','kategori'=>'Ujian','tgl'=>'18 Feb 2026','prioritas'=>'Penting','color'=>'orange','desc'=>'Ujian Tengah Semester dijadwalkan pada 20 April - 2 Mei 2026. Jadwal detail per mata kuliah tersedia di portal.','icon'=>'fa-calendar-check'],
+                ['judul'=>'Pendaftaran Semester Genap 2026/2027 Dibuka','kategori'=>'Akademik','tgl'=>'20 Feb 2026','prioritas'=>'Penting','color'=>'red','desc'=>'Pendaftaran mata kuliah semester genap dibuka mulai 20 Februari hingga 5 Maret 2026. Pastikan KRS sudah diisi lengkap.','icon'=>'fa-exclamation-circle'],
+                ['judul'=>'Jadwal UTS Semester Genap 2026/2027','kategori'=>'Ujian','tgl'=>'18 Feb 2026','prioritas'=>'Penting','color'=>'orange','desc'=>'Ujian Tengah Semester dijadwalkan pada 20 April - 2 Mei 2026. Jadwal detail per mata kuliah tersedia di portal.','icon'=>'fa-calendar-check'],
                 ['judul'=>'Beasiswa Prestasi Akademik Batch 2','kategori'=>'Beasiswa','tgl'=>'15 Feb 2026','prioritas'=>'Info','color'=>'green','desc'=>'Pendaftaran beasiswa prestasi akademik batch 2 dibuka untuk mahasiswa dengan IPK minimal 3.5.','icon'=>'fa-award'],
                 ['judul'=>'Maintenance Server Platform E-Learning','kategori'=>'Teknis','tgl'=>'12 Feb 2026','prioritas'=>'Info','color'=>'kvt','desc'=>'Pemeliharaan server dijadwalkan pada 28 Februari 2026 pukul 00:00-06:00 WIB. Akses platform sementara terganggu.','icon'=>'fa-tools'],
                 ['judul'=>'Lomba Karya Tulis Ilmiah Nasional','kategori'=>'Kompetisi','tgl'=>'10 Feb 2026','prioritas'=>'Umum','color'=>'purple','desc'=>'KVT Hub menyelenggarakan LKTI Nasional dengan total hadiah 50 juta rupiah. Pendaftaran hingga 15 Maret 2026.','icon'=>'fa-pen-fancy'],

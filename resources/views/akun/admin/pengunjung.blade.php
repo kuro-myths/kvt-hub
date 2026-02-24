@@ -98,12 +98,15 @@
     </div>
 
     {{-- Recent Visitors --}}
+    <div class="flex justify-end mb-4">
+        @include('komponen.tombol-ekspor', ['tabelId' => 'tabel-data', 'namaFile' => 'data-pengunjung', 'judul' => 'Data Pengunjung'])
+    </div>
     <div class="kaca-gelap rounded-2xl overflow-hidden" data-aos="fade-up">
         <div class="px-6 py-4 border-b border-kvt-700/20">
             <h3 class="text-sm font-bold text-white"><i class="fas fa-history text-kvt-400 mr-2"></i>Kunjungan Terbaru (50 terakhir)</h3>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-xs">
+            <table id="tabel-data" class="w-full text-xs">
                 <thead class="bg-kvt-800/50 text-gray-400 text-left uppercase tracking-wider">
                     <tr>
                         <th class="px-4 py-2.5">Waktu</th>

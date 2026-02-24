@@ -1466,7 +1466,7 @@
                             </a>
                             <a href="{{ route('halaman.kurikulum.kalender-akademik') }}" class="dropdown-item">
                                 <div class="item-icon bg-amber-500/10"><i class="fas fa-calendar-alt text-amber-400"></i></div>
-                                <div class="item-text"><div class="item-title">Kalender Akademik</div><div class="item-desc">Jadwal & event 2025/2026</div></div>
+                                <div class="item-text"><div class="item-title">Kalender Akademik</div><div class="item-desc">Jadwal & event 2026/2027</div></div>
                             </a>
                             <a href="{{ route('halaman.kurikulum.learning-outcomes') }}" class="dropdown-item">
                                 <div class="item-icon bg-purple-500/10"><i class="fas fa-bullseye text-purple-400"></i></div>
@@ -4807,9 +4807,9 @@
         // ========================
         const tickerFallback = [
             { judul: 'KVT Hub v5.0 Resmi Diluncurkan dengan Fitur Edukasi Gratis & Real-Time Analytics', slug: '#' },
-            { judul: 'Program Beasiswa Riset Global 2025 Dibuka untuk Mahasiswa', slug: '#' },
+            { judul: 'Program Beasiswa Riset Global 2026 Dibuka untuk Mahasiswa', slug: '#' },
             { judul: 'Workshop Cybersecurity: Mengamankan Aplikasi Web Modern', slug: '#' },
-            { judul: 'Kompetisi Coding Nasional: KVT Code Challenge 2025', slug: '#' },
+            { judul: 'Kompetisi Coding Nasional: KVT Code Challenge 2026', slug: '#' },
             { judul: 'Alumni KVT Hub Raih Penghargaan Forbes 30 Under 30 Asia', slug: '#' },
         ];
         function renderTickerItems(data) {

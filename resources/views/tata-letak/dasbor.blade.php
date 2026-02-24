@@ -31,8 +31,13 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4" defer></script>
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.1/dist/jspdf.plugin.autotable.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgenjs.bundle.js" defer></script>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -306,6 +311,150 @@
         setInterval(updateClock, 1000);
         updateClock();
     </script>
+
+    {{-- Ekspor Utility Functions --}}
+    <script>
+    function _getTableData(tabelId) {
+        const tabel = document.getElementById(tabelId) || document.querySelector('table');
+        if (!tabel) { alert('Tabel tidak ditemukan!'); return null; }
+        const headers = [];
+        tabel.querySelectorAll('thead th').forEach(th => {
+            const t = th.innerText.trim();
+            if (t && t !== 'Aksi' && t !== '#') headers.push(t);
+        });
+        const rows = [];
+        tabel.querySelectorAll('tbody tr').forEach(tr => {
+            const cells = tr.querySelectorAll('td');
+            if (cells.length <= 1) return;
+            const row = [];
+            cells.forEach((td, i) => {
+                if (i === 0 && td.innerText.trim().match(/^\d+$/)) return;
+                if (i === cells.length - 1 && td.querySelector('button, form, a.btn, .flex.items-center.justify-center')) return;
+                row.push(td.innerText.trim().replace(/\s+/g, ' '));
+            });
+            if (row.length) rows.push(row);
+        });
+        return { headers, rows };
+    }
+
+    function eksporExcel(tabelId, namaFile) {
+        const data = _getTableData(tabelId);
+        if (!data) return;
+        const ws = XLSX.utils.aoa_to_sheet([data.headers, ...data.rows]);
+        ws['!cols'] = data.headers.map(() => ({ wch: 20 }));
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Data');
+        XLSX.writeFile(wb, `${namaFile}-${new Date().toISOString().slice(0,10)}.xlsx`);
+        _notifEkspor('Excel');
+    }
+
+    function eksporPDF(tabelId, namaFile, judul) {
+        const data = _getTableData(tabelId);
+        if (!data) return;
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('l', 'mm', 'a4');
+        doc.setFontSize(16);
+        doc.text(judul || 'Laporan Data', 14, 15);
+        doc.setFontSize(9);
+        doc.setTextColor(120);
+        doc.text(`KVT Hub — Diekspor: ${new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}`, 14, 22);
+        doc.autoTable({
+            head: [data.headers],
+            body: data.rows,
+            startY: 28,
+            theme: 'grid',
+            headStyles: { fillColor: [51, 153, 255], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+            bodyStyles: { fontSize: 7.5 },
+            alternateRowStyles: { fillColor: [245, 247, 255] },
+            margin: { top: 28, left: 14, right: 14 },
+        });
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFontSize(8);
+            doc.setTextColor(150);
+            doc.text(`Halaman ${i} dari ${pageCount}`, doc.internal.pageSize.width - 35, doc.internal.pageSize.height - 10);
+        }
+        doc.save(`${namaFile}-${new Date().toISOString().slice(0,10)}.pdf`);
+        _notifEkspor('PDF');
+    }
+
+    function eksporWord(tabelId, namaFile, judul) {
+        const data = _getTableData(tabelId);
+        if (!data) return;
+        let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>body{font-family:Calibri,sans-serif;font-size:11pt}table{border-collapse:collapse;width:100%}th,td{border:1px solid #999;padding:6px 10px;text-align:left}th{background:#3399FF;color:#fff;font-weight:bold}tr:nth-child(even){background:#f5f7ff}h1{color:#041F4D;font-size:18pt}p.meta{color:#888;font-size:9pt}</style></head><body>`;
+        html += `<h1>${judul || 'Laporan Data'}</h1>`;
+        html += `<p class="meta">KVT Hub — Diekspor: ${new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}</p>`;
+        html += '<table><thead><tr>';
+        data.headers.forEach(h => html += `<th>${h}</th>`);
+        html += '</tr></thead><tbody>';
+        data.rows.forEach(r => { html += '<tr>'; r.forEach(c => html += `<td>${c}</td>`); html += '</tr>'; });
+        html += '</tbody></table>';
+        html += `<br><p class="meta">Total: ${data.rows.length} data</p></body></html>`;
+        const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${namaFile}-${new Date().toISOString().slice(0,10)}.doc`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        _notifEkspor('Word');
+    }
+
+    function eksporCSV(tabelId, namaFile) {
+        const data = _getTableData(tabelId);
+        if (!data) return;
+        let csv = '\ufeff';
+        csv += data.headers.map(h => `"${h}"`).join(',') + '\n';
+        data.rows.forEach(r => { csv += r.map(c => `"${c.replace(/"/g, '""')}"`).join(',') + '\n'; });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${namaFile}-${new Date().toISOString().slice(0,10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        _notifEkspor('CSV');
+    }
+
+    function eksporPPT(tabelId, namaFile, judul) {
+        const data = _getTableData(tabelId);
+        if (!data) return;
+        const pptx = new PptxGenJS();
+        pptx.layout = 'LAYOUT_WIDE';
+        pptx.author = 'KVT Hub';
+        pptx.title = judul || 'Laporan Data';
+
+        // Slide judul
+        const slide1 = pptx.addSlide();
+        slide1.addText(judul || 'Laporan Data', { x: 0.5, y: 1.5, w: '90%', fontSize: 32, bold: true, color: '041F4D', fontFace: 'Calibri' });
+        slide1.addText(`KVT Hub — ${new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}`, { x: 0.5, y: 2.5, w: '90%', fontSize: 14, color: '888888', fontFace: 'Calibri' });
+        slide1.addText(`Total Data: ${data.rows.length}`, { x: 0.5, y: 3.2, w: '90%', fontSize: 16, color: '3399FF', bold: true, fontFace: 'Calibri' });
+
+        // Slide tabel (chunk 12 rows per slide)
+        const chunkSize = 12;
+        for (let i = 0; i < data.rows.length; i += chunkSize) {
+            const slide = pptx.addSlide();
+            const chunk = data.rows.slice(i, i + chunkSize);
+            const tableData = [data.headers.map(h => ({ text: h, options: { bold: true, color: 'FFFFFF', fill: { color: '3399FF' }, fontSize: 9 } }))];
+            chunk.forEach((r, ri) => {
+                tableData.push(r.map(c => ({ text: c || '-', options: { fontSize: 8, fill: { color: ri % 2 ? 'F5F7FF' : 'FFFFFF' } } })));
+            });
+            slide.addTable(tableData, { x: 0.3, y: 0.3, w: 12.5, colW: data.headers.map(() => 12.5 / data.headers.length), border: { type: 'solid', pt: 0.5, color: 'CCCCCC' }, autoPage: false });
+            slide.addText(`Halaman ${Math.floor(i / chunkSize) + 1}`, { x: 11, y: 7, fontSize: 8, color: '999999' });
+        }
+
+        pptx.writeFile({ fileName: `${namaFile}-${new Date().toISOString().slice(0,10)}.pptx` });
+        _notifEkspor('PowerPoint');
+    }
+
+    function _notifEkspor(format) {
+        const notif = document.createElement('div');
+        notif.className = 'fixed bottom-6 right-6 z-[9999] bg-green-600 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-slide-up';
+        notif.innerHTML = `<i class="fas fa-check-circle text-lg"></i><div><div class="font-semibold text-sm">Ekspor ${format} Berhasil</div><div class="text-xs text-green-200">File sedang diunduh...</div></div>`;
+        document.body.appendChild(notif);
+        setTimeout(() => { notif.style.transition = 'opacity 0.5s'; notif.style.opacity = '0'; setTimeout(() => notif.remove(), 500); }, 3000);
+    }
+    </script>
+
     @stack('scripts')
 </body>
 </html>

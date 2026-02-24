@@ -7,12 +7,18 @@
     @if(session('sukses'))<div class="mb-4 bg-green-500/20 border border-green-500/30 rounded-xl px-4 py-3 text-green-400 text-sm"><i class="fas fa-check-circle mr-2"></i>{{ session('sukses') }}</div>@endif
     @if($errors->any())<div class="mb-4 bg-red-500/20 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">@foreach($errors->all() as $e)<p><i class="fas fa-exclamation-circle mr-1"></i>{{ $e }}</p>@endforeach</div>@endif
 
-    <div class="flex justify-end mb-6">
+    <div class="flex justify-end gap-2 mb-6">
+        @include('komponen.tombol-ekspor', ['tabelId' => 'tabel-data', 'namaFile' => 'data-paket', 'judul' => 'Data Paket Eksklusif'])
         <button onclick="bukaModal('modal-tambah')" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg text-white text-sm font-semibold transition whitespace-nowrap"><i class="fas fa-plus mr-1"></i> Tambah Paket</button>
     </div>
 
     {{-- Card Grid --}}
     @if($paketList->count())
+    {{-- Hidden table for export --}}
+    <table id="tabel-data" class="hidden">
+        <thead><tr><th>Nama</th><th>Harga</th><th>Durasi (Hari)</th><th>XP Bonus</th><th>Status</th></tr></thead>
+        <tbody>@foreach($paketList as $p)<tr><td>{{ $p->nama }}</td><td>Rp {{ number_format($p->harga, 0, ',', '.') }}</td><td>{{ $p->durasi_hari }}</td><td>+{{ $p->xp_bonus ?? 0 }}</td><td>{{ $p->aktif ? 'Aktif' : 'Nonaktif' }}</td></tr>@endforeach</tbody>
+    </table>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         @foreach($paketList as $p)
         <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden hover:border-kvt-500/30 transition group">

@@ -17,12 +17,13 @@
                 <option value="distribusi_ipk" {{ request('tipe')=='distribusi_ipk'?'selected':'' }}>Distribusi IPK</option>
             </select>
         </form>
+        @include('komponen.tombol-ekspor', ['tabelId' => 'tabel-data', 'namaFile' => 'data-laporan-akademik', 'judul' => 'Data Laporan Akademik'])
         <button onclick="bukaModal('modal-generate')" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg text-white text-sm font-semibold transition whitespace-nowrap"><i class="fas fa-chart-bar mr-1"></i> Generate Laporan</button>
     </div>
 
     <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table id="tabel-data" class="w-full text-sm">
                 <thead><tr class="border-b border-kvt-700/30">
                     <th class="text-left text-gray-400 font-semibold px-4 py-3">#</th>
                     <th class="text-left text-gray-400 font-semibold px-4 py-3">Judul</th>

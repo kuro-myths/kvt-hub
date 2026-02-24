@@ -110,25 +110,25 @@
 <section class="max-w-7xl mx-auto px-4 py-20">
     <div class="text-center mb-12" data-aos="fade-up">
         <span class="text-xs bg-cyan-500/10 text-cyan-400 px-3 py-1 rounded-full">KALENDER</span>
-        <h2 class="text-3xl md:text-4xl font-black text-white mt-4">Kalender Akademik 2025/2026</h2>
+        <h2 class="text-3xl md:text-4xl font-black text-white mt-4">Kalender Akademik 2026/2027</h2>
     </div>
     @php
     $semester = [
         ['period' => 'Semester Ganjil', 'warna' => 'blue', 'events' => [
-            ['bulan' => 'Jul 2025', 'event' => 'Penerimaan Peserta Didik Baru (PPDB)'],
-            ['bulan' => 'Agt 2025', 'event' => 'Masa Pengenalan Lingkungan Sekolah (MPLS)'],
-            ['bulan' => 'Sep 2025', 'event' => 'Asesmen Diagnostik Awal'],
-            ['bulan' => 'Okt 2025', 'event' => 'Ujian Tengah Semester (UTS)'],
-            ['bulan' => 'Nov 2025', 'event' => 'Projek P5 / Capstone Semester 1'],
-            ['bulan' => 'Des 2025', 'event' => 'Ujian Akhir Semester & Rapor'],
+            ['bulan' => 'Jul 2026', 'event' => 'Penerimaan Peserta Didik Baru (PPDB)'],
+            ['bulan' => 'Agt 2026', 'event' => 'Masa Pengenalan Lingkungan Sekolah (MPLS)'],
+            ['bulan' => 'Sep 2026', 'event' => 'Asesmen Diagnostik Awal'],
+            ['bulan' => 'Okt 2026', 'event' => 'Ujian Tengah Semester (UTS)'],
+            ['bulan' => 'Nov 2026', 'event' => 'Projek P5 / Capstone Semester 1'],
+            ['bulan' => 'Des 2026', 'event' => 'Ujian Akhir Semester & Rapor'],
         ]],
         ['period' => 'Semester Genap', 'warna' => 'green', 'events' => [
-            ['bulan' => 'Jan 2026', 'event' => 'Awal Semester Genap'],
-            ['bulan' => 'Feb 2026', 'event' => 'Olimpiade & Kompetisi Regional'],
-            ['bulan' => 'Mar 2026', 'event' => 'Ujian Tengah Semester (UTS)'],
-            ['bulan' => 'Apr 2026', 'event' => 'SNBT / UTBK Periode 1'],
-            ['bulan' => 'Mei 2026', 'event' => 'Projek P5 / Capstone Semester 2'],
-            ['bulan' => 'Jun 2026', 'event' => 'Ujian Akhir Tahun & Wisuda'],
+            ['bulan' => 'Jan 2027', 'event' => 'Awal Semester Genap'],
+            ['bulan' => 'Feb 2027', 'event' => 'Olimpiade & Kompetisi Regional'],
+            ['bulan' => 'Mar 2027', 'event' => 'Ujian Tengah Semester (UTS)'],
+            ['bulan' => 'Apr 2027', 'event' => 'SNBT / UTBK Periode 1'],
+            ['bulan' => 'Mei 2027', 'event' => 'Projek P5 / Capstone Semester 2'],
+            ['bulan' => 'Jun 2027', 'event' => 'Ujian Akhir Tahun & Wisuda'],
         ]],
     ];
     @endphp

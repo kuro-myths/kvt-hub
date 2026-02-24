@@ -109,11 +109,11 @@
             <div class="absolute left-1/2 top-0 bottom-0 w-px bg-kvt-700/30 hidden md:block"></div>
             @php
                 $milestones = [
-                    ['tahun' => '2024 Q1', 'judul' => 'Platform Diluncurkan', 'desc' => 'KVT Hub v1.0 dirilis dengan fitur kelas dasar dan sistem pengguna', 'ikon' => 'fa-rocket', 'warna' => 'kvt'],
-                    ['tahun' => '2024 Q2', 'judul' => 'Gamifikasi Aktif', 'desc' => 'Sistem XP, level, dan achievement diimplementasikan penuh', 'ikon' => 'fa-gamepad', 'warna' => 'purple'],
-                    ['tahun' => '2024 Q3', 'judul' => '1000+ Pengguna', 'desc' => 'Pencapaian seribu pengguna terdaftar dari berbagai jenjang', 'ikon' => 'fa-users', 'warna' => 'green'],
-                    ['tahun' => '2025 Q1', 'judul' => 'AI VTuber Kuro', 'desc' => 'Kuro diluncurkan sebagai maskot dan asisten AI platform', 'ikon' => 'fa-robot', 'warna' => 'amber'],
-                    ['tahun' => '2025 Q2', 'judul' => 'v8.0 Release', 'desc' => '40+ menu, 4 header, panel pengaturan lengkap, LED panel, musik streaming', 'ikon' => 'fa-star', 'warna' => 'pink'],
+                    ['tahun' => '2025 Q1', 'judul' => 'Platform Diluncurkan', 'desc' => 'KVT Hub v1.0 dirilis dengan fitur kelas dasar dan sistem pengguna', 'ikon' => 'fa-rocket', 'warna' => 'kvt'],
+                    ['tahun' => '2025 Q2', 'judul' => 'Gamifikasi Aktif', 'desc' => 'Sistem XP, level, dan achievement diimplementasikan penuh', 'ikon' => 'fa-gamepad', 'warna' => 'purple'],
+                    ['tahun' => '2025 Q3', 'judul' => '1000+ Pengguna', 'desc' => 'Pencapaian seribu pengguna terdaftar dari berbagai jenjang', 'ikon' => 'fa-users', 'warna' => 'green'],
+                    ['tahun' => '2025 Q4', 'judul' => 'AI VTuber Kuro', 'desc' => 'Kuro diluncurkan sebagai maskot dan asisten AI platform', 'ikon' => 'fa-robot', 'warna' => 'amber'],
+                    ['tahun' => '2026 Q1', 'judul' => 'v8.0 Release', 'desc' => '40+ menu, 4 header, panel pengaturan lengkap, LED panel, musik streaming', 'ikon' => 'fa-star', 'warna' => 'pink'],
                 ];
             @endphp
             @foreach($milestones as $i => $m)

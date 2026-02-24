@@ -9,15 +9,15 @@
     <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle, #06B6D4 1px, transparent 1px); background-size: 40px 40px;"></div>
     <div class="relative max-w-7xl mx-auto px-4 py-24 text-center w-full">
         <div class="inline-flex items-center gap-2 bg-cyan-800/30 border border-cyan-600/30 rounded-full px-4 py-1.5 text-xs text-cyan-300 mb-6" data-aos="fade-down">
-            <i class="fas fa-calendar-alt"></i> Tahun Akademik 2025/2026
+            <i class="fas fa-calendar-alt"></i> Tahun Akademik 2026/2027
         </div>
         <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6" data-aos="fade-up">
             <span class="text-white">Kalender</span><br>
-            <span class="teks-gradien">Akademik 2025/2026</span>
+            <span class="teks-gradien">Akademik 2026/2027</span>
         </h1>
         <p class="text-gray-400 text-lg max-w-3xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="100">
             Kalender akademik lengkap dengan jadwal ujian, hari libur nasional, kegiatan sekolah,
-            dan event pendidikan penting sepanjang tahun ajaran 2025/2026.
+            dan event pendidikan penting sepanjang tahun ajaran 2026/2027.
         </p>
         <div class="flex flex-wrap justify-center gap-4 mb-10" data-aos="fade-up" data-aos-delay="200">
             <a href="{{ route('daftar') }}" class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-lg shadow-cyan-500/30 hover:-translate-y-0.5">
@@ -44,19 +44,19 @@
         <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Rangkuman kegiatan utama di setiap bulan tahun akademik</p>
     </div>
     @php $timeline = [
-        ['bulan'=>'Juli 2025','warna'=>'blue','events'=>[
+        ['bulan'=>'Juli 2026','warna'=>'blue','events'=>[
             ['ikon'=>'fas fa-user-plus','judul'=>'PPDB Online','tgl'=>'1 - 15 Jul','desc'=>'Penerimaan Peserta Didik Baru jalur zonasi, prestasi, dan afirmasi.'],
             ['ikon'=>'fas fa-school','judul'=>'MPLS','tgl'=>'21 - 23 Jul','desc'=>'Masa Pengenalan Lingkungan Sekolah bagi siswa baru.'],
         ]],
-        ['bulan'=>'Agustus 2025','warna'=>'red','events'=>[
-            ['ikon'=>'fas fa-flag','judul'=>'HUT RI ke-80','tgl'=>'17 Agt','desc'=>'Hari Kemerdekaan RI — upacara bendera & lomba 17-an.'],
+        ['bulan'=>'Agustus 2026','warna'=>'red','events'=>[
+            ['ikon'=>'fas fa-flag','judul'=>'HUT RI ke-81','tgl'=>'17 Agt','desc'=>'Hari Kemerdekaan RI — upacara bendera & lomba 17-an.'],
             ['ikon'=>'fas fa-book-open','judul'=>'Awal KBM Efektif','tgl'=>'4 Agt','desc'=>'Mulai kegiatan belajar mengajar efektif semester ganjil.'],
         ]],
-        ['bulan'=>'Oktober 2025','warna'=>'amber','events'=>[
+        ['bulan'=>'Oktober 2026','warna'=>'amber','events'=>[
             ['ikon'=>'fas fa-edit','judul'=>'UTS Semester Ganjil','tgl'=>'6 - 17 Okt','desc'=>'Ujian Tengah Semester untuk evaluasi tengah semester.'],
             ['ikon'=>'fas fa-trophy','judul'=>'Olimpiade Sains','tgl'=>'20 - 24 Okt','desc'=>'Seleksi OSN tingkat kabupaten/kota.'],
         ]],
-        ['bulan'=>'Desember 2025','warna'=>'green','events'=>[
+        ['bulan'=>'Desember 2026','warna'=>'green','events'=>[
             ['ikon'=>'fas fa-file-alt','judul'=>'UAS Semester Ganjil','tgl'=>'1 - 12 Des','desc'=>'Ujian Akhir Semester ganjil semua mata pelajaran.'],
             ['ikon'=>'fas fa-gift','judul'=>'Libur Winter Break','tgl'=>'22 Des - 3 Jan','desc'=>'Libur akhir semester & Natal tahun baru.'],
         ]],

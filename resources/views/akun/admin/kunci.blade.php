@@ -37,13 +37,14 @@
                 <button type="submit" class="bg-red-600/20 hover:bg-red-600 border border-red-500/30 px-4 py-2 rounded-lg text-red-400 hover:text-white text-sm font-semibold transition whitespace-nowrap"><i class="fas fa-broom mr-1"></i> Bersihkan Terpakai</button>
             </form>
             @endif
+            @include('komponen.tombol-ekspor', ['tabelId' => 'tabel-data', 'namaFile' => 'data-kunci-admin', 'judul' => 'Data Kunci Admin'])
             <button onclick="bukaModal('modal-tambah')" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg text-white text-sm font-semibold transition whitespace-nowrap"><i class="fas fa-plus mr-1"></i> Buat Kunci</button>
         </div>
     </div>
 
     <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table id="tabel-data" class="w-full text-sm">
                 <thead><tr class="border-b border-kvt-700/30">
                     <th class="text-left text-gray-400 font-semibold px-4 py-3">#</th>
                     <th class="text-left text-gray-400 font-semibold px-4 py-3">Kunci</th>

@@ -42,13 +42,14 @@
             </select>
             <button type="submit" class="bg-kvt-600 hover:bg-kvt-500 px-4 py-2 rounded-lg text-white text-sm transition"><i class="fas fa-search"></i></button>
         </form>
+        @include('komponen.tombol-ekspor', ['tabelId' => 'tabel-data', 'namaFile' => 'data-karakter-cerita', 'judul' => 'Data Cerita Karakter'])
         <button onclick="bukaModal('modal-tambah')" class="bg-gradient-to-r from-amber-600 to-red-600 hover:from-amber-500 hover:to-red-500 px-4 py-2 rounded-lg text-white text-sm font-semibold transition whitespace-nowrap"><i class="fas fa-plus mr-1"></i> Tambah Chapter</button>
     </div>
 
     {{-- Tabel --}}
     <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <table id="tabel-data" class="w-full text-sm">
                 <thead><tr class="border-b border-kvt-700/30">
                     <th class="text-left text-gray-400 font-semibold px-4 py-3">Karakter</th>
                     <th class="text-left text-gray-400 font-semibold px-4 py-3">Ch</th>

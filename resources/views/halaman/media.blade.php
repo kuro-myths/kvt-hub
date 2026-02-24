@@ -192,7 +192,7 @@
         @php
         $galeri = [
             ['label' => 'Workshop AI', 'warna' => 'blue'],
-            ['label' => 'Hackathon 2025', 'warna' => 'green'],
+            ['label' => 'Hackathon 2026', 'warna' => 'green'],
             ['label' => 'Wisuda Digital', 'warna' => 'purple'],
             ['label' => 'Forum Guru', 'warna' => 'amber'],
             ['label' => 'Olimpiade Sains', 'warna' => 'red'],

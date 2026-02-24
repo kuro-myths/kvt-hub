@@ -91,9 +91,9 @@
         @php
         $arsip = [
             ['judul' => 'Transformasi Digital Sekolah', 'tanggal' => '10 Jan 2026', 'peserta' => '450', 'durasi' => '1:30:00', 'warna' => 'blue'],
-            ['judul' => 'Kurikulum Merdeka Implementation', 'tanggal' => '25 Des 2025', 'peserta' => '380', 'durasi' => '2:00:00', 'warna' => 'green'],
-            ['judul' => 'Data Science for Education', 'tanggal' => '15 Des 2025', 'peserta' => '290', 'durasi' => '1:45:00', 'warna' => 'purple'],
-            ['judul' => 'Gamification in Learning', 'tanggal' => '01 Des 2025', 'peserta' => '520', 'durasi' => '1:15:00', 'warna' => 'amber'],
+            ['judul' => 'Kurikulum Merdeka Implementation', 'tanggal' => '25 Jan 2026', 'peserta' => '380', 'durasi' => '2:00:00', 'warna' => 'green'],
+            ['judul' => 'Data Science for Education', 'tanggal' => '15 Jan 2026', 'peserta' => '290', 'durasi' => '1:45:00', 'warna' => 'purple'],
+            ['judul' => 'Gamification in Learning', 'tanggal' => '01 Feb 2026', 'peserta' => '520', 'durasi' => '1:15:00', 'warna' => 'amber'],
         ];
         @endphp
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
