@@ -149,6 +149,62 @@
     </div>
 </section>
 
+{{-- Testimonials --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-black mb-4">Kata <span class="teks-gradien">Pendengar</span></h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Pendapat para pendengar setia podcast KVT Hub</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            @php
+            $testimoni = [
+                ['nama' => 'Dian Sari', 'role' => 'Mahasiswa S1', 'teks' => 'Podcast KVT Hub jadi teman perjalanan ke kampus. Kontennya relevan dan pembawaan hostnya seru!', 'rating' => 5],
+                ['nama' => 'Rizki Aditya', 'role' => 'Software Engineer', 'teks' => 'Episode tentang tech career path sangat membantu saya saat transisi karir. Recommended!', 'rating' => 5],
+                ['nama' => 'Nadia Putri', 'role' => 'Guru SMA', 'teks' => 'Saya sering share episode pendidikan ke murid-murid. Materinya mudah dipahami tapi tetap berbobot.', 'rating' => 4],
+            ];
+            @endphp
+            @foreach($testimoni as $i => $t)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                <div class="flex gap-1 mb-3">@for($s=0;$s<$t['rating'];$s++)<i class="fas fa-star text-amber-400 text-xs"></i>@endfor @for($s=$t['rating'];$s<5;$s++)<i class="fas fa-star text-gray-700 text-xs"></i>@endfor</div>
+                <p class="text-gray-300 text-sm italic mb-4">"{{ $t['teks'] }}"</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-gradient-to-br from-pink-500 to-rose-500 rounded-full flex items-center justify-center text-white text-xs font-bold">{{ strtoupper(substr($t['nama'],0,1)) }}</div>
+                    <div><div class="text-white font-semibold text-xs">{{ $t['nama'] }}</div><div class="text-gray-500 text-[10px]">{{ $t['role'] }}</div></div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ --}}
+<section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-black mb-4">FAQ <span class="teks-gradien">Podcast</span></h2>
+        </div>
+        @php
+        $faq = [
+            ['q' => 'Bagaimana cara mendengarkan podcast?', 'a' => 'Buka halaman Podcast, pilih episode, dan klik play. Anda juga bisa mendengarkan via Spotify, Apple Podcasts, dan Google Podcasts.'],
+            ['q' => 'Seberapa sering episode baru dirilis?', 'a' => 'Episode baru dirilis setiap minggu pada hari Senin. Episode spesial dan kolaborasi bisa dirilis kapan saja.'],
+            ['q' => 'Bisa request topik podcast?', 'a' => 'Ya! Kirim request topik melalui form di halaman podcast atau via DM di sosial media KVT Hub.'],
+        ];
+        @endphp
+        <div class="space-y-3">
+            @foreach($faq as $i => $item)
+            <div class="kaca rounded-2xl overflow-hidden border-kvt-500/20" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
+                <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.fa-chevron-down').classList.toggle('rotate-180')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/20 transition">
+                    <span class="text-white font-semibold text-sm"><i class="fas fa-question-circle text-pink-400 mr-2"></i>{{ $item['q'] }}</span>
+                    <i class="fas fa-chevron-down text-pink-400 text-xs transition-transform duration-300"></i>
+                </button>
+                <div class="hidden px-5 pb-5"><p class="text-gray-400 text-sm">{{ $item['a'] }}</p></div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 {{-- CTA --}}
 <section class="py-20">
     <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">

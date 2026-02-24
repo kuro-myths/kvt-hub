@@ -149,6 +149,61 @@
     </div>
 </section>
 
+{{-- Testimoni Penulis --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-black mb-4">Kata <span class="teks-gradien">Penulis</span></h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            @php
+            $testimoni = [
+                ['nama' => 'Prof. Hadi Susanto', 'role' => 'Dosen Universitas', 'teks' => 'Platform jurnal KVT Hub memudahkan proses submit dan review. Proses peer-review sangat profesional.', 'rating' => 5],
+                ['nama' => 'Lina Marlina, M.Sc.', 'role' => 'Peneliti LIPI', 'teks' => 'Saya sudah mempublikasikan 5 paper melalui KVT Hub. Indexing cepat dan DOI langsung aktif.', 'rating' => 5],
+                ['nama' => 'Fajar Pratama', 'role' => 'Mahasiswa S2', 'teks' => 'Panduan penulis sangat detail sehingga paper pertama saya langsung diterima tanpa mayor revision.', 'rating' => 4],
+            ];
+            @endphp
+            @foreach($testimoni as $i => $t)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                <div class="flex gap-1 mb-3">@for($s=0;$s<$t['rating'];$s++)<i class="fas fa-star text-amber-400 text-xs"></i>@endfor @for($s=$t['rating'];$s<5;$s++)<i class="fas fa-star text-gray-700 text-xs"></i>@endfor</div>
+                <p class="text-gray-300 text-sm italic mb-4">"{{ $t['teks'] }}"</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-gradient-to-br from-purple-500 to-violet-500 rounded-full flex items-center justify-center text-white text-xs font-bold">{{ strtoupper(substr($t['nama'],0,1)) }}</div>
+                    <div><div class="text-white font-semibold text-xs">{{ $t['nama'] }}</div><div class="text-gray-500 text-[10px]">{{ $t['role'] }}</div></div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ --}}
+<section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-black mb-4">FAQ <span class="teks-gradien">Jurnal</span></h2>
+        </div>
+        @php
+        $faq = [
+            ['q' => 'Apa saja bidang jurnal yang diterima?', 'a' => 'KVT Hub menerima jurnal dari semua bidang ilmu: STEM, sosial, humaniora, kesehatan, hukum, seni, dan pendidikan.'],
+            ['q' => 'Berapa lama proses review?', 'a' => 'Proses peer-review memakan waktu 2-4 minggu. Fast-track review tersedia untuk paper yang urgent dengan biaya tambahan.'],
+            ['q' => 'Apakah jurnal terindeks?', 'a' => 'Ya! Jurnal KVT Hub terindeks di Google Scholar, DOAJ, Crossref (DOI), dan sedang proses indexing Scopus.'],
+        ];
+        @endphp
+        <div class="space-y-3">
+            @foreach($faq as $i => $item)
+            <div class="kaca rounded-2xl overflow-hidden border-kvt-500/20" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
+                <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.fa-chevron-down').classList.toggle('rotate-180')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/20 transition">
+                    <span class="text-white font-semibold text-sm"><i class="fas fa-question-circle text-purple-400 mr-2"></i>{{ $item['q'] }}</span>
+                    <i class="fas fa-chevron-down text-purple-400 text-xs transition-transform duration-300"></i>
+                </button>
+                <div class="hidden px-5 pb-5"><p class="text-gray-400 text-sm">{{ $item['a'] }}</p></div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 {{-- CTA --}}
 <section class="py-20">
     <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">

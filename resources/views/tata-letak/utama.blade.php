@@ -2177,7 +2177,7 @@
 
         {{-- ===== MOBILE MENU ===== --}}
         <div id="mobileMenu" class="hidden lg:hidden border-t border-kvt-700/20">
-            <div class="px-4 py-4 space-y-1 max-h-[75vh] overflow-y-auto bg-kvt-950/95 backdrop-blur-xl">
+            <div class="px-4 py-4 space-y-1 max-h-[80vh] overflow-y-auto bg-kvt-950/95 backdrop-blur-xl">
                 {{-- Search on mobile --}}
                 <button onclick="bukaSearch()" class="w-full flex items-center gap-3 py-3 px-4 text-gray-400 bg-kvt-800/30 rounded-xl mb-3 border border-kvt-700/20">
                     <i class="fas fa-search"></i>
@@ -2185,37 +2185,134 @@
                     <kbd class="text-[10px] bg-kvt-800 px-1.5 py-0.5 rounded ml-auto border border-kvt-700">Ctrl+K</kbd>
                 </button>
 
-                <a href="{{ route('beranda') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-home w-6 text-kvt-400"></i> Beranda</a>
-                <a href="{{ route('halaman.jenjang') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-graduation-cap w-6 text-green-400"></i> Jenjang Pendidikan</a>
+                {{-- User info (authenticated) --}}
                 @auth
-                <a href="{{ route('kelas.index') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-chalkboard w-6 text-kvt-400"></i> Kelas</a>
-                <a href="{{ route('laporan.index') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-chart-bar w-6 text-green-400"></i> Laporan</a>
-                <a href="{{ route('dasbor') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-tachometer-alt w-6 text-yellow-400"></i> Dasbor</a>
+                <div class="flex items-center gap-3 bg-gradient-to-r from-kvt-800/50 to-ungu-900/30 rounded-xl p-3 mb-3 border border-kvt-700/20">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-kvt-500 to-ungu-500 flex items-center justify-center text-white font-bold text-sm shadow">{{ strtoupper(substr(Auth::user()->nama, 0, 1)) }}</div>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-white font-semibold text-sm truncate">{{ Auth::user()->nama }}</div>
+                        <div class="text-gray-500 text-xs">{{ ucfirst(Auth::user()->peran) }}</div>
+                    </div>
+                    <a href="{{ route('dasbor') }}" class="text-kvt-400 text-xs font-semibold bg-kvt-800/50 px-3 py-1.5 rounded-lg border border-kvt-700/30">Dasbor</a>
+                </div>
                 @endauth
-                <a href="{{ route('berita.index') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-newspaper w-6 text-emerald-400"></i> Berita</a>
 
-                <div class="border-t border-kvt-700/20 my-2 mx-4"></div>
+                {{-- ===== ACCORDION: UTAMA ===== --}}
+                <div class="mb-1">
+                    <button onclick="toggleMobileAccordion(this)" class="w-full flex items-center justify-between py-2.5 px-4 text-gray-300 hover:bg-kvt-800/30 rounded-xl text-sm font-semibold transition">
+                        <span><i class="fas fa-home w-6 text-kvt-400"></i> Utama</span>
+                        <i class="fas fa-chevron-down text-[10px] text-gray-500 transition-transform duration-300 accordion-chevron"></i>
+                    </button>
+                    <div class="hidden accordion-content pl-4 space-y-0.5 mt-1">
+                        <a href="{{ route('beranda') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-home w-5 text-xs text-kvt-400/60"></i> Beranda</a>
+                        @auth
+                        <a href="{{ route('dasbor') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-tachometer-alt w-5 text-xs text-green-400/60"></i> Dasbor Saya</a>
+                        <a href="{{ route('kelas.index') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-chalkboard w-5 text-xs text-kvt-400/60"></i> Kelas</a>
+                        <a href="{{ route('laporan.index') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-chart-bar w-5 text-xs text-green-400/60"></i> Laporan</a>
+                        @endauth
+                        <a href="{{ route('berita.index') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-newspaper w-5 text-xs text-emerald-400/60"></i> Berita</a>
+                        <a href="{{ route('tentang') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-landmark w-5 text-xs text-cyan-400/60"></i> Tentang</a>
+                        <a href="{{ route('halaman.pengumuman') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-bullhorn w-5 text-xs text-red-400/60"></i> Pengumuman</a>
+                    </div>
+                </div>
 
-                <a href="{{ route('halaman.riset') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-microscope w-6 text-purple-400"></i> Riset & Inovasi</a>
-                <a href="{{ route('halaman.karir') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-briefcase w-6 text-orange-400"></i> Karir & Industri</a>
-                <a href="{{ route('halaman.komunitas') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-users w-6 text-pink-400"></i> Komunitas</a>
-                <a href="{{ route('halaman.sertifikasi') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-award w-6 text-yellow-400"></i> Sertifikasi</a>
-                <a href="{{ route('halaman.sumber-daya') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-database w-6 text-cyan-400"></i> Sumber Daya</a>
-                <a href="{{ route('edukasi-gratis.index') }}" class="block py-2.5 px-4 text-gray-300 hover:text-green-400 hover:bg-green-500/5 rounded-xl text-sm font-medium"><i class="fas fa-gift w-6 text-green-400"></i> Edukasi Gratis</a>
-                @auth
-                <a href="{{ route('pendaftaran-edukasi.riwayat') }}" class="block py-2.5 px-4 text-gray-300 hover:text-emerald-400 hover:bg-emerald-500/5 rounded-xl text-sm font-medium pl-10"><i class="fas fa-clipboard-check w-6 text-emerald-400"></i> Riwayat Pendaftaran</a>
-                @endauth
-                <a href="{{ route('kerja-sama.index') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-handshake w-6 text-yellow-400"></i> Kerja Sama</a>
+                {{-- ===== ACCORDION: AKADEMIK ===== --}}
+                <div class="mb-1">
+                    <button onclick="toggleMobileAccordion(this)" class="w-full flex items-center justify-between py-2.5 px-4 text-gray-300 hover:bg-kvt-800/30 rounded-xl text-sm font-semibold transition">
+                        <span><i class="fas fa-graduation-cap w-6 text-green-400"></i> Akademik</span>
+                        <i class="fas fa-chevron-down text-[10px] text-gray-500 transition-transform duration-300 accordion-chevron"></i>
+                    </button>
+                    <div class="hidden accordion-content pl-4 space-y-0.5 mt-1">
+                        <a href="{{ route('halaman.jenjang') }}" class="block py-2 px-4 text-gray-400 hover:text-green-400 hover:bg-green-500/5 rounded-lg text-sm transition"><i class="fas fa-layer-group w-5 text-xs text-green-400/60"></i> Jenjang Pendidikan</a>
+                        <a href="{{ route('halaman.kurikulum') }}" class="block py-2 px-4 text-gray-400 hover:text-green-400 hover:bg-green-500/5 rounded-lg text-sm transition"><i class="fas fa-book-reader w-5 text-xs text-indigo-400/60"></i> Kurikulum</a>
+                        <a href="{{ route('halaman.sertifikasi') }}" class="block py-2 px-4 text-gray-400 hover:text-green-400 hover:bg-green-500/5 rounded-lg text-sm transition"><i class="fas fa-certificate w-5 text-xs text-yellow-400/60"></i> Sertifikasi</a>
+                        <a href="{{ route('halaman.akreditasi') }}" class="block py-2 px-4 text-gray-400 hover:text-green-400 hover:bg-green-500/5 rounded-lg text-sm transition"><i class="fas fa-check-double w-5 text-xs text-emerald-400/60"></i> Akreditasi</a>
+                        <a href="{{ route('halaman.penjamin-mutu') }}" class="block py-2 px-4 text-gray-400 hover:text-green-400 hover:bg-green-500/5 rounded-lg text-sm transition"><i class="fas fa-shield-alt w-5 text-xs text-teal-400/60"></i> Penjamin Mutu</a>
+                        <a href="{{ route('halaman.alur-panduan') }}" class="block py-2 px-4 text-gray-400 hover:text-green-400 hover:bg-green-500/5 rounded-lg text-sm transition"><i class="fas fa-project-diagram w-5 text-xs text-teal-400/60"></i> Alur & Panduan</a>
+                    </div>
+                </div>
 
-                <div class="border-t border-kvt-700/20 my-2 mx-4"></div>
+                {{-- ===== ACCORDION: PEMBELAJARAN ===== --}}
+                <div class="mb-1">
+                    <button onclick="toggleMobileAccordion(this)" class="w-full flex items-center justify-between py-2.5 px-4 text-gray-300 hover:bg-kvt-800/30 rounded-xl text-sm font-semibold transition">
+                        <span><i class="fas fa-laptop-code w-6 text-kvt-400"></i> Pembelajaran</span>
+                        <i class="fas fa-chevron-down text-[10px] text-gray-500 transition-transform duration-300 accordion-chevron"></i>
+                    </button>
+                    <div class="hidden accordion-content pl-4 space-y-0.5 mt-1">
+                        <a href="{{ route('halaman.platform') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-globe w-5 text-xs text-kvt-400/60"></i> Platform</a>
+                        <a href="{{ route('halaman.e-learning') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-laptop w-5 text-xs text-kvt-400/60"></i> E-Learning</a>
+                        <a href="{{ route('halaman.webinar') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-video w-5 text-xs text-red-400/60"></i> Webinar</a>
+                        <a href="{{ route('halaman.workshop') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-tools w-5 text-xs text-green-400/60"></i> Workshop</a>
+                        <a href="{{ route('halaman.laboratorium') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-flask w-5 text-xs text-cyan-400/60"></i> Lab Virtual</a>
+                        <a href="{{ route('halaman.podcast') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-podcast w-5 text-xs text-pink-400/60"></i> Podcast</a>
+                        <a href="{{ route('halaman.pelatihan') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-chalkboard-teacher w-5 text-xs text-orange-400/60"></i> Pelatihan</a>
+                        <a href="{{ route('halaman.langganan') }}" class="block py-2 px-4 text-gray-400 hover:text-kvt-400 hover:bg-kvt-800/20 rounded-lg text-sm transition"><i class="fas fa-crown w-5 text-xs text-amber-400/60"></i> Langganan</a>
+                    </div>
+                </div>
 
-                <a href="{{ route('halaman.keamanan') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-shield-alt w-6 text-red-400"></i> Keamanan</a>
-                <a href="{{ route('halaman.penjamin-mutu') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-check-double w-6 text-teal-400"></i> Penjamin Mutu</a>
-                <a href="{{ route('halaman.kurikulum') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-book-reader w-6 text-indigo-400"></i> Kurikulum</a>
-                <a href="{{ route('halaman.alur-panduan') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-project-diagram w-6 text-teal-400"></i> Alur & Panduan</a>
-                <a href="{{ route('halaman.media') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-play-circle w-6 text-rose-400"></i> Media</a>
-                <a href="{{ route('halaman.dokumen') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-file-alt w-6 text-amber-400"></i> Dokumen</a>
-                <a href="{{ route('tentang') }}" class="block py-2.5 px-4 text-gray-300 hover:text-kvt-400 hover:bg-kvt-800/30 rounded-xl text-sm font-medium"><i class="fas fa-info-circle w-6 text-cyan-400"></i> Tentang</a>
+                {{-- ===== ACCORDION: RISET & KARIR ===== --}}
+                <div class="mb-1">
+                    <button onclick="toggleMobileAccordion(this)" class="w-full flex items-center justify-between py-2.5 px-4 text-gray-300 hover:bg-kvt-800/30 rounded-xl text-sm font-semibold transition">
+                        <span><i class="fas fa-microscope w-6 text-purple-400"></i> Riset & Karir</span>
+                        <i class="fas fa-chevron-down text-[10px] text-gray-500 transition-transform duration-300 accordion-chevron"></i>
+                    </button>
+                    <div class="hidden accordion-content pl-4 space-y-0.5 mt-1">
+                        <a href="{{ route('halaman.riset') }}" class="block py-2 px-4 text-gray-400 hover:text-purple-400 hover:bg-purple-500/5 rounded-lg text-sm transition"><i class="fas fa-microscope w-5 text-xs text-purple-400/60"></i> Riset & Inovasi</a>
+                        <a href="{{ route('halaman.karir') }}" class="block py-2 px-4 text-gray-400 hover:text-purple-400 hover:bg-purple-500/5 rounded-lg text-sm transition"><i class="fas fa-briefcase w-5 text-xs text-orange-400/60"></i> Karir & Industri</a>
+                        <a href="{{ route('halaman.magang') }}" class="block py-2 px-4 text-gray-400 hover:text-purple-400 hover:bg-purple-500/5 rounded-lg text-sm transition"><i class="fas fa-building w-5 text-xs text-amber-400/60"></i> Program Magang</a>
+                        <a href="{{ route('halaman.beasiswa') }}" class="block py-2 px-4 text-gray-400 hover:text-purple-400 hover:bg-purple-500/5 rounded-lg text-sm transition"><i class="fas fa-award w-5 text-xs text-yellow-400/60"></i> Beasiswa</a>
+                        <a href="{{ route('halaman.kompetisi') }}" class="block py-2 px-4 text-gray-400 hover:text-purple-400 hover:bg-purple-500/5 rounded-lg text-sm transition"><i class="fas fa-medal w-5 text-xs text-rose-400/60"></i> Kompetisi</a>
+                        <a href="{{ route('halaman.konsultasi') }}" class="block py-2 px-4 text-gray-400 hover:text-purple-400 hover:bg-purple-500/5 rounded-lg text-sm transition"><i class="fas fa-comments w-5 text-xs text-kvt-400/60"></i> Konsultasi</a>
+                        <a href="{{ route('halaman.jurnal') }}" class="block py-2 px-4 text-gray-400 hover:text-purple-400 hover:bg-purple-500/5 rounded-lg text-sm transition"><i class="fas fa-file-alt w-5 text-xs text-indigo-400/60"></i> Jurnal Akademik</a>
+                    </div>
+                </div>
+
+                {{-- ===== ACCORDION: KOMUNITAS ===== --}}
+                <div class="mb-1">
+                    <button onclick="toggleMobileAccordion(this)" class="w-full flex items-center justify-between py-2.5 px-4 text-gray-300 hover:bg-kvt-800/30 rounded-xl text-sm font-semibold transition">
+                        <span><i class="fas fa-users w-6 text-pink-400"></i> Komunitas</span>
+                        <i class="fas fa-chevron-down text-[10px] text-gray-500 transition-transform duration-300 accordion-chevron"></i>
+                    </button>
+                    <div class="hidden accordion-content pl-4 space-y-0.5 mt-1">
+                        <a href="{{ route('halaman.komunitas') }}" class="block py-2 px-4 text-gray-400 hover:text-pink-400 hover:bg-pink-500/5 rounded-lg text-sm transition"><i class="fas fa-users w-5 text-xs text-pink-400/60"></i> Komunitas</a>
+                        <a href="{{ route('halaman.forum') }}" class="block py-2 px-4 text-gray-400 hover:text-pink-400 hover:bg-pink-500/5 rounded-lg text-sm transition"><i class="fas fa-comments w-5 text-xs text-indigo-400/60"></i> Forum Diskusi</a>
+                        <a href="{{ route('halaman.mentoring') }}" class="block py-2 px-4 text-gray-400 hover:text-pink-400 hover:bg-pink-500/5 rounded-lg text-sm transition"><i class="fas fa-chalkboard-teacher w-5 text-xs text-violet-400/60"></i> Mentoring</a>
+                        <a href="{{ route('halaman.alumni') }}" class="block py-2 px-4 text-gray-400 hover:text-pink-400 hover:bg-pink-500/5 rounded-lg text-sm transition"><i class="fas fa-user-graduate w-5 text-xs text-cyan-400/60"></i> Alumni</a>
+                        <a href="{{ route('halaman.portofolio') }}" class="block py-2 px-4 text-gray-400 hover:text-pink-400 hover:bg-pink-500/5 rounded-lg text-sm transition"><i class="fas fa-folder-open w-5 text-xs text-green-400/60"></i> Portofolio</a>
+                    </div>
+                </div>
+
+                {{-- ===== ACCORDION: SUMBER DAYA ===== --}}
+                <div class="mb-1">
+                    <button onclick="toggleMobileAccordion(this)" class="w-full flex items-center justify-between py-2.5 px-4 text-gray-300 hover:bg-kvt-800/30 rounded-xl text-sm font-semibold transition">
+                        <span><i class="fas fa-database w-6 text-cyan-400"></i> Sumber Daya</span>
+                        <i class="fas fa-chevron-down text-[10px] text-gray-500 transition-transform duration-300 accordion-chevron"></i>
+                    </button>
+                    <div class="hidden accordion-content pl-4 space-y-0.5 mt-1">
+                        <a href="{{ route('halaman.sumber-daya') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fas fa-database w-5 text-xs text-cyan-400/60"></i> Sumber Daya</a>
+                        <a href="{{ route('halaman.perpustakaan') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fas fa-book w-5 text-xs text-amber-400/60"></i> Perpustakaan</a>
+                        <a href="{{ route('halaman.media') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fas fa-photo-video w-5 text-xs text-rose-400/60"></i> Media</a>
+                        <a href="{{ route('halaman.dokumen') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fas fa-file-alt w-5 text-xs text-amber-400/60"></i> Dokumen</a>
+                        <a href="{{ route('halaman.galeri') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fas fa-images w-5 text-xs text-emerald-400/60"></i> Galeri</a>
+                        <a href="{{ route('halaman.statistik') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fas fa-chart-pie w-5 text-xs text-kvt-400/60"></i> Statistik</a>
+                    </div>
+                </div>
+
+                {{-- ===== ACCORDION: KEAMANAN & LAINNYA ===== --}}
+                <div class="mb-1">
+                    <button onclick="toggleMobileAccordion(this)" class="w-full flex items-center justify-between py-2.5 px-4 text-gray-300 hover:bg-kvt-800/30 rounded-xl text-sm font-semibold transition">
+                        <span><i class="fas fa-shield-alt w-6 text-red-400"></i> Keamanan & Lainnya</span>
+                        <i class="fas fa-chevron-down text-[10px] text-gray-500 transition-transform duration-300 accordion-chevron"></i>
+                    </button>
+                    <div class="hidden accordion-content pl-4 space-y-0.5 mt-1">
+                        <a href="{{ route('halaman.keamanan') }}" class="block py-2 px-4 text-gray-400 hover:text-red-400 hover:bg-red-500/5 rounded-lg text-sm transition"><i class="fas fa-shield-alt w-5 text-xs text-red-400/60"></i> Keamanan</a>
+                        <a href="{{ route('halaman.layanan') }}" class="block py-2 px-4 text-gray-400 hover:text-red-400 hover:bg-red-500/5 rounded-lg text-sm transition"><i class="fas fa-concierge-bell w-5 text-xs text-amber-400/60"></i> Layanan</a>
+                        <a href="{{ route('halaman.bantuan') }}" class="block py-2 px-4 text-gray-400 hover:text-red-400 hover:bg-red-500/5 rounded-lg text-sm transition"><i class="fas fa-life-ring w-5 text-xs text-green-400/60"></i> Bantuan</a>
+                        <a href="{{ route('edukasi-gratis.index') }}" class="block py-2 px-4 text-gray-400 hover:text-green-400 hover:bg-green-500/5 rounded-lg text-sm transition"><i class="fas fa-gift w-5 text-xs text-green-400/60"></i> Edukasi Gratis</a>
+                        <a href="{{ route('kerja-sama.index') }}" class="block py-2 px-4 text-gray-400 hover:text-red-400 hover:bg-red-500/5 rounded-lg text-sm transition"><i class="fas fa-handshake w-5 text-xs text-yellow-400/60"></i> Kerja Sama</a>
+                        <a href="{{ route('halaman.kuro') }}" class="block py-2 px-4 text-gray-400 hover:text-red-400 hover:bg-red-500/5 rounded-lg text-sm transition"><i class="fas fa-cat w-5 text-xs text-purple-400/60"></i> Kuro</a>
+                    </div>
+                </div>
 
                 @guest
                 <div class="pt-3 px-2 flex gap-2">
@@ -2223,6 +2320,17 @@
                     <a href="{{ route('daftar') }}" class="flex-1 text-center py-2.5 text-sm bg-gradient-to-r from-kvt-500 to-ungu-500 text-white rounded-xl font-semibold">Daftar</a>
                 </div>
                 @endguest
+
+                @auth
+                <div class="pt-3 px-2">
+                    <form action="{{ route('keluar') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="w-full text-center py-2.5 text-sm bg-red-500/10 text-red-400 rounded-xl font-medium border border-red-500/20 hover:bg-red-500/20 transition">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Keluar
+                        </button>
+                    </form>
+                </div>
+                @endauth
             </div>
         </div>
     </nav>
@@ -2390,19 +2498,25 @@
                 </div>
             </div>
 
-            {{-- Row 2: Menu Centered --}}
-            <div class="hidden lg:flex center-menu-row relative">
-                <a href="{{ route('beranda') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-home text-kvt-400 text-[10px]"></i> Beranda</a>
-                <a href="{{ route('halaman.jenjang') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-graduation-cap text-green-400 text-[10px]"></i> Jenjang</a>
-                <a href="{{ route('berita.index') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-newspaper text-emerald-400 text-[10px]"></i> Berita</a>
-                <a href="{{ route('halaman.riset') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-microscope text-purple-400 text-[10px]"></i> Riset</a>
-                <a href="{{ route('halaman.karir') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-briefcase text-orange-400 text-[10px]"></i> Karir</a>
-                <a href="{{ route('halaman.komunitas') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-users text-pink-400 text-[10px]"></i> Komunitas</a>
-                <a href="{{ route('halaman.e-learning') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-laptop text-kvt-400 text-[10px]"></i> E-Learning</a>
-                <a href="{{ route('kerja-sama.index') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-handshake text-yellow-400 text-[10px]"></i> Kerja Sama</a>
-                <a href="{{ route('halaman.keamanan') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-shield-alt text-red-400 text-[10px]"></i> Keamanan</a>
-                <a href="{{ route('tentang') }}" class="nav-link text-xs !py-2 !px-3"><i class="fas fa-landmark text-indigo-400 text-[10px]"></i> Tentang</a>
-                <button onclick="bukaSemuaMenu()" class="nav-link text-xs !py-2 !px-3 text-kvt-400"><i class="fas fa-th-large text-[10px]"></i> Lainnya</button>
+            {{-- Row 2: Menu Centered with Scroll --}}
+            <div class="hidden lg:flex center-menu-row relative overflow-x-auto scrollbar-hide" style="scrollbar-width:none">
+                <a href="{{ route('beranda') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-home text-kvt-400 text-[10px]"></i> Beranda</a>
+                <a href="{{ route('halaman.jenjang') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-graduation-cap text-green-400 text-[10px]"></i> Jenjang</a>
+                <a href="{{ route('berita.index') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-newspaper text-emerald-400 text-[10px]"></i> Berita</a>
+                <a href="{{ route('halaman.platform') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-laptop-code text-kvt-400 text-[10px]"></i> Platform</a>
+                <a href="{{ route('halaman.e-learning') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-laptop text-kvt-400 text-[10px]"></i> E-Learning</a>
+                <a href="{{ route('halaman.sertifikasi') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-certificate text-yellow-400 text-[10px]"></i> Sertifikasi</a>
+                <a href="{{ route('halaman.riset') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-microscope text-purple-400 text-[10px]"></i> Riset</a>
+                <a href="{{ route('halaman.karir') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-briefcase text-orange-400 text-[10px]"></i> Karir</a>
+                <a href="{{ route('halaman.komunitas') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-users text-pink-400 text-[10px]"></i> Komunitas</a>
+                <a href="{{ route('halaman.webinar') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-video text-red-400 text-[10px]"></i> Webinar</a>
+                <a href="{{ route('halaman.laboratorium') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-flask text-cyan-400 text-[10px]"></i> Lab</a>
+                <a href="{{ route('halaman.beasiswa') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-award text-amber-400 text-[10px]"></i> Beasiswa</a>
+                <a href="{{ route('halaman.forum') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-comments text-indigo-400 text-[10px]"></i> Forum</a>
+                <a href="{{ route('kerja-sama.index') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-handshake text-yellow-400 text-[10px]"></i> Kerja Sama</a>
+                <a href="{{ route('halaman.keamanan') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-shield-alt text-red-400 text-[10px]"></i> Keamanan</a>
+                <a href="{{ route('tentang') }}" class="nav-link text-xs !py-2 !px-3 shrink-0"><i class="fas fa-landmark text-indigo-400 text-[10px]"></i> Tentang</a>
+                <button onclick="bukaSemuaMenu()" class="nav-link text-xs !py-2 !px-3 text-kvt-400 shrink-0"><i class="fas fa-th-large text-[10px]"></i> Lainnya</button>
             </div>
 
             <button onclick="toggleMobile()" class="lg:hidden ml-auto w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-800/50 transition absolute right-4 top-3"><i class="fas fa-bars text-lg"></i></button>
@@ -4124,7 +4238,40 @@
         setTimeout(()=>{ ['flashSukses','flashError'].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none' }) },5000);
 
         // Mobile menu toggle
-        function toggleMobile() { document.getElementById('mobileMenu').classList.toggle('hidden') }
+        function toggleMobile() {
+            const menu = document.getElementById('mobileMenu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.style.maxHeight = '0';
+                menu.style.opacity = '0';
+                requestAnimationFrame(() => { menu.style.transition = 'max-height 0.4s ease, opacity 0.3s ease'; menu.style.maxHeight = '80vh'; menu.style.opacity = '1'; });
+            } else {
+                menu.style.maxHeight = '0'; menu.style.opacity = '0';
+                setTimeout(() => { menu.classList.add('hidden'); menu.style.transition = ''; menu.style.maxHeight = ''; menu.style.opacity = ''; }, 400);
+            }
+        }
+
+        // Mobile accordion
+        function toggleMobileAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const chevron = btn.querySelector('.accordion-chevron');
+            const isOpen = !content.classList.contains('hidden');
+            // Close all other accordions
+            document.querySelectorAll('#mobileMenu .accordion-content').forEach(c => {
+                if (c !== content) { c.classList.add('hidden'); c.style.maxHeight = '0'; }
+            });
+            document.querySelectorAll('#mobileMenu .accordion-chevron').forEach(c => { c.style.transform = 'rotate(0deg)'; });
+            if (isOpen) {
+                content.style.maxHeight = '0';
+                setTimeout(() => content.classList.add('hidden'), 300);
+                chevron.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.remove('hidden');
+                content.style.maxHeight = content.scrollHeight + 'px';
+                content.style.transition = 'max-height 0.3s ease';
+                chevron.style.transform = 'rotate(180deg)';
+            }
+        }
 
         // ========================
         // 2-ROW DROPDOWN NAVIGATION (Click toggle)
@@ -5624,7 +5771,7 @@
             }, 2000);
         }
 
-        // Knowledge base sederhana untuk Kuro AI
+        // Knowledge base lengkap untuk Kuro AI
         const kuroResponses = {
             'daftar': 'Untuk mendaftar di KVT Hub:\n1. Klik tombol **Daftar** di pojok kanan atas\n2. Isi data: nama, email, password\n3. Pilih peran (Siswa/Mahasiswa/Guru/dll)\n4. Verifikasi email\n5. Login dan mulai belajar! 🎓',
             'fitur': 'KVT Hub punya banyak fitur keren:\n• **13 Jenjang** pendidikan (TK-S3)\n• **40 Menu** navigasi\n• **Gamifikasi RPG** dengan 100 level\n• **Music Streaming** 5 stasiun\n• **LED Dot Matrix** panel\n• **30+ Diagram** visualisasi\n• **AI VTuber** Assistant (aku!) 🐱',
@@ -5632,20 +5779,69 @@
             'gratis': 'Program **Edukasi Gratis** yang tersedia:\n🛠️ Developer Tools (GitHub Pro, JetBrains)\n☁️ Cloud & Hosting (Azure, AWS credit)\n🎨 Desain (Figma, Canva Pro)\n📚 Platform (Coursera, edX)\n\nSemua gratis untuk pelajar! Klik menu **Edukasi Gratis** di navbar.',
             'kelas': 'Untuk mengakses kelas:\n1. Login ke akun KVT Hub\n2. Buka menu **Platform > Kelas**\n3. Pilih kelas yang tersedia\n4. Mulai belajar & ikuti kuis\n5. Dapatkan XP dan naik level! 🚀',
             'bantuan': 'Aku bisa bantu banyak hal:\n• 📋 Navigasi menu & fitur\n• 📖 Info jenjang pendidikan\n• 🎮 Cara kerja gamifikasi\n• 🔐 Masalah login/akun\n• 📊 Penjelasan fitur diagram\n\nTanya aja! 😊',
+            'sertifikasi': 'KVT Hub menyediakan **120+ program sertifikasi**:\n📜 Sertifikat **Kompetensi** — diakui industri\n🏅 Sertifikat **Profesional** — standar internasional\n🎖️ Sertifikat **Keahlian** — bidang spesifik\n\nSetiap kelas memiliki **kuis & ujian** yang harus dilalui. Lulus = dapat sertifikat digital + badge!',
+            'riset': 'Pusat **Riset & Inovasi** KVT Hub:\n🔬 **500+ Publikasi** jurnal terindeks\n🤝 **80+ Mitra** universitas & perusahaan\n💰 **Dana riset** hingga Rp 50 juta/proposal\n📊 **Research Dashboard** untuk tracking progress\n\nMulai dari menu **Riset** di navbar!',
+            'karir': 'Fitur **Karir & Industri**:\n💼 **2.000+ Lowongan** dari mitra perusahaan\n📋 **AI Resume Builder** — buat CV otomatis\n🎯 **Career Matching** — rekomendasi karir sesuai skill\n🏢 **200+ Perusahaan** partner magang\n\nCek menu **Karir** untuk info lengkap!',
+            'beasiswa': 'Program **Beasiswa** KVT Hub:\n🏆 **Beasiswa Prestasi** — SPP 100% + Laptop\n💚 **Beasiswa Ekonomi** — SPP + Biaya Hidup\n🔬 **Beasiswa Riset** — Dana penelitian\n🌍 **Beasiswa Internasional** — Full ride\n💻 **Tech Talent** — Bootcamp + Sertifikasi\n\nPendaftaran di menu **Beasiswa**!',
+            'komunitas': 'Bergabung di **Komunitas** KVT Hub:\n👥 **50.000+** Anggota aktif\n💬 **Forum Diskusi** — tanya jawab\n🧑‍🏫 **300+ Mentor** profesional\n🎓 **25.000+** Alumni terhubung\n🏆 **Kompetisi** bulanan dengan hadiah\n\nBuka menu **Komunitas** untuk gabung!',
+            'keamanan': 'Keamanan KVT Hub:\n🔒 **AES-256** enkripsi data\n🛡️ **ISO 27001** tersertifikasi\n🌐 **SSL/TLS** di semua halaman\n📋 **GDPR** compliant\n🔐 **2FA** autentikasi\n\nDetail lengkap di halaman **Keamanan**.',
+            'langganan': 'Paket **Langganan** KVT Hub:\n🆓 **Gratis** — Akses kelas dasar + komunitas\n👑 **Premium** Rp 99K/bln — Semua kelas + sertifikasi\n🏢 **Enterprise** — Custom + API + SLA 99.9%\n\nMulai dari paket Gratis dan upgrade kapan saja!',
+            'magang': 'Program **Magang** KVT Hub:\n🏢 **200+ Perusahaan** partner\n⏰ **3-6 bulan** durasi\n💰 **Stipend** kompetitif\n📜 Sertifikat + **rekomendasi**\n🔗 Banyak jadi karyawan tetap!\n\nDaftar di menu **Magang**.',
+            'webinar': 'Fitur **Webinar** KVT Hub:\n📺 **Live streaming** berkualitas HD\n🎬 **On-demand** — tonton kapan saja\n📝 **Sertifikat** kehadiran otomatis\n💬 **Live Q&A** dengan pembicara\n🗂️ **Arsip** 500+ webinar tersedia',
+            'lab': 'Laboratorium Virtual KVT Hub:\n🧪 **80+** Lab interaktif\n💻 Coding Lab (Python, Java, C++)\n🔬 Simulasi Sains (Fisika, Kimia, Bio)\n📊 Data Science Lab\n🤖 AI & Machine Learning Lab\n\nAkses dari menu **Lab Virtual**!',
+            'musik': 'Panel **Musik** KVT Hub:\n🎵 5 stasiun streaming built-in\n• Lo-Fi Study Beats\n• Jazz Cafe\n• Deep House Focus\n• Ambient Nature\n• Classical Piano\n\nBuka dari ikon ⚙️ **Pengaturan** → tab Musik 🎶',
+            'pengaturan': 'Fitur **Pengaturan** (klik ⚙️ di kanan bawah):\n🎨 **Tema** — 4 gaya header, 6 warna, 3 background\n❄️ **Efek Visual** — Salju & animasi scroll\n🅻 **LED Panel** — 5 mode display\n🌐 **Bahasa** — 6 bahasa tersedia\n🎵 **Musik** — 5 stasiun streaming\n📸 **Screenshot** — Full page & area\n📹 **Rekam Layar** — dengan audio\n🎨 **Sketsa** — Whiteboard mode\n📷 **Kamera** — Foto & dokumen',
+            'led': 'Panel **LED Dot Matrix**:\n⏰ **Waktu Shalat** — jadwal otomatis\n🌍 **Waktu Dunia** — 8 zona waktu\n💡 **Motivasi** — kutipan inspiratif\nℹ️ **Info** — statistik platform\n✏️ **Custom** — teks sendiri\n\nAtur di **Pengaturan → LED Panel**',
+            'kerjasama': 'Program **Kerja Sama** KVT Hub:\n🏛️ **150+ Mitra** — universitas & perusahaan\n🌏 **30+ Negara** — jaringan global\n📋 **MoU aktif** — kolaborasi riset & akademik\n🤝 Terbuka untuk **institusi baru**\n\nHubungi via menu **Kerja Sama**!',
+            'podcast': 'Channel **Podcast** KVT Hub:\n🎙️ **200+ Episode** tersedia\n📚 Topik: Pendidikan, Teknologi, Karir\n🎧 Streaming langsung di platform\n📅 Episode baru setiap minggu\n\nDengarkan di menu **Podcast**!',
+            'galeri': '**Galeri** KVT Hub:\n📸 Foto kegiatan & event\n🎬 Video dokumentasi\n🏆 Momen kompetisi & prestasi\n🎓 Wisuda & sertifikasi\n\nLihat di menu **Galeri**!',
+            'statistik': '**Statistik** real-time KVT Hub:\n📊 Dashboard Analytics setelah login\n📈 Grafik pertumbuhan pengguna\n🏆 Leaderboard global\n📋 Laporan akademik otomatis\n\nCek di menu **Statistik** atau **Dasbor**.',
         };
 
         function getKuroResponse(message) {
             const msg = message.toLowerCase();
-            if (msg.includes('daftar') || msg.includes('register') || msg.includes('mendaftar')) return kuroResponses['daftar'];
-            if (msg.includes('fitur') || msg.includes('platform') || msg.includes('apa saja')) return kuroResponses['fitur'];
-            if (msg.includes('jenjang') || msg.includes('pendidikan') || msg.includes('tingkat')) return kuroResponses['jenjang'];
-            if (msg.includes('gratis') || msg.includes('free') || msg.includes('kursus')) return kuroResponses['gratis'];
-            if (msg.includes('kelas') || msg.includes('belajar') || msg.includes('materi')) return kuroResponses['kelas'];
-            if (msg.includes('bantuan') || msg.includes('help') || msg.includes('bantu')) return kuroResponses['bantuan'];
-            if (msg.includes('halo') || msg.includes('hai') || msg.includes('hi') || msg.includes('hello')) return 'Hai! 👋 Aku Kuro, asisten AI KVT Hub. Ada yang bisa aku bantu hari ini?';
-            if (msg.includes('terima kasih') || msg.includes('makasih') || msg.includes('thanks')) return 'Sama-sama! 😊 Senang bisa membantu. Jangan ragu tanya lagi ya!';
-            if (msg.includes('siapa') && (msg.includes('kamu') || msg.includes('kuro'))) return 'Aku **Kuro** 🐱 — maskot & asisten AI KVT Hub! Aku dibuat untuk membantu pengguna menjelajahi platform pendidikan ini. Nanti aku akan punya model 3D VTuber lho! ✨';
-            return 'Hmm, pertanyaan menarik! 🤔 Aku masih belajar. Coba tanya tentang:\n• Cara mendaftar\n• Fitur platform\n• Jenjang pendidikan\n• Edukasi gratis\n• Cara ikut kelas\n\nAtau kunjungi menu **Bantuan** di navbar! 📖';
+            // Exact topic matches
+            const topicMap = {
+                'daftar': ['daftar','register','mendaftar','sign up','signup','registrasi'],
+                'fitur': ['fitur','feature','apa saja','kemampuan','bisa apa'],
+                'jenjang': ['jenjang','pendidikan','tingkat','level','tk','sd','smp','sma','kuliah','s1','s2','s3'],
+                'gratis': ['gratis','free','edukasi gratis','github pro','figma','azure'],
+                'kelas': ['kelas','belajar','materi','course','kursus','les','pelajaran'],
+                'bantuan': ['bantuan','help','bantu','support','kendala','masalah'],
+                'sertifikasi': ['sertifikasi','sertifikat','certificate','certified'],
+                'riset': ['riset','penelitian','research','inovasi','jurnal akademik','publikasi'],
+                'karir': ['karir','kerja','lowongan','job','pekerjaan','career','cv','resume'],
+                'beasiswa': ['beasiswa','scholarship','pendanaan','bantuan dana'],
+                'komunitas': ['komunitas','community','forum','diskusi','mentoring','mentor'],
+                'keamanan': ['keamanan','security','aman','enkripsi','ssl','password','privasi','gdpr'],
+                'langganan': ['langganan','premium','subscribe','paket','harga','biaya','bayar'],
+                'magang': ['magang','internship','intern','magang kerja'],
+                'webinar': ['webinar','seminar','live','streaming','conference'],
+                'lab': ['lab','laboratorium','virtual lab','simulasi','praktikum'],
+                'musik': ['musik','music','lagu','streaming musik','lo-fi','jazz','playlist'],
+                'pengaturan': ['pengaturan','setting','konfigurasi','tema','warna','header'],
+                'led': ['led','dot matrix','ticker','running text','display'],
+                'kerjasama': ['kerja sama','kerjasama','mitra','partner','kolaborasi','mou'],
+                'podcast': ['podcast','episode','audio','dengar'],
+                'galeri': ['galeri','foto','album','gambar','gallery'],
+                'statistik': ['statistik','data','analytics','grafik','chart','dashboard'],
+            };
+            for (const [key, triggers] of Object.entries(topicMap)) {
+                if (triggers.some(t => msg.includes(t))) return kuroResponses[key];
+            }
+            // Greeting patterns
+            if (/^(halo|hai|hi|hello|hey|yo|assalam|salamm?)\b/i.test(msg)) return 'Hai! 👋 Aku **Kuro**, asisten AI KVT Hub. Ada yang bisa aku bantu hari ini? Tanya apa saja tentang platform ini! 🐱';
+            if (msg.includes('terima kasih') || msg.includes('makasih') || msg.includes('thanks') || msg.includes('thx')) return 'Sama-sama! 😊 Senang bisa membantu. Jangan ragu untuk bertanya lagi kapan pun!';
+            if (msg.includes('siapa') && (msg.includes('kamu') || msg.includes('kuro'))) return 'Aku **Kuro** 🐱 — maskot & asisten AI KVT Hub! Aku dibuat oleh tim KVT untuk membantu pengguna menjelajahi platform pendidikan ini. Fun fact: Nama Kuro berarti "hitam" dalam bahasa Jepang! 🌙✨';
+            if (msg.includes('selamat pagi') || msg.includes('pagi')) return 'Selamat pagi! 🌅 Semoga hari ini produktif. Ada yang bisa Kuro bantu? ☕';
+            if (msg.includes('selamat siang') || msg.includes('siang')) return 'Selamat siang! ☀️ Tetap semangat belajar ya! Ada yang ingin ditanyakan?';
+            if (msg.includes('selamat malam') || msg.includes('malam')) return 'Selamat malam! 🌙 Masih semangat belajar? Kuro siap menemani! 🐱';
+            if (msg.includes('bagus') || msg.includes('keren') || msg.includes('mantap') || msg.includes('hebat')) return 'Terima kasih! 🎉 Tim kami bekerja keras untuk membuat KVT Hub semakin baik. Kalau ada saran, gunakan fitur **Kotak Saran** di footer ya!';
+            if (msg.includes('error') || msg.includes('bug') || msg.includes('rusak') || msg.includes('gabisa') || msg.includes('tidak bisa')) return 'Oh no! 😥 Maaf atas kendalanya. Coba langkah ini:\n1. **Refresh** halaman (Ctrl+F5)\n2. **Clear cache** browser\n3. Coba browser lain\n4. Laporkan via **Kotak Saran** di footer\n\nTim kami akan segera investigasi! 🔧';
+            if (msg.includes('cara') && msg.includes('login')) return 'Cara **Login** ke KVT Hub:\n1. Klik tombol **Masuk** di kanan atas\n2. Masukkan **email** dan **password**\n3. Klik **Login**\n\nLupa password? Klik "**Lupa Password**" untuk reset via email! 🔐';
+            if (msg.includes('versi') || msg.includes('version') || msg.includes('update')) return 'KVT Hub saat ini versi **v8.0** 🚀\nUpdate terbaru mencakup:\n• Header split 2-row\n• 8 item/halaman navigasi\n• Chart.js di admin dashboard\n• Dokumen resmi Kuro\n• Kotak saran popup\n• Dan banyak lagi! ✨';
+            // Fallback
+            return 'Pertanyaan menarik! 🤔 Aku belum bisa menjawab ini secara spesifik, tapi coba tanya tentang:\n\n📝 **Pendaftaran** · 🎓 **Jenjang** · 📚 **Kelas**\n🏆 **Sertifikasi** · 🔬 **Riset** · 💼 **Karir**\n🎓 **Beasiswa** · 👥 **Komunitas** · 🔒 **Keamanan**\n💎 **Langganan** · 🎙️ **Podcast** · ⚙️ **Pengaturan**\n\nAtau kunjungi menu **Bantuan** untuk FAQ lengkap! 📖';
         }
 
         function tambahPesanVtuber(type, text) {

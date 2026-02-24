@@ -185,4 +185,38 @@
     </div>
 </section>
 
+{{-- FAQ Akreditasi --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl font-black mb-4">FAQ <span class="teks-gradien">Akreditasi</span></h2>
+        </div>
+        <div class="space-y-3" data-aos="fade-up">
+            @php
+            $faqs = [
+                ['q'=>'Apa itu akreditasi platform pendidikan?','a'=>'Akreditasi adalah pengakuan resmi dari lembaga berwenang bahwa platform telah memenuhi standar mutu pendidikan yang ditetapkan, baik secara nasional (BAN-PT) maupun internasional.'],
+                ['q'=>'Bagaimana KVT Hub mendapatkan akreditasi?','a'=>'KVT Hub menjalani proses audit berkala dari lembaga independen. Kami dinilai berdasarkan kurikulum, infrastruktur, tenaga pengajar, dan output lulusan.'],
+                ['q'=>'Apakah sertifikat dari KVT Hub diakui secara resmi?','a'=>'Ya! Sertifikat yang diterbitkan bersama lembaga mitra (BNSP, AWS, Google, dll) diakui secara resmi. Sertifikat internal KVT Hub terverifikasi blockchain.'],
+                ['q'=>'Seberapa sering audit mutu dilakukan?','a'=>'Audit internal dilakukan setiap kuartal (3 bulan sekali), sedangkan audit eksternal oleh lembaga akreditasi dilakukan setiap tahun.'],
+            ];
+            @endphp
+            @foreach($faqs as $faq)
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-xl overflow-hidden">
+                <button onclick="this.parentElement.classList.toggle('faq-open')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/30 transition">
+                    <span class="text-white font-semibold text-sm pr-4">{{ $faq['q'] }}</span>
+                    <i class="fas fa-chevron-down text-emerald-400 text-xs transition-transform faq-chevron"></i>
+                </button>
+                <div class="faq-answer px-5 pb-0 max-h-0 overflow-hidden transition-all duration-300">
+                    <p class="text-gray-400 text-sm leading-relaxed pb-5">{{ $faq['a'] }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 @endsection
+
+@push('styles')
+<style>.faq-open .faq-chevron{transform:rotate(180deg)}.faq-open .faq-answer{max-height:200px;padding-bottom:1.25rem}</style>
+@endpush

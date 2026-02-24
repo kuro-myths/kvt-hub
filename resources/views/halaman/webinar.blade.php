@@ -119,6 +119,62 @@
     </div>
 </section>
 
+{{-- Testimoni --}}
+<section class="py-20">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-black mb-4">Kata <span class="teks-gradien">Peserta</span></h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            @php
+            $testimoni = [
+                ['nama' => 'Kevin Wijaya', 'role' => 'ML Engineer', 'teks' => 'Webinar AI di KVT Hub sangat aplikatif. Speakernya praktisi langsung dari industri, bukan hanya teori.', 'rating' => 5],
+                ['nama' => 'Ratna Sari', 'role' => 'Mahasiswa S2', 'teks' => 'Webinar riset sangat membantu saya memahami metodologi yang benar. Plus dapat sertifikat!', 'rating' => 5],
+                ['nama' => 'Hendra Gunawan', 'role' => 'Startup Founder', 'teks' => 'Networking di webinar bisnis KVT Hub membawa saya bertemu co-founder yang sekarang jadi partner.', 'rating' => 4],
+            ];
+            @endphp
+            @foreach($testimoni as $i => $t)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-6" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                <div class="flex gap-1 mb-3">@for($s=0;$s<$t['rating'];$s++)<i class="fas fa-star text-amber-400 text-xs"></i>@endfor @for($s=$t['rating'];$s<5;$s++)<i class="fas fa-star text-gray-700 text-xs"></i>@endfor</div>
+                <p class="text-gray-300 text-sm italic mb-4">"{{ $t['teks'] }}"</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-gradient-to-br from-kvt-500 to-ungu-500 rounded-full flex items-center justify-center text-white text-xs font-bold">{{ strtoupper(substr($t['nama'],0,1)) }}</div>
+                    <div><div class="text-white font-semibold text-xs">{{ $t['nama'] }}</div><div class="text-gray-500 text-[10px]">{{ $t['role'] }}</div></div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-black mb-4">FAQ <span class="teks-gradien">Webinar</span></h2>
+        </div>
+        @php
+        $faq = [
+            ['q' => 'Apakah webinar gratis?', 'a' => 'Sebagian besar webinar gratis untuk pengguna terdaftar. Beberapa webinar premium/workshop berbayar memberikan benefit tambahan.'],
+            ['q' => 'Bagaimana cara mendapat sertifikat?', 'a' => 'Hadiri webinar minimal 80% durasi dan isi form evaluasi. Sertifikat digital dikirim otomatis ke email dalam 24 jam.'],
+            ['q' => 'Bisa menonton rekaman?', 'a' => 'Ya! Semua webinar direkam dan tersedia di arsip on-demand. Pengguna gratis bisa akses rekaman 7 hari. Premium unlimited.'],
+            ['q' => 'Platform apa yang digunakan?', 'a' => 'Webinar dilaksanakan via Zoom Meeting/Webinar. Link akses dikirim 1 jam sebelum acara ke email terdaftar.'],
+        ];
+        @endphp
+        <div class="space-y-3">
+            @foreach($faq as $i => $item)
+            <div class="kaca rounded-2xl overflow-hidden border-kvt-500/20" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
+                <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.fa-chevron-down').classList.toggle('rotate-180')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/20 transition">
+                    <span class="text-white font-semibold text-sm"><i class="fas fa-question-circle text-kvt-400 mr-2"></i>{{ $item['q'] }}</span>
+                    <i class="fas fa-chevron-down text-kvt-400 text-xs transition-transform duration-300"></i>
+                </button>
+                <div class="hidden px-5 pb-5"><p class="text-gray-400 text-sm">{{ $item['a'] }}</p></div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 {{-- CTA --}}
 <section class="py-20">
     <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">

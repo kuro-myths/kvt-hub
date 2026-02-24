@@ -81,4 +81,56 @@
 
     </div>
 </div>
+
+{{-- Tips & Info --}}
+<section class="py-16 bg-kvt-900/30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <h2 class="text-2xl font-black text-white mb-2">Tips Pendaftaran</h2>
+            <p class="text-gray-400 text-sm">Panduan agar pendaftaran Anda cepat diverifikasi</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            @php
+            $tips = [
+                ['icon'=>'fa-file-check','judul'=>'Lengkapi Dokumen','desc'=>'Pastikan semua dokumen yang diminta telah diunggah lengkap dan jelas terbaca.','color'=>'kvt'],
+                ['icon'=>'fa-clock','judul'=>'Waktu Verifikasi','desc'=>'Proses verifikasi memakan waktu 1-3 hari kerja. Status akan diperbarui otomatis di halaman ini.','color'=>'amber'],
+                ['icon'=>'fa-bell','judul'=>'Pantau Notifikasi','desc'=>'Aktifkan notifikasi email agar Anda mendapat update jika ada catatan dari admin.','color'=>'emerald'],
+            ];
+            @endphp
+            @foreach($tips as $t)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-6 text-center hover:border-{{ $t['color'] }}-500/30 transition-all" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                <div class="w-14 h-14 bg-{{ $t['color'] }}-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas {{ $t['icon'] }} text-{{ $t['color'] }}-400 text-xl"></i>
+                </div>
+                <h3 class="text-white font-bold mb-2">{{ $t['judul'] }}</h3>
+                <p class="text-gray-500 text-sm">{{ $t['desc'] }}</p>
+            </div>
+            @endforeach
+        </div>
+
+        {{-- Status Legend --}}
+        <div class="mt-12 bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-6" data-aos="fade-up">
+            <h3 class="text-white font-bold text-sm mb-4"><i class="fas fa-info-circle text-kvt-400 mr-2"></i>Keterangan Status</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 bg-yellow-400 rounded-full"></span>
+                    <div><span class="text-white text-sm font-semibold">Menunggu</span><p class="text-gray-500 text-[10px]">Belum diverifikasi</p></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 bg-blue-400 rounded-full"></span>
+                    <div><span class="text-white text-sm font-semibold">Diproses</span><p class="text-gray-500 text-[10px]">Sedang ditinjau admin</p></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 bg-green-400 rounded-full"></span>
+                    <div><span class="text-white text-sm font-semibold">Diterima</span><p class="text-gray-500 text-[10px]">Pendaftaran berhasil</p></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 bg-red-400 rounded-full"></span>
+                    <div><span class="text-white text-sm font-semibold">Ditolak</span><p class="text-gray-500 text-[10px]">Perlu perbaikan</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 @endsection

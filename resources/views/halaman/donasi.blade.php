@@ -176,4 +176,67 @@
     </div>
 </section>
 
+{{-- Dampak Donasi --}}
+<section class="py-20">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">Dampak <span class="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">Donasi Anda</span></h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Setiap rupiah berdampak langsung pada pengembangan platform pendidikan gratis.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @php
+            $dampak = [
+                ['icon'=>'fa-tachometer-alt','judul'=>'Performa 10x','desc'=>'Perangkat baru memungkinkan development 10x lebih cepat','color'=>'amber'],
+                ['icon'=>'fa-video','judul'=>'Konten Video HD','desc'=>'Produksi video tutorial berkualitas 4K untuk semua materi','color'=>'red'],
+                ['icon'=>'fa-code','judul'=>'Fitur Baru','desc'=>'Pengembangan fitur-fitur advanced seperti AI dan real-time collab','color'=>'kvt'],
+                ['icon'=>'fa-heart','judul'=>'Platform Gratis','desc'=>'Mempertahankan akses gratis untuk jutaan pelajar Indonesia','color'=>'pink'],
+            ];
+            @endphp
+            @foreach($dampak as $d)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-6 text-center hover:border-{{ $d['color'] }}-500/30 transition-all" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                <div class="w-14 h-14 bg-{{ $d['color'] }}-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas {{ $d['icon'] }} text-{{ $d['color'] }}-400 text-xl"></i>
+                </div>
+                <h3 class="text-white font-bold mb-2">{{ $d['judul'] }}</h3>
+                <p class="text-gray-500 text-sm">{{ $d['desc'] }}</p>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ Donasi --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl font-black text-white mb-4">FAQ <span class="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">Donasi</span></h2>
+        </div>
+        <div class="space-y-3" data-aos="fade-up">
+            @php
+            $faqs = [
+                ['q'=>'Berapa nominal minimum donasi?','a'=>'Tidak ada minimum! Setiap donasi, sekecil apapun, sangat berarti bagi kami. Rp 1.000 sekalipun kami apresiasi setinggi-tingginya.'],
+                ['q'=>'Apakah donasi bisa dikembalikan?','a'=>'Donasi bersifat sukarela dan tidak dapat dikembalikan. Namun seluruh penggunaan dana dilaporkan secara transparan.'],
+                ['q'=>'Bagaimana transparansi penggunaan donasi?','a'=>'Kami mempublikasikan laporan keuangan bulanan termasuk rincian penggunaan dana di halaman Donor Wall dan akun media sosial resmi.'],
+                ['q'=>'Apakah donatur mendapat benefit khusus?','a'=>'Ya! Donatur tercatat di Donor Wall, mendapat badge khusus di profil, akses early beta fitur baru, dan shoutout di media sosial KVT Hub.'],
+            ];
+            @endphp
+            @foreach($faqs as $faq)
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-xl overflow-hidden">
+                <button onclick="this.parentElement.classList.toggle('faq-open')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/30 transition">
+                    <span class="text-white font-semibold text-sm pr-4">{{ $faq['q'] }}</span>
+                    <i class="fas fa-chevron-down text-amber-400 text-xs transition-transform faq-chevron"></i>
+                </button>
+                <div class="faq-answer px-5 pb-0 max-h-0 overflow-hidden transition-all duration-300">
+                    <p class="text-gray-400 text-sm leading-relaxed pb-5">{{ $faq['a'] }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 @endsection
+
+@push('styles')
+<style>.faq-open .faq-chevron{transform:rotate(180deg)}.faq-open .faq-answer{max-height:200px;padding-bottom:1.25rem}</style>
+@endpush

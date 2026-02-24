@@ -157,4 +157,70 @@
     </div>
 </section>
 
+{{-- Testimoni Pengguna Lab --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-black mb-4">Kata <span class="teks-gradien">Pengguna</span></h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Pengalaman mereka menggunakan laboratorium virtual KVT Hub.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            @php
+            $testimoni = [
+                ['nama'=>'Dr. Rina Wati','peran'=>'Dosen Kimia','teks'=>'Lab virtual KVT Hub membantu mahasiswa saya memahami reaksi kimia tanpa risiko. Simulasi 3D-nya sangat realistis dan interaktif.','warna'=>'from-cyan-500 to-teal-500'],
+                ['nama'=>'Aldo Firmansyah','peran'=>'Mahasiswa Teknik','teks'=>'Saya bisa praktik simulasi rangkaian elektronik kapan saja. Fitur kolaborasi tim sangat membantu tugas kelompok praktikum.','warna'=>'from-blue-500 to-indigo-500'],
+                ['nama'=>'Sari Puspita','peran'=>'Siswa SMA','teks'=>'Laboratorium biologi virtual-nya keren banget! Bisa lihat sel di mikroskop digital dan belajar anatomi dengan model 3D.','warna'=>'from-green-500 to-emerald-500'],
+            ];
+            @endphp
+            @foreach($testimoni as $t)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-6 card-hover" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br {{ $t['warna'] }} rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg">{{ strtoupper(substr($t['nama'],0,1)) }}</div>
+                    <div>
+                        <h4 class="text-white font-bold text-sm">{{ $t['nama'] }}</h4>
+                        <p class="text-gray-500 text-xs">{{ $t['peran'] }}</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm italic leading-relaxed">"{{ $t['teks'] }}"</p>
+                <div class="flex gap-0.5 mt-4">@for($s=0;$s<5;$s++)<i class="fas fa-star text-amber-400 text-xs"></i>@endfor</div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ Laboratorium --}}
+<section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl font-black mb-4">FAQ <span class="teks-gradien">Laboratorium</span></h2>
+        </div>
+        <div class="space-y-3" data-aos="fade-up">
+            @php
+            $faqs = [
+                ['q'=>'Apakah perlu install software khusus?','a'=>'Tidak! Semua laboratorium virtual berjalan di browser. Anda hanya butuh koneksi internet dan browser modern seperti Chrome atau Firefox.'],
+                ['q'=>'Apakah lab virtual bisa digunakan offline?','a'=>'Beberapa modul dasar tersedia untuk mode offline melalui PWA. Modul dengan simulasi berat memerlukan koneksi internet.'],
+                ['q'=>'Berapa banyak eksperimen yang bisa dilakukan?','a'=>'Pengguna gratis mendapat akses ke 50+ eksperimen dasar. Pengguna premium mendapat akses ke seluruh 500+ eksperimen di semua bidang.'],
+                ['q'=>'Apakah hasil eksperimen bisa dijadikan laporan?','a'=>'Ya! Setiap eksperimen menghasilkan laporan otomatis lengkap dengan data, grafik, dan analisis yang bisa diunduh dalam format PDF.'],
+            ];
+            @endphp
+            @foreach($faqs as $faq)
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-xl overflow-hidden">
+                <button onclick="this.parentElement.classList.toggle('faq-open')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/30 transition">
+                    <span class="text-white font-semibold text-sm pr-4">{{ $faq['q'] }}</span>
+                    <i class="fas fa-chevron-down text-cyan-400 text-xs transition-transform faq-chevron"></i>
+                </button>
+                <div class="faq-answer px-5 pb-0 max-h-0 overflow-hidden transition-all duration-300">
+                    <p class="text-gray-400 text-sm leading-relaxed pb-5">{{ $faq['a'] }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 @endsection
+
+@push('styles')
+<style>.faq-open .faq-chevron{transform:rotate(180deg)}.faq-open .faq-answer{max-height:200px;padding-bottom:1.25rem}</style>
+@endpush

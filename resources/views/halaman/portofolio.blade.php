@@ -149,6 +149,65 @@
     </div>
 </section>
 
+{{-- Showcase --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-black mb-4">Portofolio <span class="teks-gradien">Terbaik</span></h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Karya terbaik dari anggota komunitas KVT Hub</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            @php
+            $showcase = [
+                ['judul' => 'E-Learning Dashboard', 'author' => 'Andi R.', 'tags' => ['UI/UX','Figma'], 'views' => '2.1K', 'likes' => '340', 'warna' => 'sky'],
+                ['judul' => 'API Gateway System', 'author' => 'Dewi S.', 'tags' => ['Backend','Go'], 'views' => '1.8K', 'likes' => '285', 'warna' => 'green'],
+                ['judul' => 'Mobile Health App', 'author' => 'Budi P.', 'tags' => ['Flutter','Firebase'], 'views' => '3.2K', 'likes' => '520', 'warna' => 'purple'],
+            ];
+            @endphp
+            @foreach($showcase as $i => $s)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl overflow-hidden hover:border-{{ $s['warna'] }}-500/30 transition" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                <div class="h-40 bg-gradient-to-br from-{{ $s['warna'] }}-900/30 to-kvt-900/30 flex items-center justify-center">
+                    <i class="fas fa-laptop-code text-{{ $s['warna'] }}-400/30 text-6xl"></i>
+                </div>
+                <div class="p-5">
+                    <h3 class="text-white font-bold mb-2">{{ $s['judul'] }}</h3>
+                    <p class="text-gray-500 text-xs mb-3">oleh {{ $s['author'] }}</p>
+                    <div class="flex gap-2 mb-3">@foreach($s['tags'] as $tag)<span class="bg-{{ $s['warna'] }}-500/10 text-{{ $s['warna'] }}-400 text-[10px] px-2 py-1 rounded-full">{{ $tag }}</span>@endforeach</div>
+                    <div class="flex gap-4 text-gray-500 text-xs"><span><i class="fas fa-eye mr-1"></i>{{ $s['views'] }}</span><span><i class="fas fa-heart mr-1"></i>{{ $s['likes'] }}</span></div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ --}}
+<section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-black mb-4">FAQ <span class="teks-gradien">Portofolio</span></h2>
+        </div>
+        @php
+        $faq = [
+            ['q' => 'Siapa yang bisa membuat portofolio?', 'a' => 'Semua pengguna terdaftar bisa membuat portofolio. Fitur premium memberikan template tambahan dan custom domain.'],
+            ['q' => 'Apakah portofolio bisa dilihat publik?', 'a' => 'Ya! Portofolio bersifat publik secara default. Anda juga bisa mengatur visibilitas ke private atau unlisted.'],
+            ['q' => 'Format file apa yang didukung?', 'a' => 'Gambar (JPG, PNG, SVG), PDF, video (MP4), dan link ke repository GitHub, Figma, atau Behance.'],
+        ];
+        @endphp
+        <div class="space-y-3">
+            @foreach($faq as $i => $item)
+            <div class="kaca rounded-2xl overflow-hidden border-kvt-500/20" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
+                <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.fa-chevron-down').classList.toggle('rotate-180')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/20 transition">
+                    <span class="text-white font-semibold text-sm"><i class="fas fa-question-circle text-sky-400 mr-2"></i>{{ $item['q'] }}</span>
+                    <i class="fas fa-chevron-down text-sky-400 text-xs transition-transform duration-300"></i>
+                </button>
+                <div class="hidden px-5 pb-5"><p class="text-gray-400 text-sm">{{ $item['a'] }}</p></div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 {{-- CTA --}}
 <section class="py-20">
     <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">

@@ -169,4 +169,69 @@
     </div>
 </section>
 
+{{-- Testimoni Peserta --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-black mb-4">Kata <span class="teks-gradien">Juara</span></h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            @php
+            $testimoni = [
+                ['nama'=>'Fikri R.','peran'=>'Gold Medal IOI 2025','teks'=>'Persiapan di KVT Hub sangat membantu. Soal-soal latihan dan mentoring dari senior mempersiapkan saya meraih medali emas.','warna'=>'from-yellow-500 to-amber-500'],
+                ['nama'=>'Nadia K.','peran'=>'Winner Hackathon 2025','teks'=>'Tim kami terbentuk di KVT Hub! Platform ini menghubungkan kami dengan sesama developer berbakat dari seluruh Indonesia.','warna'=>'from-kvt-500 to-blue-500'],
+                ['nama'=>'Ahmad S.','peran'=>'Best Paper ICSE','teks'=>'Bimbingan riset di KVT Hub membawa paper saya hingga diterima di konferensi internasional. Luar biasa!','warna'=>'from-purple-500 to-violet-500'],
+            ];
+            @endphp
+            @foreach($testimoni as $t)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-6 card-hover" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br {{ $t['warna'] }} rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg">{{ strtoupper(substr($t['nama'],0,1)) }}</div>
+                    <div>
+                        <h4 class="text-white font-bold text-sm">{{ $t['nama'] }}</h4>
+                        <p class="text-gray-500 text-xs">{{ $t['peran'] }}</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm italic leading-relaxed">"{{ $t['teks'] }}"</p>
+                <div class="flex gap-0.5 mt-4">@for($s=0;$s<5;$s++)<i class="fas fa-star text-amber-400 text-xs"></i>@endfor</div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ Kompetisi --}}
+<section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl font-black mb-4">FAQ <span class="teks-gradien">Kompetisi</span></h2>
+        </div>
+        <div class="space-y-3" data-aos="fade-up">
+            @php
+            $faqs = [
+                ['q'=>'Apakah kompetisi terbuka untuk semua jenjang?','a'=>'Ya! Tersedia kompetisi untuk tingkat SMA, mahasiswa, dan profesional. Setiap kompetisi mencantumkan syarat peserta.'],
+                ['q'=>'Bagaimana cara mendaftar kompetisi?','a'=>'Pilih kompetisi yang diminati, klik Daftar Sekarang, dan lengkapi formulir pendaftaran. Tim juga bisa mendaftar secara berkelompok.'],
+                ['q'=>'Apakah ada biaya pendaftaran?','a'=>'Sebagian besar kompetisi di KVT Hub gratis. Beberapa kompetisi dengan hadiah besar mungkin memerlukan biaya pendaftaran minimal.'],
+                ['q'=>'Apakah ada bimbingan persiapan kompetisi?','a'=>'Tentu! KVT Hub menyediakan modul latihan, soal-soal past paper, dan mentoring khusus untuk persiapan kompetisi.'],
+            ];
+            @endphp
+            @foreach($faqs as $faq)
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-xl overflow-hidden">
+                <button onclick="this.parentElement.classList.toggle('faq-open')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/30 transition">
+                    <span class="text-white font-semibold text-sm pr-4">{{ $faq['q'] }}</span>
+                    <i class="fas fa-chevron-down text-yellow-400 text-xs transition-transform faq-chevron"></i>
+                </button>
+                <div class="faq-answer px-5 pb-0 max-h-0 overflow-hidden transition-all duration-300">
+                    <p class="text-gray-400 text-sm leading-relaxed pb-5">{{ $faq['a'] }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 @endsection
+
+@push('styles')
+<style>.faq-open .faq-chevron{transform:rotate(180deg)}.faq-open .faq-answer{max-height:200px;padding-bottom:1.25rem}</style>
+@endpush

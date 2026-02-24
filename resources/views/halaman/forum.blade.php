@@ -171,4 +171,67 @@
     </div>
 </section>
 
+{{-- Panduan Forum --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-black mb-4">Panduan <span class="teks-gradien">Forum</span></h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Ikuti etika dan panduan agar diskusi tetap produktif dan bermanfaat.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @php
+            $rules = [
+                ['icon'=>'fa-handshake','judul'=>'Sopan & Hormat','desc'=>'Gunakan bahasa yang sopan dan hormati pendapat orang lain.','color'=>'indigo'],
+                ['icon'=>'fa-search','judul'=>'Cari Dulu','desc'=>'Gunakan fitur pencarian sebelum membuat thread baru yang mungkin sudah ada.','color'=>'blue'],
+                ['icon'=>'fa-tag','judul'=>'Gunakan Tag','desc'=>'Beri tag kategori yang tepat agar thread mudah ditemukan orang lain.','color'=>'kvt'],
+                ['icon'=>'fa-ban','judul'=>'Tanpa Spam','desc'=>'Jangan posting spam, promosi, atau konten tidak relevan di forum.','color'=>'red'],
+            ];
+            @endphp
+            @foreach($rules as $r)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-6 text-center card-hover" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
+                <div class="w-14 h-14 bg-{{ $r['color'] }}-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas {{ $r['icon'] }} text-{{ $r['color'] }}-400 text-xl"></i>
+                </div>
+                <h3 class="text-white font-bold mb-2">{{ $r['judul'] }}</h3>
+                <p class="text-gray-500 text-sm">{{ $r['desc'] }}</p>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ Forum --}}
+<section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl font-black mb-4">FAQ <span class="teks-gradien">Forum</span></h2>
+        </div>
+        <div class="space-y-3" data-aos="fade-up">
+            @php
+            $faqs = [
+                ['q'=>'Apakah harus login untuk membaca forum?','a'=>'Tidak, Anda bisa membaca semua thread tanpa login. Namun untuk membuat thread baru atau membalas, Anda perlu membuat akun terlebih dahulu.'],
+                ['q'=>'Bagaimana cara mendapatkan badge Expert?','a'=>'Badge diberikan otomatis berdasarkan kontribusi Anda: jumlah jawaban yang ditandai sebagai solusi, reputasi, dan tingkat aktivitas di forum.'],
+                ['q'=>'Apakah boleh mempromosikan produk di forum?','a'=>'Promosi produk komersial tidak diperbolehkan. Namun Anda boleh membagikan project open-source atau resource belajar yang bermanfaat.'],
+                ['q'=>'Bagaimana cara melaporkan konten tidak pantas?','a'=>'Klik tombol Report pada post yang bersangkutan. Tim moderator kami akan meninjau laporan dalam 24 jam.'],
+            ];
+            @endphp
+            @foreach($faqs as $faq)
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-xl overflow-hidden">
+                <button onclick="this.parentElement.classList.toggle('faq-open')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/30 transition">
+                    <span class="text-white font-semibold text-sm pr-4">{{ $faq['q'] }}</span>
+                    <i class="fas fa-chevron-down text-indigo-400 text-xs transition-transform faq-chevron"></i>
+                </button>
+                <div class="faq-answer px-5 pb-0 max-h-0 overflow-hidden transition-all duration-300">
+                    <p class="text-gray-400 text-sm leading-relaxed pb-5">{{ $faq['a'] }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 @endsection
+
+@push('styles')
+<style>.faq-open .faq-chevron{transform:rotate(180deg)}.faq-open .faq-answer{max-height:200px;padding-bottom:1.25rem}</style>
+@endpush

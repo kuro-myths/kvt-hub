@@ -149,6 +149,63 @@
     </div>
 </section>
 
+{{-- Reading Stats --}}
+<section class="py-20 bg-kvt-900/30">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-14" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-black mb-4">Buku <span class="teks-gradien">Populer</span></h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Buku yang paling banyak dibaca oleh komunitas KVT Hub</p>
+        </div>
+        <div class="grid md:grid-cols-4 gap-6">
+            @php
+            $buku = [
+                ['judul' => 'Clean Code', 'penulis' => 'Robert C. Martin', 'readers' => '5.2K', 'ikon' => 'fa-laptop-code', 'warna' => 'kvt'],
+                ['judul' => 'Data Structures & Algorithms', 'penulis' => 'Thomas Cormen', 'readers' => '4.1K', 'ikon' => 'fa-project-diagram', 'warna' => 'green'],
+                ['judul' => 'AI: A Modern Approach', 'penulis' => 'Stuart Russell', 'readers' => '3.8K', 'ikon' => 'fa-robot', 'warna' => 'purple'],
+                ['judul' => 'Design Patterns', 'penulis' => 'GoF', 'readers' => '3.5K', 'ikon' => 'fa-cubes', 'warna' => 'amber'],
+            ];
+            @endphp
+            @foreach($buku as $i => $b)
+            <div class="bg-kvt-900/50 border border-kvt-700/20 rounded-2xl p-5 text-center hover:border-{{ $b['warna'] }}-500/30 transition" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
+                <div class="w-14 h-14 bg-{{ $b['warna'] }}-500/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas {{ $b['ikon'] }} text-{{ $b['warna'] }}-400 text-xl"></i>
+                </div>
+                <h3 class="text-white font-bold text-sm mb-1">{{ $b['judul'] }}</h3>
+                <p class="text-gray-500 text-xs mb-2">{{ $b['penulis'] }}</p>
+                <span class="text-{{ $b['warna'] }}-400 text-xs font-semibold"><i class="fas fa-users mr-1"></i>{{ $b['readers'] }} pembaca</span>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- FAQ --}}
+<section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-black mb-4">FAQ <span class="teks-gradien">Perpustakaan</span></h2>
+        </div>
+        @php
+        $faq = [
+            ['q' => 'Apakah bisa membaca offline?', 'a' => 'Pengguna Premium bisa mendownload buku dalam format EPUB dan PDF untuk dibaca offline di perangkat manapun.'],
+            ['q' => 'Berapa buku yang bisa dipinjam?', 'a' => 'Pengguna Gratis bisa meminjam 3 buku sekaligus. Premium unlimited. Masa pinjam 14 hari dan bisa diperpanjang.'],
+            ['q' => 'Bagaimana cara request buku baru?', 'a' => 'Gunakan fitur "Request Buku" di perpustakaan. Tim kurasi akan meninjau dan menambahkan buku yang sesuai dalam 1-2 minggu.'],
+        ];
+        @endphp
+        <div class="space-y-3">
+            @foreach($faq as $i => $item)
+            <div class="kaca rounded-2xl overflow-hidden border-kvt-500/20" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
+                <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.fa-chevron-down').classList.toggle('rotate-180')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/20 transition">
+                    <span class="text-white font-semibold text-sm"><i class="fas fa-question-circle text-emerald-400 mr-2"></i>{{ $item['q'] }}</span>
+                    <i class="fas fa-chevron-down text-emerald-400 text-xs transition-transform duration-300"></i>
+                </button>
+                <div class="hidden px-5 pb-5"><p class="text-gray-400 text-sm">{{ $item['a'] }}</p></div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 {{-- CTA --}}
 <section class="py-20">
     <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">

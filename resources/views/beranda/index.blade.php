@@ -1038,6 +1038,72 @@
     </div>
 </section>
 
+{{-- ROADMAP & TIMELINE --}}
+<section class="py-20 relative overflow-hidden" id="roadmap">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-950 via-kvt-900 to-kvt-950"></div>
+    <div class="absolute top-1/3 left-0 w-72 h-72 bg-emerald-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/3 right-0 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl"></div>
+    <div class="relative max-w-5xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-road mr-2"></i>Roadmap</span>
+            <h2 class="text-4xl font-black text-white mt-2">Perjalanan KVT Hub</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Milestone dan rencana pengembangan ekosistem pendidikan digital global</p>
+        </div>
+
+        <div class="relative">
+            {{-- Vertical line --}}
+            <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-kvt-700/50 via-emerald-500/30 to-kvt-700/50 hidden md:block"></div>
+
+            @php
+            $milestones = [
+                ['tanggal' => 'Jan 2024', 'judul' => 'KVT Hub v1.0 - Genesis', 'desk' => 'Peluncuran awal platform dengan fitur kelas, materi, dan kuis dasar. Sistem autentikasi multi-role (siswa, pengajar, admin).', 'ikon' => 'fa-rocket', 'warna' => 'from-blue-500 to-cyan-500', 'status' => 'selesai'],
+                ['tanggal' => 'Apr 2024', 'judul' => 'v2.0 - Akademik Ekspansi', 'desk' => 'Penambahan 13 jenjang pendidikan, kurikulum terintegrasi, silabus, dan sistem nilai dengan laporan akademik otomatis.', 'ikon' => 'fa-graduation-cap', 'warna' => 'from-purple-500 to-violet-500', 'status' => 'selesai'],
+                ['tanggal' => 'Jul 2024', 'judul' => 'v3.0 - Gamifikasi & Komunitas', 'desk' => 'Sistem level 1-100 dengan 10 ranking, badge & pencapaian, forum komunitas, study group, dan hackathon virtual.', 'ikon' => 'fa-trophy', 'warna' => 'from-amber-500 to-yellow-500', 'status' => 'selesai'],
+                ['tanggal' => 'Oct 2024', 'judul' => 'v4.0 - Riset & Sertifikasi', 'desk' => 'Pusat riset digital, kolaborasi 150+ universitas, sertifikasi blockchain-verified, integrasi BNSP/AWS/Google.', 'ikon' => 'fa-microscope', 'warna' => 'from-green-500 to-emerald-500', 'status' => 'selesai'],
+                ['tanggal' => 'Jan 2025', 'judul' => 'v5.0 - Karir & Industri', 'desk' => 'Portal karir, 500+ mitra industri, program magang bersertifikat, CV builder AI, dan mentoring 1-on-1.', 'ikon' => 'fa-briefcase', 'warna' => 'from-orange-500 to-red-500', 'status' => 'selesai'],
+                ['tanggal' => 'Apr 2025', 'judul' => 'v6.0 - AI & Analytics', 'desk' => 'Rekomendasi pembelajaran AI, dashboard analitik 30+ chart, prediksi performa siswa, dan Kuro VTuber chatbot.', 'ikon' => 'fa-robot', 'warna' => 'from-pink-500 to-rose-500', 'status' => 'selesai'],
+                ['tanggal' => 'Jul 2025', 'judul' => 'v7.0 - Global Expansion', 'desk' => 'Multi-bahasa (ID, EN, JP), PWA offline support, konferensi virtual, dan integrasi payment gateway internasional.', 'ikon' => 'fa-globe', 'warna' => 'from-cyan-500 to-blue-500', 'status' => 'aktif'],
+                ['tanggal' => 'Q4 2025', 'judul' => 'v8.0 - Metaverse Campus', 'desk' => '3D virtual campus, VR/AR classroom, digital twin laboratorium, dan holographic presentation technology.', 'ikon' => 'fa-vr-cardboard', 'warna' => 'from-indigo-500 to-purple-600', 'status' => 'rencana'],
+            ];
+            @endphp
+
+            @foreach($milestones as $i => $m)
+            <div class="relative flex items-center mb-10 {{ $i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse' }}" data-aos="{{ $i % 2 === 0 ? 'fade-right' : 'fade-left' }}" data-aos-delay="{{ $i * 60 }}">
+                {{-- Content card --}}
+                <div class="flex-1 {{ $i % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12' }}">
+                    <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-6 hover:border-kvt-500/30 transition-all duration-300 hover:-translate-y-1 inline-block w-full">
+                        <div class="flex items-center gap-3 mb-3 {{ $i % 2 === 0 ? 'md:justify-end' : '' }}">
+                            <span class="text-xs font-bold uppercase tracking-wider {{ $m['status'] === 'selesai' ? 'text-emerald-400' : ($m['status'] === 'aktif' ? 'text-kvt-400' : 'text-gray-500') }}">
+                                <i class="fas {{ $m['status'] === 'selesai' ? 'fa-check-circle' : ($m['status'] === 'aktif' ? 'fa-spinner fa-spin' : 'fa-clock') }} mr-1"></i>
+                                {{ $m['tanggal'] }}
+                            </span>
+                            @if($m['status'] === 'aktif')
+                            <span class="bg-kvt-500/10 text-kvt-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-kvt-500/20">CURRENT</span>
+                            @endif
+                        </div>
+                        <h3 class="text-white font-bold text-lg mb-2">{{ $m['judul'] }}</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">{{ $m['desk'] }}</p>
+                    </div>
+                </div>
+                {{-- Center dot --}}
+                <div class="absolute left-1/2 -translate-x-1/2 w-10 h-10 bg-gradient-to-br {{ $m['warna'] }} rounded-xl flex items-center justify-center shadow-lg z-10 hidden md:flex {{ $m['status'] === 'aktif' ? 'ring-4 ring-kvt-400/30 animate-pulse' : '' }}">
+                    <i class="fas {{ $m['ikon'] }} text-white text-sm"></i>
+                </div>
+                {{-- Empty space for other side --}}
+                <div class="flex-1 hidden md:block"></div>
+            </div>
+            @endforeach
+        </div>
+
+        <div class="text-center mt-8" data-aos="zoom-in">
+            <div class="inline-flex items-center bg-kvt-800/50 border border-kvt-700/30 rounded-full px-6 py-3">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full mr-3 animate-pulse"></span>
+                <span class="text-gray-400 text-sm">Terus berkembang dengan <span class="text-white font-bold">update mingguan</span></span>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- TESTIMONI & PENGHARGAAN --}}
 <section class="py-20 relative" id="testimoni">
     <div class="max-w-7xl mx-auto px-4">
@@ -1107,6 +1173,208 @@
     </div>
 </section>
 
+{{-- LIVE ACTIVITY FEED --}}
+<section class="py-20 relative overflow-hidden" id="aktivitas">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-950 to-kvt-900/80"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 items-start">
+            {{-- Activity Feed --}}
+            <div data-aos="fade-right">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-stream text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-black text-white">Aktivitas Terkini</h3>
+                        <p class="text-gray-500 text-xs"><span class="w-2 h-2 bg-emerald-400 rounded-full inline-block animate-pulse mr-1"></span>Real-time dari seluruh platform</p>
+                    </div>
+                </div>
+                <div class="space-y-3" id="activityFeed">
+                    @php
+                    $activities = [
+                        ['user' => 'Ahmad F.', 'aksi' => 'menyelesaikan materi', 'target' => 'Algoritma Dasar', 'xp' => '+30 XP', 'waktu' => '2 menit lalu', 'ikon' => 'fa-book-reader', 'warna' => 'text-blue-400'],
+                        ['user' => 'Siti R.', 'aksi' => 'naik ke level', 'target' => 'Silver Scholar (Lv.42)', 'xp' => 'Level Up!', 'waktu' => '5 menit lalu', 'ikon' => 'fa-level-up-alt', 'warna' => 'text-yellow-400'],
+                        ['user' => 'Budi P.', 'aksi' => 'lulus kuis', 'target' => 'Machine Learning Quiz (98%)', 'xp' => '+25 XP', 'waktu' => '8 menit lalu', 'ikon' => 'fa-check-double', 'warna' => 'text-emerald-400'],
+                        ['user' => 'Dewi S.', 'aksi' => 'bergabung di kelas', 'target' => 'Web Development Lanjutan', 'xp' => '+20 XP', 'waktu' => '12 menit lalu', 'ikon' => 'fa-door-open', 'warna' => 'text-purple-400'],
+                        ['user' => 'Reza M.', 'aksi' => 'mendapatkan sertifikat', 'target' => 'AWS Cloud Practitioner', 'xp' => '+100 XP', 'waktu' => '15 menit lalu', 'ikon' => 'fa-certificate', 'warna' => 'text-amber-400'],
+                        ['user' => 'Nadia K.', 'aksi' => 'memulai riset', 'target' => 'AI in Healthcare Systems', 'xp' => '+50 XP', 'waktu' => '20 menit lalu', 'ikon' => 'fa-microscope', 'warna' => 'text-pink-400'],
+                        ['user' => 'Hendra W.', 'aksi' => 'membuat forum post', 'target' => 'Tips Interview Tech Company', 'xp' => '+10 XP', 'waktu' => '25 menit lalu', 'ikon' => 'fa-comments', 'warna' => 'text-cyan-400'],
+                        ['user' => 'Lisa A.', 'aksi' => 'hadir hari ke-30 berturut', 'target' => 'Streak Master Badge!', 'xp' => '+75 XP', 'waktu' => '30 menit lalu', 'ikon' => 'fa-fire', 'warna' => 'text-orange-400'],
+                    ];
+                    @endphp
+                    @foreach($activities as $i => $a)
+                    <div class="flex items-center gap-4 bg-kvt-900/50 border border-kvt-700/20 rounded-xl px-4 py-3 hover:bg-kvt-800/40 transition-all activity-item" style="animation: slideInLeft 0.4s ease {{ $i * 0.08 }}s both">
+                        <div class="w-9 h-9 bg-kvt-800/60 rounded-lg flex items-center justify-center shrink-0">
+                            <i class="fas {{ $a['ikon'] }} {{ $a['warna'] }} text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm text-gray-300 truncate"><span class="text-white font-semibold">{{ $a['user'] }}</span> {{ $a['aksi'] }} <span class="text-kvt-400">{{ $a['target'] }}</span></p>
+                            <p class="text-[10px] text-gray-600">{{ $a['waktu'] }}</p>
+                        </div>
+                        <span class="text-emerald-400 text-xs font-bold shrink-0 bg-emerald-500/10 px-2 py-1 rounded-lg">{{ $a['xp'] }}</span>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- Leaderboard & Achievements --}}
+            <div data-aos="fade-left" data-aos-delay="150">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-crown text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-black text-white">Leaderboard</h3>
+                        <p class="text-gray-500 text-xs">Top performers bulan ini</p>
+                    </div>
+                </div>
+                <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl overflow-hidden">
+                    @php
+                    $leaders = [
+                        ['rank' => 1, 'nama' => 'Rizky Pratama', 'xp' => '12,450 XP', 'level' => 'Lv.67 Diamond', 'badge' => 'from-yellow-400 to-amber-500', 'medal' => 'fa-crown text-yellow-400'],
+                        ['rank' => 2, 'nama' => 'Aisyah Putri', 'xp' => '11,230 XP', 'level' => 'Lv.63 Diamond', 'badge' => 'from-gray-300 to-gray-400', 'medal' => 'fa-medal text-gray-300'],
+                        ['rank' => 3, 'nama' => 'Dimas Surya', 'xp' => '10,890 XP', 'level' => 'Lv.61 Platinum', 'badge' => 'from-amber-600 to-amber-700', 'medal' => 'fa-medal text-amber-600'],
+                        ['rank' => 4, 'nama' => 'Farah Zahra', 'xp' => '9,750 XP', 'level' => 'Lv.58 Platinum', 'badge' => 'from-kvt-500 to-kvt-600', 'medal' => 'fa-star text-kvt-400'],
+                        ['rank' => 5, 'nama' => 'Galih Wicaksono', 'xp' => '9,120 XP', 'level' => 'Lv.55 Gold', 'badge' => 'from-kvt-500 to-kvt-600', 'medal' => 'fa-star text-kvt-400'],
+                    ];
+                    @endphp
+                    @foreach($leaders as $l)
+                    <div class="flex items-center gap-4 px-6 py-4 {{ $l['rank'] <= 3 ? 'bg-kvt-800/20' : '' }} hover:bg-kvt-800/40 transition border-b border-kvt-700/10 last:border-0">
+                        <div class="w-8 text-center">
+                            @if($l['rank'] <= 3)
+                            <i class="fas {{ $l['medal'] }} text-lg"></i>
+                            @else
+                            <span class="text-gray-500 font-bold text-sm">#{{ $l['rank'] }}</span>
+                            @endif
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br {{ $l['badge'] }} rounded-xl flex items-center justify-center text-white font-bold shadow-lg">
+                            {{ strtoupper(substr($l['nama'], 0, 1)) }}
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-white font-bold text-sm">{{ $l['nama'] }}</h4>
+                            <p class="text-gray-500 text-[10px]">{{ $l['level'] }}</p>
+                        </div>
+                        <span class="text-emerald-400 font-bold text-sm">{{ $l['xp'] }}</span>
+                    </div>
+                    @endforeach
+                    <div class="px-6 py-3 bg-kvt-800/10 text-center">
+                        <a href="#" class="text-kvt-400 hover:text-kvt-300 text-xs font-semibold transition">Lihat Leaderboard Lengkap <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                {{-- Recent Achievements --}}
+                <div class="mt-6 bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-6">
+                    <h4 class="text-white font-bold text-sm mb-4"><i class="fas fa-trophy text-amber-400 mr-2"></i>Pencapaian Terbaru</h4>
+                    <div class="flex flex-wrap gap-2">
+                        @php
+                        $badges = [
+                            ['nama' => 'First Login', 'ikon' => 'fa-door-open', 'bg' => 'bg-blue-500/20 text-blue-400 border-blue-500/30'],
+                            ['nama' => 'Materi Master', 'ikon' => 'fa-book', 'bg' => 'bg-green-500/20 text-green-400 border-green-500/30'],
+                            ['nama' => 'Quiz Champion', 'ikon' => 'fa-award', 'bg' => 'bg-amber-500/20 text-amber-400 border-amber-500/30'],
+                            ['nama' => '7-Day Streak', 'ikon' => 'fa-fire', 'bg' => 'bg-orange-500/20 text-orange-400 border-orange-500/30'],
+                            ['nama' => 'Social Butterfly', 'ikon' => 'fa-users', 'bg' => 'bg-pink-500/20 text-pink-400 border-pink-500/30'],
+                            ['nama' => 'Code Ninja', 'ikon' => 'fa-code', 'bg' => 'bg-purple-500/20 text-purple-400 border-purple-500/30'],
+                            ['nama' => 'Researcher', 'ikon' => 'fa-flask', 'bg' => 'bg-teal-500/20 text-teal-400 border-teal-500/30'],
+                            ['nama' => 'Certified Pro', 'ikon' => 'fa-certificate', 'bg' => 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30'],
+                        ];
+                        @endphp
+                        @foreach($badges as $b)
+                        <span class="inline-flex items-center gap-1.5 {{ $b['bg'] }} border text-[11px] font-semibold px-3 py-1.5 rounded-lg">
+                            <i class="fas {{ $b['ikon'] }} text-[10px]"></i>{{ $b['nama'] }}
+                        </span>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- COMPARISON TABLE --}}
+<section class="py-20 relative" id="perbandingan">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-900/80 to-kvt-950"></div>
+    <div class="relative max-w-5xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-kvt-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-balance-scale mr-2"></i>Perbandingan</span>
+            <h2 class="text-4xl font-black text-white mt-2">Mengapa Memilih KVT Hub?</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Lihat bagaimana KVT Hub unggul dibandingkan platform pendidikan lainnya</p>
+        </div>
+        <div class="overflow-x-auto" data-aos="fade-up">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr>
+                        <th class="text-left text-gray-500 font-semibold p-4 border-b border-kvt-700/30">Fitur</th>
+                        <th class="text-center p-4 border-b border-kvt-500/30">
+                            <div class="bg-gradient-to-br from-kvt-500/20 to-ungu-500/20 border border-kvt-500/30 rounded-xl px-4 py-3">
+                                <span class="text-kvt-400 font-black text-base">KVT Hub</span>
+                                <div class="text-[10px] text-kvt-300 mt-0.5">Rekomendasi</div>
+                            </div>
+                        </th>
+                        <th class="text-center text-gray-400 font-semibold p-4 border-b border-kvt-700/30">Platform A</th>
+                        <th class="text-center text-gray-400 font-semibold p-4 border-b border-kvt-700/30">Platform B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $comparisons = [
+                        ['fitur' => 'Jenjang Pendidikan', 'kvt' => '13 (TK-S3)', 'a' => 'Hanya 3', 'b' => 'Hanya 5'],
+                        ['fitur' => 'Gamifikasi & Level', 'kvt' => '100 Level RPG', 'a' => 'Tidak ada', 'b' => 'Badge saja'],
+                        ['fitur' => 'Universitas Mitra', 'kvt' => '150+ Global', 'a' => '20+', 'b' => '50+'],
+                        ['fitur' => 'Sertifikasi', 'kvt' => '120+ (Blockchain)', 'a' => '10+', 'b' => '30+'],
+                        ['fitur' => 'AI Recommendation', 'kvt' => true, 'a' => false, 'b' => true],
+                        ['fitur' => 'Pusat Riset', 'kvt' => true, 'a' => false, 'b' => false],
+                        ['fitur' => 'Portal Karir', 'kvt' => '500+ Mitra', 'a' => 'Tidak ada', 'b' => '50+'],
+                        ['fitur' => 'Open Source', 'kvt' => true, 'a' => false, 'b' => false],
+                        ['fitur' => 'PWA Offline', 'kvt' => true, 'a' => false, 'b' => true],
+                        ['fitur' => 'VTuber Assistant', 'kvt' => true, 'a' => false, 'b' => false],
+                        ['fitur' => 'Keamanan ISO 27001', 'kvt' => true, 'a' => true, 'b' => false],
+                        ['fitur' => 'Harga Dasar', 'kvt' => 'GRATIS', 'a' => '$29/bln', 'b' => '$19/bln'],
+                    ];
+                    @endphp
+                    @foreach($comparisons as $c)
+                    <tr class="border-b border-kvt-700/10 hover:bg-kvt-800/20 transition">
+                        <td class="p-4 text-gray-300 font-medium">{{ $c['fitur'] }}</td>
+                        <td class="p-4 text-center">
+                            @if(is_bool($c['kvt']))
+                                @if($c['kvt'])
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-emerald-500/20 rounded-lg"><i class="fas fa-check text-emerald-400 text-xs"></i></span>
+                                @else
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-red-500/20 rounded-lg"><i class="fas fa-times text-red-400 text-xs"></i></span>
+                                @endif
+                            @else
+                                <span class="text-kvt-400 font-bold text-sm">{{ $c['kvt'] }}</span>
+                            @endif
+                        </td>
+                        <td class="p-4 text-center">
+                            @if(is_bool($c['a']))
+                                @if($c['a'])
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-emerald-500/20 rounded-lg"><i class="fas fa-check text-emerald-400 text-xs"></i></span>
+                                @else
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-red-500/20 rounded-lg"><i class="fas fa-times text-red-400 text-xs"></i></span>
+                                @endif
+                            @else
+                                <span class="text-gray-500 text-sm">{{ $c['a'] }}</span>
+                            @endif
+                        </td>
+                        <td class="p-4 text-center">
+                            @if(is_bool($c['b']))
+                                @if($c['b'])
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-emerald-500/20 rounded-lg"><i class="fas fa-check text-emerald-400 text-xs"></i></span>
+                                @else
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-red-500/20 rounded-lg"><i class="fas fa-times text-red-400 text-xs"></i></span>
+                                @endif
+                            @else
+                                <span class="text-gray-500 text-sm">{{ $c['b'] }}</span>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
 {{-- FAQ SECTION --}}
 <section class="py-20 relative" id="faq">
     <div class="max-w-4xl mx-auto px-4">
@@ -1139,6 +1407,66 @@
     </div>
 </section>
 
+{{-- NEWSLETTER POPUP --}}
+<div id="newsletterPopup" class="fixed bottom-6 left-6 z-[60] max-w-sm w-full hidden" style="animation: slideUp 0.5s ease both">
+    <div class="bg-kvt-900/95 backdrop-blur-xl border border-kvt-500/30 rounded-2xl p-6 shadow-2xl shadow-kvt-500/10 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-kvt-500/10 rounded-full blur-2xl"></div>
+        <button onclick="tutupNewsletter()" class="absolute top-3 right-3 w-7 h-7 bg-kvt-800/60 hover:bg-red-500/20 rounded-lg flex items-center justify-center text-gray-500 hover:text-red-400 transition">
+            <i class="fas fa-times text-xs"></i>
+        </button>
+        <div class="relative">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-envelope text-white"></i>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm">Newsletter KVT Hub</h4>
+                    <p class="text-gray-500 text-[10px]">Jangan lewatkan update terbaru!</p>
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs leading-relaxed mb-4">Dapatkan tips belajar, info beasiswa, lowongan kerja, dan update fitur terbaru langsung di inbox Anda.</p>
+            <form onsubmit="event.preventDefault();submitNewsletter()" class="space-y-2">
+                <input type="email" id="newsletterEmail" placeholder="email@contoh.com" class="w-full bg-kvt-800/50 border border-kvt-700/30 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-kvt-500/50 focus:outline-none transition" required>
+                <button type="submit" class="w-full bg-gradient-to-r from-kvt-500 to-ungu-500 hover:from-kvt-400 hover:to-ungu-400 text-white py-2.5 rounded-xl font-semibold text-sm transition shadow-lg shadow-kvt-500/20">
+                    <i class="fas fa-paper-plane mr-2"></i>Berlangganan Gratis
+                </button>
+            </form>
+            <p class="text-gray-600 text-[10px] mt-2 text-center">Tidak ada spam. Berhenti kapan saja.</p>
+        </div>
+    </div>
+</div>
+
+{{-- SCROLL TO TOP --}}
+<button id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-6 right-6 z-[60] w-12 h-12 bg-gradient-to-br from-kvt-500 to-ungu-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-kvt-500/30 hover:-translate-y-1 transition-all opacity-0 invisible" title="Kembali ke atas">
+    <i class="fas fa-chevron-up text-lg"></i>
+</button>
+
+{{-- QUICK ACTION FLOATING BAR (Mobile) --}}
+<div class="fixed bottom-0 left-0 right-0 z-[55] bg-kvt-950/95 backdrop-blur-xl border-t border-kvt-700/30 py-2 px-4 md:hidden" id="mobileQuickBar">
+    <div class="flex items-center justify-around">
+        <a href="{{ route('daftar') }}" class="flex flex-col items-center gap-0.5 text-kvt-400 hover:text-kvt-300 transition">
+            <i class="fas fa-user-plus text-lg"></i>
+            <span class="text-[9px] font-semibold">Daftar</span>
+        </a>
+        <a href="#ekosistem" class="flex flex-col items-center gap-0.5 text-gray-500 hover:text-white transition">
+            <i class="fas fa-globe text-lg"></i>
+            <span class="text-[9px]">Ekosistem</span>
+        </a>
+        <a href="#fitur" class="flex flex-col items-center gap-0.5 text-gray-500 hover:text-white transition">
+            <i class="fas fa-star text-lg"></i>
+            <span class="text-[9px]">Fitur</span>
+        </a>
+        <a href="#berita" class="flex flex-col items-center gap-0.5 text-gray-500 hover:text-white transition">
+            <i class="fas fa-newspaper text-lg"></i>
+            <span class="text-[9px]">Berita</span>
+        </a>
+        <a href="#faq" class="flex flex-col items-center gap-0.5 text-gray-500 hover:text-white transition">
+            <i class="fas fa-question-circle text-lg"></i>
+            <span class="text-[9px]">FAQ</span>
+        </a>
+    </div>
+</div>
+
 @endsection
 
 @push('styles')
@@ -1146,6 +1474,8 @@
 .faq-open .faq-chevron { transform:rotate(180deg) }
 .faq-open .faq-answer { max-height:200px;padding-bottom:1.25rem }
 .line-clamp-2 { display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden }
+@keyframes slideUp { from { opacity:0;transform:translateY(30px); } to { opacity:1;transform:translateY(0); } }
+@keyframes slideInLeft { from { opacity:0;transform:translateX(-20px); } to { opacity:1;transform:translateX(0); } }
 </style>
 @endpush
 
@@ -1236,5 +1566,67 @@ document.addEventListener('DOMContentLoaded', () => {
     tampilBerita(0);
     beritaTimer = setInterval(() => gantiBerita(1), 15000);
 });
+
+// === NEWSLETTER POPUP ===
+let newsletterShown = false;
+window.addEventListener('scroll', () => {
+    // Show newsletter popup after scrolling 60% of page
+    if (!newsletterShown && !sessionStorage.getItem('newsletterClosed')) {
+        const scrollPct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+        if (scrollPct > 60) {
+            const popup = document.getElementById('newsletterPopup');
+            if (popup) { popup.classList.remove('hidden'); newsletterShown = true; }
+        }
+    }
+    // Scroll to top button
+    const btn = document.getElementById('scrollTopBtn');
+    if (btn) {
+        if (window.scrollY > 600) {
+            btn.style.opacity = '1'; btn.style.visibility = 'visible';
+        } else {
+            btn.style.opacity = '0'; btn.style.visibility = 'hidden';
+        }
+    }
+});
+
+function tutupNewsletter() {
+    const popup = document.getElementById('newsletterPopup');
+    if (popup) popup.classList.add('hidden');
+    sessionStorage.setItem('newsletterClosed', '1');
+}
+
+function submitNewsletter() {
+    const email = document.getElementById('newsletterEmail');
+    if (email && email.value) {
+        const popup = document.getElementById('newsletterPopup');
+        if (popup) popup.innerHTML = '<div class="bg-kvt-900/95 backdrop-blur-xl border border-emerald-500/30 rounded-2xl p-6 shadow-2xl text-center"><i class="fas fa-check-circle text-emerald-400 text-3xl mb-3"></i><h4 class="text-white font-bold mb-1">Terima Kasih!</h4><p class="text-gray-400 text-sm">Anda berhasil berlangganan newsletter KVT Hub.</p></div>';
+        setTimeout(() => tutupNewsletter(), 3000);
+    }
+}
+
+// === ACTIVITY FEED ROTATION ===
+let activityIdx = 0;
+setInterval(() => {
+    const feed = document.getElementById('activityFeed');
+    if (!feed) return;
+    const items = feed.querySelectorAll('.activity-item');
+    if (items.length === 0) return;
+    // Move first item to end with animation
+    const first = items[0];
+    first.style.transition = 'opacity 0.3s, transform 0.3s';
+    first.style.opacity = '0';
+    first.style.transform = 'translateX(-20px)';
+    setTimeout(() => {
+        feed.appendChild(first);
+        first.style.transition = 'none';
+        first.style.transform = 'translateX(20px)';
+        first.style.opacity = '0';
+        requestAnimationFrame(() => {
+            first.style.transition = 'opacity 0.3s, transform 0.3s';
+            first.style.opacity = '1';
+            first.style.transform = 'translateX(0)';
+        });
+    }, 300);
+}, 4000);
 </script>
 @endpush
