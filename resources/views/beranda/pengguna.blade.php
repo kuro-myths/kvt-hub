@@ -104,7 +104,7 @@
                     </div>
                     <span class="text-xs text-kvt-400 font-mono">{{ $progres }}%</span>
                 </div>
-                <a href="{{ route('kelas.tampil', $kelas) }}" class="block text-center text-sm bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-300 py-2 rounded-lg transition font-semibold">
+                <a href="{{ route('kelas.tampilkan', $kelas) }}" class="block text-center text-sm bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-300 py-2 rounded-lg transition font-semibold">
                     <i class="fas fa-play mr-1"></i>Lanjutkan
                 </a>
             </div>
@@ -194,7 +194,7 @@
                 <div class="p-4">
                     <h3 class="text-white font-bold text-sm mb-1">{{ $kelas->nama }}</h3>
                     <p class="text-gray-500 text-xs mb-3 line-clamp-2">{{ $kelas->deskripsi_singkat ?? Str::limit($kelas->deskripsi, 80) }}</p>
-                    <a href="{{ route('kelas.tampil', $kelas) }}" class="block text-center text-sm bg-ungu-500/20 hover:bg-ungu-500/30 text-ungu-300 py-2 rounded-lg transition font-semibold">
+                    <a href="{{ route('kelas.tampilkan', $kelas) }}" class="block text-center text-sm bg-ungu-500/20 hover:bg-ungu-500/30 text-ungu-300 py-2 rounded-lg transition font-semibold">
                         <i class="fas fa-eye mr-1"></i>Lihat Kelas
                     </a>
                 </div>
@@ -227,7 +227,7 @@
             <div class="p-4">
                 <span class="text-xs text-emerald-400">{{ $berita->terbit_pada?->format('d M Y') ?? '-' }}</span>
                 <h3 class="text-white font-bold text-sm mt-1 line-clamp-2">{{ $berita->judul }}</h3>
-                <a href="{{ route('berita.tampil', $berita) }}" class="text-emerald-400 hover:text-emerald-300 text-xs font-semibold mt-2 inline-block transition">Baca Selengkapnya →</a>
+                <a href="{{ route('berita.tampilkan', $berita) }}" class="text-emerald-400 hover:text-emerald-300 text-xs font-semibold mt-2 inline-block transition">Baca Selengkapnya →</a>
             </div>
         </div>
         @endforeach

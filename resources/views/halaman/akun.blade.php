@@ -130,12 +130,12 @@
                         <div class="flex-1"><div class="text-white font-semibold text-sm">Kelas Saya</div><div class="text-gray-500 text-xs">Kelola kelas yang diikuti</div></div>
                         <i class="fas fa-chevron-right text-gray-600 text-xs"></i>
                     </a>
-                    <a href="{{ route('platform') }}" class="flex items-center gap-3 p-3 bg-kvt-800/50 rounded-xl hover:bg-kvt-700/50 transition">
+                    <a href="{{ route('halaman.platform') }}" class="flex items-center gap-3 p-3 bg-kvt-800/50 rounded-xl hover:bg-kvt-700/50 transition">
                         <div class="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center"><i class="fas fa-laptop-code text-purple-400"></i></div>
                         <div class="flex-1"><div class="text-white font-semibold text-sm">Platform</div><div class="text-gray-500 text-xs">Jelajahi fitur platform</div></div>
                         <i class="fas fa-chevron-right text-gray-600 text-xs"></i>
                     </a>
-                    <a href="{{ route('langganan') }}" class="flex items-center gap-3 p-3 bg-kvt-800/50 rounded-xl hover:bg-kvt-700/50 transition">
+                    <a href="{{ route('halaman.langganan') }}" class="flex items-center gap-3 p-3 bg-kvt-800/50 rounded-xl hover:bg-kvt-700/50 transition">
                         <div class="w-10 h-10 bg-amber-500/10 rounded-lg flex items-center justify-center"><i class="fas fa-crown text-amber-400"></i></div>
                         <div class="flex-1"><div class="text-white font-semibold text-sm">Langganan</div><div class="text-gray-500 text-xs">Kelola paket langganan</div></div>
                         <i class="fas fa-chevron-right text-gray-600 text-xs"></i>

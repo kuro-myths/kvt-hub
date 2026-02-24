@@ -436,8 +436,12 @@ function filterFile() {
 // ===== CHART.JS =====
 function initCharts() {
     // Data dari PHP
-    const extensions = @json(array_slice($stats['extensions'], 0, 10, true));
-    const linesByType = @json(array_slice($stats['linesByType'], 0, 8, true));
+    @php
+        $topExtensions = array_slice($stats['extensions'], 0, 10, true);
+        $topLinesByType = array_slice($stats['linesByType'], 0, 8, true);
+    @endphp
+    const extensions = @json($topExtensions);
+    const linesByType = @json($topLinesByType);
 
     const colors = [
         '#3399FF', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444',
