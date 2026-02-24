@@ -2152,6 +2152,30 @@
                     </div>
                 </div>
 
+                    {{-- 41. Repositori --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="8" data-nav-id="repositori">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fab fa-github text-gray-300"></i> Repositori
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown dropdown-right">
+                        <div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.repositori') }}" class="dropdown-item">
+                                <div class="item-icon bg-gray-500/10"><i class="fab fa-github text-gray-300"></i></div>
+                                <div class="item-text"><div class="item-title">Repositori Proyek</div><div class="item-desc">Source code & update</div></div>
+                            </a>
+                            <a href="{{ route('halaman.repositori') }}#changelog" class="dropdown-item">
+                                <div class="item-icon bg-emerald-500/10"><i class="fas fa-history text-emerald-400"></i></div>
+                                <div class="item-text"><div class="item-title">Changelog</div><div class="item-desc">Riwayat versi & update</div></div>
+                            </a>
+                            <a href="https://github.com/kuro-myths/kvt-hub" target="_blank" class="dropdown-item">
+                                <div class="item-icon bg-kvt-500/10"><i class="fas fa-external-link-alt text-kvt-400"></i></div>
+                                <div class="item-text"><div class="item-title">GitHub</div><div class="item-desc">Buka di GitHub</div></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                         </div>{{-- /navMenuItems --}}
                     </div>{{-- /navSlider --}}
 
@@ -2295,6 +2319,7 @@
                         <a href="{{ route('halaman.dokumen') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fas fa-file-alt w-5 text-xs text-amber-400/60"></i> Dokumen</a>
                         <a href="{{ route('halaman.galeri') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fas fa-images w-5 text-xs text-emerald-400/60"></i> Galeri</a>
                         <a href="{{ route('halaman.statistik') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fas fa-chart-pie w-5 text-xs text-kvt-400/60"></i> Statistik</a>
+                        <a href="{{ route('halaman.repositori') }}" class="block py-2 px-4 text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/5 rounded-lg text-sm transition"><i class="fab fa-github w-5 text-xs text-gray-400/60"></i> Repositori</a>
                     </div>
                 </div>
 

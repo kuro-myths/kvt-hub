@@ -61,6 +61,7 @@ Route::get('/e-learning', [HalamanController::class, 'eLearning'])->name('halama
 Route::get('/akreditasi', [HalamanController::class, 'akreditasi'])->name('halaman.akreditasi');
 Route::get('/galeri', [HalamanController::class, 'galeri'])->name('halaman.galeri');
 Route::get('/pengumuman', [HalamanController::class, 'pengumuman'])->name('halaman.pengumuman');
+Route::get('/repositori', [HalamanController::class, 'repositori'])->name('halaman.repositori');
 
 // Berita (Publik)
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');

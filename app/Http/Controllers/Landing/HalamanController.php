@@ -213,4 +213,9 @@ class HalamanController extends Controller
         $chapters = KarakterCerita::ceritaKarakter('veteran');
         return view('halaman.veteran', compact('chapters'));
     }
+
+    public function repositori()
+    {
+        return view('halaman.repositori');
+    }
 }

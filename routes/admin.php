@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\MateriController;
 use App\Http\Controllers\Admin\EdukasiGratisController;
 use App\Http\Controllers\Admin\PendaftaranEdukasiController;
 use App\Http\Controllers\Admin\AturanEdukasiController;
+use App\Http\Controllers\Admin\RepositoriController;
 
 /*
 |--------------------------------------------------------------------------
@@ -176,3 +177,8 @@ Route::post('/aturan-edukasi', [AturanEdukasiController::class, 'simpan'])->name
 Route::put('/aturan-edukasi/{aturanEdukasi}', [AturanEdukasiController::class, 'update'])->name('aturan-edukasi.update');
 Route::delete('/aturan-edukasi/{aturanEdukasi}', [AturanEdukasiController::class, 'hapus'])->name('aturan-edukasi.hapus');
 Route::put('/aturan-edukasi/{aturanEdukasi}/toggle', [AturanEdukasiController::class, 'toggleAktif'])->name('aturan-edukasi.toggle');
+
+// Repositori Proyek (File Browser ala GitHub)
+Route::get('/repositori', [RepositoriController::class, 'index'])->name('repositori');
+Route::get('/repositori/file', [RepositoriController::class, 'lihatFile'])->name('repositori.file');
+Route::get('/repositori/api/stats', [RepositoriController::class, 'apiStats'])->name('repositori.api.stats');

@@ -27,6 +27,7 @@
         ['label' => 'Edukasi Gratis', 'ikon' => 'fas fa-gift', 'route' => 'admin.edukasi-gratis.index', 'warna' => 'green'],
         ['label' => 'Pendaftaran Edukasi', 'ikon' => 'fas fa-clipboard-check', 'route' => 'admin.pendaftaran-edukasi.index', 'warna' => 'emerald'],
         ['label' => 'Aturan Edukasi', 'ikon' => 'fas fa-exclamation-triangle', 'route' => 'admin.aturan-edukasi.index', 'warna' => 'red'],
+        ['label' => 'Repositori', 'ikon' => 'fab fa-github', 'route' => 'admin.repositori', 'warna' => 'cyan'],
     ];
 
     $menuPengajar = [
