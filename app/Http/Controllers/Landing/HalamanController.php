@@ -218,4 +218,9 @@ class HalamanController extends Controller
     {
         return view('halaman.repositori');
     }
+
+    public function layanan()
+    {
+        return view('halaman.layanan');
+    }
 }
