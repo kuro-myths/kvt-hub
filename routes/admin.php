@@ -182,3 +182,4 @@ Route::put('/aturan-edukasi/{aturanEdukasi}/toggle', [AturanEdukasiController::c
 Route::get('/repositori', [RepositoriController::class, 'index'])->name('repositori');
 Route::get('/repositori/file', [RepositoriController::class, 'lihatFile'])->name('repositori.file');
 Route::get('/repositori/api/stats', [RepositoriController::class, 'apiStats'])->name('repositori.api.stats');
+Route::get('/repositori/api/github', [RepositoriController::class, 'apiGithub'])->name('repositori.api.github');

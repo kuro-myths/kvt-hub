@@ -47,9 +47,9 @@ class BerandaController extends Controller
                 ->get();
 
             $kelasSaya = $user->kelasYangDiikuti()->count();
-            $materiSelesai = MateriProgres::where('pengguna_id', $user->id)->where('selesai', true)->count();
-            $kuisDikerjakan = KuisHasil::where('pengguna_id', $user->id)->count();
-            $totalPencapaian = Pencapaian::where('pengguna_id', $user->id)->count();
+            $materiSelesai = MateriProgres::where('user_id', $user->id)->where('status', 'selesai')->count();
+            $kuisDikerjakan = KuisHasil::where('user_id', $user->id)->count();
+            $totalPencapaian = $user->pencapaian()->count();
 
             return view('beranda.pengguna', compact(
                 'statistik',

@@ -42,27 +42,34 @@
                     <i class="fab fa-github text-2xl text-white"></i>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-bold text-white">kvt-hub</h1>
-                    <div class="flex items-center gap-3 text-sm text-gray-400 mt-1">
+                    <h1 class="text-2xl font-bold text-white">{{ $ghRepo['full_name'] }}</h1>
+                    <div class="flex items-center gap-3 text-sm text-gray-400 mt-1 flex-wrap">
                         <span class="flex items-center gap-1"><i class="fas fa-code-branch text-kvt-400"></i> {{ $gitBranch }}</span>
-                        <span class="flex items-center gap-1"><i class="fas fa-clock"></i> {{ count($gitLog) }} commit terbaru</span>
-                        @if($gitRemote !== '-')
-                            <a href="{{ $gitRemote }}" target="_blank" class="flex items-center gap-1 hover:text-kvt-400 transition">
-                                <i class="fas fa-external-link-alt"></i> Remote
+                        <span class="flex items-center gap-1"><i class="fas fa-history"></i> {{ count($ghCommits) ?: count($gitLog) }} commits</span>
+                        <span class="flex items-center gap-1"><i class="fas fa-users"></i> {{ count($ghContributors) }} kontributor</span>
+                        @if($ghRepo['html_url'] !== '#')
+                            <a href="{{ $ghRepo['html_url'] }}" target="_blank" class="flex items-center gap-1 hover:text-kvt-400 transition">
+                                <i class="fas fa-external-link-alt"></i> GitHub
                             </a>
                         @endif
                     </div>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 flex-wrap">
                 <span class="px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-sm font-semibold">
-                    <i class="fas fa-circle text-xs mr-1"></i> Active
+                    <i class="fas fa-circle text-xs mr-1"></i> {{ ucfirst($ghRepo['visibility']) }}
+                </span>
+                <span class="px-3 py-1.5 bg-yellow-500/20 text-yellow-400 rounded-lg text-sm font-semibold">
+                    <i class="fas fa-star mr-1"></i> {{ $ghRepo['stars'] }}
+                </span>
+                <span class="px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded-lg text-sm font-semibold">
+                    <i class="fas fa-code-branch mr-1"></i> {{ $ghRepo['forks'] }}
+                </span>
+                <span class="px-3 py-1.5 bg-purple-500/20 text-purple-400 rounded-lg text-sm font-semibold">
+                    <i class="fas fa-eye mr-1"></i> {{ $ghRepo['watchers'] }}
                 </span>
                 <span class="px-3 py-1.5 bg-kvt-800 text-kvt-300 rounded-lg text-sm">
-                    Laravel 11
-                </span>
-                <span class="px-3 py-1.5 bg-kvt-800 text-kvt-300 rounded-lg text-sm">
-                    PHP 8.3
+                    {{ $ghRepo['license'] }}
                 </span>
             </div>
         </div>
@@ -101,17 +108,23 @@
     </div>
 
     {{-- ===== TAB NAVIGATION ===== --}}
-    <div class="flex items-center gap-1 border-b border-kvt-700/30 pb-0">
-        <button onclick="gantiTab('browser')" id="tab-browser" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-kvt-500 text-kvt-400 bg-kvt-900/40">
+    <div class="flex items-center gap-1 border-b border-kvt-700/30 pb-0 overflow-x-auto">
+        <button onclick="gantiTab('browser')" id="tab-browser" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-kvt-500 text-kvt-400 bg-kvt-900/40 whitespace-nowrap">
             <i class="fas fa-folder-open mr-2"></i>File Browser
         </button>
-        <button onclick="gantiTab('commits')" id="tab-commits" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-gray-400 hover:text-white transition">
-            <i class="fas fa-history mr-2"></i>Commits ({{ count($gitLog) }})
+        <button onclick="gantiTab('commits')" id="tab-commits" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-gray-400 hover:text-white transition whitespace-nowrap">
+            <i class="fas fa-history mr-2"></i>Commits ({{ count($ghCommits) ?: count($gitLog) }})
         </button>
-        <button onclick="gantiTab('stats')" id="tab-stats" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-gray-400 hover:text-white transition">
+        <button onclick="gantiTab('contributors')" id="tab-contributors" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-gray-400 hover:text-white transition whitespace-nowrap">
+            <i class="fas fa-users mr-2"></i>Kontributor ({{ count($ghContributors) }})
+        </button>
+        <button onclick="gantiTab('branches')" id="tab-branches" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-gray-400 hover:text-white transition whitespace-nowrap">
+            <i class="fas fa-code-branch mr-2"></i>Branch ({{ count($ghBranches) }})
+        </button>
+        <button onclick="gantiTab('stats')" id="tab-stats" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-gray-400 hover:text-white transition whitespace-nowrap">
             <i class="fas fa-chart-pie mr-2"></i>Statistik Kode
         </button>
-        <button onclick="gantiTab('recent')" id="tab-recent" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-gray-400 hover:text-white transition">
+        <button onclick="gantiTab('recent')" id="tab-recent" class="tab-btn px-5 py-3 text-sm font-semibold rounded-t-lg border-b-2 border-transparent text-gray-400 hover:text-white transition whitespace-nowrap">
             <i class="fas fa-clock mr-2"></i>File Terbaru
         </button>
     </div>
@@ -226,20 +239,21 @@
         @endif
     </div>
 
-    {{-- ===== TAB: COMMITS ===== --}}
+    {{-- ===== TAB: COMMITS (GitHub Real-Time) ===== --}}
     <div id="panel-commits" class="tab-panel hidden">
         <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden">
             <div class="px-5 py-4 bg-kvt-800/50 border-b border-kvt-700/30 flex items-center justify-between">
                 <h3 class="font-bold text-white text-lg flex items-center gap-2">
                     <i class="fas fa-history text-kvt-400"></i> Riwayat Commit
+                    <span class="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-normal">LIVE dari GitHub</span>
                 </h3>
-                <span class="text-sm text-gray-400">Branch: <code class="text-kvt-400 font-mono">{{ $gitBranch }}</code></span>
+                <span class="text-sm text-gray-400">Branch: <code class="text-kvt-400 font-mono">{{ $ghRepo['default_branch'] }}</code></span>
             </div>
 
             <div class="divide-y divide-kvt-700/20">
-                @forelse($gitLog as $i => $commit)
+                @php $commits = count($ghCommits) ? $ghCommits : $gitLog; @endphp
+                @forelse($commits as $i => $commit)
                 <div class="px-5 py-4 hover:bg-kvt-800/20 transition flex items-start gap-4">
-                    {{-- Timeline dot --}}
                     <div class="flex flex-col items-center pt-1">
                         <div class="w-3 h-3 rounded-full {{ $i === 0 ? 'bg-green-500 ring-4 ring-green-500/20' : 'bg-kvt-600' }}"></div>
                         @if(!$loop->last)
@@ -250,16 +264,34 @@
                     <div class="flex-1 min-w-0">
                         <div class="flex items-start justify-between gap-4">
                             <div class="min-w-0">
-                                <p class="text-white font-medium truncate">{{ $commit['message'] }}</p>
+                                <p class="text-white font-medium truncate">{{ explode("\n", $commit['message'])[0] }}</p>
                                 <div class="flex items-center gap-3 mt-1 text-xs text-gray-500">
                                     <span class="flex items-center gap-1">
-                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($commit['author']) }}&background=3399FF&color=fff&size=20" class="w-5 h-5 rounded-full" alt="">
-                                        {{ $commit['author'] }}
+                                        @if(!empty($commit['avatar']))
+                                            <img src="{{ $commit['avatar'] }}" class="w-5 h-5 rounded-full" alt="{{ $commit['author'] }}">
+                                        @else
+                                            <img src="https://ui-avatars.com/api/?name={{ urlencode($commit['author']) }}&background=3399FF&color=fff&size=20" class="w-5 h-5 rounded-full" alt="">
+                                        @endif
+                                        @if(!empty($commit['login']))
+                                            <a href="https://github.com/{{ $commit['login'] }}" target="_blank" class="hover:text-kvt-400 transition">{{ $commit['author'] }}</a>
+                                        @else
+                                            {{ $commit['author'] }}
+                                        @endif
                                     </span>
-                                    <span>{{ $commit['relative'] }}</span>
+                                    <span>
+                                        @if(!empty($commit['date']))
+                                            {{ \Carbon\Carbon::parse($commit['date'])->locale('id')->diffForHumans() }}
+                                        @elseif(!empty($commit['relative']))
+                                            {{ $commit['relative'] }}
+                                        @endif
+                                    </span>
                                 </div>
                             </div>
-                            <code class="text-kvt-400 text-xs bg-kvt-900 px-3 py-1 rounded-lg font-mono shrink-0 hover:bg-kvt-800 transition cursor-pointer" title="{{ $commit['hash'] }}">{{ $commit['short'] }}</code>
+                            @if(!empty($commit['html_url']) && $commit['html_url'] !== '#')
+                                <a href="{{ $commit['html_url'] }}" target="_blank" class="text-kvt-400 text-xs bg-kvt-900 px-3 py-1 rounded-lg font-mono shrink-0 hover:bg-kvt-800 transition" title="{{ $commit['sha'] ?? $commit['hash'] ?? '' }}">{{ $commit['short'] }}</a>
+                            @else
+                                <code class="text-kvt-400 text-xs bg-kvt-900 px-3 py-1 rounded-lg font-mono shrink-0">{{ $commit['short'] }}</code>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -270,6 +302,125 @@
                 </div>
                 @endforelse
             </div>
+        </div>
+    </div>
+
+    {{-- ===== TAB: KONTRIBUTOR (GitHub Real-Time) ===== --}}
+    <div id="panel-contributors" class="tab-panel hidden">
+        <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden">
+            <div class="px-5 py-4 bg-kvt-800/50 border-b border-kvt-700/30 flex items-center justify-between">
+                <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                    <i class="fas fa-users text-kvt-400"></i> Kontributor
+                    <span class="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-normal">LIVE dari GitHub</span>
+                </h3>
+                <span class="text-sm text-gray-400">{{ count($ghContributors) }} kontributor</span>
+            </div>
+
+            @if(count($ghContributors) > 0)
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-5">
+                @foreach($ghContributors as $i => $contrib)
+                <a href="{{ $contrib['html_url'] }}" target="_blank" class="flex items-center gap-4 bg-kvt-800/40 rounded-xl p-4 hover:bg-kvt-800/60 transition group">
+                    <img src="{{ $contrib['avatar'] }}" class="w-12 h-12 rounded-full ring-2 ring-kvt-700/30 group-hover:ring-kvt-500/50 transition" alt="{{ $contrib['login'] }}">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2">
+                            <span class="text-white font-bold truncate">{{ $contrib['login'] }}</span>
+                            @if($i === 0)
+                                <span class="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full">#1</span>
+                            @endif
+                        </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-kvt-400 text-sm font-semibold">{{ number_format($contrib['contributions']) }}</span>
+                            <span class="text-gray-500 text-xs">commits</span>
+                        </div>
+                        <div class="mt-1.5 bg-kvt-900 rounded-full h-1.5 overflow-hidden">
+                            @php $maxContrib = $ghContributors[0]['contributions'] ?? 1; $pct = round($contrib['contributions'] / max($maxContrib, 1) * 100); @endphp
+                            <div class="h-full bg-gradient-to-r from-kvt-500 to-purple-500 rounded-full" style="width:{{ $pct }}%"></div>
+                        </div>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+            @else
+            <div class="px-5 py-12 text-center text-gray-500">
+                <i class="fas fa-users text-4xl mb-3 block"></i>
+                Data kontributor tidak tersedia. GitHub API mungkin sedang tidak dapat diakses.
+            </div>
+            @endif
+        </div>
+
+        {{-- Language breakdown dari GitHub --}}
+        @if(count($ghLanguages) > 0)
+        <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden mt-6">
+            <div class="px-5 py-4 bg-kvt-800/50 border-b border-kvt-700/30">
+                <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                    <i class="fas fa-code text-green-400"></i> Bahasa Pemrograman (GitHub)
+                </h3>
+            </div>
+            <div class="p-5">
+                @php
+                    $totalBytes = array_sum($ghLanguages);
+                    $langColors = [
+                        'PHP' => '#4F5D95', 'Blade' => '#f7523f', 'JavaScript' => '#f1e05a',
+                        'CSS' => '#563d7c', 'HTML' => '#e34c26', 'Shell' => '#89e051',
+                        'Vue' => '#41b883', 'TypeScript' => '#3178c6', 'Python' => '#3572A5',
+                        'SCSS' => '#c6538c', 'Hack' => '#878787',
+                    ];
+                @endphp
+                {{-- Color bar --}}
+                <div class="flex h-3 rounded-full overflow-hidden mb-4">
+                    @foreach($ghLanguages as $lang => $bytes)
+                        <div class="h-full" style="width:{{ round($bytes / max($totalBytes,1) * 100, 1) }}%; background:{{ $langColors[$lang] ?? '#6e7681' }}" title="{{ $lang }}: {{ round($bytes / max($totalBytes,1) * 100, 1) }}%"></div>
+                    @endforeach
+                </div>
+                <div class="flex flex-wrap gap-4">
+                    @foreach($ghLanguages as $lang => $bytes)
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="w-3 h-3 rounded-full" style="background:{{ $langColors[$lang] ?? '#6e7681' }}"></span>
+                        <span class="text-white font-medium">{{ $lang }}</span>
+                        <span class="text-gray-500">{{ round($bytes / max($totalBytes,1) * 100, 1) }}%</span>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        @endif
+    </div>
+
+    {{-- ===== TAB: BRANCHES (GitHub Real-Time) ===== --}}
+    <div id="panel-branches" class="tab-panel hidden">
+        <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden">
+            <div class="px-5 py-4 bg-kvt-800/50 border-b border-kvt-700/30 flex items-center justify-between">
+                <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                    <i class="fas fa-code-branch text-kvt-400"></i> Branch
+                    <span class="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-normal">LIVE dari GitHub</span>
+                </h3>
+                <span class="text-sm text-gray-400">Default: <code class="text-kvt-400 font-mono">{{ $ghRepo['default_branch'] }}</code></span>
+            </div>
+
+            @if(count($ghBranches) > 0)
+            <div class="divide-y divide-kvt-700/20">
+                @foreach($ghBranches as $branch)
+                <div class="px-5 py-4 hover:bg-kvt-800/20 transition flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-code-branch {{ $branch['name'] === $ghRepo['default_branch'] ? 'text-green-400' : 'text-gray-500' }}"></i>
+                        <span class="text-white font-mono font-medium">{{ $branch['name'] }}</span>
+                        @if($branch['name'] === $ghRepo['default_branch'])
+                            <span class="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">default</span>
+                        @endif
+                        @if($branch['protected'])
+                            <span class="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full"><i class="fas fa-lock mr-1"></i>protected</span>
+                        @endif
+                    </div>
+                    <code class="text-kvt-400 text-xs bg-kvt-900 px-2 py-1 rounded font-mono">{{ $branch['sha'] }}</code>
+                </div>
+                @endforeach
+            </div>
+            @else
+            <div class="px-5 py-12 text-center text-gray-500">
+                <i class="fas fa-code-branch text-4xl mb-3 block"></i>
+                Data branch tidak tersedia.
+            </div>
+            @endif
         </div>
     </div>
 

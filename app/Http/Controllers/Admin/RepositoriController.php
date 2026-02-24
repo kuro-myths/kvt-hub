@@ -5,26 +5,25 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class RepositoriController extends Controller
 {
-    /**
-     * Direktori root proyek.
-     */
     protected string $basePath;
 
     /**
-     * Folder yang diabaikan saat scanning.
+     * GitHub repository info.
      */
+    protected string $githubOwner = 'kuro-myths';
+    protected string $githubRepo  = 'kvt-hub';
+
     protected array $ignoredDirs = [
         'vendor', 'node_modules', '.git', 'storage/framework',
         'storage/logs', 'bootstrap/cache', '.idea', '.vscode',
     ];
 
-    /**
-     * File yang diabaikan saat scanning.
-     */
     protected array $ignoredFiles = [
         '.env', '.env.backup', '.DS_Store', 'Thumbs.db',
     ];
@@ -33,6 +32,163 @@ class RepositoriController extends Controller
     {
         $this->basePath = base_path();
     }
+
+    // ========================================================================
+    //  GITHUB API HELPERS (cached)
+    // ========================================================================
+
+    /**
+     * Generic GitHub API GET with file-cache (10 min default).
+     */
+    protected function githubGet(string $endpoint, int $ttl = 600): ?array
+    {
+        $cacheKey = 'github_' . md5($endpoint);
+
+        return Cache::remember($cacheKey, $ttl, function () use ($endpoint) {
+            try {
+                $url = "https://api.github.com/repos/{$this->githubOwner}/{$this->githubRepo}{$endpoint}";
+                $response = Http::withHeaders([
+                    'Accept'     => 'application/vnd.github.v3+json',
+                    'User-Agent' => 'KVT-Hub-App',
+                ])->timeout(8)->get($url);
+
+                if ($response->successful()) {
+                    return $response->json();
+                }
+            } catch (\Exception $e) {
+                // API unreachable — return null so cache won't persist a failure
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Repo metadata (stars, forks, watchers, description, etc.).
+     */
+    public function getGithubRepoInfo(): array
+    {
+        $data = $this->githubGet('', 600);
+        if (!$data) return $this->fallbackRepoInfo();
+
+        return [
+            'full_name'      => $data['full_name'] ?? "{$this->githubOwner}/{$this->githubRepo}",
+            'description'    => $data['description'] ?? '',
+            'html_url'       => $data['html_url'] ?? "https://github.com/{$this->githubOwner}/{$this->githubRepo}",
+            'stars'          => $data['stargazers_count'] ?? 0,
+            'forks'          => $data['forks_count'] ?? 0,
+            'watchers'       => $data['subscribers_count'] ?? 0,
+            'open_issues'    => $data['open_issues_count'] ?? 0,
+            'default_branch' => $data['default_branch'] ?? 'main',
+            'language'       => $data['language'] ?? 'PHP',
+            'size'           => ($data['size'] ?? 0) * 1024, // KB → bytes
+            'topics'         => $data['topics'] ?? [],
+            'created_at'     => $data['created_at'] ?? null,
+            'updated_at'     => $data['updated_at'] ?? null,
+            'pushed_at'      => $data['pushed_at'] ?? null,
+            'license'        => $data['license']['spdx_id'] ?? 'MIT',
+            'visibility'     => $data['visibility'] ?? 'public',
+        ];
+    }
+
+    protected function fallbackRepoInfo(): array
+    {
+        return [
+            'full_name' => "{$this->githubOwner}/{$this->githubRepo}",
+            'description' => 'Global Education & Research Ecosystem',
+            'html_url' => "https://github.com/{$this->githubOwner}/{$this->githubRepo}",
+            'stars' => 0, 'forks' => 0, 'watchers' => 0, 'open_issues' => 0,
+            'default_branch' => 'main', 'language' => 'PHP', 'size' => 0,
+            'topics' => [], 'created_at' => null, 'updated_at' => null,
+            'pushed_at' => null, 'license' => 'MIT', 'visibility' => 'public',
+        ];
+    }
+
+    /**
+     * Recent commits from GitHub (25 latest).
+     */
+    public function getGithubCommits(int $limit = 25): array
+    {
+        $data = $this->githubGet("/commits?per_page={$limit}", 300);
+        if (!$data) return [];
+
+        return collect($data)->map(fn($c) => [
+            'sha'        => $c['sha'] ?? '',
+            'short'      => substr($c['sha'] ?? '', 0, 7),
+            'message'    => $c['commit']['message'] ?? '',
+            'author'     => $c['commit']['author']['name'] ?? 'Unknown',
+            'login'      => $c['author']['login'] ?? null,
+            'avatar'     => $c['author']['avatar_url'] ?? null,
+            'date'       => $c['commit']['author']['date'] ?? '',
+            'html_url'   => $c['html_url'] ?? '#',
+        ])->toArray();
+    }
+
+    /**
+     * All branches.
+     */
+    public function getGithubBranches(): array
+    {
+        $data = $this->githubGet('/branches?per_page=30', 600);
+        if (!$data) return [];
+
+        return collect($data)->map(fn($b) => [
+            'name'   => $b['name'] ?? '',
+            'sha'    => substr($b['commit']['sha'] ?? '', 0, 7),
+            'protected' => $b['protected'] ?? false,
+        ])->toArray();
+    }
+
+    /**
+     * Contributors with commit counts & avatars.
+     */
+    public function getGithubContributors(): array
+    {
+        $data = $this->githubGet('/contributors?per_page=30', 600);
+        if (!$data) return [];
+
+        return collect($data)->map(fn($c) => [
+            'login'         => $c['login'] ?? 'Unknown',
+            'avatar'        => $c['avatar_url'] ?? '',
+            'html_url'      => $c['html_url'] ?? '#',
+            'contributions' => $c['contributions'] ?? 0,
+        ])->toArray();
+    }
+
+    /**
+     * Languages breakdown (bytes per language).
+     */
+    public function getGithubLanguages(): array
+    {
+        $data = $this->githubGet('/languages', 600);
+        return $data ?? [];
+    }
+
+    /**
+     * Recent releases / tags.
+     */
+    public function getGithubReleases(int $limit = 10): array
+    {
+        $data = $this->githubGet("/tags?per_page={$limit}", 600);
+        if (!$data) return [];
+
+        return collect($data)->map(fn($t) => [
+            'name' => $t['name'] ?? '',
+            'sha'  => substr($t['commit']['sha'] ?? '', 0, 7),
+        ])->toArray();
+    }
+
+    /**
+     * Commit activity (last 52 weeks = 1 year).
+     */
+    public function getGithubCommitActivity(): array
+    {
+        $data = $this->githubGet('/stats/commit_activity', 1800);
+        return $data ?? [];
+    }
+
+    // ========================================================================
+    //  MAIN PAGE ACTIONS
+    // ========================================================================
 
     /**
      * Halaman utama repositori — statistik umum & file browser.
@@ -56,10 +212,17 @@ class RepositoriController extends Controller
         // Breadcrumb
         $breadcrumbs = $this->buildBreadcrumbs($sanitized);
 
-        // Git log (commit terakhir)
+        // Git: local fallback + GitHub API (real-time)
         $gitLog = $this->getGitLog(20);
         $gitBranch = $this->getGitBranch();
         $gitRemote = $this->getGitRemote();
+
+        // GitHub API data (cached)
+        $ghRepo         = $this->getGithubRepoInfo();
+        $ghCommits      = $this->getGithubCommits(25);
+        $ghBranches     = $this->getGithubBranches();
+        $ghContributors = $this->getGithubContributors();
+        $ghLanguages    = $this->getGithubLanguages();
 
         // Baca README jika di root
         $readme = '';
@@ -69,7 +232,8 @@ class RepositoriController extends Controller
 
         return view('akun.admin.repositori', compact(
             'stats', 'items', 'breadcrumbs', 'path', 'sanitized',
-            'gitLog', 'gitBranch', 'gitRemote', 'readme'
+            'gitLog', 'gitBranch', 'gitRemote', 'readme',
+            'ghRepo', 'ghCommits', 'ghBranches', 'ghContributors', 'ghLanguages'
         ));
     }
 
@@ -129,6 +293,20 @@ class RepositoriController extends Controller
     {
         $stats = $this->scanProject();
         return response()->json($stats);
+    }
+
+    /**
+     * API: Data GitHub real-time (public, cached).
+     */
+    public function apiGithub()
+    {
+        return response()->json([
+            'repo'         => $this->getGithubRepoInfo(),
+            'commits'      => $this->getGithubCommits(10),
+            'branches'     => $this->getGithubBranches(),
+            'contributors' => $this->getGithubContributors(),
+            'languages'    => $this->getGithubLanguages(),
+        ]);
     }
 
     // ========================================================================
