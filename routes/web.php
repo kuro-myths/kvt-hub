@@ -64,6 +64,67 @@ Route::get('/pengumuman', [HalamanController::class, 'pengumuman'])->name('halam
 Route::get('/repositori', [HalamanController::class, 'repositori'])->name('halaman.repositori');
 Route::get('/layanan', [HalamanController::class, 'layanan'])->name('halaman.layanan');
 
+// Menu Tambahan Ekosistem (100 Menu)
+Route::view('/inkubator', 'halaman.inkubator')->name('halaman.inkubator');
+Route::view('/akselerator', 'halaman.akselerator')->name('halaman.akselerator');
+Route::view('/startup-hub', 'halaman.startup-hub')->name('halaman.startup-hub');
+Route::view('/hackathon-global', 'halaman.hackathon-global')->name('halaman.hackathon-global');
+Route::view('/olimpiade', 'halaman.olimpiade')->name('halaman.olimpiade');
+Route::view('/pertukaran-pelajar', 'halaman.pertukaran-pelajar')->name('halaman.pertukaran-pelajar');
+Route::view('/studi-banding', 'halaman.studi-banding')->name('halaman.studi-banding');
+Route::view('/kelas-industri', 'halaman.kelas-industri')->name('halaman.kelas-industri');
+Route::view('/bootcamp', 'halaman.bootcamp')->name('halaman.bootcamp');
+Route::view('/coding-lab', 'halaman.coding-lab')->name('halaman.coding-lab');
+Route::view('/ai-center', 'halaman.ai-center')->name('halaman.ai-center');
+Route::view('/cyber-security', 'halaman.cyber-security')->name('halaman.cyber-security');
+Route::view('/data-science', 'halaman.data-science')->name('halaman.data-science');
+Route::view('/iot-lab', 'halaman.iot-lab')->name('halaman.iot-lab');
+Route::view('/cloud-computing', 'halaman.cloud-computing')->name('halaman.cloud-computing');
+Route::view('/blockchain-center', 'halaman.blockchain-center')->name('halaman.blockchain-center');
+Route::view('/vr-ar-lab', 'halaman.vr-ar-lab')->name('halaman.vr-ar-lab');
+Route::view('/robotika', 'halaman.robotika')->name('halaman.robotika');
+Route::view('/game-dev', 'halaman.game-dev')->name('halaman.game-dev');
+Route::view('/desain-grafis', 'halaman.desain-grafis')->name('halaman.desain-grafis');
+Route::view('/fotografi', 'halaman.fotografi')->name('halaman.fotografi');
+Route::view('/videografi', 'halaman.videografi')->name('halaman.videografi');
+Route::view('/musik-digital', 'halaman.musik-digital')->name('halaman.musik-digital');
+Route::view('/animasi-3d', 'halaman.animasi-3d')->name('halaman.animasi-3d');
+Route::view('/ui-ux-studio', 'halaman.ui-ux-studio')->name('halaman.ui-ux-studio');
+Route::view('/content-creator', 'halaman.content-creator')->name('halaman.content-creator');
+Route::view('/digital-marketing', 'halaman.digital-marketing')->name('halaman.digital-marketing');
+Route::view('/seo-sem', 'halaman.seo-sem')->name('halaman.seo-sem');
+Route::view('/bisnis-digital', 'halaman.bisnis-digital')->name('halaman.bisnis-digital');
+Route::view('/fintech', 'halaman.fintech')->name('halaman.fintech');
+Route::view('/agritech', 'halaman.agritech')->name('halaman.agritech');
+Route::view('/healthtech', 'halaman.healthtech')->name('halaman.healthtech');
+Route::view('/edtech', 'halaman.edtech')->name('halaman.edtech');
+Route::view('/greentech', 'halaman.greentech')->name('halaman.greentech');
+Route::view('/legaltech', 'halaman.legaltech')->name('halaman.legaltech');
+Route::view('/bahasa-asing', 'halaman.bahasa-asing')->name('halaman.bahasa-asing');
+Route::view('/sastra-budaya', 'halaman.sastra-budaya')->name('halaman.sastra-budaya');
+Route::view('/penelitian-sosial', 'halaman.penelitian-sosial')->name('halaman.penelitian-sosial');
+Route::view('/psikologi-pendidikan', 'halaman.psikologi-pendidikan')->name('halaman.psikologi-pendidikan');
+Route::view('/hukum-regulasi', 'halaman.hukum-regulasi')->name('halaman.hukum-regulasi');
+Route::view('/ekonomi-keuangan', 'halaman.ekonomi-keuangan')->name('halaman.ekonomi-keuangan');
+Route::view('/manajemen-bisnis', 'halaman.manajemen-bisnis')->name('halaman.manajemen-bisnis');
+Route::view('/hubungan-internasional', 'halaman.hubungan-internasional')->name('halaman.hubungan-internasional');
+Route::view('/administrasi-publik', 'halaman.administrasi-publik')->name('halaman.administrasi-publik');
+Route::view('/arsitektur', 'halaman.arsitektur')->name('halaman.arsitektur');
+Route::view('/teknik-sipil', 'halaman.teknik-sipil')->name('halaman.teknik-sipil');
+Route::view('/teknik-mesin', 'halaman.teknik-mesin')->name('halaman.teknik-mesin');
+Route::view('/teknik-elektro', 'halaman.teknik-elektro')->name('halaman.teknik-elektro');
+Route::view('/teknik-informatika', 'halaman.teknik-informatika')->name('halaman.teknik-informatika');
+Route::view('/sistem-informasi', 'halaman.sistem-informasi')->name('halaman.sistem-informasi');
+Route::view('/kedokteran', 'halaman.kedokteran')->name('halaman.kedokteran');
+Route::view('/farmasi', 'halaman.farmasi')->name('halaman.farmasi');
+Route::view('/keperawatan', 'halaman.keperawatan')->name('halaman.keperawatan');
+Route::view('/gizi-kesehatan', 'halaman.gizi-kesehatan')->name('halaman.gizi-kesehatan');
+Route::view('/lingkungan-hidup', 'halaman.lingkungan-hidup')->name('halaman.lingkungan-hidup');
+Route::view('/pariwisata', 'halaman.pariwisata')->name('halaman.pariwisata');
+Route::view('/perhotelan', 'halaman.perhotelan')->name('halaman.perhotelan');
+Route::view('/tata-boga', 'halaman.tata-boga')->name('halaman.tata-boga');
+Route::view('/olahraga', 'halaman.olahraga')->name('halaman.olahraga');
+
 // Berita (Publik)
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{berita}', [BeritaController::class, 'tampilkan'])->name('berita.tampilkan');
@@ -90,6 +151,9 @@ Route::view('/donasi', 'halaman.donasi')->name('halaman.donasi');
 // ===================================================================
 Route::name('halaman.')->group(function () {
     Route::view('/penjamin-mutu', 'halaman.penjamin-mutu')->name('penjamin-mutu');
+
+    // --- Tentang Sub ---
+    Route::view('/tentang/profil-kuro', 'halaman.tentang.profil-kuro')->name('tentang.profil-kuro');
 
     // --- Pendidikan Dasar ---
     Route::view('/pendidikan-dasar/tk-paud', 'halaman.pendidikan-dasar.tk-paud')->name('pendidikan-dasar.tk-paud');

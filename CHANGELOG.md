@@ -1,12 +1,58 @@
 <h1 align="center">📋 Changelog — KVT Hub</h1>
 
 <p align="center">
-  Riwayat perubahan dari versi 1.0 hingga 8.3
+  Riwayat perubahan dari versi 1.0 hingga 8.5
 </p>
 
 ---
 
-## v8.3 — Universal Export & Route Audit *(Current)*
+## v8.5 — Ekosistem 100 Menu, Dropdown Fix & Route Audit *(Current)*
+
+> Tanggal: 25 Februari 2026
+
+### Fitur Baru
+- **59 Halaman Ekosistem Baru** — Semua route "Menu Tambahan Ekosistem" kini memiliki blade view yang lengkap:
+  - Inkubator, Akselerator, Startup Hub, Hackathon Global, Olimpiade
+  - Pertukaran Pelajar, Studi Banding, Kelas Industri, Bootcamp, Coding Lab
+  - AI Center, Cyber Security, Data Science, IoT Lab, Cloud Computing
+  - Blockchain Center, VR/AR Lab, Robotika, Game Development, Desain Grafis
+  - Fotografi, Videografi, Musik Digital, Animasi 3D, UI/UX Studio
+  - Content Creator, Digital Marketing, SEO & SEM, Bisnis Digital, FinTech
+  - AgriTech, HealthTech, EdTech, GreenTech, LegalTech
+  - Bahasa Asing, Sastra & Budaya, Penelitian Sosial, Psikologi Pendidikan
+  - Hukum & Regulasi, Ekonomi & Keuangan, Manajemen Bisnis, Hubungan Internasional
+  - Administrasi Publik, Arsitektur, Teknik Sipil, Teknik Mesin, Teknik Elektro
+  - Teknik Informatika, Sistem Informasi, Kedokteran, Farmasi, Keperawatan
+  - Gizi & Kesehatan, Lingkungan Hidup, Pariwisata, Perhotelan, Tata Boga, Olahraga
+- **Route Profil Kuro** — Tambah route `halaman.tentang.profil-kuro` untuk view orphan yang sebelumnya tidak terdaftar
+
+### Perbaikan
+- **Fix Dropdown Menu Terpotong Kiri/Kanan** — Perbaiki dropdown navigasi yang terpotong di sisi kiri/kanan viewport:
+  - Hapus `overflow-x-hidden` dari tag `<html>` yang menyebabkan clip pada dropdown
+  - Tambah CSS `.dropdown-flip-right` dan `.dropdown-flip-left` untuk auto-positioning dropdown di tepi layar
+  - Tambah fungsi JS `posisiDropdown()` yang otomatis mendeteksi dan menyesuaikan posisi dropdown agar selalu terlihat penuh
+  - Dropdown di sisi kanan layar otomatis di-flip ke kiri, dan sebaliknya
+- **Route Audit Lengkap** — 115 `Route::view()` diverifikasi, 0 missing blade files, 0 mismatch
+
+### Statistik
+- **Total route ekosistem**: 115 Route::view + controller routes
+- **Total halaman blade**: 179 file
+- **Missing views sebelumnya**: 59 → **0**
+- **Orphan views sebelumnya**: 1 → **0**
+
+---
+
+## v8.4 — GitHub API Real-time Integration
+
+> Tanggal: Februari 2026
+
+### Fitur Baru
+- **GitHub API Real-time** — Integrasi API GitHub untuk statistik repositori real-time
+- **BerandaController Fix** — Perbaikan controller beranda untuk kompatibilitas data
+
+---
+
+## v8.3 — Universal Export & Route Audit
 
 > Tanggal: Februari 2026
 

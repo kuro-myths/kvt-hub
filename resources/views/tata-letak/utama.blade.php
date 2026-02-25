@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth overflow-x-hidden">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -278,6 +278,27 @@
         .nav-dot { width:6px;height:6px;border-radius:50%;background:rgba(92,173,255,0.2);transition:all 0.3s;cursor:pointer }
         .nav-dot.aktif { background:#5CADFF;width:18px;border-radius:4px }
         .nav-dot:hover:not(.aktif) { background:rgba(92,173,255,0.45) }
+        /* Nav page number buttons (replaces dots) */
+        .nav-page-num {
+            width:24px;height:24px;border-radius:7px;font-size:10px;font-weight:700;
+            display:flex;align-items:center;justify-content:center;cursor:pointer;
+            background:rgba(51,153,255,0.06);color:#6b7280;border:1px solid rgba(51,153,255,0.1);
+            transition:all 0.2s;flex-shrink:0;
+        }
+        .nav-page-num:hover { background:rgba(51,153,255,0.15);color:#93c5fd;border-color:rgba(51,153,255,0.3) }
+        .nav-page-num.aktif {
+            background:linear-gradient(135deg,#3399FF,#8B5CF6);color:#fff;
+            border-color:transparent;box-shadow:0 2px 8px rgba(51,153,255,0.3);
+        }
+        /* Editable page input */
+        .nav-page-input {
+            width:52px;height:26px;text-align:center;font-size:11px;font-weight:700;
+            background:rgba(51,153,255,0.08);border:1px solid rgba(51,153,255,0.2);
+            color:#5CADFF;border-radius:8px;outline:none;cursor:pointer;
+            transition:all 0.2s;
+        }
+        .nav-page-input:focus { border-color:#5CADFF;background:rgba(51,153,255,0.15);box-shadow:0 0 10px rgba(51,153,255,0.2) }
+        .nav-page-input:hover { border-color:rgba(51,153,255,0.35) }
         .nav-page-arrow:hover:not(:disabled) { background:rgba(51,153,255,0.25);color:#fff;transform:scale(1.1) }
         .nav-page-arrow:disabled { opacity:0.25;cursor:not-allowed }
         .nav-page-arrow i { transition:transform 0.3s }
@@ -330,6 +351,18 @@
             opacity:0;visibility:hidden;pointer-events:none;
             transform:translateY(-4px);transition:all 0.25s cubic-bezier(0.4,0,0.2,1);
             z-index:200;padding-top:4px;
+        }
+        /* Auto-flip dropdown ke kanan jika terlalu dekat tepi kanan */
+        .nav-dropdown.dropdown-flip-right {
+            left:auto;right:0;
+        }
+        /* Auto-flip dropdown ke kiri jika terlalu dekat tepi kiri */
+        .nav-dropdown.dropdown-flip-left {
+            left:0;right:auto;
+        }
+        /* Clamp dropdown agar tidak keluar viewport */
+        .nav-dropdown.dropdown-clamped {
+            left:auto;right:auto;
         }
         .nav-item.dropdown-open > .nav-dropdown {
             opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);
@@ -759,6 +792,22 @@
                             <i class="fas fa-search text-sm"></i>
                         </button>
 
+                        {{-- Nav Controls: Arrows + Page Numbers + Lainnya --}}
+                        <div class="flex items-center gap-1 shrink-0">
+                            <button onclick="navMundur()" class="nav-page-arrow" title="Menu sebelumnya" id="navBtnPrevTop">
+                                <i class="fas fa-chevron-left text-[9px]"></i>
+                            </button>
+                            <div class="flex items-center gap-0.5 px-0.5" id="navPageNumsTop"></div>
+                            <button onclick="navMaju()" class="nav-page-arrow" title="Menu berikutnya" id="navBtnNextTop">
+                                <i class="fas fa-chevron-right text-[9px]"></i>
+                            </button>
+                            <button onclick="bukaSemuaMenu()" class="btn-semua-menu ml-0.5" title="Semua menu & kustomisasi">
+                                <i class="fas fa-th-large text-[11px]"></i>
+                                <span class="hidden xl:inline">Lainnya</span>
+                            </button>
+                            <input type="text" class="nav-page-input" id="navPageInputTop" value="1/13" title="Ketik halaman tujuan, misal: 5 lalu Enter" onclick="this.select()" onkeydown="navInputKeydown(event, this)">
+                        </div>
+
                         {{-- Notification Bell --}}
                         <div class="relative" id="notifWrapper">
                             <button onclick="toggleNotifikasi()" class="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:text-yellow-400 hover:bg-kvt-800/50 transition relative" title="Notifikasi">
@@ -842,8 +891,8 @@
                     {{-- All Menu Items - Single Row with Pagination --}}
                     <div class="flex items-center flex-1 relative" id="navMenuWrapper">
 
-                    {{-- Left Arrow --}}
-                    <button onclick="navMundur()" class="nav-page-arrow shrink-0 mr-1.5" title="Menu sebelumnya" id="navBtnPrev">
+                    {{-- Left Arrow (hidden - moved to top row) --}}
+                    <button onclick="navMundur()" class="nav-page-arrow shrink-0 mr-1.5 hidden" title="Menu sebelumnya" id="navBtnPrev">
                         <i class="fas fa-chevron-left text-[9px]"></i>
                     </button>
 
@@ -2176,16 +2225,530 @@
                     </div>
                 </div>
 
+                    {{-- ============================================================ --}}
+                    {{-- MENU 42-100: EKOSISTEM LENGKAP (Folder-based structure)       --}}
+                    {{-- ============================================================ --}}
+
+                    {{-- === FOLDER: INOVASI & STARTUP (Hal 5) === --}}
+
+                    {{-- 42. Inkubator --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="5" data-nav-id="inkubator">
+                        <button class="nav-link" data-dropdown><i class="fas fa-rocket text-orange-400"></i> Inkubator <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.inkubator') }}" class="dropdown-item"><div class="item-icon bg-orange-500/10"><i class="fas fa-rocket text-orange-400"></i></div><div class="item-text"><div class="item-title">Program Inkubator</div><div class="item-desc">Inkubasi ide jadi produk</div></div></a>
+                            <a href="{{ route('halaman.inkubator') }}#pendaftaran" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-clipboard-list text-yellow-400"></i></div><div class="item-text"><div class="item-title">Pendaftaran</div><div class="item-desc">Daftar batch terbaru</div></div></a>
+                            <a href="{{ route('halaman.inkubator') }}#alumni" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-trophy text-green-400"></i></div><div class="item-text"><div class="item-title">Alumni Startup</div><div class="item-desc">Sukses story alumni</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 43. Akselerator --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="5" data-nav-id="akselerator">
+                        <button class="nav-link" data-dropdown><i class="fas fa-bolt text-yellow-400"></i> Akselerator <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.akselerator') }}" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-bolt text-yellow-400"></i></div><div class="item-text"><div class="item-title">Program Akselerator</div><div class="item-desc">Percepat pertumbuhan startup</div></div></a>
+                            <a href="{{ route('halaman.akselerator') }}#mentor" class="dropdown-item"><div class="item-icon bg-blue-500/10"><i class="fas fa-user-tie text-blue-400"></i></div><div class="item-text"><div class="item-title">Mentor & Investor</div><div class="item-desc">Jaringan bisnis global</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 44. Startup Hub --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="5" data-nav-id="startup-hub">
+                        <button class="nav-link" data-dropdown><i class="fas fa-store text-pink-400"></i> Startup Hub <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.startup-hub') }}" class="dropdown-item"><div class="item-icon bg-pink-500/10"><i class="fas fa-store text-pink-400"></i></div><div class="item-text"><div class="item-title">Startup Hub</div><div class="item-desc">Ekosistem wirausaha digital</div></div></a>
+                            <a href="{{ route('halaman.startup-hub') }}#showcase" class="dropdown-item"><div class="item-icon bg-purple-500/10"><i class="fas fa-star text-purple-400"></i></div><div class="item-text"><div class="item-title">Showcase Produk</div><div class="item-desc">Demo hari startup</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 45. Hackathon Global --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="5" data-nav-id="hackathon">
+                        <button class="nav-link" data-dropdown><i class="fas fa-code text-emerald-400"></i> Hackathon <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.hackathon-global') }}" class="dropdown-item"><div class="item-icon bg-emerald-500/10"><i class="fas fa-code text-emerald-400"></i></div><div class="item-text"><div class="item-title">Hackathon Global</div><div class="item-desc">Kompetisi coding 48 jam</div></div></a>
+                            <a href="{{ route('halaman.hackathon-global') }}#jadwal" class="dropdown-item"><div class="item-icon bg-blue-500/10"><i class="fas fa-calendar text-blue-400"></i></div><div class="item-text"><div class="item-title">Jadwal Event</div><div class="item-desc">Hackathon mendatang</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 46. Olimpiade --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="5" data-nav-id="olimpiade">
+                        <button class="nav-link" data-dropdown><i class="fas fa-medal text-amber-400"></i> Olimpiade <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.olimpiade') }}" class="dropdown-item"><div class="item-icon bg-amber-500/10"><i class="fas fa-medal text-amber-400"></i></div><div class="item-text"><div class="item-title">Olimpiade Sains</div><div class="item-desc">Kompetisi akademik nasional</div></div></a>
+                            <a href="{{ route('halaman.olimpiade') }}#peringkat" class="dropdown-item"><div class="item-icon bg-red-500/10"><i class="fas fa-ranking-star text-red-400"></i></div><div class="item-text"><div class="item-title">Peringkat & Medali</div><div class="item-desc">Hall of fame peserta</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 47. Pertukaran Pelajar --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="5" data-nav-id="pertukaran">
+                        <button class="nav-link" data-dropdown><i class="fas fa-exchange-alt text-cyan-400"></i> Pertukaran <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.pertukaran-pelajar') }}" class="dropdown-item"><div class="item-icon bg-cyan-500/10"><i class="fas fa-exchange-alt text-cyan-400"></i></div><div class="item-text"><div class="item-title">Pertukaran Pelajar</div><div class="item-desc">Program internasional</div></div></a>
+                            <a href="{{ route('halaman.studi-banding') }}" class="dropdown-item"><div class="item-icon bg-teal-500/10"><i class="fas fa-plane text-teal-400"></i></div><div class="item-text"><div class="item-title">Studi Banding</div><div class="item-desc">Kunjungan antar kampus</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 48. Kelas Industri --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="5" data-nav-id="kelas-industri">
+                        <button class="nav-link" data-dropdown><i class="fas fa-industry text-gray-400"></i> Kelas Industri <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.kelas-industri') }}" class="dropdown-item"><div class="item-icon bg-gray-500/10"><i class="fas fa-industry text-gray-400"></i></div><div class="item-text"><div class="item-title">Kelas Industri</div><div class="item-desc">Kurikulum dari industri</div></div></a>
+                            <a href="{{ route('halaman.kelas-industri') }}#mitra" class="dropdown-item"><div class="item-icon bg-blue-500/10"><i class="fas fa-building text-blue-400"></i></div><div class="item-text"><div class="item-title">Mitra Industri</div><div class="item-desc">500+ partner perusahaan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 49. Bootcamp --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="6" data-nav-id="bootcamp">
+                        <button class="nav-link" data-dropdown><i class="fas fa-laptop-code text-kvt-400"></i> Bootcamp <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.bootcamp') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-laptop-code text-kvt-400"></i></div><div class="item-text"><div class="item-title">Bootcamp Intensif</div><div class="item-desc">Program 12 minggu</div></div></a>
+                            <a href="{{ route('halaman.bootcamp') }}#fullstack" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-layer-group text-green-400"></i></div><div class="item-text"><div class="item-title">Full-Stack Dev</div><div class="item-desc">Frontend + Backend</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- === FOLDER: TEKNOLOGI (Hal 6) === --}}
+
+                    {{-- 50. Coding Lab --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="6" data-nav-id="coding-lab">
+                        <button class="nav-link" data-dropdown><i class="fas fa-terminal text-green-400"></i> Coding Lab <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.coding-lab') }}" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-terminal text-green-400"></i></div><div class="item-text"><div class="item-title">Coding Lab</div><div class="item-desc">Lab pemrograman online</div></div></a>
+                            <a href="{{ route('halaman.coding-lab') }}#challenge" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-puzzle-piece text-yellow-400"></i></div><div class="item-text"><div class="item-title">Daily Challenge</div><div class="item-desc">Tantangan coding harian</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 51. AI Center --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="6" data-nav-id="ai-center">
+                        <button class="nav-link" data-dropdown><i class="fas fa-brain text-purple-400"></i> AI Center <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.ai-center') }}" class="dropdown-item"><div class="item-icon bg-purple-500/10"><i class="fas fa-brain text-purple-400"></i></div><div class="item-text"><div class="item-title">AI Research Center</div><div class="item-desc">Kecerdasan buatan & ML</div></div></a>
+                            <a href="{{ route('halaman.ai-center') }}#model" class="dropdown-item"><div class="item-icon bg-indigo-500/10"><i class="fas fa-robot text-indigo-400"></i></div><div class="item-text"><div class="item-title">Model Zoo</div><div class="item-desc">Koleksi model AI siap pakai</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 52. Cyber Security --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="6" data-nav-id="cyber-security">
+                        <button class="nav-link" data-dropdown><i class="fas fa-user-shield text-red-400"></i> Cyber Sec <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.cyber-security') }}" class="dropdown-item"><div class="item-icon bg-red-500/10"><i class="fas fa-user-shield text-red-400"></i></div><div class="item-text"><div class="item-title">Cyber Security</div><div class="item-desc">Keamanan siber & ethical hacking</div></div></a>
+                            <a href="{{ route('halaman.cyber-security') }}#ctf" class="dropdown-item"><div class="item-icon bg-orange-500/10"><i class="fas fa-flag text-orange-400"></i></div><div class="item-text"><div class="item-title">CTF Arena</div><div class="item-desc">Capture The Flag challenge</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 53. Data Science --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="6" data-nav-id="data-science">
+                        <button class="nav-link" data-dropdown><i class="fas fa-database text-blue-400"></i> Data Science <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.data-science') }}" class="dropdown-item"><div class="item-icon bg-blue-500/10"><i class="fas fa-database text-blue-400"></i></div><div class="item-text"><div class="item-title">Data Science Lab</div><div class="item-desc">Analisis & visualisasi data</div></div></a>
+                            <a href="{{ route('halaman.data-science') }}#dataset" class="dropdown-item"><div class="item-icon bg-teal-500/10"><i class="fas fa-table text-teal-400"></i></div><div class="item-text"><div class="item-title">Open Dataset</div><div class="item-desc">Dataset publik riset</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 54. IoT Lab --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="6" data-nav-id="iot-lab">
+                        <button class="nav-link" data-dropdown><i class="fas fa-microchip text-teal-400"></i> IoT Lab <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.iot-lab') }}" class="dropdown-item"><div class="item-icon bg-teal-500/10"><i class="fas fa-microchip text-teal-400"></i></div><div class="item-text"><div class="item-title">IoT Laboratory</div><div class="item-desc">Internet of Things & embedded</div></div></a>
+                            <a href="{{ route('halaman.iot-lab') }}#proyek" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-project-diagram text-green-400"></i></div><div class="item-text"><div class="item-title">Proyek IoT</div><div class="item-desc">Proyek smart device</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 55. Cloud Computing --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="7" data-nav-id="cloud">
+                        <button class="nav-link" data-dropdown><i class="fas fa-cloud text-sky-400"></i> Cloud <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.cloud-computing') }}" class="dropdown-item"><div class="item-icon bg-sky-500/10"><i class="fas fa-cloud text-sky-400"></i></div><div class="item-text"><div class="item-title">Cloud Computing</div><div class="item-desc">AWS, GCP, Azure learning</div></div></a>
+                            <a href="{{ route('halaman.cloud-computing') }}#sertifikasi" class="dropdown-item"><div class="item-icon bg-orange-500/10"><i class="fas fa-certificate text-orange-400"></i></div><div class="item-text"><div class="item-title">Cloud Certification</div><div class="item-desc">Sertifikasi cloud provider</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 56. Blockchain --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="7" data-nav-id="blockchain">
+                        <button class="nav-link" data-dropdown><i class="fas fa-link text-violet-400"></i> Blockchain <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.blockchain-center') }}" class="dropdown-item"><div class="item-icon bg-violet-500/10"><i class="fas fa-link text-violet-400"></i></div><div class="item-text"><div class="item-title">Blockchain Center</div><div class="item-desc">Web3 & smart contract</div></div></a>
+                            <a href="{{ route('halaman.blockchain-center') }}#defi" class="dropdown-item"><div class="item-icon bg-emerald-500/10"><i class="fas fa-coins text-emerald-400"></i></div><div class="item-text"><div class="item-title">DeFi & NFT</div><div class="item-desc">Keuangan desentralisasi</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 57. VR/AR Lab --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="7" data-nav-id="vr-ar">
+                        <button class="nav-link" data-dropdown><i class="fas fa-vr-cardboard text-indigo-400"></i> VR/AR <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.vr-ar-lab') }}" class="dropdown-item"><div class="item-icon bg-indigo-500/10"><i class="fas fa-vr-cardboard text-indigo-400"></i></div><div class="item-text"><div class="item-title">VR/AR Lab</div><div class="item-desc">Virtual & augmented reality</div></div></a>
+                            <a href="{{ route('halaman.vr-ar-lab') }}#metaverse" class="dropdown-item"><div class="item-icon bg-purple-500/10"><i class="fas fa-globe text-purple-400"></i></div><div class="item-text"><div class="item-title">Metaverse Campus</div><div class="item-desc">Kampus virtual 3D</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 58. Robotika --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="7" data-nav-id="robotika">
+                        <button class="nav-link" data-dropdown><i class="fas fa-robot text-gray-300"></i> Robotika <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.robotika') }}" class="dropdown-item"><div class="item-icon bg-gray-500/10"><i class="fas fa-robot text-gray-300"></i></div><div class="item-text"><div class="item-title">Lab Robotika</div><div class="item-desc">Robot & otomasi industri</div></div></a>
+                            <a href="{{ route('halaman.robotika') }}#kompetisi" class="dropdown-item"><div class="item-icon bg-red-500/10"><i class="fas fa-trophy text-red-400"></i></div><div class="item-text"><div class="item-title">Robocontest</div><div class="item-desc">Kompetisi robot nasional</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 59. Game Dev --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="7" data-nav-id="game-dev">
+                        <button class="nav-link" data-dropdown><i class="fas fa-gamepad text-green-400"></i> Game Dev <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.game-dev') }}" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-gamepad text-green-400"></i></div><div class="item-text"><div class="item-title">Game Development</div><div class="item-desc">Unity, Unreal & Godot</div></div></a>
+                            <a href="{{ route('halaman.game-dev') }}#jam" class="dropdown-item"><div class="item-icon bg-pink-500/10"><i class="fas fa-dice text-pink-400"></i></div><div class="item-text"><div class="item-title">Game Jam</div><div class="item-desc">Kompetisi bikin game</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- === FOLDER: KREATIF & MEDIA (Hal 8) === --}}
+
+                    {{-- 60. Desain Grafis --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="8" data-nav-id="desain-grafis">
+                        <button class="nav-link" data-dropdown><i class="fas fa-palette text-pink-400"></i> Desain <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.desain-grafis') }}" class="dropdown-item"><div class="item-icon bg-pink-500/10"><i class="fas fa-palette text-pink-400"></i></div><div class="item-text"><div class="item-title">Desain Grafis</div><div class="item-desc">Adobe, Figma, Canva</div></div></a>
+                            <a href="{{ route('halaman.desain-grafis') }}#portofolio" class="dropdown-item"><div class="item-icon bg-purple-500/10"><i class="fas fa-images text-purple-400"></i></div><div class="item-text"><div class="item-title">Galeri Karya</div><div class="item-desc">Portofolio mahasiswa</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 61. Fotografi --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="8" data-nav-id="fotografi">
+                        <button class="nav-link" data-dropdown><i class="fas fa-camera text-amber-400"></i> Fotografi <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.fotografi') }}" class="dropdown-item"><div class="item-icon bg-amber-500/10"><i class="fas fa-camera text-amber-400"></i></div><div class="item-text"><div class="item-title">Studio Fotografi</div><div class="item-desc">Teknik & editing foto</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 62. Videografi --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="8" data-nav-id="videografi">
+                        <button class="nav-link" data-dropdown><i class="fas fa-film text-red-400"></i> Videografi <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.videografi') }}" class="dropdown-item"><div class="item-icon bg-red-500/10"><i class="fas fa-film text-red-400"></i></div><div class="item-text"><div class="item-title">Studio Videografi</div><div class="item-desc">Produksi & editing video</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 63. Musik Digital --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="8" data-nav-id="musik">
+                        <button class="nav-link" data-dropdown><i class="fas fa-music text-violet-400"></i> Musik <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.musik-digital') }}" class="dropdown-item"><div class="item-icon bg-violet-500/10"><i class="fas fa-music text-violet-400"></i></div><div class="item-text"><div class="item-title">Musik Digital</div><div class="item-desc">Produksi & distribusi musik</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 64. Animasi 3D --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="8" data-nav-id="animasi">
+                        <button class="nav-link" data-dropdown><i class="fas fa-cube text-cyan-400"></i> Animasi 3D <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.animasi-3d') }}" class="dropdown-item"><div class="item-icon bg-cyan-500/10"><i class="fas fa-cube text-cyan-400"></i></div><div class="item-text"><div class="item-title">Animasi & 3D</div><div class="item-desc">Blender, Maya, Cinema 4D</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 65. UI/UX Studio --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="8" data-nav-id="ui-ux">
+                        <button class="nav-link" data-dropdown><i class="fas fa-pen-nib text-kvt-400"></i> UI/UX <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.ui-ux-studio') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-pen-nib text-kvt-400"></i></div><div class="item-text"><div class="item-title">UI/UX Studio</div><div class="item-desc">User experience design</div></div></a>
+                            <a href="{{ route('halaman.ui-ux-studio') }}#case-study" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-search text-green-400"></i></div><div class="item-text"><div class="item-title">Case Study</div><div class="item-desc">Studi kasus desain</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 66. Content Creator --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="8" data-nav-id="content-creator">
+                        <button class="nav-link" data-dropdown><i class="fas fa-hashtag text-rose-400"></i> Creator <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.content-creator') }}" class="dropdown-item"><div class="item-icon bg-rose-500/10"><i class="fas fa-hashtag text-rose-400"></i></div><div class="item-text"><div class="item-title">Content Creator Hub</div><div class="item-desc">YouTube, TikTok, Instagram</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- === FOLDER: BISNIS & DIGITAL (Hal 9) === --}}
+
+                    {{-- 67. Digital Marketing --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="9" data-nav-id="digimar">
+                        <button class="nav-link" data-dropdown><i class="fas fa-bullseye text-orange-400"></i> DigiMar <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.digital-marketing') }}" class="dropdown-item"><div class="item-icon bg-orange-500/10"><i class="fas fa-bullseye text-orange-400"></i></div><div class="item-text"><div class="item-title">Digital Marketing</div><div class="item-desc">Strategi pemasaran digital</div></div></a>
+                            <a href="{{ route('halaman.seo-sem') }}" class="dropdown-item"><div class="item-icon bg-blue-500/10"><i class="fas fa-search-dollar text-blue-400"></i></div><div class="item-text"><div class="item-title">SEO & SEM</div><div class="item-desc">Optimasi mesin pencari</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 68. Bisnis Digital --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="9" data-nav-id="bisnis-digital">
+                        <button class="nav-link" data-dropdown><i class="fas fa-chart-pie text-kvt-400"></i> Bisnis Digital <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.bisnis-digital') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-chart-pie text-kvt-400"></i></div><div class="item-text"><div class="item-title">Bisnis Digital</div><div class="item-desc">E-commerce & marketplace</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 69. Fintech --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="9" data-nav-id="fintech">
+                        <button class="nav-link" data-dropdown><i class="fas fa-wallet text-green-400"></i> Fintech <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.fintech') }}" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-wallet text-green-400"></i></div><div class="item-text"><div class="item-title">Fintech Lab</div><div class="item-desc">Teknologi keuangan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 70. Agritech --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="9" data-nav-id="agritech">
+                        <button class="nav-link" data-dropdown><i class="fas fa-seedling text-lime-400"></i> Agritech <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.agritech') }}" class="dropdown-item"><div class="item-icon bg-lime-500/10"><i class="fas fa-seedling text-lime-400"></i></div><div class="item-text"><div class="item-title">Agritech Hub</div><div class="item-desc">Teknologi pertanian modern</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 71. Healthtech --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="9" data-nav-id="healthtech">
+                        <button class="nav-link" data-dropdown><i class="fas fa-heartbeat text-red-400"></i> Healthtech <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.healthtech') }}" class="dropdown-item"><div class="item-icon bg-red-500/10"><i class="fas fa-heartbeat text-red-400"></i></div><div class="item-text"><div class="item-title">Healthtech Center</div><div class="item-desc">Teknologi kesehatan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 72. Edtech --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="9" data-nav-id="edtech">
+                        <button class="nav-link" data-dropdown><i class="fas fa-chalkboard text-kvt-400"></i> Edtech <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.edtech') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-chalkboard text-kvt-400"></i></div><div class="item-text"><div class="item-title">Edtech Innovation</div><div class="item-desc">Teknologi pendidikan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 73. Greentech --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="9" data-nav-id="greentech">
+                        <button class="nav-link" data-dropdown><i class="fas fa-leaf text-emerald-400"></i> Greentech <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.greentech') }}" class="dropdown-item"><div class="item-icon bg-emerald-500/10"><i class="fas fa-leaf text-emerald-400"></i></div><div class="item-text"><div class="item-title">Greentech Lab</div><div class="item-desc">Teknologi ramah lingkungan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 74. Legaltech --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="9" data-nav-id="legaltech">
+                        <button class="nav-link" data-dropdown><i class="fas fa-gavel text-amber-400"></i> Legaltech <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.legaltech') }}" class="dropdown-item"><div class="item-icon bg-amber-500/10"><i class="fas fa-gavel text-amber-400"></i></div><div class="item-text"><div class="item-title">Legaltech Center</div><div class="item-desc">Teknologi hukum & legal</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- === FOLDER: HUMANIORA & SOSIAL (Hal 10) === --}}
+
+                    {{-- 75. Bahasa Asing --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="10" data-nav-id="bahasa">
+                        <button class="nav-link" data-dropdown><i class="fas fa-language text-blue-400"></i> Bahasa <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.bahasa-asing') }}" class="dropdown-item"><div class="item-icon bg-blue-500/10"><i class="fas fa-language text-blue-400"></i></div><div class="item-text"><div class="item-title">Bahasa Asing</div><div class="item-desc">Inggris, Jepang, Mandarin, dll</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 76. Sastra & Budaya --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="10" data-nav-id="sastra">
+                        <button class="nav-link" data-dropdown><i class="fas fa-book-open text-amber-400"></i> Sastra <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.sastra-budaya') }}" class="dropdown-item"><div class="item-icon bg-amber-500/10"><i class="fas fa-book-open text-amber-400"></i></div><div class="item-text"><div class="item-title">Sastra & Budaya</div><div class="item-desc">Sastra, seni, kebudayaan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 77. Penelitian Sosial --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="10" data-nav-id="sosial">
+                        <button class="nav-link" data-dropdown><i class="fas fa-people-arrows text-indigo-400"></i> Sosial <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.penelitian-sosial') }}" class="dropdown-item"><div class="item-icon bg-indigo-500/10"><i class="fas fa-people-arrows text-indigo-400"></i></div><div class="item-text"><div class="item-title">Penelitian Sosial</div><div class="item-desc">Sosiologi, antropologi</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 78. Psikologi --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="10" data-nav-id="psikologi">
+                        <button class="nav-link" data-dropdown><i class="fas fa-brain text-pink-400"></i> Psikologi <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.psikologi-pendidikan') }}" class="dropdown-item"><div class="item-icon bg-pink-500/10"><i class="fas fa-brain text-pink-400"></i></div><div class="item-text"><div class="item-title">Psikologi Pendidikan</div><div class="item-desc">Konseling & pengembangan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 79. Hukum --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="10" data-nav-id="hukum">
+                        <button class="nav-link" data-dropdown><i class="fas fa-balance-scale text-yellow-400"></i> Hukum <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.hukum-regulasi') }}" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-balance-scale text-yellow-400"></i></div><div class="item-text"><div class="item-title">Hukum & Regulasi</div><div class="item-desc">Ilmu hukum terapan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 80. Ekonomi --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="10" data-nav-id="ekonomi">
+                        <button class="nav-link" data-dropdown><i class="fas fa-chart-line text-green-400"></i> Ekonomi <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.ekonomi-keuangan') }}" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-chart-line text-green-400"></i></div><div class="item-text"><div class="item-title">Ekonomi & Keuangan</div><div class="item-desc">Teori ekonomi & akuntansi</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 81. Manajemen --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="10" data-nav-id="manajemen">
+                        <button class="nav-link" data-dropdown><i class="fas fa-tasks text-kvt-400"></i> Manajemen <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.manajemen-bisnis') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-tasks text-kvt-400"></i></div><div class="item-text"><div class="item-title">Manajemen Bisnis</div><div class="item-desc">MBA & manajemen strategis</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 82. Hub. Internasional --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="10" data-nav-id="hubinter">
+                        <button class="nav-link" data-dropdown><i class="fas fa-globe-americas text-blue-400"></i> HubInter <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.hubungan-internasional') }}" class="dropdown-item"><div class="item-icon bg-blue-500/10"><i class="fas fa-globe-americas text-blue-400"></i></div><div class="item-text"><div class="item-title">Hubungan Internasional</div><div class="item-desc">Diplomasi & politik global</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- === FOLDER: TEKNIK & SAINS (Hal 11) === --}}
+
+                    {{-- 83. Adm. Publik --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="11" data-nav-id="adm-publik">
+                        <button class="nav-link" data-dropdown><i class="fas fa-landmark text-teal-400"></i> Adm. Publik <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.administrasi-publik') }}" class="dropdown-item"><div class="item-icon bg-teal-500/10"><i class="fas fa-landmark text-teal-400"></i></div><div class="item-text"><div class="item-title">Administrasi Publik</div><div class="item-desc">Kebijakan & pemerintahan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 84. Arsitektur --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="11" data-nav-id="arsitektur">
+                        <button class="nav-link" data-dropdown><i class="fas fa-drafting-compass text-orange-400"></i> Arsitektur <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.arsitektur') }}" class="dropdown-item"><div class="item-icon bg-orange-500/10"><i class="fas fa-drafting-compass text-orange-400"></i></div><div class="item-text"><div class="item-title">Arsitektur & Desain</div><div class="item-desc">Perancangan bangunan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 85. T. Sipil --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="11" data-nav-id="sipil">
+                        <button class="nav-link" data-dropdown><i class="fas fa-hard-hat text-yellow-400"></i> T. Sipil <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.teknik-sipil') }}" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-hard-hat text-yellow-400"></i></div><div class="item-text"><div class="item-title">Teknik Sipil</div><div class="item-desc">Konstruksi & infrastruktur</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 86. T. Mesin --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="11" data-nav-id="mesin">
+                        <button class="nav-link" data-dropdown><i class="fas fa-cogs text-gray-400"></i> T. Mesin <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.teknik-mesin') }}" class="dropdown-item"><div class="item-icon bg-gray-500/10"><i class="fas fa-cogs text-gray-400"></i></div><div class="item-text"><div class="item-title">Teknik Mesin</div><div class="item-desc">Mekanika & manufaktur</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 87. T. Elektro --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="11" data-nav-id="elektro">
+                        <button class="nav-link" data-dropdown><i class="fas fa-bolt text-yellow-300"></i> T. Elektro <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.teknik-elektro') }}" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-bolt text-yellow-300"></i></div><div class="item-text"><div class="item-title">Teknik Elektro</div><div class="item-desc">Elektronika & listrik</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 88. T. Informatika --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="11" data-nav-id="informatika">
+                        <button class="nav-link" data-dropdown><i class="fas fa-code text-kvt-400"></i> Informatika <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.teknik-informatika') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-code text-kvt-400"></i></div><div class="item-text"><div class="item-title">Teknik Informatika</div><div class="item-desc">Ilmu komputer & algoritma</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 89. Sistem Informasi --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="11" data-nav-id="si">
+                        <button class="nav-link" data-dropdown><i class="fas fa-server text-indigo-400"></i> Sis. Info <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.sistem-informasi') }}" class="dropdown-item"><div class="item-icon bg-indigo-500/10"><i class="fas fa-server text-indigo-400"></i></div><div class="item-text"><div class="item-title">Sistem Informasi</div><div class="item-desc">Pengembangan sistem bisnis</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 90. Kedokteran --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="11" data-nav-id="kedokteran">
+                        <button class="nav-link" data-dropdown><i class="fas fa-stethoscope text-red-400"></i> Kedokteran <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.kedokteran') }}" class="dropdown-item"><div class="item-icon bg-red-500/10"><i class="fas fa-stethoscope text-red-400"></i></div><div class="item-text"><div class="item-title">Kedokteran</div><div class="item-desc">Ilmu kedokteran & bedah</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- === FOLDER: KESEHATAN & LINGKUNGAN (Hal 12) === --}}
+
+                    {{-- 91. Farmasi --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="farmasi">
+                        <button class="nav-link" data-dropdown><i class="fas fa-pills text-green-400"></i> Farmasi <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.farmasi') }}" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-pills text-green-400"></i></div><div class="item-text"><div class="item-title">Farmasi</div><div class="item-desc">Ilmu farmasi & obat-obatan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 92. Keperawatan --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="keperawatan">
+                        <button class="nav-link" data-dropdown><i class="fas fa-user-nurse text-pink-400"></i> Keperawatan <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.keperawatan') }}" class="dropdown-item"><div class="item-icon bg-pink-500/10"><i class="fas fa-user-nurse text-pink-400"></i></div><div class="item-text"><div class="item-title">Keperawatan</div><div class="item-desc">Ilmu keperawatan & kebidanan</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 93. Gizi & Kesehatan --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="gizi">
+                        <button class="nav-link" data-dropdown><i class="fas fa-apple-alt text-lime-400"></i> Gizi <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.gizi-kesehatan') }}" class="dropdown-item"><div class="item-icon bg-lime-500/10"><i class="fas fa-apple-alt text-lime-400"></i></div><div class="item-text"><div class="item-title">Gizi & Kesehatan</div><div class="item-desc">Nutrisi & diet klinis</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 94. Lingkungan --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="lingkungan">
+                        <button class="nav-link" data-dropdown><i class="fas fa-tree text-green-400"></i> Lingkungan <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.lingkungan-hidup') }}" class="dropdown-item"><div class="item-icon bg-green-500/10"><i class="fas fa-tree text-green-400"></i></div><div class="item-text"><div class="item-title">Lingkungan Hidup</div><div class="item-desc">Ekologi & konservasi</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 95. Pariwisata --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="pariwisata">
+                        <button class="nav-link" data-dropdown><i class="fas fa-map-marked-alt text-cyan-400"></i> Pariwisata <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.pariwisata') }}" class="dropdown-item"><div class="item-icon bg-cyan-500/10"><i class="fas fa-map-marked-alt text-cyan-400"></i></div><div class="item-text"><div class="item-title">Pariwisata</div><div class="item-desc">Tour & travel management</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 96. Perhotelan --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="perhotelan">
+                        <button class="nav-link" data-dropdown><i class="fas fa-hotel text-purple-400"></i> Perhotelan <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.perhotelan') }}" class="dropdown-item"><div class="item-icon bg-purple-500/10"><i class="fas fa-hotel text-purple-400"></i></div><div class="item-text"><div class="item-title">Perhotelan</div><div class="item-desc">Hospitality management</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 97. Tata Boga --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="tata-boga">
+                        <button class="nav-link" data-dropdown><i class="fas fa-utensils text-orange-400"></i> Tata Boga <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.tata-boga') }}" class="dropdown-item"><div class="item-icon bg-orange-500/10"><i class="fas fa-utensils text-orange-400"></i></div><div class="item-text"><div class="item-title">Tata Boga</div><div class="item-desc">Kuliner & culinary arts</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 98. Olahraga --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="olahraga">
+                        <button class="nav-link" data-dropdown><i class="fas fa-running text-blue-400"></i> Olahraga <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.olahraga') }}" class="dropdown-item"><div class="item-icon bg-blue-500/10"><i class="fas fa-running text-blue-400"></i></div><div class="item-text"><div class="item-title">Olahraga & Sport Science</div><div class="item-desc">Keolahragaan & fitness</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 99. Donasi --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="donasi">
+                        <button class="nav-link" data-dropdown><i class="fas fa-hand-holding-heart text-rose-400"></i> Donasi <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('halaman.donasi') }}" class="dropdown-item"><div class="item-icon bg-rose-500/10"><i class="fas fa-hand-holding-heart text-rose-400"></i></div><div class="item-text"><div class="item-title">Donasi & Support</div><div class="item-desc">Dukung pengembangan platform</div></div></a>
+                            <a href="{{ route('sponsor') }}" class="dropdown-item"><div class="item-icon bg-yellow-500/10"><i class="fas fa-gem text-yellow-400"></i></div><div class="item-text"><div class="item-title">Sponsor</div><div class="item-desc">Jadi sponsor KVT Hub</div></div></a>
+                        </div></div>
+                    </div>
+
+                    {{-- 100. Lisensi --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="12" data-nav-id="lisensi">
+                        <button class="nav-link" data-dropdown><i class="fas fa-file-contract text-gray-400"></i> Lisensi <i class="fas fa-chevron-down chevron-icon"></i></button>
+                        <div class="nav-dropdown"><div class="nav-dropdown-inner">
+                            <a href="{{ route('lisensi') }}" class="dropdown-item"><div class="item-icon bg-gray-500/10"><i class="fas fa-file-contract text-gray-400"></i></div><div class="item-text"><div class="item-title">Lisensi & Hak Cipta</div><div class="item-desc">Ketentuan penggunaan</div></div></a>
+                            <a href="{{ route('halaman.donasi') }}" class="dropdown-item"><div class="item-icon bg-kvt-500/10"><i class="fas fa-info-circle text-kvt-400"></i></div><div class="item-text"><div class="item-title">Open Source</div><div class="item-desc">Kontribusi & lisensi MIT</div></div></a>
+                        </div></div>
+                    </div>
+
                         </div>{{-- /navMenuItems --}}
                     </div>{{-- /navSlider --}}
 
-                    {{-- Right Arrow --}}
-                    <button onclick="navMaju()" class="nav-page-arrow shrink-0 ml-1.5" title="Menu berikutnya" id="navBtnNext">
+                    {{-- Right Arrow (hidden - moved to top row) --}}
+                    <button onclick="navMaju()" class="nav-page-arrow shrink-0 ml-1.5 hidden" title="Menu berikutnya" id="navBtnNext">
                         <i class="fas fa-chevron-right text-[9px]"></i>
                     </button>
 
-                    {{-- Dot Indicators + Lainnya --}}
-                    <div class="flex items-center ml-2.5 shrink-0 gap-2.5">
+                    {{-- Dot Indicators + Lainnya (hidden - moved to top row) --}}
+                    <div class="flex items-center ml-2.5 shrink-0 gap-2.5 hidden">
                         <div class="flex items-center gap-1" id="navDotIndicators"></div>
                         <button onclick="bukaSemuaMenu()" class="btn-semua-menu" title="Semua menu & kustomisasi">
                             <i class="fas fa-th-large text-[12px]"></i>
@@ -4313,9 +4876,50 @@
                 document.querySelectorAll('.has-submenu.sub-open').forEach(el => el.classList.remove('sub-open'));
 
                 // Toggle this one
-                if(!wasOpen) item.classList.add('dropdown-open');
+                if(!wasOpen) {
+                    item.classList.add('dropdown-open');
+                    posisiDropdown(item);
+                }
             });
         });
+
+        // Auto-position dropdown agar tidak kepotong kiri/kanan
+        function posisiDropdown(navItem) {
+            const dropdown = navItem.querySelector('.nav-dropdown');
+            if (!dropdown) return;
+
+            // Reset positioning dulu
+            dropdown.classList.remove('dropdown-flip-right', 'dropdown-flip-left', 'dropdown-clamped');
+            dropdown.style.left = '';
+            dropdown.style.right = '';
+
+            // Tunggu render untuk mengukur
+            requestAnimationFrame(() => {
+                const rect = dropdown.getBoundingClientRect();
+                const vw = window.innerWidth;
+                const itemRect = navItem.getBoundingClientRect();
+
+                // Jika dropdown melewati sisi kanan viewport
+                if (rect.right > vw - 8) {
+                    // Coba flip ke kanan dulu
+                    dropdown.classList.add('dropdown-flip-right');
+                    const newRect = dropdown.getBoundingClientRect();
+                    // Jika masih keluar di kiri setelah flip
+                    if (newRect.left < 8) {
+                        dropdown.classList.remove('dropdown-flip-right');
+                        dropdown.classList.add('dropdown-clamped');
+                        // Posisikan manual agar pas di viewport
+                        const overflow = rect.right - vw + 16;
+                        dropdown.style.left = (-overflow) + 'px';
+                    }
+                }
+                // Jika dropdown melewati sisi kiri viewport
+                else if (rect.left < 8) {
+                    dropdown.classList.add('dropdown-flip-left');
+                    dropdown.style.left = (-rect.left + 8) + 'px';
+                }
+            });
+        }
 
         // Submenu click toggle (Level 2)
         document.querySelectorAll('.has-submenu > .dropdown-item').forEach(item => {
@@ -4391,24 +4995,46 @@
         // ========================
         const ITEMS_PER_PAGE = 8;
         let currentNavPage = 0;
-        let totalNavPages = 5;
+        let totalNavPages = 13;
 
-        // Default page assignments (40 menus / 8 per page = 5 pages)
+        // Default page assignments (100 menus / 8 per page = ~13 pages)
         const defaultPageMap = {
+            // Hal 0: Beranda & Dasar
             'beranda':0,'jenjang':0,'platform':0,'kerjasama':0,'berita':0,'tentang':0,'riset':0,'karir':0,
+            // Hal 1: Komunitas & Sertifikasi
             'komunitas':1,'sertifikasi':1,'langganan':1,'sumberdaya':1,'keamanan':1,'kurikulum':1,'panduan':1,'media':1,
+            // Hal 2: Dokumen & Pendidikan
             'dokumen':2,'bantuan':2,'edukasi':2,'statistik':2,'layanan':2,'webinar':2,'beasiswa':2,'laboratorium':2,
+            // Hal 3: Akademik & Riset
             'perpustakaan':3,'forum':3,'mentoring':3,'magang':3,'alumni':3,'portofolio':3,'kompetisi':3,'workshop':3,
-            'jurnal':4,'podcast':4,'pelatihan':4,'konsultasi':4,'elearning':4,'akreditasi':4,'galeri':4,'pengumuman':4
+            // Hal 4: Publikasi & Media
+            'jurnal':4,'podcast':4,'pelatihan':4,'konsultasi':4,'elearning':4,'akreditasi':4,'galeri':4,'pengumuman':4,
+            // Hal 5: Inovasi & Startup
+            'repositori':5,'inkubator':5,'akselerator':5,'startup-hub':5,'hackathon':5,'olimpiade':5,'pertukaran':5,'kelas-industri':5,
+            // Hal 6: Bootcamp & Teknologi
+            'bootcamp':6,'coding-lab':6,'ai-center':6,'cyber-security':6,'data-science':6,'iot-lab':6,
+            // Hal 7: Tech Lanjutan
+            'cloud':7,'blockchain':7,'vr-ar':7,'robotika':7,'game-dev':7,
+            // Hal 8: Kreatif & Media
+            'desain-grafis':8,'fotografi':8,'videografi':8,'musik':8,'animasi':8,'ui-ux':8,'content-creator':8,
+            // Hal 9: Bisnis & Digital
+            'digimar':9,'bisnis-digital':9,'fintech':9,'agritech':9,'healthtech':9,'edtech':9,'greentech':9,'legaltech':9,
+            // Hal 10: Humaniora & Sosial
+            'bahasa':10,'sastra':10,'sosial':10,'psikologi':10,'hukum':10,'ekonomi':10,'manajemen':10,'hubinter':10,
+            // Hal 11: Teknik & Sains
+            'adm-publik':11,'arsitektur':11,'sipil':11,'mesin':11,'elektro':11,'informatika':11,'si':11,'kedokteran':11,
+            // Hal 12: Kesehatan & Lainnya
+            'farmasi':12,'keperawatan':12,'gizi':12,'lingkungan':12,'pariwisata':12,'perhotelan':12,'tata-boga':12,'olahraga':12,'donasi':12,'lisensi':12
         };
 
         function getPageMap() {
             try {
                 const saved = localStorage.getItem('kvt_nav_pages');
                 const ver = localStorage.getItem('kvt_nav_ver');
-                if (saved && ver === '2') return JSON.parse(saved);
+                if (saved && ver === '3') return JSON.parse(saved);
                 // Clear old format
                 localStorage.removeItem('kvt_nav_pages');
+                localStorage.removeItem('kvt_nav_ver');
             } catch(e) {}
             return {...defaultPageMap};
         }
@@ -4461,10 +5087,44 @@
                 if (p === currentNavPage) tab.classList.add('aktif');
                 else tab.classList.remove('aktif');
             });
-            // Update badge on Lainnya button
-            const badge = document.getElementById('navPageBadge');
-            if (badge) badge.textContent = (currentNavPage + 1) + '/' + totalNavPages;
-            // Update dot indicators
+
+            // Update page number buttons (top row)
+            const numsTop = document.getElementById('navPageNumsTop');
+            if (numsTop) {
+                numsTop.innerHTML = '';
+                // Show max 7 pages with ellipsis logic for many pages
+                const maxShow = 7;
+                let pages = [];
+                if (totalNavPages <= maxShow) {
+                    pages = Array.from({length: totalNavPages}, (_, i) => i);
+                } else {
+                    // Always show first, last, current, and neighbors
+                    pages = [0];
+                    let start = Math.max(1, currentNavPage - 1);
+                    let end = Math.min(totalNavPages - 2, currentNavPage + 1);
+                    if (start > 1) pages.push(-1); // ellipsis
+                    for (let i = start; i <= end; i++) pages.push(i);
+                    if (end < totalNavPages - 2) pages.push(-1); // ellipsis
+                    pages.push(totalNavPages - 1);
+                }
+                pages.forEach(i => {
+                    if (i === -1) {
+                        const dots = document.createElement('span');
+                        dots.className = 'text-gray-600 text-[10px] px-0.5';
+                        dots.textContent = '···';
+                        numsTop.appendChild(dots);
+                    } else {
+                        const btn = document.createElement('div');
+                        btn.className = 'nav-page-num' + (i === currentNavPage ? ' aktif' : '');
+                        btn.textContent = (i + 1);
+                        btn.title = 'Halaman ' + (i + 1);
+                        btn.onclick = () => renderNavPage(i);
+                        numsTop.appendChild(btn);
+                    }
+                });
+            }
+
+            // Update dot indicators (original - hidden)
             const dotsContainer = document.getElementById('navDotIndicators');
             if (dotsContainer) {
                 dotsContainer.innerHTML = '';
@@ -4476,11 +5136,44 @@
                     dotsContainer.appendChild(dot);
                 }
             }
-            // Disable/enable arrow buttons
+
+            // Update editable page inputs
+            const pageText = (currentNavPage + 1) + '/' + totalNavPages;
+            const inputTop = document.getElementById('navPageInputTop');
+            if (inputTop && document.activeElement !== inputTop) inputTop.value = pageText;
+
+            // Update old badge (hidden)
+            const badge = document.getElementById('navPageBadge');
+            if (badge) badge.textContent = pageText;
+
+            // Disable/enable arrow buttons (both original and top row)
             const prevBtn = document.getElementById('navBtnPrev');
             const nextBtn = document.getElementById('navBtnNext');
             if (prevBtn) prevBtn.disabled = currentNavPage === 0;
             if (nextBtn) nextBtn.disabled = currentNavPage >= totalNavPages - 1;
+            const prevBtnTop = document.getElementById('navBtnPrevTop');
+            const nextBtnTop = document.getElementById('navBtnNextTop');
+            if (prevBtnTop) prevBtnTop.disabled = currentNavPage === 0;
+            if (nextBtnTop) nextBtnTop.disabled = currentNavPage >= totalNavPages - 1;
+        }
+
+        // Handle editable page input - type page number and press Enter to jump
+        function navInputKeydown(e, input) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const val = input.value.trim();
+                // Support "5" or "5/13" format
+                let pageNum = parseInt(val.split('/')[0]);
+                if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalNavPages) {
+                    renderNavPage(pageNum - 1);
+                    input.blur();
+                } else {
+                    input.value = (currentNavPage + 1) + '/' + totalNavPages;
+                }
+            } else if (e.key === 'Escape') {
+                input.value = (currentNavPage + 1) + '/' + totalNavPages;
+                input.blur();
+            }
         }
 
         // Navigate to specific page (called from popup tabs)
@@ -4532,7 +5225,27 @@
             'kompetisi':'Kompetisi','workshop':'Workshop','jurnal':'Jurnal',
             'podcast':'Podcast','pelatihan':'Pelatihan','konsultasi':'Konsultasi',
             'elearning':'E-Learning','akreditasi':'Akreditasi','galeri':'Galeri',
-            'pengumuman':'Pengumuman'
+            'pengumuman':'Pengumuman','repositori':'Repositori',
+            // Menu baru 42-100
+            'inkubator':'Inkubator','akselerator':'Akselerator','startup-hub':'Startup Hub',
+            'hackathon':'Hackathon','olimpiade':'Olimpiade','pertukaran':'Pertukaran Pelajar',
+            'kelas-industri':'Kelas Industri','bootcamp':'Bootcamp','coding-lab':'Coding Lab',
+            'ai-center':'AI Center','cyber-security':'Cyber Security','data-science':'Data Science',
+            'iot-lab':'IoT Lab','cloud':'Cloud Computing','blockchain':'Blockchain',
+            'vr-ar':'VR/AR Lab','robotika':'Robotika','game-dev':'Game Dev',
+            'desain-grafis':'Desain Grafis','fotografi':'Fotografi','videografi':'Videografi',
+            'musik':'Musik Digital','animasi':'Animasi 3D','ui-ux':'UI/UX Studio',
+            'content-creator':'Content Creator','digimar':'Digital Marketing',
+            'bisnis-digital':'Bisnis Digital','fintech':'Fintech','agritech':'Agritech',
+            'healthtech':'Healthtech','edtech':'Edtech','greentech':'Greentech','legaltech':'Legaltech',
+            'bahasa':'Bahasa Asing','sastra':'Sastra & Budaya','sosial':'Penelitian Sosial',
+            'psikologi':'Psikologi','hukum':'Hukum','ekonomi':'Ekonomi','manajemen':'Manajemen',
+            'hubinter':'Hub. Internasional','adm-publik':'Adm. Publik','arsitektur':'Arsitektur',
+            'sipil':'T. Sipil','mesin':'T. Mesin','elektro':'T. Elektro','informatika':'Informatika',
+            'si':'Sistem Informasi','kedokteran':'Kedokteran','farmasi':'Farmasi',
+            'keperawatan':'Keperawatan','gizi':'Gizi & Kesehatan','lingkungan':'Lingkungan',
+            'pariwisata':'Pariwisata','perhotelan':'Perhotelan','tata-boga':'Tata Boga',
+            'olahraga':'Olahraga','donasi':'Donasi','lisensi':'Lisensi'
         };
         const menuIcons = {
             'beranda':'fa-home','jenjang':'fa-layer-group','platform':'fa-globe','berita':'fa-newspaper',
@@ -4547,7 +5260,27 @@
             'portofolio':'fa-palette','kompetisi':'fa-medal','workshop':'fa-tools',
             'jurnal':'fa-scroll','podcast':'fa-podcast','pelatihan':'fa-dumbbell',
             'konsultasi':'fa-headset','elearning':'fa-laptop','akreditasi':'fa-check-double',
-            'galeri':'fa-images','pengumuman':'fa-bullhorn'
+            'galeri':'fa-images','pengumuman':'fa-bullhorn','repositori':'fa-github',
+            // Menu baru
+            'inkubator':'fa-rocket','akselerator':'fa-bolt','startup-hub':'fa-store',
+            'hackathon':'fa-code','olimpiade':'fa-medal','pertukaran':'fa-exchange-alt',
+            'kelas-industri':'fa-industry','bootcamp':'fa-laptop-code','coding-lab':'fa-terminal',
+            'ai-center':'fa-brain','cyber-security':'fa-user-shield','data-science':'fa-database',
+            'iot-lab':'fa-microchip','cloud':'fa-cloud','blockchain':'fa-link',
+            'vr-ar':'fa-vr-cardboard','robotika':'fa-robot','game-dev':'fa-gamepad',
+            'desain-grafis':'fa-palette','fotografi':'fa-camera','videografi':'fa-film',
+            'musik':'fa-music','animasi':'fa-cube','ui-ux':'fa-pen-nib',
+            'content-creator':'fa-hashtag','digimar':'fa-bullseye',
+            'bisnis-digital':'fa-chart-pie','fintech':'fa-wallet','agritech':'fa-seedling',
+            'healthtech':'fa-heartbeat','edtech':'fa-chalkboard','greentech':'fa-leaf','legaltech':'fa-gavel',
+            'bahasa':'fa-language','sastra':'fa-book-open','sosial':'fa-people-arrows',
+            'psikologi':'fa-brain','hukum':'fa-balance-scale','ekonomi':'fa-chart-line','manajemen':'fa-tasks',
+            'hubinter':'fa-globe-americas','adm-publik':'fa-landmark','arsitektur':'fa-drafting-compass',
+            'sipil':'fa-hard-hat','mesin':'fa-cogs','elektro':'fa-bolt','informatika':'fa-code',
+            'si':'fa-server','kedokteran':'fa-stethoscope','farmasi':'fa-pills',
+            'keperawatan':'fa-user-nurse','gizi':'fa-apple-alt','lingkungan':'fa-tree',
+            'pariwisata':'fa-map-marked-alt','perhotelan':'fa-hotel','tata-boga':'fa-utensils',
+            'olahraga':'fa-running','donasi':'fa-hand-holding-heart','lisensi':'fa-file-contract'
         };
 
         function renderKustomMenu() {
@@ -4580,7 +5313,7 @@
                 map[sel.dataset.kustomId] = parseInt(sel.value);
             });
             localStorage.setItem('kvt_nav_pages', JSON.stringify(map));
-            localStorage.setItem('kvt_nav_ver', '2');
+            localStorage.setItem('kvt_nav_ver', '3');
             applyPageMap();
             renderNavPage(0);
             kustomBerubah = false;
