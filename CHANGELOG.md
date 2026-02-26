@@ -6,7 +6,38 @@
 
 ---
 
-## v8.6 — Advanced AI Chatbot dengan OpenAI Integration *(Latest)*
+## v8.6.1 — Floating Chatbot Widget (Omnipresent)
+
+> Tanggal: 26 Februari 2026
+
+### Fitur Baru
+- **Floating Chatbot Widget** — Widget chat yang muncul di bottom-right semua halaman:
+  - Accessible dari **mana saja** (landing, dashboard, publik, authenticated)
+  - **Guest users** bisa chat anonymous tanpa login
+  - **Persistent sessions** dengan localStorage token  
+  - Session auto-restore pada browser yang sama
+  - Smooth toggle animasi
+  - Responsive design (mobile, tablet, desktop)
+  - CSRF protected API endpoints
+- **Public API Endpoints**:
+  - `POST /api/chat/guest-session` — Create/get session untuk guest
+  - `POST /api/chat/send` — Send message via widget
+- **Components**:
+  - `resources/views/components/chatbot-widget.blade.php` — Floating widget reusable
+  - Included di `utama.blade.php` (global layout)
+- **Features**:
+  - 2-method ChatController extensions
+  - Token-based session management
+  - Authorization checks untuk auth users
+  - Auto-scroll text on new messages
+  - Placeholder state UI
+
+### Dokumentasi
+- **docs/FLOATING-WIDGET.md** — Complete widget documentation
+
+---
+
+## v8.6 — Advanced AI Chatbot dengan OpenAI Integration
 
 > Tanggal: 26 Februari 2026
 

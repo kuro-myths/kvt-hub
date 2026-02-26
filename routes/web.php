@@ -348,3 +348,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/message/{message}/feedback', [ChatController::class, 'addFeedback'])->name('feedback');
     });
 });
+
+// Chat / Chatbot (Public - untuk floating widget)
+Route::post('/api/chat/guest-session', [ChatController::class, 'guestSession']);
+Route::post('/api/chat/send', [ChatController::class, 'floatingWidgetSend']);

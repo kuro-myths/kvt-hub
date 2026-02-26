@@ -31,13 +31,13 @@ class ChatController extends Controller
     }
 
     /**
-     * Create new chat session
+     * Create new chat session (for both auth & guest)
      */
     public function create(): JsonResponse
     {
         $session = ChatSession::createSession(
             userId: auth()->id(),
-            title: 'New Chat - ' . now()->format('d M Y')
+            title: 'Chat - ' . now()->format('d M Y H:i')
         );
 
         return response()->json([
@@ -46,6 +46,47 @@ class ChatController extends Controller
                 'id' => $session->id,
                 'token' => $session->session_token,
                 'title' => $session->title,
+            ],
+        ]);
+    }
+
+    /**
+     * Create or get guest session (untuk floating widget)
+     */
+    public function guestSession(Request $request): JsonResponse
+    {
+        $token = $request->input('token');
+
+        // Jika token sudah ada, ambil session yang existing
+        if ($token) {
+            $session = ChatSession::where('session_token', $token)
+                ->where('status', 'active')
+                ->first();
+
+            if ($session) {
+                return response()->json([
+                    'success' => true,
+                    'session' => [
+                        'id' => $session->id,
+                        'token' => $session->session_token,
+                        'isExisting' => true,
+                    ],
+                ]);
+            }
+        }
+
+        // Create new session untuk guest
+        $session = ChatSession::createSession(
+            userId: auth()->id() ?? null,
+            title: 'Chat - ' . now()->format('d M Y H:i')
+        );
+
+        return response()->json([
+            'success' => true,
+            'session' => [
+                'id' => $session->id,
+                'token' => $session->session_token,
+                'isExisting' => false,
             ],
         ]);
     }
@@ -202,5 +243,44 @@ class ChatController extends Controller
         $this->chatbotService->deleteSession($session);
 
         return response()->json(['success' => true]);
+    }
+
+    /**
+     * Send message - untuk floating widget (public + guest)
+     */
+    public function floatingWidgetSend(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'message' => 'required|string|min:1|max:5000',
+            'session_id' => 'required|integer',
+            'session_token' => 'required|string',
+        ]);
+
+        $session = ChatSession::where('id', $validated['session_id'])
+            ->where('session_token', $validated['session_token'])
+            ->where('status', 'active')
+            ->first();
+
+        if (!$session) {
+            return response()->json(['error' => 'Session tidak ditemukan'], 400);
+        }
+
+        // Verify user (jika authenticated)
+        if (auth()->check() && $session->user_id && $session->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        // Send message
+        $response = $this->chatbotService->sendMessage($session, $validated['message']);
+
+        return response()->json([
+            'success' => true,
+            'message' => [
+                'id' => $response->id,
+                'role' => $response->role,
+                'content' => $response->content,
+                'type' => $response->message_type,
+            ],
+        ]);
     }
 }

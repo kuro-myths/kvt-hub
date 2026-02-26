@@ -98,11 +98,14 @@
 - 👥 **Multi-session Support** — User bisa punya multiple chat sessions sekaligus
 - 💾 **Persistent Storage** — Semua chat history tersimpan di database dengan soft delete
 - 📱 **Responsive UI** — Desktop & mobile friendly chat interface dengan suggestion buttons
+- 🎯 **Floating Widget** — Chat widget mengambang di setiap halaman (guest + auth)
+- 🔓 **Public Access** — Guest users bisa chat tanpa login, session persist dengan token
 
 > Fitur tambahan v8.5: 59 halaman ekosistem baru, fix dropdown menu terpotong, route audit 100% clean
 
 > 📋 **Changelog lengkap v1.0 — v8.6:** [CHANGELOG.md](CHANGELOG.md)
 > 🤖 **Dokumentasi Chatbot:** [docs/CHATBOT.md](docs/CHATBOT.md)
+> 🎯 **Widget Guide:** [docs/FLOATING-WIDGET.md](docs/FLOATING-WIDGET.md)
 
 ---
 

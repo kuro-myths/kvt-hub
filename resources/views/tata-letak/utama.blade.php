@@ -6687,6 +6687,10 @@
         }
     </style>
     <div id="google_translate_element" style="display:none"></div>
+    
+    {{-- Floating Chatbot Widget --}}
+    @include('components.chatbot-widget')
+    
     @stack('scripts')
 </body>
 </html>
