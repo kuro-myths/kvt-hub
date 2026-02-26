@@ -266,6 +266,126 @@
     </div>
 </section>
 
+{{-- LEARNING TIPS & SUCCESS STRATEGIES --}}
+<section class="max-w-7xl mx-auto px-4 py-20">
+    <div class="text-center mb-16" data-aos="fade-down">
+        <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-brain mr-2"></i>Tips Belajar</span>
+        <h2 class="text-4xl font-black text-white mt-2">Strategi Sukses di Setiap Jenjang</h2>
+        <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Panduan & tips dari mentor KVT Hub untuk memaksimalkan hasil belajar Anda</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+        {{-- TK/PAUD & SD Tips --}}
+        <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-pink-500/30 transition-all" data-aos="fade-up">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-child text-white text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">TK/PAUD & SD</h3>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-pink-500/5 border border-pink-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-2 flex items-center"><i class="fas fa-check-circle text-pink-400 mr-2"></i>Bangun Fondasi Kuat</h4>
+                    <p class="text-gray-400 text-sm">Fokus pada literasi dan numerasi dasar. 10 menit per hari lebih baik dari 1 jam sekali seminggu.</p>
+                </div>
+                <div class="bg-pink-500/5 border border-pink-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-2 flex items-center"><i class="fas fa-check-circle text-pink-400 mr-2"></i>Belajar Sambil Main</h4>
+                    <p class="text-gray-400 text-sm">Gunakan gamifikasi & badge untuk meningkatkan motivasi belajar. Sistem reward yang menyenangkan!</p>
+                </div>
+                <div class="bg-pink-500/5 border border-pink-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-2 flex items-center"><i class="fas fa-check-circle text-pink-400 mr-2"></i>Orang Tua Aktif Mendampingi</h4>
+                    <p class="text-gray-400 text-sm">Orang tua sebagai co-learner. Dashboard orang tua membantu tracking progres anak. Raih badge bersama!</p>
+                </div>
+            </div>
+        </div>
+
+        {{-- SMP/SMA Tips --}}
+        <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-blue-500/30 transition-all" data-aos="fade-up" data-aos-delay="100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-book text-white text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">SMP & SMA</h3>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-blue-500/5 border border-blue-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-2 flex items-center"><i class="fas fa-check-circle text-blue-400 mr-2"></i>Rencana Karir Sejak Dini</h4>
+                    <p class="text-gray-400 text-sm">Eksplorasi passion & bakat dengan learning paths. Persiapkan SNBT & lomba akademik sejak kelas 10.</p>
+                </div>
+                <div class="bg-blue-500/5 border border-blue-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-2 flex items-center"><i class="fas fa-check-circle text-blue-400 mr-2"></i>Manfaatkan Study Group</h4>
+                    <p class="text-gray-400 text-sm">Bergabung study group & forum diskusi. Ajari teman = cara terbaik untuk mendalami materi.</p>
+                </div>
+                <div class="bg-blue-500/5 border border-blue-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-2 flex items-center"><i class="fas fa-check-circle text-blue-400 mr-2"></i>Ikuti Kompetisi Akademik</h4>
+                    <p class="text-gray-400 text-sm">Olimpiade, hackathon, kompetisi STEM. Prestasi ini boost nilai SNBT & scholarship opportunities.</p>
+                </div>
+            </div>
+        </div>
+
+        {{-- Perguruan Tinggi Tips --}}
+        <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-purple-500/30 transition-all" data-aos="fade-up" data-aos-delay="200">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-500 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-white text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">Perguruan Tinggi</h3>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-purple-500/5 border border-purple-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-2 flex items-center"><i class="fas fa-check-circle text-purple-400 mr-2"></i>Fokus Riset & Publikasi</h4>
+                    <p class="text-gray-400 text-sm">Mulai riset dari semester 1. Target publikasi jurnal Q1-Q4. Akses lab virtual & dataset global.</p>
+                </div>
+                <div class="bg-purple-500/5 border border-purple-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-2 flex items-center"><i class="fas fa-check-circle text-purple-400 mr-2"></i>Program Magang Terstruktur</h4>
+                    <p class="text-gray-400 text-sm">Tautan dengan 500+ perusahaan industri. Magang + sertifikasi = portfolio kuat untuk job market.</p>
+                </div>
+                <div class="bg-purple-500/5 border border-purple-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold mb-2 flex items-center"><i class="fas fa-check-circle text-purple-400 mr-2"></i>Networking Internasional</h4>
+                    <p class="text-gray-400 text-sm">Kolaborasi dengan 150+ universitas mitra. Exchange program, konferensi internasional, & dual degree.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Common Success Habits --}}
+    <div class="mt-16 bg-gradient-to-r from-emerald-900/20 to-teal-900/20 border border-emerald-500/20 rounded-2xl p-8" data-aos="zoom-in">
+        <h3 class="text-2xl font-black text-white mb-6 flex items-center">
+            <i class="fas fa-star text-yellow-400 mr-3"></i>Kebiasaan Sukses di Semua Jenjang
+        </h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="flex items-start gap-3">
+                <i class="fas fa-check-double text-emerald-400 text-lg mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-0.5">Konsistensi</h4>
+                    <p class="text-gray-400 text-xs">Belajar rutin > belajar berat sesekali. 30 min/hari = hasil optimal</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-check-double text-emerald-400 text-lg mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-0.5">Interaksi Aktif</h4>
+                    <p class="text-gray-400 text-xs">Tanya di forum, diskusi grup, ajukan soal. Active learning = retention 70%+</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-check-double text-emerald-400 text-lg mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-0.5">Praktek & Project</h4>
+                    <p class="text-gray-400 text-xs">Jangan hanya teori. Buat project, coding, eksperimen. Learning by doing!</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-check-double text-emerald-400 text-lg mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-0.5">Feedback Loop</h4>
+                    <p class="text-gray-400 text-xs">Ikuti kuis, minta feedback mentor, improve. Growth mindset = kunci sukses! </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- Video Introduction --}}
 <section class="max-w-5xl mx-auto px-4 py-16">
     <div class="text-center mb-10">
@@ -345,6 +465,269 @@
     </div>
 </section>
 
+{{-- BENEFIT PER JENJANG --}}
+<section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-900/30 to-kvt-950"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-lime-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-gift mr-2"></i>Keuntungan</span>
+            <h2 class="text-4xl font-black text-white mt-2">Apa yang Anda Dapatkan di Setiap Jenjang</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Benefit eksklusif dan akses khusus untuk memaksimalkan pembelajaran Anda</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            {{-- TK/SD Benefits --}}
+            <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-pink-500/30 transition-all" data-aos="fade-right">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-star text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">TK/SD & SMP</h3>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3 bg-pink-500/5 border border-pink-500/20 rounded-lg p-3">
+                        <i class="fas fa-play-circle text-pink-400 mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-semibold text-sm">Video Pembelajaran Interaktif</h4>
+                            <p class="text-gray-400 text-xs">Berhenti otomatis di quiz, gamifikasi, reward points</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 bg-pink-500/5 border border-pink-500/20 rounded-lg p-3">
+                        <i class="fas fa-trophy text-pink-400 mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-semibold text-sm">Badge & Achievement System</h4>
+                            <p class="text-gray-400 text-xs">20+ jenis badge dapat dikumpulkan & dibagikan</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 bg-pink-500/5 border border-pink-500/20 rounded-lg p-3">
+                        <i class="fas fa-users text-pink-400 mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-semibold text-sm">Parent Dashboard</h4>
+                            <p class="text-gray-400 text-xs">Orang tua bisa monitor progres belajar anak real-time</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 bg-pink-500/5 border border-pink-500/20 rounded-lg p-3">
+                        <i class="fas fa-pencil-alt text-pink-400 mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-semibold text-sm">Latihan Soal Unlimited</h4>
+                            <p class="text-gray-400 text-xs">Bank soal 10K+ dengan auto-grading instant</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- SMA/SMK & PT Benefits --}}
+            <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-blue-500/30 transition-all" data-aos="fade-left">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-gem text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">SMA/SMK & Perguruan Tinggi</h3>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3 bg-blue-500/5 border border-blue-500/20 rounded-lg p-3">
+                        <i class="fas fa-certificate text-blue-400 mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-semibold text-sm">Sertifikasi Profesional</h4>
+                            <p class="text-gray-400 text-xs">Akses 120+ program sertifikasi (BNSP, AWS, Google, Microsoft)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 bg-blue-500/5 border border-blue-500/20 rounded-lg p-3">
+                        <i class="fas fa-briefcase text-blue-400 mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-semibold text-sm">Job Board & Magang</h4>
+                            <p class="text-gray-400 text-xs">500+ lowongan kerja & program magang dengan 500+ perusahaan</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 bg-blue-500/5 border border-blue-500/20 rounded-lg p-3">
+                        <i class="fas fa-microscope text-blue-400 mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-semibold text-sm">Research & Collaboration</h4>
+                            <p class="text-gray-400 text-xs">Akses ke 150+ universitas mitra, lab virtual, dataset global</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 bg-blue-500/5 border border-blue-500/20 rounded-lg p-3">
+                        <i class="fas fa-user-tie text-blue-400 mt-1"></i>
+                        <div>
+                            <h4 class="text-white font-semibold text-sm">Mentoring 1-on-1</h4>
+                            <p class="text-gray-400 text-xs">Konsultasi karir dengan IKM AI & mentor profesional real</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- CERTIFICATION SHOWCASE --}}
+<section class="bg-kvt-900/30 py-20">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-award mr-2"></i>Sertifikasi</span>
+            <h2 class="text-4xl font-black text-white mt-2">Sertifikasi yang Bisa Diambil</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Raih sertifikat yang diakui industri dari setiap jenjang pendidikan</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @php
+            $certifications = [
+                ['jenjang' => 'SD & SMP', 'level' => 'Dasar', 'cert' => ['Sertifikat Menyelesaikan Modul', 'Digital Literacy Badge', 'Problem Solver Certificate'], 'warna' => 'from-yellow-500 to-amber-500', 'ikon' => 'fa-certificate'],
+                ['jenjang' => 'SMA/SMK', 'level' => 'Menengah', 'cert' => ['BNSP Junior Developer', 'Google IT Support Pro', 'CompTIA A+', 'Microsoft Azure Fundamentals'], 'warna' => 'from-orange-500 to-red-500', 'ikon' => 'fa-star'],
+                ['jenjang' => 'Sarjana (S1)', 'level' => 'Profesional', 'cert' => ['AWS Solutions Architect', 'Kubernetes Administrator (CKA)', 'Google Cloud Professional', 'Security+ (CompTIA)'], 'warna' => 'from-teal-500 to-cyan-500', 'ikon' => 'fa-crown'],
+                ['jenjang' => 'Magister+ (S2/S3)', 'level' => 'Expert', 'cert' => ['TOGAF Enterprise Architect', 'AWS Solutions Architect Pro', 'Certified Data Scientist', 'Research Publication Verified'], 'warna' => 'from-purple-500 to-violet-500', 'ikon' => 'fa-gem'],
+            ];
+            @endphp
+
+            @foreach($certifications as $i => $cert)
+            <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-6 hover:border-kvt-500/30 transition-all hover:-translate-y-2" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br {{ $cert['warna'] }} rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas {{ $cert['ikon'] }} text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold">{{ $cert['jenjang'] }}</h3>
+                        <span class="text-xs text-gray-500">{{ $cert['level'] }}</span>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    @foreach($cert['cert'] as $c)
+                    <div class="flex items-center gap-2 text-sm">
+                        <i class="fas fa-check-circle text-emerald-400 text-[10px]"></i>
+                        <span class="text-gray-300">{{ $c }}</span>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- SISWA SUCCESS STORIES --}}
+<section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-900/30 to-transparent"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-rose-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-story mr-2"></i>Success Stories</span>
+            <h2 class="text-4xl font-black text-white mt-2">Kisah Sukses Siswa di Setiap Jenjang</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Inspirasi dari siswa nyata yang meraih kesuksesan melalui KVT Hub</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @php
+            $stories = [
+                ['nama' => 'Budi (SD)', 'jenjang' => 'Kelas 5 SD', 'foto' => 'https://i.pravatar.cc/150?img=10', 'story' => 'Dari nilai 6 menjadi 9! Dengan video interaktif dan quiz otomatis, saya jadi suka matematika. Sudah dapat 15 achievement badges!', 'stats' => 'Level 12 | 500+ XP | 15 Badges', 'warna' => 'from-yellow-500 to-amber-500'],
+                ['nama' => 'Siti (SMP)', 'jenjang' => 'Kelas 2 SMP', 'foto' => 'https://i.pravatar.cc/150?img=20', 'story' => 'Persiapan SNBT jadi mudah dengan modul terintegrasi. Belajar sambil bermain, progres terlacak jelas. Naik 3 level dalam sebulan!', 'stats' => 'Level 28 | 1.2K XP | Study Group Lead', 'warna' => 'from-green-500 to-emerald-500'],
+                ['nama' => 'Raji (SMA)', 'jenjang' => 'Kelas 12 SMA', 'foto' => 'https://i.pravatar.cc/150?img=30', 'story' => 'Ambil sertifikasi AWS Cloud Practitioner sambil sekolah. Sekarang jadi intern di startup tech dengan gaji Rp 3 juta/bulan!', 'stats' => 'Level 45 | 3.5K XP | AWS Certified', 'warna' => 'from-blue-500 to-cyan-500'],
+                ['nama' => 'Maya (SMK)', 'jenjang' => 'Kelas 13 SMK', 'foto' => 'https://i.pravatar.cc/150?img=40', 'story' => 'Program magang lewat KVT Hub langsung diterima di PT ASUS. Portfolio saya dikagumi mentor karena project yang dikerjakan real-world!', 'stats' => 'Level 52 | 4.8K XP | Internship Offer', 'warna' => 'from-purple-500 to-violet-500'],
+                ['nama' => 'Andi (S1)', 'jenjang' => 'Mahasiswa Informatika', 'foto' => 'https://i.pravatar.cc/150?img=50', 'story' => 'Ambil 5 sertifikasi cloud sambil kuliah. Nilai GPA 3.8 + 3 skill verified. Sekarang kerja di Gojek sebagai Backend Engineer!', 'stats' => 'Level 67 | 8K XP | 5 Certifications', 'warna' => 'from-rose-500 to-pink-500'],
+                ['nama' => 'Putri (S2)', 'jenjang' => 'Mahasiswa Magister', 'foto' => 'https://i.pravatar.cc/150?img=60', 'story' => 'Kolaborasi riset dengan 10+ universitas mitra. 2 paper published di Q2 journal. Sekarang research scientist di Google Brain!', 'stats' => 'Level 82 | 12K XP | 2 Publications', 'warna' => 'from-cyan-500 to-teal-500'],
+            ];
+            @endphp
+
+            @foreach($stories as $i => $s)
+            <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl overflow-hidden hover:border-kvt-500/30 transition-all hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
+                {{-- Header --}}
+                <div class="h-16 bg-gradient-to-r {{ $s['warna'] }} relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);"></div>
+                </div>
+
+                {{-- Content --}}
+                <div class="p-5">
+                    {{-- Avatar --}}
+                    <div class="relative -mt-8 mb-3">
+                        <img src="{{ $s['foto'] }}" alt="{{ $s['nama'] }}" class="w-12 h-12 rounded-full border-4 border-kvt-900 object-cover shadow-lg">
+                    </div>
+
+                    {{-- Info --}}
+                    <h3 class="text-white font-bold mb-0.5">{{ $s['nama'] }}</h3>
+                    <p class="text-gray-500 text-xs mb-3">{{ $s['jenjang'] }}</p>
+
+                    {{-- Story --}}
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4 italic">"{{ $s['story'] }}"</p>
+
+                    {{-- Stats Badge --}}
+                    <div class="bg-kvt-800/50 rounded-lg px-3 py-2 text-center">
+                        <p class="text-kvt-400 text-xs font-bold">{{ $s['stats'] }}</p>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- INTERACTIVE PROGRESS ESTIMATOR --}}
+<section class="bg-kvt-900/30 py-20">
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-down">
+            <h2 class="text-3xl font-black text-white mb-3">Estimator Waktu & Cost</h2>
+            <p class="text-gray-400">Hitung estimasi waktu belajar dan investasi untuk jenjang pilihan Anda</p>
+        </div>
+
+        <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8" data-aos="zoom-in">
+            <div class="grid md:grid-cols-2 gap-8">
+                {{-- Left: Estimator --}}
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-6">Pilih Jenjang Anda</h3>
+                    <div class="space-y-3">
+                        @php
+                        $estimates = [
+                            ['label' => 'SD Lengkap (6 tahun)', 'waktu' => '2-3 bulan', 'cost' => 'Gratis', 'cert' => '6 Sertifikat', 'level' => '1-20'],
+                            ['label' => 'SMP Lengkap (3 tahun)', 'waktu' => '4-5 bulan', 'cost' => 'Gratis', 'cert' => '9 Sertifikat', 'level' => '20-40'],
+                            ['label' => 'SMA Lengkap (3 tahun)', 'waktu' => '5-6 bulan', 'cost' => 'Rp 299K/bulan', 'cert' => '15 Sertifikat', 'level' => '40-65'],
+                            ['label' => 'SMK + Internship', 'waktu' => '6-8 bulan', 'cost' => 'Rp 499K/bulan', 'cert' => '20+ Sertifikat', 'level' => '40-70'],
+                            ['label' => 'S1 + Sertifikasi', 'waktu' => '8-12 bulan', 'cost' => 'Rp 799K/bulan', 'cert' => '25+ Sertifikat', 'level' => '60-90'],
+                            ['label' => 'S2/S3 + Research', 'waktu' => '12+ bulan', 'cost' => 'Custom', 'cert' => '30+ Hal', 'level' => '80-100'],
+                        ];
+                        @endphp
+                        @foreach($estimates as $est)
+                        <button onclick="selectEstimate('{{ $est['label'] }}')" class="w-full text-left bg-kvt-800/30 hover:bg-kvt-700/30 border border-kvt-700/20 hover:border-kvt-500/30 rounded-lg p-4 transition group">
+                            <div class="flex items-start justify-between mb-2">
+                                <h4 class="text-white font-semibold text-sm group-hover:text-kvt-300">{{ $est['label'] }}</h4>
+                                <i class="fas fa-chevron-right text-kvt-400 group-hover:translate-x-1 transition"></i>
+                            </div>
+                            <div class="flex items-center justify-between gap-2 text-xs">
+                                <span class="text-gray-500"><i class="fas fa-clock mr-1"></i>{{ $est['waktu'] }}</span>
+                                <span class="text-gray-500"><i class="fas fa-credit-card mr-1"></i>{{ $est['cost'] }}</span>
+                            </div>
+                        </button>
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Right: Details --}}
+                <div class="bg-kvt-800/20 rounded-xl p-6 border border-kvt-700/20">
+                    <h3 class="text-white font-bold text-lg mb-4">Rincian Program</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-gray-400 text-sm">Durasi Belajar</span>
+                                <span class="text-kvt-400 font-bold text-sm" id="est-waktu">Pilih program</span>
+                            </div>
+                            <div class="h-2 bg-kvt-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-kvt-400 to-ungu-400 rounded-full" style="width: 0%" id="est-bar"></div>
+                            </div>
+                        </div>
+                        <div class="bg-kvt-900/30 rounded-lg p-4">
+                            <p class="text-gray-400 text-xs mb-2">💰 Investasi Bulanan</p>
+                            <p class="text-white font-black text-2xl" id="est-cost">Gratis</p>
+                        </div>
+                        <div class="bg-kvt-900/30 rounded-lg p-4">
+                            <p class="text-gray-400 text-xs mb-2">📜 Sertifikat yang Bisa Didapat</p>
+                            <p class="text-white font-bold" id="est-cert">6 Sertifikat</p>
+                        </div>
+                        <div class="bg-kvt-900/30 rounded-lg p-4">
+                            <p class="text-gray-400 text-xs mb-2">📊 Level Target</p>
+                            <p class="text-white font-bold" id="est-level">1-20</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- CTA --}}
 <section class="bg-gradient-to-br from-kvt-800/30 to-ungu-700/20 py-16">
     <div class="max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in-up">
@@ -364,3 +747,24 @@
 </section>
 
 @endsection
+
+@push('skrip')
+<script>
+function selectEstimate(label) {
+    const data = {
+        'SD Lengkap (6 tahun)': { waktu: '2-3 bulan', cost: 'Gratis', cert: '6 Sertifikat', level: '1-20', persen: 20 },
+        'SMP Lengkap (3 tahun)': { waktu: '4-5 bulan', cost: 'Gratis', cert: '9 Sertifikat', level: '20-40', persen: 35 },
+        'SMA Lengkap (3 tahun)': { waktu: '5-6 bulan', cost: 'Rp 299K/bulan', cert: '15 Sertifikat', level: '40-65', persen: 60 },
+        'SMK + Internship': { waktu: '6-8 bulan', cost: 'Rp 499K/bulan', cert: '20+ Sertifikat', level: '40-70', persen: 65 },
+        'S1 + Sertifikasi': { waktu: '8-12 bulan', cost: 'Rp 799K/bulan', cert: '25+ Sertifikat', level: '60-90', persen: 85 },
+        'S2/S3 + Research': { waktu: '12+ bulan', cost: 'Custom', cert: '30+ Hal', level: '80-100', persen: 100 },
+    };
+    const est = data[label] || data['SD Lengkap (6 tahun)'];
+    document.getElementById('est-waktu').textContent = est.waktu;
+    document.getElementById('est-cost').textContent = est.cost;
+    document.getElementById('est-cert').textContent = est.cert;
+    document.getElementById('est-level').textContent = est.level;
+    document.getElementById('est-bar').style.width = est.persen + '%';
+}
+</script>
+@endpush

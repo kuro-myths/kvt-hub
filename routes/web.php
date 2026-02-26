@@ -16,6 +16,7 @@ use App\Http\Controllers\MateriController;
 use App\Http\Controllers\KuisController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\OrganisasiController;
+use App\Http\Controllers\ChatController;
 
 // ===================================================================
 // LANDING PAGE (Publik)
@@ -334,4 +335,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/pendaftaran-edukasi/{edukasiGratis}', [PendaftaranEdukasiController::class, 'buat'])->name('pendaftaran-edukasi.buat');
     Route::post('/pendaftaran-edukasi/{edukasiGratis}', [PendaftaranEdukasiController::class, 'simpan'])->name('pendaftaran-edukasi.simpan');
     Route::get('/riwayat-pendaftaran', [PendaftaranEdukasiController::class, 'riwayat'])->name('pendaftaran-edukasi.riwayat');
+
+    // Chat / Chatbot (Authenticated)
+    Route::prefix('chat')->name('chat.')->group(function () {
+        Route::get('/', [ChatController::class, 'index'])->name('index');
+        Route::post('/create', [ChatController::class, 'create'])->name('create');
+        Route::get('/sessions', [ChatController::class, 'listSessions'])->name('sessions');
+        Route::get('/{session}', [ChatController::class, 'show'])->name('show');
+        Route::post('/{session}/send', [ChatController::class, 'sendMessage'])->name('send');
+        Route::post('/{session}/archive', [ChatController::class, 'archive'])->name('archive');
+        Route::delete('/{session}', [ChatController::class, 'delete'])->name('delete');
+        Route::post('/message/{message}/feedback', [ChatController::class, 'addFeedback'])->name('feedback');
+    });
 });

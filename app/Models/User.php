@@ -255,6 +255,12 @@ class User extends Authenticatable
         return $this->hasMany(JenjangPengguna::class, 'wali_user_id');
     }
 
+    // === Chat Sessions (Chatbot) ===
+    public function chatSessions()
+    {
+        return $this->hasMany(ChatSession::class);
+    }
+
     // XP & Level System
     public function tambahXP(int $jumlah): void
     {

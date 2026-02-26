@@ -6,7 +6,64 @@
 
 ---
 
-## v8.5 — Ekosistem 100 Menu, Dropdown Fix & Route Audit *(Current)*
+## v8.6 — Advanced AI Chatbot dengan OpenAI Integration *(Latest)*
+
+> Tanggal: 26 Februari 2026
+
+### Fitur Baru
+- **AI Chatbot Advanced** — Chatbot cerdas berbasis OpenAI API dengan fitur lengkap:
+  - Chat interface dengan history management
+  - Real-time message processing dengan GPT-4o-mini
+  - Knowledge base context KVT Hub terintegrasi
+  - Session management untuk multiple conversations
+  - Token tracking & cost estimation
+  - Feedback system (1-5 stars rating, feedback types)
+  - Support untuk guest (anonymous) dan authenticated users
+  - Auto-save chat sessions ke database
+  - Context-aware responses dengan message history
+  - Smart error handling & user-friendly error messages
+- **Tables Baru**:
+  - `chat_sessions` — Menyimpan session metadata dengan tracking tokens & cost
+  - `chat_messages` — Menyimpan semua pesan (user & assistant) dengan metadata
+  - `chat_feedbacks` — Menyimpan rating & feedback untuk setiap message
+- **Routes**:
+  - `GET /chat` — Halaman chat dashboard
+  - `POST /chat/create` — Buat session baru
+  - `GET /chat/{session}` — Lihat chat session
+  - `POST /chat/{session}/send` — Kirim message & dapatkan reply
+  - `POST /chat/{session}/archive` — Archive session
+  - `DELETE /chat/{session}` — Delete session
+  - `POST /chat/message/{message}/feedback` — Submit feedback
+
+### Dependencies
+- `openai-php/laravel` (v0.18.0) — Official PHP wrapper untuk OpenAI API
+
+### Konfigurasi (.env)
+```
+OPENAI_API_KEY=your-api-key
+OPENAI_ORGANIZATION=
+CHATBOT_MODEL=gpt-4o-mini
+CHATBOT_MAX_TOKENS=2000
+CHATBOT_TEMPERATURE=0.7
+CHATBOT_ENABLED=true
+```
+
+### Views
+- `resources/views/chat/index.blade.php` — Chat dashboard dengan sidebar history
+- `resources/views/chat/show.blade.php` — Detail chat session dengan messages
+- Suggestion buttons untuk quick start prompts
+- Real-time message UI dengan typing indicators
+- Rating system dengan emoji feedback
+
+### Statistik
+- **Total database tables**: +3 (chat_sessions, chat_messages, chat_feedbacks)
+- **Routes**: +7 endpoints
+- **Features**: 12+ advanced chatbot capabilities
+- **API Cost Tracking**: Per-session & per-message cost estimation
+
+---
+
+## v8.5 — Ekosistem 100 Menu, Dropdown Fix & Route Audit
 
 > Tanggal: 25 Februari 2026
 

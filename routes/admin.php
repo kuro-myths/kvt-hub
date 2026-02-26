@@ -24,6 +24,11 @@ use App\Http\Controllers\Admin\EdukasiGratisController;
 use App\Http\Controllers\Admin\PendaftaranEdukasiController;
 use App\Http\Controllers\Admin\AturanEdukasiController;
 use App\Http\Controllers\Admin\RepositoriController;
+use App\Http\Controllers\Admin\KuisController;
+use App\Http\Controllers\Admin\KuisHasilController;
+use App\Http\Controllers\Admin\JenjangPenggunaController;
+use App\Http\Controllers\Admin\LanggananController;
+use App\Http\Controllers\Admin\PencapaianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -183,3 +188,52 @@ Route::get('/repositori', [RepositoriController::class, 'index'])->name('reposit
 Route::get('/repositori/file', [RepositoriController::class, 'lihatFile'])->name('repositori.file');
 Route::get('/repositori/api/stats', [RepositoriController::class, 'apiStats'])->name('repositori.api.stats');
 Route::get('/repositori/api/github', [RepositoriController::class, 'apiGithub'])->name('repositori.api.github');
+
+// Kuis & Pertanyaan
+Route::get('/kuis', [KuisController::class, 'index'])->name('kuis.index');
+Route::post('/kuis', [KuisController::class, 'simpan'])->name('kuis.simpan');
+Route::get('/kuis/{kuis}', [KuisController::class, 'detail'])->name('kuis.detail');
+Route::put('/kuis/{kuis}', [KuisController::class, 'update'])->name('kuis.update');
+Route::delete('/kuis/{kuis}', [KuisController::class, 'hapus'])->name('kuis.hapus');
+
+// Kuis - Pertanyaan
+Route::post('/kuis/{kuis}/pertanyaan', [KuisController::class, 'simpanPertanyaan'])->name('kuis.pertanyaan.simpan');
+Route::put('/kuis/{kuis}/pertanyaan/{pertanyaan}', [KuisController::class, 'ubahPertanyaan'])->name('kuis.pertanyaan.update');
+Route::delete('/kuis/{kuis}/pertanyaan/{pertanyaan}', [KuisController::class, 'hapusPertanyaan'])->name('kuis.pertanyaan.hapus');
+Route::post('/kuis/{kuis}/pertanyaan-urutan', [KuisController::class, 'urutPertanyaan'])->name('kuis.pertanyaan.urut');
+
+// Kuis - Hasil
+Route::get('/kuis-hasil', [KuisHasilController::class, 'index'])->name('kuis-hasil.index');
+Route::get('/kuis-hasil/{kuisHasil}', [KuisHasilController::class, 'tampilkan'])->name('kuis-hasil.tampilkan');
+Route::delete('/kuis-hasil/{kuisHasil}', [KuisHasilController::class, 'hapus'])->name('kuis-hasil.hapus');
+Route::put('/kuis-hasil/hapus-by-kuis/{kuis}', [KuisHasilController::class, 'hapusByKuis'])->name('kuis-hasil.hapus-by-kuis');
+Route::get('/kuis-hasil-statistik', [KuisHasilController::class, 'statistik'])->name('kuis-hasil.statistik');
+
+// Jenjang Pengguna
+Route::get('/jenjang-pengguna', [JenjangPenggunaController::class, 'index'])->name('jenjang-pengguna.index');
+Route::post('/jenjang-pengguna', [JenjangPenggunaController::class, 'simpan'])->name('jenjang-pengguna.simpan');
+Route::get('/jenjang-pengguna/{jenjangPengguna}', [JenjangPenggunaController::class, 'detail'])->name('jenjang-pengguna.detail');
+Route::put('/jenjang-pengguna/{jenjangPengguna}', [JenjangPenggunaController::class, 'update'])->name('jenjang-pengguna.update');
+Route::delete('/jenjang-pengguna/{jenjangPengguna}', [JenjangPenggunaController::class, 'hapus'])->name('jenjang-pengguna.hapus');
+Route::put('/jenjang-pengguna/{jenjangPengguna}/status', [JenjangPenggunaController::class, 'ubahStatus'])->name('jenjang-pengguna.status');
+Route::post('/jenjang-pengguna/{jenjangPengguna}/naikkan-semester', [JenjangPenggunaController::class, 'naikkanSemester'])->name('jenjang-pengguna.naikkan-semester');
+
+// Langganan
+Route::get('/langganan', [LanggananController::class, 'index'])->name('langganan.index');
+Route::post('/langganan', [LanggananController::class, 'simpan'])->name('langganan.simpan');
+Route::get('/langganan/{langganan}', [LanggananController::class, 'detail'])->name('langganan.detail');
+Route::put('/langganan/{langganan}', [LanggananController::class, 'update'])->name('langganan.update');
+Route::delete('/langganan/{langganan}', [LanggananController::class, 'hapus'])->name('langganan.hapus');
+Route::put('/langganan/{langganan}/status', [LanggananController::class, 'ubahStatus'])->name('langganan.status');
+Route::post('/langganan/{langganan}/perpanjang', [LanggananController::class, 'perpanjang'])->name('langganan.perpanjang');
+Route::get('/langganan-statistik', [LanggananController::class, 'statistik'])->name('langganan.statistik');
+
+// Pencapaian
+Route::get('/pencapaian', [PencapaianController::class, 'index'])->name('pencapaian.index');
+Route::post('/pencapaian', [PencapaianController::class, 'simpan'])->name('pencapaian.simpan');
+Route::get('/pencapaian/{pencapaian}', [PencapaianController::class, 'detail'])->name('pencapaian.detail');
+Route::put('/pencapaian/{pencapaian}', [PencapaianController::class, 'update'])->name('pencapaian.update');
+Route::delete('/pencapaian/{pencapaian}', [PencapaianController::class, 'hapus'])->name('pencapaian.hapus');
+Route::post('/pencapaian/{pencapaian}/berikan', [PencapaianController::class, 'berikanKepada'])->name('pencapaian.berikan');
+Route::delete('/pencapaian/{pencapaian}/lepaskan/{user}', [PencapaianController::class, 'lepaskan'])->name('pencapaian.lepaskan');
+Route::get('/pencapaian-statistik', [PencapaianController::class, 'statistik'])->name('pencapaian.statistik');

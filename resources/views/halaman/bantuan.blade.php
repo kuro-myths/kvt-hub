@@ -243,6 +243,122 @@
     </div>
 </section>
 
+{{-- SUPPORT RESOURCES & TUTORIALS --}}
+<section class="bg-kvt-900/30 py-20">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-cyan-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-graduation-cap mr-2"></i>Learning Resources</span>
+            <h2 class="text-4xl font-black text-white mt-2">Sumber Daya Pembelajaran</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Akses video tutorial, dokumentasi, dan panduan lengkap untuk semua fitur KVT Hub</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @php
+            $resources = [
+                ['ikon' => 'fa-video', 'judul' => 'Video Tutorial', 'desk' => '100+ video step-by-step dari basic hingga advanced', 'warna' => 'from-red-500 to-pink-500', 'link' => '#', 'count' => '120+'],
+                ['ikon' => 'fa-book', 'judul' => 'Dokumentasi', 'desk' => 'Panduan lengkap fitur dengan screenshot & contoh', 'warna' => 'from-blue-500 to-cyan-500', 'link' => '#', 'count' => '50+'],
+                ['ikon' => 'fa-file-pdf', 'judul' => 'Panduan PDF', 'desk' => 'E-book & panduan offline yang bisa didownload gratis', 'warna' => 'from-purple-500 to-violet-500', 'link' => '#', 'count' => '25+'],
+                ['ikon' => 'fab fa-youtube', 'judul' => 'YouTube Channel', 'desk' => 'Webinar, tutorial, dan tips dari mentor KVT Hub', 'warna' => 'from-orange-500 to-red-600', 'link' => 'https://youtube.com', 'count' => '500+'],
+                ['ikon' => 'fa-comments', 'judul' => 'Forum Komunitas', 'desk' => 'Tanya jawab & diskusi dengan pengguna lain & mentor', 'warna' => 'from-green-500 to-emerald-600', 'link' => '#', 'count' => '10K+'],
+                ['ikon' => 'fa-code', 'judul' => 'Code Samples', 'desk' => 'Kode contoh & template siap pakai dari proyek real', 'warna' => 'from-gray-600 to-slate-700', 'link' => 'https://github.com', 'count' => '200+'],
+                ['ikon' => 'fa-graduation-cap', 'judul' => 'Bootcamp Live', 'desk' => 'Sesi live coding & Q&A dengan developer berpengalaman', 'warna' => 'from-yellow-500 to-amber-600', 'link' => '#', 'count' => '4x/bulan'],
+                ['ikon' => 'fa-certificate', 'judul' => 'Cheat Sheets', 'desk' => 'Ringkasan cepat syntaks & best practices programming', 'warna' => 'from-teal-500 to-cyan-600', 'link' => '#', 'count' => '50+'],
+            ];
+            @endphp
+
+            @foreach($resources as $i => $r)
+            <a href="{{ $r['link'] }}" target="{{ str_contains($r['link'], 'http') ? '_blank' : '' }}" class="group bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-6 hover:border-cyan-500/30 transition-all duration-300 hover:-translate-y-2 flex flex-col" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
+                <div class="w-12 h-12 bg-gradient-to-br {{ $r['warna'] }} rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition shrink-0">
+                    <i class="fas {{ $r['ikon'] }} text-white text-lg"></i>
+                </div>
+                <h3 class="text-white font-bold mb-2">{{ $r['judul'] }}</h3>
+                <p class="text-gray-400 text-sm mb-4 flex-1">{{ $r['desk'] }}</p>
+                <div class="inline-flex items-center gap-1.5 text-kvt-400 font-semibold text-xs group-hover:text-kvt-300 transition">
+                    <span>{{ $r['count'] }} resources</span>
+                    <i class="fas fa-arrow-right text-[10px]"></i>
+                </div>
+            </a>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- VIDEO PLAYLIST SECTION --}}
+<section class="max-w-7xl mx-auto px-4 py-20">
+    <div class="text-center mb-16" data-aos="fade-down">
+        <h2 class="text-3xl font-black text-white mb-3">Video Tutorial Populer</h2>
+        <p class="text-gray-400">Mulai belajar dengan video pilihan yang paling banyak ditonton</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @php
+        $videos = [
+            ['judul' => 'Cara Daftar & Setup Profil di KVT Hub', 'durasi' => '5 min', 'views' => '12.5K', 'thumbnail' => 'kvt-setup'],
+            ['judul' => 'Tutorial Lengkap Menggunakan Dasbor Siswa', 'durasi' => '12 min', 'views' => '8.3K', 'thumbnail' => 'dasbor-tutorial'],
+            ['judul' => 'Cara Membuat & Mengelola Kelas (Untuk Guru)', 'durasi' => '15 min', 'views' => '6.7K', 'thumbnail' => 'kelas-tutorial'],
+            ['judul' => 'Konsultasi Karir dengan AI Mentor Kuro', 'durasi' => '8 min', 'views' => '5.4K', 'thumbnail' => 'kuro-konsultasi'],
+            ['judul' => 'Tips Maksimalkan XP & Naik Level Cepat', 'durasi' => '7 min', 'views' => '9.2K', 'thumbnail' => 'xp-tips'],
+            ['judul' => 'Panduan Mengikuti Kuis & Ujian Online', 'durasi' => '10 min', 'views' => '11.8K', 'thumbnail' => 'kuis-tutorial'],
+        ];
+        @endphp
+
+        @foreach($videos as $i => $v)
+        <a href="#" class="group bg-kvt-900/50 border border-kvt-700/20 rounded-2xl overflow-hidden hover:border-kvt-500/30 transition-all hover:-translate-y-1" data-aos="fade-up" data-aos-delay="{{ $i * 80 }}">
+            <div class="relative aspect-video bg-gradient-to-br from-kvt-800 to-kvt-900 flex items-center justify-center overflow-hidden group-hover:from-kvt-700">
+                <div class="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/30 transition">
+                    <div class="w-16 h-16 bg-kvt-500/30 rounded-full flex items-center justify-center group-hover:bg-kvt-500/50 transition">
+                        <i class="fas fa-play text-kvt-400 text-2xl ml-1 group-hover:text-kvt-300"></i>
+                    </div>
+                </div>
+                <span class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">{{ $v['durasi'] }}</span>
+            </div>
+            <div class="p-4">
+                <h3 class="text-white font-bold text-sm mb-2 line-clamp-2 group-hover:text-kvt-300 transition">{{ $v['judul'] }}</h3>
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                    <span><i class="fas fa-eye mr-1"></i>{{ $v['views'] }} views</span>
+                    <span class="text-kvt-400 font-semibold">Play →</span>
+                </div>
+            </div>
+        </a>
+        @endforeach
+    </div>
+</section>
+
+{{-- TROUBLESHOOTING GUIDE --}}
+<section class="bg-kvt-900/30 py-20">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-black text-white mb-3">Troubleshooting Guide</h2>
+            <p class="text-gray-400">Solusi cepat untuk masalah yang sering terjadi</p>
+        </div>
+
+        <div class="space-y-3" data-aos="fade-up" data-aos-delay="100">
+            @php
+            $troubleshoot = [
+                ['q' => 'Lupa Password, Bagaimana Cara Reset?', 'a' => 'Klik "Lupa Password" di halaman login → masukkan email terdaftar → verifikasi link di email → buat password baru. Password baru aktif dalam 5 menit.'],
+                ['q' => 'Tidak Bisa Login / "Invalid Credentials"?', 'a' => 'Pastikan email dan password sudah benar. Jika email belum verifikasi, cek email spam folder untuk link verifikasi. Jika masih error, hubungi support@kvthub.com'],
+                ['q' => 'Halaman Loading Lambat / Website Error 500?', 'a' => 'Coba 1) Refresh halaman (Ctrl+F5) 2) Clear browser cache 3) Coba browser lain 4) Tunggu beberapa menit (server sedang maintenance). Jika persistent, report ke GitHub Issues.'],
+                ['q' => 'Video Tidak Bisa Diputar / Buffering Terus?', 'a' => 'Cek koneksi internet Anda. Jika internet cukup kuat, coba: 1) Clear browser cache 2) Disable browser extensions 3) Gunakan video quality lebih rendah (360p) 4) Coba browser berbeda'],
+                ['q' => 'Upload File Gagal / File Terlalu Besar?', 'a' => 'Batas upload: 50MB per file. Jika file lebih besar, compress terlebih dahulu atau pisah menjadi beberapa file. Format yang didukung: JPG, PNG, PDF, DOC, XLS, MP4.'],
+                ['q' => 'XP Tidak Bertambah Setelah Selesai Materi?', 'a' => 'XP butuh beberapa detik untuk tercatat. Refresh dashboard. Jika masih 0 XP, pastikan materi sudah 100% selesai (watched & scored kuis ≥60%). Lihat riwayat aktivitas Anda.'],
+            ];
+            @endphp
+
+            @foreach($troubleshoot as $idx => $t)
+            <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-xl overflow-hidden group" data-aos="fade-up" data-aos-delay="{{ $idx * 50 }}">
+                <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.classList.toggle('bg-kvt-800/30')" class="w-full flex items-center justify-between p-5 text-left hover:bg-kvt-800/20 transition">
+                    <span class="text-white font-semibold text-sm pr-4"><i class="fas fa-wrench text-orange-400 mr-2"></i>{{ $t['q'] }}</span>
+                    <i class="fas fa-chevron-down text-kvt-400 text-xs transition-transform group-hover:rotate-180"></i>
+                </button>
+                <div class="hidden px-5 pb-5 bg-kvt-800/10 border-t border-kvt-700/20">
+                    <p class="text-gray-300 text-sm leading-relaxed">{{ $t['a'] }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 {{-- Contact --}}
 <section class="max-w-4xl mx-auto px-4 py-16">
     <div class="relative overflow-hidden kaca rounded-3xl p-12 text-center border-kvt-500/20" data-aos="zoom-in">

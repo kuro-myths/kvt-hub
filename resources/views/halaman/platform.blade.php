@@ -99,6 +99,128 @@
     </div>
 </section>
 
+{{-- GETTING STARTED GUIDE --}}
+<section class="max-w-7xl mx-auto px-4 py-20">
+    <div class="text-center mb-16" data-aos="fade-down">
+        <span class="text-kvt-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-book-open mr-2"></i>Panduan Cepat</span>
+        <h2 class="text-4xl font-black text-white mt-2">Cara Menggunakan Platform</h2>
+        <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Ikuti langkah-langkah sederhana untuk memaksimalkan penggunaan KVT Hub</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+        {{-- Untuk Siswa --}}
+        <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-2xl p-8 hover:border-green-500/30 transition-all" data-aos="fade-right">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-user-graduate text-white text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-black text-white">Untuk Siswa</h3>
+            </div>
+            <div class="space-y-4">
+                @php
+                    $siswaGuide = [
+                        ['num' => 1, 'judul' => 'Daftar & Buat Profil', 'desc' => 'Klik "Daftar", isi data diri, pilih peran "Siswa", verifikasi email Anda'],
+                        ['num' => 2, 'judul' => 'Gabung Kelas', 'desc' => 'Cari kelas yang ingin diikuti atau gunakan kode kelas dari guru Anda'],
+                        ['num' => 3, 'judul' => 'Belajar & Kerjakan Materi', 'desc' => 'Akses video, slide, e-book, dan latihan soal yang telah disediakan'],
+                        ['num' => 4, 'judul' => 'Ikuti Kuis & Dapatkan XP', 'desc' => 'Selesaikan kuis untuk mendapatkan XP dan naik level (Lv 1-100)'],
+                        ['num' => 5, 'judul' => 'Raih Sertifikat', 'desc' => 'Setelah lulus, dapatkan sertifikat digital yang bisa dibagikan ke LinkedIn'],
+                    ];
+                @endphp
+                @foreach($siswaGuide as $step)
+                    <div class="flex gap-4 bg-green-500/5 border border-green-500/20 rounded-xl p-4 hover:bg-green-500/10 transition">
+                        <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center shrink-0 font-bold text-green-400">{{ $step['num'] }}</div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm mb-1">{{ $step['judul'] }}</h4>
+                            <p class="text-gray-400 text-xs">{{ $step['desc'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- Untuk Guru --}}
+        <div class="bg-kvt-900/50 border border-kvt-700/30 rounded-2xl p-8 hover:border-orange-500/30 transition-all" data-aos="fade-left">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-chalkboard-teacher text-white text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-black text-white">Untuk Guru</h3>
+            </div>
+            <div class="space-y-4">
+                @php
+                    $guruGuide = [
+                        ['num' => 1, 'judul' => 'Daftar sebagai Pengajar', 'desc' => 'Pilih peran "Pengajar" dan lengkapi data kredensial serta pengalaman mengajar'],
+                        ['num' => 2, 'judul' => 'Buat Kelas Pertama', 'desc' => 'Atur nama kelas, deskripsi, mata pelajaran, dan tingkat pendidikan'],
+                        ['num' => 3, 'judul' => 'Upload Materi Pembelajaran', 'desc' => 'Tambahkan video, slide powerpoint, e-book, dan link referensi dari berbagai sumber'],
+                        ['num' => 4, 'judul' => 'Buat Kuis & Penilaian', 'desc' => 'Desain kuis dengan berbagai tipe soal (pilihan ganda, essay, matching, dll)'],
+                        ['num' => 5, 'judul' => 'Monitor Progres Siswa', 'desc' => 'Lihat nilai, kehadiran, dan progress belajar siswa di dashboard real-time'],
+                    ];
+                @endphp
+                @foreach($guruGuide as $step)
+                    <div class="flex gap-4 bg-orange-500/5 border border-orange-500/20 rounded-xl p-4 hover:bg-orange-500/10 transition">
+                        <div class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center shrink-0 font-bold text-orange-400">{{ $step['num'] }}</div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm mb-1">{{ $step['judul'] }}</h4>
+                            <p class="text-gray-400 text-xs">{{ $step['desc'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    {{-- Tips & Tricks --}}
+    <div class="bg-gradient-to-r from-kvt-900/60 to-ungu-900/20 border border-kvt-700/30 rounded-2xl p-8" data-aos="zoom-in">
+        <h3 class="text-2xl font-black text-white mb-6 flex items-center">
+            <i class="fas fa-lightbulb text-yellow-400 mr-3"></i>Tips & Trik Maksimalkan Penggunaan
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex items-start gap-3">
+                <i class="fas fa-star text-amber-400 mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-1">Setup Profil Lengkap</h4>
+                    <p class="text-gray-400 text-xs">Foto profil & bio lengkap meningkatkan kepercayaan. Guru dengan profil lengkap mendapat lebih banyak siswa!</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-star text-amber-400 mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-1">Gandakan Poin XP</h4>
+                    <p class="text-gray-400 text-xs">Hadir konsisten, diskusi aktif, dan bantu teman = lebih banyak XP dan level up lebih cepat!</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-star text-amber-400 mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-1">Manfaatkan Kuis Interaktif</h4>
+                    <p class="text-gray-400 text-xs">Kuis dengan video pause memberikan pengalaman belajar interaktif seperti presentasi live!</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-star text-amber-400 mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-1">Gunakan Analytics Guru</h4>
+                    <p class="text-gray-400 text-xs">Dashboard analytics membantu identifikasi siswa yang tertinggal dan area yang perlu review</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-star text-amber-400 mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-1">Akses Offline</h4>
+                    <p class="text-gray-400 text-xs">KVT Hub adalah PWA! Download & akses materi offline kapan saja tanpa internet</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-3">
+                <i class="fas fa-star text-amber-400 mt-1 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm mb-1">Bergabung Komunitas</h4>
+                    <p class="text-gray-400 text-xs">Forum, study group, & hackathon = networking + kolaborasi yang valuable</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- Keunggulan Platform --}}
 <section class="max-w-7xl mx-auto px-4 py-20">
     <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -237,6 +359,202 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+    </div>
+</section>
+
+{{-- LIVE COMMUNITY LEADERBOARD --}}
+<section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-kvt-900/30 to-transparent"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-purple-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-fire mr-2"></i>Community</span>
+            <h2 class="text-4xl font-black text-white mt-2">Leaderboard & Kompetisi</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Lihat siapa yang paling aktif dan raih posisi teratas dalam komunitas KVT Hub</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            {{-- Leaderboard --}}
+            <div class="md:col-span-2 bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-6" data-aos="fade-right">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-white font-bold text-lg"><i class="fas fa-crown text-yellow-400 mr-2"></i>Top Learners (Bulan Ini)</h3>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1 rounded bg-kvt-700/50 text-xs text-kvt-300 hover:bg-kvt-600 transition">XP</button>
+                        <button class="px-3 py-1 rounded bg-kvt-700/50 text-xs text-gray-500 hover:bg-kvt-600 transition">Streak</button>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    @php
+                    $topLearners = [
+                        ['rank' => 1, 'nama' => 'Raji Kusuma', 'xp' => 8420, 'level' => 45, 'avatar' => 'https://i.pravatar.cc/40?img=30', 'streak' => '23 hari', 'badge' => '👑 Top 1', 'warna' => 'from-yellow-500/20 to-amber-500/20 border-yellow-500/30'],
+                        ['rank' => 2, 'nama' => 'Maya Putri', 'xp' => 7850, 'level' => 42, 'avatar' => 'https://i.pravatar.cc/40?img=40', 'streak' => '18 hari', 'badge' => '🥈 Top 2', 'warna' => 'from-gray-500/20 to-slate-500/20 border-gray-500/30'],
+                        ['rank' => 3, 'nama' => 'Andi Wijaya', 'xp' => 7420, 'level' => 40, 'avatar' => 'https://i.pravatar.cc/40?img=50', 'streak' => '15 hari', 'badge' => '🥉 Top 3', 'warna' => 'from-orange-500/20 to-amber-500/20 border-orange-500/30'],
+                        ['rank' => 4, 'nama' => 'Siti Nurdiani', 'xp' => 6950, 'level' => 38, 'avatar' => 'https://i.pravatar.cc/40?img=20', 'streak' => '12 hari', 'badge' => '🎖️ Top 10', 'warna' => 'from-blue-500/10 to-cyan-500/10 border-blue-500/20'],
+                        ['rank' => 5, 'nama' => 'Budi Santoso', 'xp' => 6420, 'level' => 35, 'avatar' => 'https://i.pravatar.cc/40?img=10', 'streak' => '9 hari', 'badge' => '⭐ Rising', 'warna' => 'from-blue-500/10 to-cyan-500/10 border-blue-500/20'],
+                    ];
+                    @endphp
+                    @foreach($topLearners as $learner)
+                    <div class="bg-gradient-to-r {{ $learner['warna'] }} border rounded-xl p-4 flex items-center justify-between hover:bg-kvt-700/30 transition group">
+                        <div class="flex items-center gap-3 flex-1">
+                            <div class="w-10 h-10 rounded-full bg-kvt-700 flex items-center justify-center font-black text-xs flex-shrink-0">
+                                {{ $learner['rank'] }}
+                            </div>
+                            <img src="{{ $learner['avatar'] }}" alt="{{ $learner['nama'] }}" class="w-10 h-10 rounded-full object-cover flex-shrink-0">
+                            <div>
+                                <h4 class="text-white font-semibold text-sm">{{ $learner['nama'] }}</h4>
+                                <p class="text-gray-400 text-xs"><i class="fas fa-fire text-red-400 mr-1"></i>{{ $learner['streak'] }}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-kvt-400 font-black text-sm">{{ number_format($learner['xp']) }} XP</p>
+                            <p class="text-gray-500 text-xs">Lv {{ $learner['level'] }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                <a href="#" class="mt-4 block text-center py-2 border border-kvt-700/30 rounded-lg text-kvt-400 hover:bg-kvt-800/30 transition text-sm">
+                    <i class="fas fa-arrow-right mr-2"></i>Lihat Leaderboard Lengkap
+                </a>
+            </div>
+
+            {{-- Achievements & Stats --}}
+            <div class="space-y-4">
+                {{-- Daily Challenge --}}
+                <div class="bg-gradient-to-br from-amber-500/20 to-yellow-500/10 border border-amber-500/30 rounded-2xl p-5" data-aos="fade-up">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="fas fa-star text-amber-400 text-2xl"></i>
+                        <h4 class="text-white font-bold">Daily Challenge</h4>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-3">Belajar selama 30 menit hari ini</p>
+                    <div class="bg-kvt-800/50 rounded-full h-2 overflow-hidden">
+                        <div class="w-65% bg-gradient-to-r from-amber-400 to-yellow-400 h-full" style="width: 65%"></div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">19.5 menit dari 30 menit</p>
+                </div>
+
+                {{-- Weekly Goal --}}
+                <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/10 border border-green-500/30 rounded-2xl p-5" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="fas fa-target text-green-400 text-2xl"></i>
+                        <h4 class="text-white font-bold">Weekly Goal</h4>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-3">Selesaikan 5 materi pelajaran</p>
+                    <div class="grid grid-cols-5 gap-1">
+                        <div class="w-full aspect-square rounded bg-green-500/40 flex items-center justify-center text-xs">✓</div>
+                        <div class="w-full aspect-square rounded bg-green-500/40 flex items-center justify-center text-xs">✓</div>
+                        <div class="w-full aspect-square rounded bg-green-500/40 flex items-center justify-center text-xs">✓</div>
+                        <div class="w-full aspect-square rounded bg-kvt-700/50 flex items-center justify-center text-xs">-</div>
+                        <div class="w-full aspect-square rounded bg-kvt-700/50 flex items-center justify-center text-xs">-</div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">3 dari 5 selesai</p>
+                </div>
+
+                {{-- Streak Tracker --}}
+                <div class="bg-gradient-to-br from-red-500/20 to-rose-500/10 border border-red-500/30 rounded-2xl p-5" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="fas fa-fire text-red-400 text-2xl"></i>
+                        <h4 class="text-white font-bold">Streak Hari Ini</h4>
+                    </div>
+                    <p class="text-white text-3xl font-black mb-2">7 🔥</p>
+                    <p class="text-gray-400 text-xs">Pertahankan konsistensi untuk unlock badge khusus!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- PARTNERSHIP & CERTIFICATION --}}
+<section class="bg-kvt-900/30 py-20">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-cyan-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-handshake mr-2"></i>Partnership</span>
+            <h2 class="text-4xl font-black text-white mt-2">Universitas & Perusahaan Mitra</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Bekerja sama dengan 150+ institusi pendidikan dan 500+ perusahaan terkemuka</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            {{-- University Partners --}}
+            <div class="kaca rounded-2xl p-8" data-aos="fade-right">
+                <h3 class="text-white font-bold text-lg mb-6 flex items-center">
+                    <i class="fas fa-university text-blue-400 mr-3"></i>
+                    Universitas Mitra
+                </h3>
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                    @php
+                    $universities = [
+                        ['logo' => '🎓', 'nama' => 'UI'],
+                        ['logo' => '🏛️', 'nama' => 'UGM'],
+                        ['logo' => '🔬', 'nama' => 'ITB'],
+                        ['logo' => '📚', 'nama' => 'USU'],
+                        ['logo' => '🌐', 'nama' => 'UPI'],
+                        ['logo' => '⚙️', 'nama' => 'UNAND'],
+                        ['logo' => '💡', 'nama' => 'UNAIR'],
+                        ['logo' => '🎨', 'nama' => 'UNSOED'],
+                    ];
+                    @endphp
+                    @foreach($universities as $uni)
+                    <div class="bg-kvt-800/50 rounded-lg p-3 flex flex-col items-center justify-center text-center hover:bg-kvt-700/50 transition cursor-pointer">
+                        <div class="text-3xl mb-1">{{ $uni['logo'] }}</div>
+                        <p class="text-xs font-bold text-gray-300">{{ $uni['nama'] }}</p>
+                    </div>
+                    @endforeach
+                </div>
+                <p class="text-gray-400 text-sm">150+ universitas terakreditasi BAN-PT tersebar di seluruh Indonesia memilih KVT Hub untuk pembelajaran terintegrasi.</p>
+            </div>
+
+            {{-- Company Partners --}}
+            <div class="kaca rounded-2xl p-8" data-aos="fade-left">
+                <h3 class="text-white font-bold text-lg mb-6 flex items-center">
+                    <i class="fas fa-building text-green-400 mr-3"></i>
+                    Perusahaan Teknologi
+                </h3>
+                <div class="grid grid-cols-4 gap-4 mb-6">
+                    @php
+                    $companies = [
+                        ['logo' => '🔵', 'nama' => 'Google'],
+                        ['logo' => '☁️', 'nama' => 'AWS'],
+                        ['logo' => '💻', 'nama' => 'Microsoft'],
+                        ['logo' => '🐧', 'nama' => 'Linux'],
+                        ['logo' => '🚀', 'nama' => 'Gojek'],
+                        ['logo' => '💳', 'nama' => 'OVO'],
+                        ['logo' => '🏠', 'nama' => 'Rumah123'],
+                        ['logo' => '🛒', 'nama' => 'Tokopedia'],
+                    ];
+                    @endphp
+                    @foreach($companies as $co)
+                    <div class="bg-kvt-800/50 rounded-lg p-3 flex flex-col items-center justify-center text-center hover:bg-kvt-700/50 transition cursor-pointer">
+                        <div class="text-3xl mb-1">{{ $co['logo'] }}</div>
+                        <p class="text-xs font-bold text-gray-300">{{ $co['nama'] }}</p>
+                    </div>
+                    @endforeach
+                </div>
+                <p class="text-gray-400 text-sm">500+ perusahaan dari startup hingga enterprise menggunakan KVT Hub untuk training dan recruitment.</p>
+            </div>
+        </div>
+
+        {{-- Benefits --}}
+        <div class="mt-12 grid md:grid-cols-3 gap-6">
+            <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-xl p-6 text-center hover:border-blue-500/30 transition" data-aos="fade-up">
+                <div class="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-graduation-cap text-blue-400 text-2xl"></i>
+                </div>
+                <h4 class="text-white font-bold mb-2">Kurikulum Terstandar</h4>
+                <p class="text-gray-400 text-sm">Dikembangkan bersama universitas & industri</p>
+            </div>
+            <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-xl p-6 text-center hover:border-green-500/30 transition" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-briefcase text-green-400 text-2xl"></i>
+                </div>
+                <h4 class="text-white font-bold mb-2">Job Placement</h4>
+                <p class="text-gray-400 text-sm">95% lulusan terserap dalam 6 bulan</p>
+            </div>
+            <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-xl p-6 text-center hover:border-purple-500/30 transition" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-certificate text-purple-400 text-2xl"></i>
+                </div>
+                <h4 class="text-white font-bold mb-2">Sertifikasi Internasional</h4>
+                <p class="text-gray-400 text-sm">Diakui oleh 50+ negara</p>
+            </div>
         </div>
     </div>
 </section>

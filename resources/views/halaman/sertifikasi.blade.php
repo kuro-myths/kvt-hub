@@ -111,6 +111,153 @@
     </div>
 </section>
 
+{{-- CERTIFICATION ROADMAP --}}
+<section class="max-w-7xl mx-auto px-4 py-20 bg-gradient-to-b from-kvt-900/30 to-transparent">
+    <div class="text-center mb-16" data-aos="fade-down">
+        <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-route mr-2"></i>Career Path</span>
+        <h2 class="text-4xl font-black text-white mt-2">Roadmap Sertifikasi Karir</h2>
+        <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Jalur pembelajaran terstruktur dari Junior hingga Expert dengan milestone sertifikasi</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+        {{-- Junior Developer Path --}}
+        <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-green-500/30 transition-all relative" data-aos="fade-up">
+            <div class="absolute top-4 right-4 bg-green-500/10 border border-green-500/30 rounded-lg px-3 py-1">
+                <span class="text-green-400 text-xs font-bold"><i class="fas fa-play-circle mr-1"></i>Beginner</span>
+            </div>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-code text-white text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Junior Developer</h3>
+            </div>
+            <p class="text-gray-400 text-sm mb-6">Waktu: 3-6 bulan | Target Salary: $1.5K-2.5K/bulan</p>
+            <div class="space-y-3">
+                <div class="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold text-sm mb-2">Sertifikasi Target:</h4>
+                    <ul class="space-y-1 text-xs text-gray-300">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>BNSP Junior Web Dev {Frontend}</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Google IT Support Professional</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Codementor Certification</li>
+                    </ul>
+                </div>
+                <div class="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold text-sm mb-2">Skills yang Dipelajari:</h4>
+                    <ul class="space-y-1 text-xs text-gray-300">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>HTML, CSS, JavaScript ES6+</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>React / Vue.js Fundamentals</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Responsive Design & Git</li>
+                    </ul>
+                </div>
+                <a href="#" class="block text-center bg-green-600 hover:bg-green-500 text-white py-2 rounded-lg font-semibold text-sm transition">Mulai Jalur Ini</a>
+            </div>
+        </div>
+
+        {{-- Senior Developer Path --}}
+        <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-blue-500/30 transition-all relative md:mt-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="absolute top-4 right-4 bg-blue-500/10 border border-blue-500/30 rounded-lg px-3 py-1">
+                <span class="text-blue-400 text-xs font-bold"><i class="fas fa-arrow-up mr-1"></i>Intermediate</span>
+            </div>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-layer-group text-white text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Senior Developer</h3>
+            </div>
+            <p class="text-gray-400 text-sm mb-6">Waktu: 6-12 bulan | Target Salary: $3K-6K/bulan</p>
+            <div class="space-y-3">
+                <div class="bg-blue-500/5 border border-blue-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold text-sm mb-2">Sertifikasi Target:</h4>
+                    <ul class="space-y-1 text-xs text-gray-300">
+                        <li><i class="fas fa-check text-blue-400 mr-2"></i>AWS Solutions Architect</li>
+                        <li><i class="fas fa-check text-blue-400 mr-2"></i>Node.js Certification</li>
+                        <li><i class="fas fa-check text-blue-400 mr-2"></i>Docker & Kubernetes Basics</li>
+                    </ul>
+                </div>
+                <div class="bg-blue-500/5 border border-blue-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold text-sm mb-2">Skills yang Dipelajari:</h4>
+                    <ul class="space-y-1 text-xs text-gray-300">
+                        <li><i class="fas fa-check text-blue-400 mr-2"></i>Full-Stack Development</li>
+                        <li><i class="fas fa-check text-blue-400 mr-2"></i>Cloud Architecture & DevOps</li>
+                        <li><i class="fas fa-check text-blue-400 mr-2"></i>Microservices & APIs</li>
+                    </ul>
+                </div>
+                <a href="#" class="block text-center bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg font-semibold text-sm transition">Lanjut Jalur Ini</a>
+            </div>
+        </div>
+
+        {{-- Tech Lead Path --}}
+        <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 hover:border-purple-500/30 transition-all relative" data-aos="fade-up" data-aos-delay="200">
+            <div class="absolute top-4 right-4 bg-purple-500/10 border border-purple-500/30 rounded-lg px-3 py-1">
+                <span class="text-purple-400 text-xs font-bold"><i class="fas fa-star mr-1"></i>Advanced</span>
+            </div>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-crown text-white text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Tech Lead / Architect</h3>
+            </div>
+            <p class="text-gray-400 text-sm mb-6">Waktu: 12+ bulan | Target Salary: $6K-15K+/bulan</p>
+            <div class="space-y-3">
+                <div class="bg-purple-500/5 border border-purple-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold text-sm mb-2">Sertifikasi Target:</h4>
+                    <ul class="space-y-1 text-xs text-gray-300">
+                        <li><i class="fas fa-check text-purple-400 mr-2"></i>AWS Solutions Architect Pro</li>
+                        <li><i class="fas fa-check text-purple-400 mr-2"></i>TOGAF Enterprise Architect</li>
+                        <li><i class="fas fa-check text-purple-400 mr-2"></i>Kubernetes Expert (CKA/CKAD)</li>
+                    </ul>
+                </div>
+                <div class="bg-purple-500/5 border border-purple-500/20 rounded-lg p-4">
+                    <h4 class="text-white font-semibold text-sm mb-2">Skills yang Dipelajari:</h4>
+                    <ul class="space-y-1 text-xs text-gray-300">
+                        <li><i class="fas fa-check text-purple-400 mr-2"></i>Enterprise Architecture</li>
+                        <li><i class="fas fa-check text-purple-400 mr-2"></i>Team Leadership & Mentoring</li>
+                        <li><i class="fas fa-check text-purple-400 mr-2"></i>System Design & Scaling</li>
+                    </ul>
+                </div>
+                <a href="#" class="block text-center bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-lg font-semibold text-sm transition">Reach the Top</a>
+            </div>
+        </div>
+    </div>
+
+    {{-- Success Tips --}}
+    <div class="mt-12 bg-gradient-to-r from-amber-900/20 to-orange-900/20 border border-amber-500/20 rounded-2xl p-8" data-aos="zoom-in">
+        <h3 class="text-xl font-black text-white mb-4 flex items-center">
+            <i class="fas fa-fire text-orange-400 mr-3"></i>Kunci Sukses Mendapat Sertifikasi
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+            <div class="flex gap-3">
+                <i class="fas fa-check-circle text-amber-400 text-lg mt-0.5 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm">Belajar Konsisten</h4>
+                    <p class="text-gray-400 text-xs">1-2 jam per hari lebih baik dari belajar berat sesekali. Consistency is key!</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <i class="fas fa-check-circle text-amber-400 text-lg mt-0.5 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm">Praktek Langsung</h4>
+                    <p class="text-gray-400 text-xs">Build projects, code hands-on, eksperimen. Teori saja tidak cukup.</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <i class="fas fa-check-circle text-amber-400 text-lg mt-0.5 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm">Mock Test & Review</h4>
+                    <p class="text-gray-400 text-xs">Ikuti mock exam berkali-kali. Pelajari area yang belum dikuasai.</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <i class="fas fa-check-circle text-amber-400 text-lg mt-0.5 shrink-0"></i>
+                <div>
+                    <h4 class="text-white font-semibold text-sm">Study Group Aktif</h4>
+                    <p class="text-gray-400 text-xs">Berbagi dengan kelompok belajar. Diskusi soal = deeper understanding.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- JADWAL UJIAN --}}
 <section class="max-w-7xl mx-auto px-4 py-20">
     <div class="text-center mb-12" data-aos="fade-up">

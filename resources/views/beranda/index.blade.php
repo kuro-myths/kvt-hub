@@ -976,6 +976,160 @@
     </div>
 </section>
 
+{{-- RPG ACHIEVEMENT & SKILL TREE --}}
+<section class="py-20 relative overflow-hidden" id="achievement">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-900/30 to-kvt-950"></div>
+    <div class="absolute top-1/4 right-0 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-down">
+            <span class="text-violet-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-star mr-2"></i>Gamification</span>
+            <h2 class="text-4xl font-black text-white mt-2">RPG-Style Achievement System</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Belajar sambil bermain dalam sistem pencapaian bergaya RPG dengan 100+ achievement badges</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+            {{-- Achievement Showcase --}}
+            <div class="lg:col-span-2" data-aos="fade-right">
+                <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-8 h-full">
+                    <h3 class="text-white font-bold text-lg mb-6 flex items-center">
+                        <i class="fas fa-trophy text-yellow-400 mr-3 text-2xl"></i>
+                        Achievement Badges
+                    </h3>
+                    <div class="grid grid-cols-5 gap-4 mb-8">
+                        @php
+                        $achievements = [
+                            ['nama' => 'First Step', 'ikon' => '🎓', 'warna' => 'from-blue-500 to-cyan-500', 'unlocked' => true],
+                            ['nama' => 'Speedrunner', 'ikon' => '⚡', 'warna' => 'from-yellow-500 to-amber-500', 'unlocked' => true],
+                            ['nama' => 'Perfect Score', 'ikon' => '💯', 'warna' => 'from-green-500 to-emerald-500', 'unlocked' => true],
+                            ['nama' => 'Night Owl', 'ikon' => '🌙', 'warna' => 'from-purple-500 to-violet-500', 'unlocked' => true],
+                            ['nama' => 'Streak Master', 'ikon' => '🔥', 'warna' => 'from-red-500 to-rose-500', 'unlocked' => true],
+                            ['nama' => 'Quiz Master', 'ikon' => '🧠', 'warna' => 'from-indigo-500 to-blue-500', 'unlocked' => false],
+                            ['nama' => 'Collaborator', 'ikon' => '👥', 'warna' => 'from-pink-500 to-rose-500', 'unlocked' => false],
+                            ['nama' => 'Author', 'ikon' => '✍️', 'warna' => 'from-orange-500 to-yellow-500', 'unlocked' => false],
+                            ['nama' => 'Mentor', 'ikon' => '🎯', 'warna' => 'from-emerald-500 to-green-500', 'unlocked' => false],
+                            ['nama' => 'Legend', 'ikon' => '👑', 'warna' => 'from-yellow-500 to-orange-500', 'unlocked' => false],
+                            ['nama' => 'Level 50', 'ikon' => '⭐', 'warna' => 'from-purple-500 to-pink-500', 'unlocked' => false],
+                            ['nama' => 'Global', 'ikon' => '🌍', 'warna' => 'from-cyan-500 to-blue-500', 'unlocked' => false],
+                            ['nama' => 'Researcher', 'ikon' => '🔬', 'warna' => 'from-emerald-500 to-teal-500', 'unlocked' => false],
+                            ['nama' => 'Innovator', 'ikon' => '💡', 'warna' => 'from-amber-500 to-orange-500', 'unlocked' => false],
+                            ['nama' => 'Champion', 'ikon' => '🏆', 'warna' => 'from-red-500 to-pink-500', 'unlocked' => false],
+                            ['nama' => 'Master', 'ikon' => '⚔️', 'warna' => 'from-violet-500 to-purple-500', 'unlocked' => false],
+                        ];
+                        @endphp
+                        @foreach($achievements as $i => $a)
+                        <div class="group cursor-pointer" data-aos="zoom-in" data-aos-delay="{{ $i * 30 }}">
+                            <div class="relative">
+                                <div class="aspect-square rounded-xl bg-gradient-to-br {{ $a['warna'] }} p-4 flex items-center justify-center text-4xl shadow-lg {{ $a['unlocked'] ? 'opacity-100' : 'opacity-40 grayscale' }} hover:scale-110 transition-transform">
+                                    {{ $a['ikon'] }}
+                                </div>
+                                @if(!$a['unlocked'])
+                                <div class="absolute inset-0 flex items-center justify-center rounded-xl">
+                                    <i class="fas fa-lock text-gray-400 text-lg"></i>
+                                </div>
+                                @else
+                                <div class="absolute top-1 right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-kvt-900"></div>
+                                @endif
+                            </div>
+                            <p class="text-center text-gray-300 text-xs mt-2 font-semibold">{{ $a['nama'] }}</p>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    {{-- Skill Progress Bar --}}
+                    <div class="bg-kvt-800/30 rounded-xl p-6 border border-kvt-700/20">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-white font-bold">Skill Progression</h4>
+                            <span class="bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full text-xs font-bold">Level 32/100</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                    <span>Programming</span>
+                                    <span>78%</span>
+                                </div>
+                                <div class="w-full h-2 bg-kvt-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-blue-500 to-cyan-500" style="width: 78%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                    <span>Data Science</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="w-full h-2 bg-kvt-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-purple-500 to-pink-500" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                    <span>Cloud Architecture</span>
+                                    <span>52%</span>
+                                </div>
+                                <div class="w-full h-2 bg-kvt-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-green-500 to-emerald-500" style="width: 52%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Level & Stats --}}
+            <div class="space-y-4" data-aos="fade-left">
+                {{-- Level Card --}}
+                <div class="bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/30 rounded-2xl p-6">
+                    <div class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-purple-400 mb-2 text-center">32</div>
+                    <h4 class="text-white font-bold text-center text-lg mb-1">Current Level</h4>
+                    <p class="text-gray-400 text-xs text-center mb-4">68 XP hingga level 33</p>
+                    <div class="w-full h-3 bg-kvt-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-violet-500 to-purple-500" style="width: 68%"></div>
+                    </div>
+                </div>
+
+                {{-- Statistics --}}
+                <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-6 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2"><i class="fas fa-fire text-red-400"></i><span class="text-gray-400 text-sm">Streak</span></div>
+                        <span class="text-white font-bold">7 hari</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2"><i class="fas fa-clock text-blue-400"></i><span class="text-gray-400 text-sm">Total Belajar</span></div>
+                        <span class="text-white font-bold">284 jam</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2"><i class="fas fa-book text-green-400"></i><span class="text-gray-400 text-sm">Materi Selesai</span></div>
+                        <span class="text-white font-bold">156</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2"><i class="fas fa-users text-purple-400"></i><span class="text-gray-400 text-sm">Study Group</span></div>
+                        <span class="text-white font-bold">8</span>
+                    </div>
+                </div>
+
+                {{-- Next Milestone --}}
+                <div class="bg-gradient-to-br from-amber-500/20 to-orange-500/10 border border-amber-500/30 rounded-2xl p-6">
+                    <p class="text-gray-400 text-xs mb-2">Next Milestone</p>
+                    <h4 class="text-white font-black text-xl mb-3">Level 35</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2 text-gray-300">
+                            <i class="fas fa-check text-green-400"></i>
+                            <span>Reputasi 500+</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-300">
+                            <i class="fas fa-check text-green-400"></i>
+                            <span>3 Sertifikasi</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-circle-notch text-yellow-400"></i>
+                            <span>150 XP (in progress)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- CTA SECTION --}}
 <section class="py-20 relative">
     <div class="max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in-up">
@@ -1371,6 +1525,399 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+    </div>
+</section>
+
+{{-- TESTIMONIAL SECTION --}}
+<section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-950 to-kvt-900/50"></div>
+    <div class="absolute top-0 left-10% w-80 h-80 bg-kvt-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-10% w-96 h-96 bg-ungu-400/5 rounded-full blur-3xl"></div>
+    
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-rose-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-quote-left mr-2"></i>Testimoni Pengguna</span>
+            <h2 class="text-4xl font-black text-white mt-2">Cerita Sukses Dari Komunitas</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Ribuan pengguna telah merasakan transformasi belajar dengan KVT Hub</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @php
+            $testimonials = [
+                [
+                    'nama' => 'Rizky Pratama',
+                    'peran' => 'Mahasiswa S1 Teknik Informatika',
+                    'universitas' => 'ITB, Jakarta',
+                    'foto' => 'https://i.pravatar.cc/150?img=1',
+                    'text' => 'KVT Hub mengubah cara saya belajar. Dari kelas online biasa menjadi experience yang gamified dengan level 1-100. Sekarang sudah level 67 dan mendapat beasiswa dari mitra industri!',
+                    'rating' => 5,
+                    'badge' => 'Diamond Scholar',
+                ],
+                [
+                    'nama' => 'Aisyah Putri',
+                    'peran' => 'Fresh Graduate & Content Creator',
+                    'universitas' => 'UI, Depok',
+                    'foto' => 'https://i.pravatar.cc/150?img=2',
+                    'text' => 'Sertifikasi blockchain dari KVT Hub meningkatkan kredibilitas saya. Sekarang bisa freelance dengan rate 10x lebih tinggi. Terima kasih atas platform yang luar biasa!',
+                    'rating' => 5,
+                    'badge' => 'Platinum Scholar',
+                ],
+                [
+                    'nama' => 'Dimas Surya',
+                    'peran' => 'Junior Software Engineer',
+                    'universitas' => 'Binus, Jakarta',
+                    'foto' => 'https://i.pravatar.cc/150?img=3',
+                    'text' => 'Program magang melalui KVT Hub membuka pintu karir saya di perusahaan tech ternama. Modul pembelajaran yang terstruktur membantu saya siap menghadapi industri 4.0.',
+                    'rating' => 5,
+                    'badge' => 'Gold Scholar',
+                ],
+                [
+                    'nama' => 'Farah Zahra',
+                    'peran' => 'Researcher & PhD Candidate',
+                    'universitas' => 'UGM, Yogyakarta',
+                    'foto' => 'https://i.pravatar.cc/150?img=4',
+                    'text' => 'Fitur riset kolaborasi KVT Hub menghubungkan saya dengan researcher dari 150+ universitas. Publikasi saya sudah terintegrasi di platform ini. Inovasi yang game-changing!',
+                    'rating' => 5,
+                    'badge' => 'Master Scholar',
+                ],
+                [
+                    'nama' => 'Hendra Wijaya',
+                    'peran' => 'Tech Enthusiast & Mentor',
+                    'universitas' => 'Telkom, Bandung',
+                    'foto' => 'https://i.pravatar.cc/150?img=5',
+                    'text' => 'Community features di KVT Hub sangat solid. Forum diskusi, study group, dan hackathon menciptakan ekosistem learner yang supportive dan memotivasi.',
+                    'rating' => 5,
+                    'badge' => 'Silver Scholar',
+                ],
+                [
+                    'nama' => 'Lisa Andriani',
+                    'peran' => 'Corporate Trainer',
+                    'universitas' => 'ITS, Surabaya',
+                    'foto' => 'https://i.pravatar.cc/150?img=6',
+                    'text' => 'Sebagai pengajar, dashboard analytics KVT Hub sangat membantu saya memantau progress siswa real-time. Data-driven approach untuk education yang lebih baik!',
+                    'rating' => 5,
+                    'badge' => 'Gold Scholar',
+                ],
+            ];
+            @endphp
+
+            @foreach($testimonials as $i => $t)
+            <div class="group bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-6 hover:border-rose-500/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-rose-500/10 flex flex-col" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                {{-- Stars --}}
+                <div class="flex items-center gap-1 mb-4">
+                    @for($j = 0; $j < $t['rating']; $j++)
+                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                    @endfor
+                </div>
+
+                {{-- Quote --}}
+                <p class="text-gray-300 text-sm leading-relaxed mb-6 flex-1 italic">"{{ $t['text'] }}"</p>
+
+                {{-- Divider --}}
+                <div class="border-t border-kvt-700/20 pt-4 mb-4"></div>
+
+                {{-- User Info --}}
+                <div class="flex items-center gap-3">
+                    <img src="{{ $t['foto'] }}" alt="{{ $t['nama'] }}" class="w-12 h-12 rounded-full border-2 border-kvt-500/30 object-cover">
+                    <div class="flex-1">
+                        <h4 class="text-white font-bold text-sm">{{ $t['nama'] }}</h4>
+                        <p class="text-gray-500 text-xs">{{ $t['peran'] }}</p>
+                    </div>
+                </div>
+
+                {{-- Badge --}}
+                <div class="mt-4 inline-flex items-center gap-2 bg-kvt-800/40 border border-kvt-700/20 rounded-lg px-3 py-1.5">
+                    <i class="fas fa-award text-amber-400 text-xs"></i>
+                    <span class="text-xs text-amber-400 font-semibold">{{ $t['badge'] }}</span>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <div class="text-center mt-12" data-aos="zoom-in">
+            <p class="text-gray-400 mb-4">Baca ratusan testimonial lainnya dari komunitas KVT Hub</p>
+            <a href="#" class="inline-flex items-center gap-2 bg-kvt-800/50 hover:bg-kvt-700/50 border border-kvt-700/50 text-kvt-400 hover:text-kvt-300 px-6 py-3 rounded-xl font-semibold transition">
+                <i class="fas fa-comments"></i> Lihat Semua Testimoni
+            </a>
+        </div>
+    </div>
+</section>
+
+{{-- LEARNING PATHS SECTION --}}
+<section class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-indigo-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-map mr-2"></i>Learning Paths</span>
+            <h2 class="text-4xl font-black text-white mt-2">Jalur Belajar Yang Direkomendasikan</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Kurikulum terstruktur untuk mencapai tujuan karir Anda dengan langkah yang jelas</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @php
+            $paths = [
+                [
+                    'nama' => 'Full Stack Developer',
+                    'durasi' => '6-8 bulan',
+                    'level' => '10 Level',
+                    'peserta' => '2.5K+',
+                    'warna' => 'from-purple-500 to-pink-500',
+                    'ikon' => 'fa-code',
+                    'steps' => [
+                        'Dasar HTML, CSS, JavaScript',
+                        'Frontend: React/Vue.js',
+                        'Backend: Laravel/Node.js',
+                        'Database & SQL',
+                        'API Development',
+                        'Deployment & DevOps',
+                    ],
+                ],
+                [
+                    'nama' => 'Data Science & AI',
+                    'durasi' => '8-10 bulan',
+                    'level' => '12 Level',
+                    'peserta' => '1.8K+',
+                    'warna' => 'from-cyan-500 to-blue-500',
+                    'ikon' => 'fa-brain',
+                    'steps' => [
+                        'Python Fundamentals',
+                        'Pandas & Data Analysis',
+                        'Visualisasi Data',
+                        'Machine Learning',
+                        'Deep Learning & NLP',
+                        'AI Applications',
+                    ],
+                ],
+                [
+                    'nama' => 'UI/UX Designer',
+                    'durasi' => '5-6 bulan',
+                    'level' => '8 Level',
+                    'peserta' => '2.1K+',
+                    'warna' => 'from-rose-500 to-orange-500',
+                    'ikon' => 'fa-palette',
+                    'steps' => [
+                        'Design Fundamentals',
+                        'Figma Mastery',
+                        'User Research',
+                        'Wireframing & Prototyping',
+                        'Interaction Design',
+                        'Portfolio Building',
+                    ],
+                ],
+                [
+                    'nama' => 'Cybersecurity Expert',
+                    'durasi' => '9-12 bulan',
+                    'level' => '15 Level',
+                    'peserta' => '1.2K+',
+                    'warna' => 'from-red-500 to-pink-500',
+                    'ikon' => 'fa-shield-alt',
+                    'steps' => [
+                        'Network Fundamentals',
+                        'Ethical Hacking',
+                        'Penetration Testing',
+                        'Malware Analysis',
+                        'Security Governance',
+                        'Compliance & GDPR',
+                    ],
+                ],
+                [
+                    'nama' => 'Digital Marketing Pro',
+                    'durasi' => '4-5 bulan',
+                    'level' => '7 Level',
+                    'peserta' => '3.2K+',
+                    'warna' => 'from-green-500 to-emerald-500',
+                    'ikon' => 'fa-rocket',
+                    'steps' => [
+                        'Digital Marketing Basics',
+                        'SEO & SEM',
+                        'Social Media Marketing',
+                        'Content Strategy',
+                        'Analytics & ROI',
+                        'Campaign Management',
+                    ],
+                ],
+                [
+                    'nama' => 'Business Analyst',
+                    'durasi' => '5-7 bulan',
+                    'level' => '9 Level',
+                    'peserta' => '1.9K+',
+                    'warna' => 'from-amber-500 to-yellow-500',
+                    'ikon' => 'fa-chart-line',
+                    'steps' => [
+                        'Business Fundamentals',
+                        'Requirements Analysis',
+                        'SQL & Data Querying',
+                        'Tableau & Power BI',
+                        'Process Improvement',
+                        'Stakeholder Management',
+                    ],
+                ],
+            ];
+            @endphp
+
+            @foreach($paths as $i => $path)
+            <div class="group bg-kvt-900/60 border border-kvt-700/30 rounded-2xl p-6 hover:border-kvt-500/30 transition-all duration-500 hover:-translate-y-2 flex flex-col" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                {{-- Header --}}
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="w-14 h-14 bg-gradient-to-br {{ $path['warna'] }} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition shrink-0">
+                        <i class="fas {{ $path['ikon'] }} text-white text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-white mb-1">{{ $path['nama'] }}</h3>
+                        <div class="flex items-center gap-3 text-xs text-gray-500">
+                            <span><i class="fas fa-clock mr-1"></i>{{ $path['durasi'] }}</span>
+                            <span><i class="fas fa-layer-group mr-1"></i>{{ $path['level'] }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Steps --}}
+                <div class="space-y-2 mb-6 flex-1">
+                    @foreach($path['steps'] as $j => $step)
+                    <div class="flex items-start gap-3 text-sm">
+                        <div class="w-6 h-6 bg-kvt-800/50 rounded-full flex items-center justify-center text-[10px] font-bold text-kvt-400 shrink-0 mt-0.5">
+                            {{ $j + 1 }}
+                        </div>
+                        <span class="text-gray-300">{{ $step }}</span>
+                    </div>
+                    @endforeach
+                </div>
+
+                {{-- Footer Stats --}}
+                <div class="border-t border-kvt-700/20 pt-4">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-gray-500"><i class="fas fa-users mr-1 text-kvt-400"></i>{{ $path['peserta'] }} peserta</span>
+                        <a href="#" class="text-kvt-400 hover:text-kvt-300 font-semibold transition">Mulai <i class="fas fa-arrow-right ml-1 text-[10px]"></i></a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- PREMIUM FEATURES SECTION --}}
+<section class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-900/30 to-kvt-950"></div>
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-yellow-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-crown mr-2"></i>Premium Features</span>
+            <h2 class="text-4xl font-black text-white mt-2">Fitur Eksklusif & Paket Premium</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Tingkatkan pengalaman belajar dengan akses ke konten premium dan fitur-fitur eksklusif</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            @php
+            $pakets = [
+                [
+                    'nama' => 'Starter',
+                    'harga' => 'GRATIS',
+                    'deskripsi' => 'Sempurna untuk memulai',
+                    'warna' => 'from-gray-600 to-gray-700',
+                    'highlight' => false,
+                    'fitur' => [
+                        ['icon' => 'fa-check-circle', 'text' => 'Akses ke semua kelas gratis', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Sistem level 1-100', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Forum komunitas', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Badge & pencapaian', 'ada' => true],
+                        ['icon' => 'fa-times-circle', 'text' => 'Materi premium', 'ada' => false],
+                        ['icon' => 'fa-times-circle', 'text' => 'Sertifikasi blockchain', 'ada' => false],
+                        ['icon' => 'fa-times-circle', 'text' => 'Mentoring 1-on-1', 'ada' => false],
+                    ],
+                ],
+                [
+                    'nama' => 'Pro',
+                    'harga' => 'Rp 99K/bulan',
+                    'deskripsi' => 'Paling populer',
+                    'warna' => 'from-kvt-500 to-ungu-500',
+                    'highlight' => true,
+                    'fitur' => [
+                        ['icon' => 'fa-check-circle', 'text' => 'Semua fitur Starter', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Materi & kursus premium', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Sertifikasi blockchain', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Akses riset global', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Analytics dashboard', 'ada' => true],
+                        ['icon' => 'fa-times-circle', 'text' => 'Mentoring 1-on-1', 'ada' => false],
+                        ['icon' => 'fa-times-circle', 'text' => 'Job placement', 'ada' => false],
+                    ],
+                ],
+                [
+                    'nama' => 'Enterprise',
+                    'harga' => 'Custom Pricing',
+                    'deskripsi' => 'Untuk organisasi',
+                    'warna' => 'from-amber-500 to-orange-500',
+                    'highlight' => false,
+                    'fitur' => [
+                        ['icon' => 'fa-check-circle', 'text' => 'Semua fitur Pro', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Mentoring 1-on-1', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Job placement priority', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Custom learning path', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'Dedicated support', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'White-label solution', 'ada' => true],
+                        ['icon' => 'fa-check-circle', 'text' => 'API access', 'ada' => true],
+                    ],
+                ],
+            ];
+            @endphp
+
+            @foreach($pakets as $i => $paket)
+            <div class="group {{ $paket['highlight'] ? 'md:scale-105' : '' }} relative" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                @if($paket['highlight'])
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                    <div class="bg-gradient-to-r from-kvt-500 to-ungu-500 text-white px-4 py-1.5 rounded-full text-xs font-bold">⭐ POPULER</div>
+                </div>
+                @endif
+                <div class="bg-kvt-900/60 border {{ $paket['highlight'] ? 'border-kvt-500/50' : 'border-kvt-700/30' }} rounded-2xl p-6 h-full hover:border-kvt-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col {{ $paket['highlight'] ? 'shadow-xl shadow-kvt-500/20' : '' }}">
+                    {{-- Header --}}
+                    <div class="mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br {{ $paket['warna'] }} rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                            <i class="fas fa-diamond text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-white mb-1">{{ $paket['nama'] }}</h3>
+                        <p class="text-gray-500 text-sm">{{ $paket['deskripsi'] }}</p>
+                    </div>
+
+                    {{-- Harga --}}
+                    <div class="mb-6 pb-6 border-b border-kvt-700/20">
+                        <div class="text-4xl font-black text-white mb-1">
+                            @if($paket['harga'] === 'GRATIS')
+                            <span class="text-3xl">{{ $paket['harga'] }}</span>
+                            @else
+                            {{ $paket['harga'] }}
+                            @endif
+                        </div>
+                        @if($paket['harga'] !== 'GRATIS' && $paket['harga'] !== 'Custom Pricing')
+                        <p class="text-gray-500 text-xs">/bulan, cancel kapan saja</p>
+                        @endif
+                    </div>
+
+                    {{-- Features --}}
+                    <div class="space-y-3 mb-6 flex-1">
+                        @foreach($paket['fitur'] as $f)
+                        <div class="flex items-start gap-3 text-sm">
+                            <i class="fas {{ $f['icon'] }} {{ $f['ada'] ? 'text-emerald-400' : 'text-red-400/50' }} mt-0.5 text-xs shrink-0"></i>
+                            <span class="{{ $f['ada'] ? 'text-gray-300' : 'text-gray-600 line-through' }}">{{ $f['text'] }}</span>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    {{-- CTA --}}
+                    @if($paket['harga'] === 'GRATIS')
+                    <a href="{{ route('daftar') }}" class="w-full bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-300 py-3 rounded-xl font-semibold transition border border-kvt-700/50 text-center">
+                        Mulai Gratis
+                    </a>
+                    @elseif($paket['harga'] === 'Custom Pricing')
+                    <a href="#" class="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white py-3 rounded-xl font-semibold transition text-center">
+                        Hubungi Sales
+                    </a>
+                    @else
+                    <a href="#" class="w-full bg-gradient-to-r from-kvt-500 to-ungu-600 hover:from-kvt-400 hover:to-ungu-500 text-white py-3 rounded-xl font-semibold transition shadow-lg shadow-kvt-500/20">
+                        Upgrade Sekarang
+                    </a>
+                    @endif
+                </div>
+            </div>
+            @endforeach
         </div>
     </div>
 </section>

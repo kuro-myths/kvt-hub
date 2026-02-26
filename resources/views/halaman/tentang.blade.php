@@ -180,6 +180,173 @@
     </div>
 </section>
 
+{{-- ALUMNI & LULUSAN SUKSES --}}
+<section class="bg-kvt-900/30 py-20">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <span class="text-emerald-400 text-sm font-semibold tracking-wider uppercase"><i class="fas fa-graduation-cap mr-2"></i>Alumni Success</span>
+            <h2 class="text-4xl font-black text-white mt-2">Lulusan & Alumni Sukses</h2>
+            <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Ratusan lulusan KVT Hub telah mencapai kesuksesan di berbagai bidang karir</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            @php
+            $alumni = [
+                [
+                    'nama' => 'Rizky Pratama',
+                    'foto' => 'https://i.pravatar.cc/150?img=12',
+                    'peran' => 'Senior Full-Stack Developer',
+                    'perusahaan' => 'PT TechCorp Indonesia',
+                    'salary' => 'Rp 25 Juta/Bulan',
+                    'pencapaian' => [
+                        'Lulus CPL Full-Stack Developer BNSP',
+                        'AWS Solutions Architect Certified',
+                        'Led 5+ Production Projects',
+                        'Mentor untuk 20+ junior dev'
+                    ],
+                    'warna' => 'from-blue-500 to-cyan-500'
+                ],
+                [
+                    'nama' => 'Aisyah Putri',
+                    'foto' => 'https://i.pravatar.cc/150?img=47',
+                    'peran' => 'Data Science Lead',
+                    'perusahaan' => 'PT Data Analytics Utama',
+                    'salary' => 'Rp 30 Juta/Bulan',
+                    'pencapaian' => [
+                        'Sertifikasi Google Data Analytics',
+                        'Microsoft Azure Data Engineer',
+                        'Published 3 Research Papers',
+                        'Founder of AI Society'
+                    ],
+                    'warna' => 'from-purple-500 to-violet-500'
+                ],
+                [
+                    'nama' => 'Dimas Surya',
+                    'foto' => 'https://i.pravatar.cc/150?img=33',
+                    'peran' => 'UI/UX Designer',
+                    'perusahaan' => 'Startup Fintech Berkembang',
+                    'salary' => 'Rp 18 Juta + Equity',
+                    'pencapaian' => [
+                        'Desain sistem 3+ aplikasi mobile',
+                        'Figma Expert & Design System Lead',
+                        'Won Best UX Award 2025',
+                        'Freelance Client $5K+/project'
+                    ],
+                    'warna' => 'from-pink-500 to-rose-500'
+                ],
+                [
+                    'nama' => 'Farah Zahra',
+                    'foto' => 'https://i.pravatar.cc/150?img=50',
+                    'peran' => 'Software Engineer',
+                    'perusahaan' => 'Google Southeast Asia',
+                    'salary' => '$8,000/Bulan USD',
+                    'pencapaian' => [
+                        'Lulus Google Interview 4 banding',
+                        'Kontribusi Open Source 500+ stars',
+                        'Presentasi di 5+ Tech Conferences',
+                        'Lead Backend Engineer Team'
+                    ],
+                    'warna' => 'from-amber-500 to-orange-600'
+                ],
+                [
+                    'nama' => 'Hendra Wijaya',
+                    'foto' => 'https://i.pravatar.cc/150?img=28',
+                    'peran' => 'Cybersecurity Specialist',
+                    'perusahaan' => 'PT Keamanan Digital Indonesia',
+                    'salary' => 'Rp 27 Juta/Bulan',
+                    'pencapaian' => [
+                        'CEH (Certified Ethical Hacker)',
+                        'Temukan 20+ Critical Vulnerabilities',
+                        'Security Architect Certification',
+                        'Trainer di 10+ organisasi besar'
+                    ],
+                    'warna' => 'from-red-500 to-pink-600'
+                ],
+                [
+                    'nama' => 'Lisa Andriani',
+                    'foto' => 'https://i.pravatar.cc/150?img=59',
+                    'peran' => 'Entrepreneur & Founder',
+                    'perusahaan' => 'Startup EdTech "LearnHub"',
+                    'salary' => 'Rp 50 Juta+ (Fleksibel)',
+                    'pencapaian' => [
+                        'Startup Didukung 3 VC Investor',
+                        'Kelola 500+ Pengguna Aktif',
+                        'Sertifikasi Tech Entrepreneur',
+                        'Penceramah di Startup Summit'
+                    ],
+                    'warna' => 'from-green-500 to-emerald-600'
+                ],
+            ];
+            @endphp
+
+            @foreach($alumni as $i => $al)
+            <div class="bg-kvt-900/60 border border-kvt-700/30 rounded-2xl overflow-hidden hover:border-kvt-500/30 transition-all duration-300 hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay="{{ $i * 100 }}">
+                {{-- Header dengan Gradient --}}
+                <div class="h-24 bg-gradient-to-r {{ $al['warna'] }} relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-20 pattern" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);"></div>
+                </div>
+
+                {{-- Content --}}
+                <div class="px-6 pb-6">
+                    {{-- Avatar --}}
+                    <div class="relative -mt-12 mb-4">
+                        <img src="{{ $al['foto'] }}" alt="{{ $al['nama'] }}" class="w-16 h-16 rounded-full border-4 border-kvt-900 object-cover shadow-lg">
+                    </div>
+
+                    {{-- Info --}}
+                    <h3 class="text-white font-bold text-lg mb-1">{{ $al['nama'] }}</h3>
+                    <p class="text-kvt-400 text-sm font-semibold mb-0.5">{{ $al['peran'] }}</p>
+                    <p class="text-gray-500 text-xs mb-3">{{ $al['perusahaan'] }}</p>
+
+                    {{-- Salary Badge --}}
+                    <div class="inline-block bg-emerald-500/10 border border-emerald-500/30 rounded-lg px-3 py-1.5 mb-4">
+                        <span class="text-emerald-400 text-xs font-bold"><i class="fas fa-money-bill-wave mr-1"></i>{{ $al['salary'] }}</span>
+                    </div>
+
+                    {{-- Pencapaian --}}
+                    <div class="space-y-2">
+                        @foreach($al['pencapaian'] as $p)
+                        <div class="flex items-start gap-2 text-xs">
+                            <i class="fas fa-check-circle text-kvt-400 mt-0.5 shrink-0"></i>
+                            <span class="text-gray-300">{{ $p }}</span>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    {{-- Action --}}
+                    <a href="#" class="block text-center mt-4 bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-300 py-2 rounded-lg font-semibold text-xs transition border border-kvt-700/50">
+                        <i class="fas fa-linkedin mr-1"></i>Lihat Profil
+                    </a>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        {{-- Stats Alumni --}}
+        <div class="bg-gradient-to-r from-emerald-900/20 to-teal-900/20 border border-emerald-500/20 rounded-2xl p-8" data-aos="zoom-in">
+            <h3 class="text-2xl font-black text-white mb-8 text-center">Statistik Lulusan KVT Hub</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                <div>
+                    <div class="text-4xl font-black text-emerald-400 mb-2">5K+</div>
+                    <p class="text-gray-400 text-sm">Lulusan Aktif</p>
+                </div>
+                <div>
+                    <div class="text-4xl font-black text-emerald-400 mb-2">98%</div>
+                    <p class="text-gray-400 text-sm">Tingkat Keberhasilan</p>
+                </div>
+                <div>
+                    <div class="text-4xl font-black text-emerald-400 mb-2">Rp 15M+</div>
+                    <p class="text-gray-400 text-sm">Rata-rata Gaji/Bulan</p>
+                </div>
+                <div>
+                    <div class="text-4xl font-black text-emerald-400 mb-2">500+</div>
+                    <p class="text-gray-400 text-sm">Perusahaan Rekruter</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- Open Source --}}
 <section class="bg-kvt-900/30 py-16">
     <div class="max-w-4xl mx-auto px-4 text-center" data-aos="zoom-in-up">
