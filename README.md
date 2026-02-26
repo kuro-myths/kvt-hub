@@ -6,14 +6,14 @@
 
 <p align="center">
   <strong>Ekosistem pendidikan, karir, dan riset digital global.</strong><br>
-  Dari TK hingga S3/PhD · 7 Peran · 174+ Halaman · Gamifikasi RPG · Musik Streaming · LED Dot Matrix · AI VTuber
+  Dari TK hingga S3/PhD · 7 Peran · 174+ Halaman · Gamifikasi RPG · Musik Streaming · LED Dot Matrix · AI VTuber · AI Chatbot
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Laravel-12-red?logo=laravel&logoColor=white" alt="Laravel 12">
   <img src="https://img.shields.io/badge/PHP-8.5+-blue?logo=php&logoColor=white" alt="PHP 8.5+">
   <img src="https://img.shields.io/badge/PostgreSQL-14+-336791?logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Version-8.3-orange" alt="Version 8.3">
+  <img src="https://img.shields.io/badge/Version-8.6-orange" alt="Version 8.6">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
   <img src="https://img.shields.io/badge/ISO-27001-brightgreen" alt="ISO 27001">
   <img src="https://img.shields.io/badge/COBIT-2019-blue" alt="COBIT 2019">
@@ -86,22 +86,23 @@
 
 ---
 
-## 🆕 Apa yang Baru di v8.3
+## 🆕 Apa yang Baru di v8.6
 
-- 📥 **Universal Export 5 Format** — Semua 21 halaman admin bisa diekspor ke Excel, PDF, Word, CSV, dan PowerPoint
-- 📊 **Diagram Builder 50 Jenis** — Visual builder interaktif: 4-tab panel, live preview, 6 template, 6 palet warna, ekspor PNG/JPG
-- 👨‍🏫 **Fitur Pengajar Lengkap** — Silabus CRUD, Jurnal Mengajar, Input Nilai spreadsheet
-- 🤖 **AI VTuber Assistant** — Karakter VTuber interaktif dengan dukungan model 3D (Live2D/VRM)
-- 📌 **40 Menu → 10 Halaman** — Navigasi carousel paginated dengan dots indicator
-- 🏗️ **Split Header 2-Row** — Top row (Auth/Search/Notif) + bottom row (Menu navigasi)
-- 📬 **Kotak Saran Popup** — Popup besar dengan upload dokumen & video
-- 📜 **Kuro Dokumen Resmi** — Halaman Kuro punya popup dokumen resmi lengkap
-- 🎯 **Visi Misi Tujuan** — Beranda diperluas: section visi-misi-tujuan + pilar detail
-- 📊 **Chart Fungsional** — Admin dashboard dengan Chart.js (bar+line & doughnut) + data real
-- 🛡️ **Route Audit Clean** — 286 rute diaudit, 0 error, 0 mismatch
-- 📅 **Roadmap 2026** — Semua tanggal dan kalender akademik dinormalisasi ke 2026/2027
+- 🤖 **AI Chatbot Advanced** — Chatbot cerdas berbasis OpenAI GPT-4o-mini dengan session management
+- 💬 **Real-time Conversations** — Chat interface responsif dengan message history & auto-save
+- 📊 **Token & Cost Tracking** — Real-time tracking tokens & API cost estimation per-session
+- ⭐ **Feedback System** — 1-5 star rating + feedback types (helpful, unhelpful, inaccurate, etc)
+- 🗂️ **3 New Tables** — chat_sessions, chat_messages, chat_feedbacks dengan full indexing
+- 🔗 **7 API Endpoints** — Create, send, archive, delete, feedback, list, show operations
+- 📝 **Smart Context** — Knowledge base KVT Hub terintegrasi dalam system prompt
+- 👥 **Multi-session Support** — User bisa punya multiple chat sessions sekaligus
+- 💾 **Persistent Storage** — Semua chat history tersimpan di database dengan soft delete
+- 📱 **Responsive UI** — Desktop & mobile friendly chat interface dengan suggestion buttons
 
-> 📋 **Changelog lengkap v1.0 — v8.3:** [CHANGELOG.md](CHANGELOG.md)
+> Fitur tambahan v8.5: 59 halaman ekosistem baru, fix dropdown menu terpotong, route audit 100% clean
+
+> 📋 **Changelog lengkap v1.0 — v8.6:** [CHANGELOG.md](CHANGELOG.md)
+> 🤖 **Dokumentasi Chatbot:** [docs/CHATBOT.md](docs/CHATBOT.md)
 
 ---
 
