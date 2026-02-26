@@ -312,7 +312,77 @@ php artisan view:cache
 
 ---
 
-## 📂 Struktur Proyek (Tree)
+## � Deployment & Production
+
+### Dokumentasi Deployment
+
+KVT Hub siap untuk produksi! Kami menyediakan panduan lengkap untuk deploy ke server:
+
+| Dokumen | Deskripsi |
+|---------|-----------|
+| 📋 [docs/QUICK-START-DEPLOY.md](docs/QUICK-START-DEPLOY.md) | **MULAI DI SINI** — Deploy dalam 1 jam (Railway + Freenom, gratis 100%) |
+| 🏗️ [docs/HOSTING-DEPLOYMENT.md](docs/HOSTING-DEPLOYMENT.md) | Rekomendasi hosting, domain, CI/CD, database, security |
+| ✅ [docs/DEPLOYMENT-CHECKLIST.md](docs/DEPLOYMENT-CHECKLIST.md) | Checklist lengkap pre-deployment, monitoring, troubleshooting |
+
+### Rekomendasi Hosting (Gratis)
+
+**🌟 Railway** (Recommended untuk Production)
+- **Cost:** $5/month free credit (biasanya gratis untuk traffic ringan)
+- **Setup:** 5 menit
+- **Pros:** Auto-deploy dari Git, PostgreSQL included, free SSL, lebih cepat
+- **Time to Live:** 30-60 menit
+
+```bash
+# Langkah 1: Daftar di Railway
+https://railway.app
+
+# Langkah 2: Connect GitHub repo
+Connect → kvt-hub → Deploy
+
+# Langkah 3: Add PostgreSQL
+Dashboard → Add Service → Select PostgreSQL
+
+# Langkah 4: Set Environment Variables
+Add OPENAI_API_KEY + lainnya
+
+# Langkah 5: Deploy! 🎉
+git push origin main
+# Railway auto-build & deploy dalam 5-10 menit
+```
+
+**Alternatif:** Render (gratis tapi lebih lambat), Replit (development-only)
+
+### Domain Gratis (Freenom)
+
+```bash
+# 1. Daftar di https://www.freenom.com
+# 2. Search: kvt-hub.tk / kvt-hub.ml / kvt-hub.ga
+# 3. Add to Cart → Checkout → Register (FREE)
+# 4. Update nameservers ke Railway
+# 5. DNS propagate (24-48 jam)
+```
+
+### Automatic Deployment (Git Push → Live)
+
+Setelah setup Railway:
+
+```bash
+# Local development
+git checkout -b feature/new-feature
+# ... make changes ...
+git commit -m "feat: new feature"
+git push origin feature/new-feature
+
+# Merge & deploy otomatis
+git checkout main
+git merge feature/new-feature
+git push origin main
+# ✨ Railway auto-deploy dalam 5-10 menit!
+```
+
+---
+
+## �📂 Struktur Proyek (Tree)
 
 ```
 kvt-hub/
