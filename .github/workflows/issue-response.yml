@@ -1,23 +1,30 @@
-name: 🤖 Auto Respond Issues
+name: 🤖 K-Arma — Issue Response
 
 on:
   issues:
     types: [opened, labeled]
+  issue_comment:
+    types: [created]
 
 permissions:
   issues: write
+  contents: read
+
+env:
+  BOT_AVATAR: "https://raw.githubusercontent.com/kuro-myths/kvt-hub/main/.github/bot-avatar.png"
 
 jobs:
   welcome-response:
     if: github.event.action == 'opened'
     runs-on: ubuntu-latest
-    name: Welcome & Auto Label Issue
+    name: 🤖 K-Arma Welcome & Smart Response
 
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v4
 
       - name: 🏷️ Auto Label
+        id: labeler
         uses: actions/github-script@v7
         with:
           script: |
@@ -26,126 +33,236 @@ jobs:
             const text = title + ' ' + body;
 
             const labels = [];
+            const patterns = {
+              '🐛 bug': /bug|error|gagal|crash|broken|rusak|tidak bisa|500|404|exception|fail|masalah|problem/,
+              '✨ feature': /fitur|feature|tambah|request|saran|usul|bisa.?gak|mau.*ada|tolong.*tambah|pengen/,
+              '📝 docs': /docs|dokumentasi|readme|typo|tulis|example|contoh|panduan|guide/,
+              '❓ question': /pertanyaan|question|tanya|bagaimana|how|cara|apa.?itu|gimana|kenapa|why/,
+              '🔒 security': /security|keamanan|vulnerability|xss|csrf|inject|hack|breach|leak/,
+              '⚡ performance': /performa|performance|lambat|slow|optimiz|heavy|berat|lag|loading/,
+              '🎨 ui/ux': /ui|ux|tampilan|design|css|tailwind|layout|responsive|mobile|warna|font/,
+              '🗄️ database': /database|migration|model|eloquent|postgresql|query|tabel|seed/,
+              '🤖 ai': /chatbot|ai|openai|gpt|assistant|chat.?bot|llm|prompt/,
+              '🖥️ code-executor': /code.?executor|compiler|run.*code|bahasa.*program|execute|sandbox/,
+              '🎮 gamifikasi': /level|xp|rank|badge|achievement|gamifik|rpg|poin|reward/,
+              '📊 laporan': /laporan|report|chart|diagram|grafik|statistik|export|ekspor/,
+              '🔐 auth': /login|register|daftar|masuk|password|lupa|reset|verifikasi|email|auth/,
+              '📚 kelas': /kelas|materi|kuis|quiz|belajar|siswa|guru|pengajar|krs|khs/
+            };
 
-            // Deteksi tipe
-            if (text.match(/bug|error|gagal|crash|broken|rusak|tidak bisa/))
-              labels.push('🐛 bug');
-            if (text.match(/fitur|feature|tambah|request|saran|usul/))
-              labels.push('✨ feature');
-            if (text.match(/docs|dokumentasi|readme|typo|tulis/))
-              labels.push('📝 docs');
-            if (text.match(/pertanyaan|question|tanya|bagaimana|how|cara/))
-              labels.push('❓ question');
-            if (text.match(/security|keamanan|vulnerability|xss|csrf|inject/))
-              labels.push('🔒 security');
-            if (text.match(/performa|performance|lambat|slow|optimiz/))
-              labels.push('⚡ performance');
-            if (text.match(/ui|ux|tampilan|design|css|tailwind|layout/))
-              labels.push('🎨 ui/ux');
-            if (text.match(/database|migration|model|eloquent|postgresql/))
-              labels.push('🗄️ database');
-            if (text.match(/chatbot|ai|openai|gpt|assistant/))
-              labels.push('🤖 ai');
-            if (text.match(/code.?executor|compiler|run.*code|bahasa.*program/))
-              labels.push('🖥️ code-executor');
+            for (const [label, regex] of Object.entries(patterns)) {
+              if (regex.test(text)) labels.push(label);
+            }
 
             if (labels.length === 0) labels.push('📋 triage');
 
-            // Buat label jika belum ada
+            if (/urgent|darurat|segera|critical|penting.*banget|asap/i.test(text))
+              labels.push('🚀 priority');
+            if (/production|live|server|deploy/i.test(text))
+              labels.push('🔥 production');
+
             for (const label of labels) {
               try {
-                await github.rest.issues.getLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  name: label
-                });
+                await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name: label });
               } catch {
                 const colors = {
-                  '🐛 bug': 'd73a4a',
-                  '✨ feature': 'a2eeef',
-                  '📝 docs': '0075ca',
-                  '❓ question': 'd876e3',
-                  '🔒 security': 'e4e669',
-                  '⚡ performance': 'fbca04',
-                  '🎨 ui/ux': 'f9d0c4',
-                  '🗄️ database': 'bfdadc',
-                  '🤖 ai': 'c5def5',
-                  '🖥️ code-executor': '1d76db',
-                  '📋 triage': 'ededed'
+                  '🐛 bug': 'd73a4a', '✨ feature': 'a2eeef', '📝 docs': '0075ca',
+                  '❓ question': 'd876e3', '🔒 security': 'e4e669', '⚡ performance': 'fbca04',
+                  '🎨 ui/ux': 'f9d0c4', '🗄️ database': 'bfdadc', '🤖 ai': 'c5def5',
+                  '🖥️ code-executor': '1d76db', '📋 triage': 'ededed', '🎮 gamifikasi': 'ff6b6b',
+                  '📊 laporan': '7057ff', '🔐 auth': 'ffa500', '📚 kelas': '2ecc71',
+                  '🚀 priority': 'b60205', '🔥 production': 'ff0000'
                 };
                 await github.rest.issues.createLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  name: label,
-                  color: colors[label] || 'ededed'
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  name: label, color: colors[label] || 'ededed'
                 });
               }
             }
 
             await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: labels
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number, labels
             });
 
-      - name: 💬 Welcome Comment
+            core.setOutput('labels', JSON.stringify(labels));
+
+      - name: 🤖 K-Arma Smart Response
         uses: actions/github-script@v7
         with:
           script: |
             const author = context.payload.issue.user.login;
-            const labels = context.payload.issue.labels.map(l => l.name);
-            const isBug = labels.some(l => l.includes('bug'));
-            const isFeature = labels.some(l => l.includes('feature'));
+            const title = context.payload.issue.title;
+            const body = context.payload.issue.body || '';
+            const text = (title + ' ' + body).toLowerCase();
+            const avatar = process.env.BOT_AVATAR;
 
-            let response = `Halo @${author}! 👋 Terima kasih sudah membuat issue di **KVT Hub**.\n\n`;
+            const KB = {
+              stack: 'Laravel 12, PHP 8.5+, PostgreSQL 14+, Tailwind CSS, Chart.js v4',
+              version: 'v8.7',
+              pages: '174+',
+              roles: '7 (Admin, Staff, Guru, Siswa, Mahasiswa, Orang Tua, Pengunjung)',
+              features: 'AI Chatbot GPT-4o-mini, Code Executor 11 bahasa, Gamifikasi RPG 100 level, 50+ Diagram, Ekspor 5 Format',
+              controllers: '49', models: '36', routes: '157+'
+            };
 
-            if (isBug) {
-              response += `🐛 **Bug Report Diterima!**\n\n`;
-              response += `Tim kami akan segera meninjau bug yang kamu laporkan. Untuk mempercepat proses:\n`;
-              response += `- Pastikan kamu sudah menyertakan langkah reproduksi\n`;
-              response += `- Sertakan screenshot jika memungkinkan\n`;
-              response += `- Sebutkan browser & OS yang digunakan\n\n`;
-            } else if (isFeature) {
-              response += `✨ **Feature Request Diterima!**\n\n`;
-              response += `Terima kasih atas sarannya! Tim kami akan mendiskusikan fitur ini.\n`;
-              response += `Sementara itu, kamu bisa:\n`;
-              response += `- Jelaskan use case lebih detail\n`;
-              response += `- Berikan mockup/contoh jika ada\n\n`;
+            let r = `<div align="center">\n<img src="${avatar}" width="60"><br>\n<strong>🤖 K-Arma — KVT Hub AI Assistant</strong>\n</div>\n\n---\n\n`;
+            r += `Halo @${author}! 👋\n\n`;
+
+            if (/bug|error|gagal|crash|rusak|tidak bisa|500|404/i.test(text)) {
+              r += `## 🐛 Bug Report Diterima\n\n`;
+              r += `Saya sudah menganalisis laporanmu dan berikut panduan debugging:\n\n`;
+
+              if (/login|auth|masuk/i.test(text)) {
+                r += `### 🔐 Terdeteksi: Masalah Autentikasi\n`;
+                r += `- Akun demo: \`admin@kvthub.id\` / \`admin123\`\n`;
+                r += `- Cek email sudah diverifikasi\n`;
+                r += `- Periksa middleware \`CekPeran\` di route\n`;
+                r += `- Kunci admin: \`KVT-ADMIN-2026-SECRET\`\n\n`;
+              } else if (/database|migration|model|query|seed/i.test(text)) {
+                r += `### 🗄️ Terdeteksi: Masalah Database\n`;
+                r += `- KVT Hub menggunakan **PostgreSQL 14+** (bukan MySQL)\n`;
+                r += `- Fix: \`php artisan migrate:fresh --seed\`\n`;
+                r += `- Pastikan \`.env\` → \`DB_CONNECTION=pgsql\`\n`;
+                r += `- Total: 25+ tabel, ${KB.models} models\n\n`;
+              } else if (/chatbot|ai|gpt|openai/i.test(text)) {
+                r += `### 🤖 Terdeteksi: Masalah AI/Chatbot\n`;
+                r += `- Set \`OPENAI_API_KEY\` di \`.env\`\n`;
+                r += `- Model: GPT-4o-mini\n`;
+                r += `- Cek tabel: chat_sessions, chat_messages, chat_feedbacks\n`;
+                r += `- Config: \`config/chatbot.php\`\n\n`;
+              } else if (/code.?executor|compile|run.*code/i.test(text)) {
+                r += `### 🖥️ Terdeteksi: Masalah Code Executor\n`;
+                r += `- 11 bahasa: Python, JS, PHP, Java, C++, C#, Ruby, Go, Rust, SQL, Bash\n`;
+                r += `- Run seeder: \`php artisan db:seed --class=ProgrammingLanguageSeeder\`\n`;
+                r += `- Cek: CodeExecutorController, CodeExecutionService\n\n`;
+              } else if (/chart|diagram|grafik/i.test(text)) {
+                r += `### 📊 Terdeteksi: Masalah Chart/Diagram\n`;
+                r += `- Menggunakan **Chart.js v4** (CDN)\n`;
+                r += `- Cek browser console (F12) untuk JS errors\n`;
+                r += `- Pastikan data query tidak kosong\n\n`;
+              }
+
+              r += `<details>\n<summary>📋 Template Info (klik untuk expand)</summary>\n\n`;
+              r += `\`\`\`\nBrowser & Versi : \nOS              : \nPeran Login     : \nHalaman/URL     : \nError Message   : \nLangkah Reproduksi:\n1. \n2. \n3. \n\`\`\`\n`;
+              r += `</details>\n\n`;
+
+            } else if (/fitur|feature|tambah|request|saran|usul|mau.*ada|pengen/i.test(text)) {
+              r += `## ✨ Feature Request Diterima\n\n`;
+              r += `Terima kasih atas idenya! Berikut konteks project saat ini:\n\n`;
+              r += `| Aspek | Detail |\n|-------|--------|\n`;
+              r += `| Versi | ${KB.version} |\n`;
+              r += `| Halaman | ${KB.pages} |\n`;
+              r += `| Stack | ${KB.stack} |\n`;
+              r += `| Controllers | ${KB.controllers} |\n`;
+              r += `| Routes | ${KB.routes} |\n\n`;
+
+              if (/mobile|android|ios|app/i.test(text))
+                r += `📱 **Mobile:** Saat ini web responsive (Tailwind). Native app ada di roadmap.\n\n`;
+              if (/dark.?mode|tema|theme/i.test(text))
+                r += `🌙 **Dark Mode:** Masuk wishlist! Tailwind CSS memudahkan implementasi.\n\n`;
+              if (/notifikasi|notification/i.test(text))
+                r += `🔔 **Notifikasi:** Bisa via Laravel Broadcasting + Pusher/Soketi.\n\n`;
+
+              r += `Tim akan evaluasi berdasarkan relevansi, demand, dan kompleksitas.\n\n`;
+
+            } else if (/pertanyaan|question|tanya|bagaimana|how|cara/i.test(text)) {
+              r += `## ❓ Pertanyaan Diterima\n\n`;
+
+              if (/install|setup|instal|mulai|start/i.test(text)) {
+                r += `### ⚡ Quick Install\n\`\`\`bash\ngit clone https://github.com/kuro-myths/kvt-hub.git\ncd kvt-hub && composer install\ncp .env.example .env && php artisan key:generate\nphp artisan migrate --seed\nphp artisan storage:link && php artisan serve\n\`\`\`\n\n`;
+              } else if (/deploy|hosting|server|online/i.test(text)) {
+                r += `### 🚀 Deployment\nRekomendasi: **Railway** (gratis $5/bulan credit)\nPanduan lengkap: [docs/DOKUMENTASI.md → Deployment](docs/DOKUMENTASI.md)\n\n`;
+              } else if (/akun|demo|login|test/i.test(text)) {
+                r += `### 🔑 Akun Demo\n| Peran | Email | Password |\n|-------|-------|----------|\n| Admin | admin@kvthub.id | admin123 |\n| Guru | guru@kvthub.id | guru123 |\n| Staff | staff@kvthub.id | staff123 |\n| Siswa | siswa@kvthub.id | siswa123 |\n\n`;
+              }
+              r += `📚 Dokumentasi lengkap: [docs/DOKUMENTASI.md](docs/DOKUMENTASI.md)\n\n`;
+
             } else {
-              response += `📋 Issue kamu sudah masuk ke antrian review.\n\n`;
+              r += `## 📋 Issue Tercatat\n\n`;
+              r += `| Info | Detail |\n|------|--------|\n`;
+              r += `| Versi | ${KB.version} |\n| Stack | ${KB.stack} |\n| Halaman | ${KB.pages} |\n| Peran | ${KB.roles} |\n\n`;
             }
 
-            response += `---\n\n`;
-            response += `📚 **Dokumentasi:** [docs/DOKUMENTASI.md](docs/DOKUMENTASI.md)\n`;
-            response += `🤝 **Kontribusi:** [CONTRIBUTING.md](CONTRIBUTING.md)\n`;
-            response += `📋 **Changelog:** [CHANGELOG.md](CHANGELOG.md)\n\n`;
-            response += `> 🐱 *Kuro-bot akan memantau issue ini. Estimasi respons: 1-3 hari kerja.*`;
+            r += `---\n\n`;
+            r += `<div align="center">\n<img src="${avatar}" width="20"> <strong>K-Arma</strong> — KVT Hub AI Assistant<br>\n`;
+            r += `<a href="docs/DOKUMENTASI.md">📚 Docs</a> · <a href="CONTRIBUTING.md">🤝 Contribute</a> · <a href="CHANGELOG.md">📋 Changelog</a> · <a href="docs/SPONSOR.md">💎 Sponsor</a><br>\n`;
+            r += `<sub>⏱️ Estimasi respons maintainer: 1-3 hari kerja</sub>\n</div>`;
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: response
+              body: r
             });
 
-  auto-close-stale:
-    if: github.event.action == 'labeled' && github.event.label.name == '🔒 wontfix'
+  smart-reply:
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.action == 'created' &&
+      !contains(github.event.comment.user.login, '[bot]') &&
+      !contains(github.event.comment.user.login, 'kuro-myths')
     runs-on: ubuntu-latest
+    name: 🤖 K-Arma Smart Reply
+
     steps:
-      - name: 🔒 Auto Close Wontfix
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🤖 Analyze & Reply
         uses: actions/github-script@v7
         with:
           script: |
+            const comment = context.payload.comment.body.toLowerCase();
+            const author = context.payload.comment.user.login;
+            const avatar = process.env.BOT_AVATAR;
+
+            const shouldReply =
+              comment.includes('?') ||
+              /kuro|k-arma|bot|tolong|help|bantuan|bantu/i.test(comment);
+
+            if (!shouldReply) return;
+
+            let r = `<div>\n<img src="${avatar}" width="36" align="left" style="margin-right: 12px;">\n\n**🤖 K-Arma**\n</div>\n\n`;
+
+            if (/status|progress|kapan|when|update/i.test(comment)) {
+              r += `@${author} — Issue ini masih dalam antrian review. Maintainer biasanya merespons 1-3 hari kerja.\n\nCek progress di tab [Actions](../../actions). 📊`;
+            } else if (/cara|how|gimana|tutorial/i.test(comment)) {
+              r += `@${author} — Cek **[docs/DOKUMENTASI.md](docs/DOKUMENTASI.md)** untuk panduan lengkap! 📚\n\nKalau butuh bantuan spesifik, jelaskan lebih detail ya. 🎯`;
+            } else if (/terima.?kasih|thanks|makasih|thx/i.test(comment)) {
+              r += `Sama-sama @${author}! 😊 Senang bisa membantu.\nBuka issue baru kalau ada pertanyaan lain. 🐱`;
+            } else if (/error|bug|gagal|masalah/i.test(comment)) {
+              r += `@${author} — Tips debugging:\n1. Cek browser console (F12)\n2. Cek \`storage/logs/laravel.log\`\n3. Pastikan \`php artisan migrate --seed\` sudah jalan\n4. Share error message + screenshot 📸`;
+            } else {
+              r += `@${author} — Noted! Tim kami akan segera meninjau. 📋\n\nSementara cek [Dokumentasi](docs/DOKUMENTASI.md) untuk info lengkap.`;
+            }
+
+            r += `\n\n---\n<sub><img src="${avatar}" width="14"> K-Arma · KVT Hub AI Assistant</sub>`;
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: '🔒 Issue ini ditutup karena dilabel sebagai **wontfix**. Jika kamu merasa ini keliru, silakan buka kembali dengan informasi tambahan. Terima kasih! 🐱'
+              body: r
+            });
+
+  auto-close-wontfix:
+    if: github.event.action == 'labeled' && github.event.label.name == '🔒 wontfix'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔒 Auto Close
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const avatar = process.env.BOT_AVATAR;
+            let r = `<div>\n<img src="${avatar}" width="36" align="left" style="margin-right: 12px;">\n\n**🤖 K-Arma**\n</div>\n\n`;
+            r += `🔒 Issue ditutup (**wontfix**). Buka kembali dengan info tambahan jika keliru.\n\nTerima kasih! 🐱\n\n---\n<sub><img src="${avatar}" width="14"> K-Arma · KVT Hub AI Assistant</sub>`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number, body: r
             });
             await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              state: 'closed'
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number, state: 'closed'
             });
