@@ -1,0 +1,88 @@
+name: 🔒 Security Scanning
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 18 * * 1'  # Setiap Senin jam 01:00 WIB
+
+permissions:
+  security-events: write
+  contents: read
+  actions: read
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    name: 🛡️ Security Audit
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
+      - name: 📦 Install Dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: 🔍 Composer Audit
+        run: composer audit --format=json || true
+
+      - name: 🔒 Check .env Not Committed
+        run: |
+          if [ -f .env ]; then
+            echo "⚠️ WARNING: .env file is committed! Remove it immediately."
+            exit 1
+          else
+            echo "✅ .env is not committed"
+          fi
+
+      - name: 🔑 Check Hardcoded Secrets
+        run: |
+          echo "🔍 Scanning for hardcoded secrets..."
+          FOUND=0
+
+          # Cek pattern password/key yang hardcoded (exclude .env.example dan docs)
+          if grep -rn "password.*=.*['\"][a-zA-Z0-9]" --include="*.php" app/ config/ routes/ 2>/dev/null | grep -v "password_confirmation" | grep -v "// " | grep -v "example" | head -20; then
+            echo "⚠️ Possible hardcoded passwords found"
+            FOUND=1
+          fi
+
+          if grep -rn "sk-[a-zA-Z0-9]" --include="*.php" app/ config/ 2>/dev/null | grep -v "env(" | head -10; then
+            echo "⚠️ Possible OpenAI API key found"
+            FOUND=1
+          fi
+
+          if [ $FOUND -eq 0 ]; then
+            echo "✅ No hardcoded secrets detected"
+          fi
+
+      - name: 🛡️ CSRF Check
+        run: |
+          echo "🔍 Checking CSRF protection..."
+          # Cek form tanpa @csrf
+          FORMS_WITHOUT_CSRF=$(grep -rn "<form" --include="*.blade.php" resources/views/ | grep -v "@csrf" | grep -v "GET" | grep -v "<!--" | wc -l)
+          echo "Forms potentially without @csrf: $FORMS_WITHOUT_CSRF"
+          if [ "$FORMS_WITHOUT_CSRF" -gt 0 ]; then
+            echo "⚠️ Some forms may be missing @csrf directive"
+            grep -rn "<form" --include="*.blade.php" resources/views/ | grep -v "@csrf" | grep -v "GET" | grep -v "<!--" | head -10
+          else
+            echo "✅ All POST forms have @csrf"
+          fi
+
+      - name: 📊 Security Report
+        if: always()
+        run: |
+          echo "================================"
+          echo "🛡️ KVT Hub Security Report"
+          echo "================================"
+          echo "Date: $(date '+%Y-%m-%d %H:%M:%S')"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "================================"

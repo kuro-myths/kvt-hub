@@ -1,0 +1,89 @@
+name: 📚 Wiki Sync
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    name: 📚 Sync Docs to Wiki
+
+    steps:
+      - name: 📥 Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: 📥 Checkout Wiki
+        run: |
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki_repo 2>/dev/null || {
+            echo "⚠️ Wiki belum diaktifkan. Silakan buat halaman pertama di tab Wiki."
+            exit 0
+          }
+
+      - name: 📝 Sync Files to Wiki
+        run: |
+          if [ ! -d wiki_repo ]; then
+            echo "Wiki repo not found, skipping..."
+            exit 0
+          fi
+
+          # Sync README sebagai Home
+          cp README.md wiki_repo/Home.md
+
+          # Sync DOKUMENTASI.md — split menjadi halaman wiki terpisah
+          if [ -f docs/DOKUMENTASI.md ]; then
+            cp docs/DOKUMENTASI.md wiki_repo/Dokumentasi-Lengkap.md
+          fi
+
+          # Sync file lainnya
+          [ -f CHANGELOG.md ] && cp CHANGELOG.md wiki_repo/Changelog.md
+          [ -f CONTRIBUTING.md ] && cp CONTRIBUTING.md wiki_repo/Kontribusi.md
+          [ -f docs/SPONSOR.md ] && cp docs/SPONSOR.md wiki_repo/Sponsor.md
+
+          # Buat sidebar navigation
+          cat > wiki_repo/_Sidebar.md << 'EOF'
+          ## 📚 KVT Hub Wiki
+
+          - [🏠 Home](Home)
+          - [📖 Dokumentasi Lengkap](Dokumentasi-Lengkap)
+          - [📋 Changelog](Changelog)
+          - [🤝 Kontribusi](Kontribusi)
+          - [💎 Sponsor](Sponsor)
+
+          ---
+
+          **KVT Hub v8.7** — Education Ecosystem
+          EOF
+
+          # Buat footer
+          cat > wiki_repo/_Footer.md << 'EOF'
+          ---
+          🐱 **KVT Hub** — Global Education & Research Ecosystem | [GitHub](https://github.com/kuro-myths/kvt-hub) | © 2025-2026
+          EOF
+
+      - name: 📤 Push Wiki
+        run: |
+          if [ ! -d wiki_repo ]; then
+            exit 0
+          fi
+
+          cd wiki_repo
+          git config user.name "kuro-myths[bot]"
+          git config user.email "kuro-myths[bot]@users.noreply.github.com"
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "✅ Wiki sudah up-to-date"
+          else
+            git commit -m "docs: sync wiki dari main — $(date '+%Y-%m-%d %H:%M')"
+            git push
+            echo "✅ Wiki berhasil di-sync!"
+          fi

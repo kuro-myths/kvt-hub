@@ -1,0 +1,116 @@
+name: 🧪 CI Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: 🧪 Test & Lint
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_DB: kvt_hub_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_pgsql, mbstring, xml, ctype, json, bcmath
+          tools: composer
+          coverage: xdebug
+
+      - name: 📦 Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: 📦 Install Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: 🔧 Setup Environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=pgsql/' .env
+          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+          sed -i 's/DB_PORT=.*/DB_PORT=5432/' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=kvt_hub_test/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=postgres/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=postgres/' .env
+
+      - name: 🗄️ Run Migrations
+        run: php artisan migrate --force
+
+      - name: 🧪 Run Tests
+        run: php artisan test --parallel
+
+      - name: 📊 Test Summary
+        if: always()
+        run: |
+          echo "================================"
+          echo "🧪 KVT Hub CI Report"
+          echo "================================"
+          echo "PHP: $(php -v | head -1)"
+          echo "Laravel: $(php artisan --version)"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "================================"
+
+  code-quality:
+    runs-on: ubuntu-latest
+    name: 📏 Code Quality
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
+      - name: 📦 Install Dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: 📏 Check Syntax
+        run: |
+          echo "🔍 Checking PHP syntax..."
+          find app/ -name "*.php" -exec php -l {} \; 2>&1 | grep -i "error" || echo "✅ No syntax errors found"
+
+      - name: 📊 Code Stats
+        run: |
+          echo "================================"
+          echo "📊 KVT Hub Code Statistics"
+          echo "================================"
+          echo "Controllers: $(find app/Http/Controllers -name '*.php' | wc -l)"
+          echo "Models: $(find app/Models -name '*.php' | wc -l)"
+          echo "Views: $(find resources/views -name '*.blade.php' | wc -l)"
+          echo "Migrations: $(find database/migrations -name '*.php' | wc -l)"
+          echo "Routes: $(find routes -name '*.php' | wc -l)"
+          echo "Tests: $(find tests -name '*.php' | wc -l)"
+          echo "================================"

@@ -1,0 +1,151 @@
+name: 🤖 Auto Respond Issues
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  issues: write
+
+jobs:
+  welcome-response:
+    if: github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    name: Welcome & Auto Label Issue
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🏷️ Auto Label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.issue.title.toLowerCase();
+            const body = (context.payload.issue.body || '').toLowerCase();
+            const text = title + ' ' + body;
+
+            const labels = [];
+
+            // Deteksi tipe
+            if (text.match(/bug|error|gagal|crash|broken|rusak|tidak bisa/))
+              labels.push('🐛 bug');
+            if (text.match(/fitur|feature|tambah|request|saran|usul/))
+              labels.push('✨ feature');
+            if (text.match(/docs|dokumentasi|readme|typo|tulis/))
+              labels.push('📝 docs');
+            if (text.match(/pertanyaan|question|tanya|bagaimana|how|cara/))
+              labels.push('❓ question');
+            if (text.match(/security|keamanan|vulnerability|xss|csrf|inject/))
+              labels.push('🔒 security');
+            if (text.match(/performa|performance|lambat|slow|optimiz/))
+              labels.push('⚡ performance');
+            if (text.match(/ui|ux|tampilan|design|css|tailwind|layout/))
+              labels.push('🎨 ui/ux');
+            if (text.match(/database|migration|model|eloquent|postgresql/))
+              labels.push('🗄️ database');
+            if (text.match(/chatbot|ai|openai|gpt|assistant/))
+              labels.push('🤖 ai');
+            if (text.match(/code.?executor|compiler|run.*code|bahasa.*program/))
+              labels.push('🖥️ code-executor');
+
+            if (labels.length === 0) labels.push('📋 triage');
+
+            // Buat label jika belum ada
+            for (const label of labels) {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label
+                });
+              } catch {
+                const colors = {
+                  '🐛 bug': 'd73a4a',
+                  '✨ feature': 'a2eeef',
+                  '📝 docs': '0075ca',
+                  '❓ question': 'd876e3',
+                  '🔒 security': 'e4e669',
+                  '⚡ performance': 'fbca04',
+                  '🎨 ui/ux': 'f9d0c4',
+                  '🗄️ database': 'bfdadc',
+                  '🤖 ai': 'c5def5',
+                  '🖥️ code-executor': '1d76db',
+                  '📋 triage': 'ededed'
+                };
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label,
+                  color: colors[label] || 'ededed'
+                });
+              }
+            }
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: labels
+            });
+
+      - name: 💬 Welcome Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const author = context.payload.issue.user.login;
+            const labels = context.payload.issue.labels.map(l => l.name);
+            const isBug = labels.some(l => l.includes('bug'));
+            const isFeature = labels.some(l => l.includes('feature'));
+
+            let response = `Halo @${author}! 👋 Terima kasih sudah membuat issue di **KVT Hub**.\n\n`;
+
+            if (isBug) {
+              response += `🐛 **Bug Report Diterima!**\n\n`;
+              response += `Tim kami akan segera meninjau bug yang kamu laporkan. Untuk mempercepat proses:\n`;
+              response += `- Pastikan kamu sudah menyertakan langkah reproduksi\n`;
+              response += `- Sertakan screenshot jika memungkinkan\n`;
+              response += `- Sebutkan browser & OS yang digunakan\n\n`;
+            } else if (isFeature) {
+              response += `✨ **Feature Request Diterima!**\n\n`;
+              response += `Terima kasih atas sarannya! Tim kami akan mendiskusikan fitur ini.\n`;
+              response += `Sementara itu, kamu bisa:\n`;
+              response += `- Jelaskan use case lebih detail\n`;
+              response += `- Berikan mockup/contoh jika ada\n\n`;
+            } else {
+              response += `📋 Issue kamu sudah masuk ke antrian review.\n\n`;
+            }
+
+            response += `---\n\n`;
+            response += `📚 **Dokumentasi:** [docs/DOKUMENTASI.md](docs/DOKUMENTASI.md)\n`;
+            response += `🤝 **Kontribusi:** [CONTRIBUTING.md](CONTRIBUTING.md)\n`;
+            response += `📋 **Changelog:** [CHANGELOG.md](CHANGELOG.md)\n\n`;
+            response += `> 🐱 *Kuro-bot akan memantau issue ini. Estimasi respons: 1-3 hari kerja.*`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: response
+            });
+
+  auto-close-stale:
+    if: github.event.action == 'labeled' && github.event.label.name == '🔒 wontfix'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔒 Auto Close Wontfix
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '🔒 Issue ini ditutup karena dilabel sebagai **wontfix**. Jika kamu merasa ini keliru, silakan buka kembali dengan informasi tambahan. Terima kasih! 🐱'
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
