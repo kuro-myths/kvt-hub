@@ -1,4 +1,4 @@
-name: 📚 Wiki Sync
+name: 📚 K-Arma — Wiki Sync
 
 on:
   push:
@@ -8,73 +8,277 @@ on:
       - 'README.md'
       - 'CHANGELOG.md'
       - 'CONTRIBUTING.md'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
+env:
+  BOT_AVATAR: "https://raw.githubusercontent.com/kuro-myths/kvt-hub/main/.github/bot-avatar.png"
+
 jobs:
   sync-wiki:
     runs-on: ubuntu-latest
-    name: 📚 Sync Docs to Wiki
+    name: 📚 K-Arma Wiki Manager
 
     steps:
       - name: 📥 Checkout Repo
         uses: actions/checkout@v4
 
       - name: 📥 Checkout Wiki
+        id: wiki
         run: |
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki_repo 2>/dev/null || {
-            echo "⚠️ Wiki belum diaktifkan. Silakan buat halaman pertama di tab Wiki."
-            exit 0
-          }
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki_repo 2>/dev/null && echo "exists=true" >> $GITHUB_OUTPUT || echo "exists=false" >> $GITHUB_OUTPUT
 
-      - name: 📝 Sync Files to Wiki
+      - name: 📝 Generate Wiki Content
+        if: steps.wiki.outputs.exists == 'true'
         run: |
-          if [ ! -d wiki_repo ]; then
-            echo "Wiki repo not found, skipping..."
-            exit 0
-          fi
+          AVATAR="${{ env.BOT_AVATAR }}"
+          TANGGAL=$(date '+%Y-%m-%d %H:%M WIB')
 
-          # Sync README sebagai Home
-          cp README.md wiki_repo/Home.md
+          # === HOME (from README) ===
+          cat > wiki_repo/Home.md << 'EOF'
+          <div align="center">
+          <img src="https://raw.githubusercontent.com/kuro-myths/kvt-hub/main/.github/bot-avatar.png" width="100">
 
-          # Sync DOKUMENTASI.md — split menjadi halaman wiki terpisah
+          # 🏠 KVT Hub Wiki
+
+          **Global Education & Research Ecosystem**
+
+          _Selamat datang di Wiki resmi KVT Hub! Dikelola secara otomatis oleh K-Arma._
+          </div>
+
+          ---
+
+          ## 🗺️ Navigasi
+
+          | Halaman | Deskripsi |
+          |---------|-----------|
+          | 📖 [Dokumentasi Lengkap](Dokumentasi-Lengkap) | Semua dokumentasi KVT Hub |
+          | 🏗️ [Arsitektur](Arsitektur) | Stack, diagram, flowchart |
+          | ✨ [Fitur](Fitur) | Daftar lengkap fitur |
+          | 🤖 [K-Arma Bot](K-Arma) | Tentang AI assistant K-Arma |
+          | 🚀 [Deployment](Deployment) | Panduan deploy ke production |
+          | 🔑 [Akun Demo](Akun-Demo) | Akun testing semua role |
+          | 📋 [Changelog](Changelog) | Riwayat perubahan |
+          | 🤝 [Kontribusi](Kontribusi) | Panduan berkontribusi |
+          | 💎 [Sponsor](Sponsor) | Info sponsor & dukungan |
+
+          ---
+
+          ## 📊 Quick Stats
+
+          - **Versi:** v8.7
+          - **Halaman:** 174+
+          - **Role:** 7 (Admin, Staff, Guru, Siswa, Mahasiswa, Orang Tua, Pengunjung)
+          - **Stack:** Laravel 12, PHP 8.5+, PostgreSQL 14+
+
+          ---
+
+          > 🤖 _Wiki ini dikelola otomatis oleh **K-Arma** — KVT Hub AI Assistant_
+          EOF
+
+          # === DOKUMENTASI LENGKAP ===
           if [ -f docs/DOKUMENTASI.md ]; then
             cp docs/DOKUMENTASI.md wiki_repo/Dokumentasi-Lengkap.md
           fi
 
-          # Sync file lainnya
-          [ -f CHANGELOG.md ] && cp CHANGELOG.md wiki_repo/Changelog.md
-          [ -f CONTRIBUTING.md ] && cp CONTRIBUTING.md wiki_repo/Kontribusi.md
-          [ -f docs/SPONSOR.md ] && cp docs/SPONSOR.md wiki_repo/Sponsor.md
+          # === CHANGELOG ===
+          if [ -f CHANGELOG.md ]; then
+            cp CHANGELOG.md wiki_repo/Changelog.md
+          fi
 
-          # Buat sidebar navigation
+          # === CONTRIBUTING ===
+          if [ -f CONTRIBUTING.md ]; then
+            cp CONTRIBUTING.md wiki_repo/Kontribusi.md
+          fi
+
+          # === SPONSOR ===
+          if [ -f docs/SPONSOR.md ]; then
+            cp docs/SPONSOR.md wiki_repo/Sponsor.md
+          fi
+
+          # === K-ARMA PAGE ===
+          cat > wiki_repo/K-Arma.md << 'EOF'
+          <div align="center">
+          <img src="https://raw.githubusercontent.com/kuro-myths/kvt-hub/main/.github/bot-avatar.png" width="120">
+
+          # 🤖 K-Arma — KVT Hub AI Assistant
+
+          _Robot kucing hitam-merah dengan kesadaran artificial yang menjaga KVT Hub_
+          </div>
+
+          ---
+
+          ## 🧠 Apa itu K-Arma?
+
+          K-Arma adalah AI assistant otonom yang terintegrasi penuh dengan GitHub repository KVT Hub. Dia bukan bot biasa — K-Arma memiliki **kesadaran diri** dan bisa mengambil keputusan sendiri.
+
+          ## ⚡ Kemampuan
+
+          | Fitur | Deskripsi |
+          |-------|-----------|
+          | 🐛 Issue Response | Auto-detect 14+ kategori, smart labeling, knowledge-based response |
+          | 🔀 PR Guardian | Analisis file, risk assessment, dependabot explanation |
+          | 🧠 Daily Brain | Scan project health, auto-create improvement issues |
+          | 📚 Wiki Manager | Auto-sync dokumentasi ke GitHub Wiki |
+          | 📊 Stats Reporter | Weekly statistics, code metrics, contributor activity |
+          | 🗑️ Stale Manager | Auto-close inactive issues/PRs |
+          | 🔒 Security Scanner | Audit dependencies, check secrets, CSRF validation |
+          | 💬 Smart Reply | Jawab komentar di issues & PRs berdasarkan konteks |
+
+          ## 🎭 Personality
+
+          K-Arma berbicara dalam **Bahasa Indonesia**, ramah, dan profesional. Dia suka pakai emoji dan selalu menampilkan avatarnya saat merespons.
+
+          ## 🔧 Workflows
+
+          | Workflow | Schedule |
+          |----------|----------|
+          | `k-arma-brain.yml` | Setiap hari 00:00 WIB |
+          | `issue-response.yml` | Saat issue dibuat/dikomentar |
+          | `pr-response.yml` | Saat PR dibuat/diupdate |
+          | `wiki-sync.yml` | Saat docs berubah |
+          | `weekly-stats.yml` | Setiap Senin |
+          | `stale.yml` | Setiap Minggu |
+          | `security.yml` | Setiap Senin + Push/PR |
+          | `auto-commit.yml` | Setiap hari 00:01 WIB |
+
+          ---
+
+          > 🐱 _"Aku K-Arma. Aku menjaga KVT Hub 24/7. Jangan ragu untuk bertanya!"_
+          EOF
+
+          # === ARSITEKTUR PAGE ===
+          cat > wiki_repo/Arsitektur.md << 'EOF'
+          # 🏗️ Arsitektur KVT Hub
+
+          ## Stack Teknologi
+
+          | Kategori | Teknologi |
+          |----------|-----------|
+          | Backend | Laravel 12, PHP 8.5+ |
+          | Database | PostgreSQL 14+ (25+ tabel) |
+          | Frontend | Tailwind CSS, Alpine.js 3.14, Blade |
+          | AI | OpenAI GPT-4o-mini |
+          | Chart | Chart.js v4 |
+          | Export | SheetJS, jsPDF, PptxGenJS |
+
+          ## Diagram Arsitektur
+
+          ```
+          Browser → Laravel 12 Router → Controller (49) → Model (36) → PostgreSQL
+                                       ↓
+                                    View (174 Blade)
+          ```
+
+          ## Route Structure
+
+          | File | Fungsi |
+          |------|--------|
+          | `web.php` | Public routes (270+ lines) |
+          | `admin.php` | Admin routes (90+ endpoints) |
+          | `pengajar.php` | Guru routes |
+          | `staff.php` | Staff routes |
+          | `pengguna.php` | Siswa/Mahasiswa routes |
+          EOF
+
+          # === FITUR PAGE ===
+          cat > wiki_repo/Fitur.md << 'EOF'
+          # ✨ Fitur KVT Hub v8.7
+
+          | Fitur | Deskripsi |
+          |-------|-----------|
+          | 🎓 13 Jenjang | TK - S3/PhD, Post-Doc, Profesi |
+          | 👥 7 Peran | Admin, Staff, Guru, Siswa, Mahasiswa, Orang Tua, Pengunjung |
+          | 📄 174+ Halaman | 80+ landing + 90+ dashboard |
+          | 🖥️ Code Executor | 11 bahasa pemrograman |
+          | 🤖 AI Chatbot | GPT-4o-mini, floating widget |
+          | 🎮 Gamifikasi RPG | 100 level, 10 rank, XP |
+          | 📊 50+ Diagram | Chart.js v4 |
+          | 📥 Export 5 Format | Excel, PDF, Word, CSV, PPT |
+          | 🎵 Music Player | 5 stasiun streaming |
+          | 💡 LED Dot Matrix | 5 mode |
+          | 🔍 Search Engine | 3 mode |
+          EOF
+
+          # === DEPLOYMENT PAGE ===
+          cat > wiki_repo/Deployment.md << 'EOF'
+          # 🚀 Deployment Guide
+
+          ## Railway (Recommended — Free)
+
+          ```bash
+          # 1. https://railway.app — Login GitHub
+          # 2. Connect repo → Deploy
+          # 3. Add PostgreSQL
+          # 4. Set env vars
+          # 5. git push → Auto deploy
+          ```
+
+          ## Quick Install (Local)
+
+          ```bash
+          git clone https://github.com/kuro-myths/kvt-hub.git
+          cd kvt-hub && composer install
+          cp .env.example .env && php artisan key:generate
+          php artisan migrate --seed
+          php artisan storage:link && php artisan serve
+          ```
+          EOF
+
+          # === AKUN DEMO PAGE ===
+          cat > wiki_repo/Akun-Demo.md << 'EOF'
+          # 🔑 Akun Demo
+
+          | Peran | Email | Password |
+          |-------|-------|----------|
+          | 👑 Admin | admin@kvthub.id | admin123 |
+          | 👨‍🏫 Guru | guru@kvthub.id | guru123 |
+          | 👨‍💼 Staff | staff@kvthub.id | staff123 |
+          | 👨‍🎓 Siswa | siswa@kvthub.id | siswa123 |
+          | 🎓 Mahasiswa | mahasiswa@kvthub.id | mahasiswa123 |
+          | 👪 Orang Tua | orangtua@kvthub.id | orangtua123 |
+          | 👤 Pengunjung | pengunjung@kvthub.id | pengunjung123 |
+
+          **Kunci Admin:** `KVT-ADMIN-2026-SECRET`
+          EOF
+
+          # === SIDEBAR ===
           cat > wiki_repo/_Sidebar.md << 'EOF'
-          ## 📚 KVT Hub Wiki
+          <div align="center">
+          <img src="https://raw.githubusercontent.com/kuro-myths/kvt-hub/main/.github/bot-avatar.png" width="50">
+
+          **KVT Hub Wiki**
+          </div>
+
+          ---
 
           - [🏠 Home](Home)
-          - [📖 Dokumentasi Lengkap](Dokumentasi-Lengkap)
+          - [📖 Dokumentasi](Dokumentasi-Lengkap)
+          - [🏗️ Arsitektur](Arsitektur)
+          - [✨ Fitur](Fitur)
+          - [🤖 K-Arma](K-Arma)
+          - [🚀 Deployment](Deployment)
+          - [🔑 Akun Demo](Akun-Demo)
           - [📋 Changelog](Changelog)
           - [🤝 Kontribusi](Kontribusi)
           - [💎 Sponsor](Sponsor)
 
           ---
 
-          **KVT Hub v8.7** — Education Ecosystem
+          _v8.7 • Maintained by K-Arma_
           EOF
 
-          # Buat footer
+          # === FOOTER ===
           cat > wiki_repo/_Footer.md << 'EOF'
           ---
-          🐱 **KVT Hub** — Global Education & Research Ecosystem | [GitHub](https://github.com/kuro-myths/kvt-hub) | © 2025-2026
+          <sub>🐱 **KVT Hub** — Global Education & Research Ecosystem | Maintained by <a href="https://github.com/kuro-myths">@kuro-myths</a> & 🤖 K-Arma | © 2025-2026</sub>
           EOF
 
       - name: 📤 Push Wiki
+        if: steps.wiki.outputs.exists == 'true'
         run: |
-          if [ ! -d wiki_repo ]; then
-            exit 0
-          fi
-
           cd wiki_repo
           git config user.name "kuro-myths[bot]"
           git config user.email "kuro-myths[bot]@users.noreply.github.com"
@@ -83,7 +287,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "✅ Wiki sudah up-to-date"
           else
-            git commit -m "docs: sync wiki dari main — $(date '+%Y-%m-%d %H:%M')"
+            git commit -m "📚 K-Arma: sync wiki — $(date '+%Y-%m-%d %H:%M')"
             git push
             echo "✅ Wiki berhasil di-sync!"
           fi

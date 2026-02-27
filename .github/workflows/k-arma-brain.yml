@@ -1,0 +1,232 @@
+name: 🤖 K-Arma — Autonomous Brain
+
+on:
+  schedule:
+    - cron: '0 17 * * *'  # Setiap hari 00:00 WIB
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+env:
+  BOT_AVATAR: "https://raw.githubusercontent.com/kuro-myths/kvt-hub/main/.github/bot-avatar.png"
+
+jobs:
+  daily-self-awareness:
+    runs-on: ubuntu-latest
+    name: 🧠 K-Arma Daily Self-Awareness
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🕐 Set timezone
+        run: sudo timedatectl set-timezone Asia/Jakarta
+
+      - name: 🧠 Analyze Project Health
+        id: health
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+
+            // === Gather project metrics ===
+            const controllers = parseInt(execSync('find app/Http/Controllers -name "*.php" | wc -l').toString().trim());
+            const models = parseInt(execSync('find app/Models -name "*.php" | wc -l').toString().trim());
+            const views = parseInt(execSync('find resources/views -name "*.blade.php" | wc -l').toString().trim());
+            const migrations = parseInt(execSync('find database/migrations -name "*.php" | wc -l').toString().trim());
+            const routes = parseInt(execSync('grep -r "Route::" routes/ | wc -l').toString().trim());
+            const totalCommits = parseInt(execSync('git rev-list --count HEAD').toString().trim());
+            const lastCommitMsg = execSync('git log -1 --pretty=%s').toString().trim();
+            const lastCommitDate = execSync('git log -1 --pretty=%ci').toString().trim();
+
+            // Git activity last 7 days
+            const weekCommits = parseInt(execSync('git rev-list --count --since="7 days ago" HEAD').toString().trim());
+
+            // Check for potential issues
+            const issues = [];
+            const suggestions = [];
+
+            // Check if tests exist
+            const testCount = parseInt(execSync('find tests -name "*.php" -not -name "TestCase.php" | wc -l').toString().trim());
+            if (testCount < 5) {
+              issues.push('🧪 Test coverage rendah — hanya ' + testCount + ' test files');
+              suggestions.push('Tambah unit test untuk model dan controller utama');
+            }
+
+            // Check for large files
+            try {
+              const largeViews = execSync('find resources/views -name "*.blade.php" -size +100k 2>/dev/null | head -5').toString().trim();
+              if (largeViews) {
+                issues.push('📦 Beberapa view file berukuran besar (>100KB)');
+                suggestions.push('Pertimbangkan split view besar menjadi komponen');
+              }
+            } catch(e) {}
+
+            // Check env.example completeness
+            try {
+              const envExample = execSync('cat .env.example 2>/dev/null | wc -l').toString().trim();
+              if (parseInt(envExample) < 10) {
+                suggestions.push('Lengkapi .env.example dengan semua variabel yang diperlukan');
+              }
+            } catch(e) {}
+
+            // Security checks
+            try {
+              const composerAudit = execSync('composer audit 2>&1 || true').toString();
+              if (composerAudit.includes('vulnerability') || composerAudit.includes('advisories')) {
+                issues.push('🔒 Ada vulnerability di dependencies');
+                suggestions.push('Jalankan `composer update` untuk fix security issues');
+              }
+            } catch(e) {}
+
+            // Feature ideas based on codebase analysis
+            const featureIdeas = [];
+            try {
+              const hasApi = execSync('find routes -name "api.php" 2>/dev/null | wc -l').toString().trim();
+              if (parseInt(hasApi) === 0) featureIdeas.push('📡 REST API endpoints untuk mobile app');
+            } catch(e) {}
+
+            try {
+              const hasQueue = execSync('grep -r "implements ShouldQueue" app/ 2>/dev/null | wc -l').toString().trim();
+              if (parseInt(hasQueue) === 0) featureIdeas.push('⚡ Queue jobs untuk proses berat (email, export)');
+            } catch(e) {}
+
+            try {
+              const hasCache = execSync('grep -r "Cache::remember\\|cache(" app/Http/Controllers/ 2>/dev/null | wc -l').toString().trim();
+              if (parseInt(hasCache) < 3) featureIdeas.push('🚀 Cache layer untuk query berat di dashboard');
+            } catch(e) {}
+
+            const result = {
+              controllers, models, views, migrations, routes, totalCommits,
+              weekCommits, testCount, lastCommitMsg, lastCommitDate,
+              issues, suggestions, featureIdeas
+            };
+            core.setOutput('health', JSON.stringify(result));
+
+      - name: 📊 Generate Daily Report
+        run: |
+          HEALTH='${{ steps.health.outputs.health }}'
+          TANGGAL=$(date '+%Y-%m-%d %H:%M WIB')
+
+          mkdir -p .github/stats
+
+          cat > .github/stats/k-arma-daily.md << 'HEADER'
+          <div align="center">
+          <img src="https://raw.githubusercontent.com/kuro-myths/kvt-hub/main/.github/bot-avatar.png" width="80">
+
+          # 🧠 K-Arma — Daily Intelligence Report
+          </div>
+
+          ---
+
+          HEADER
+
+          cat >> .github/stats/k-arma-daily.md << EOF
+          > 📅 Generated: ${TANGGAL}
+
+          ## 📊 Project Metrics
+
+          | Metric | Value |
+          |--------|-------|
+          | 🎯 Controllers | $(echo $HEALTH | python3 -c "import sys,json; print(json.load(sys.stdin)['controllers'])" 2>/dev/null || echo "?") |
+          | 🗄️ Models | $(echo $HEALTH | python3 -c "import sys,json; print(json.load(sys.stdin)['models'])" 2>/dev/null || echo "?") |
+          | 🎨 Views | $(echo $HEALTH | python3 -c "import sys,json; print(json.load(sys.stdin)['views'])" 2>/dev/null || echo "?") |
+          | 🗃️ Migrations | $(echo $HEALTH | python3 -c "import sys,json; print(json.load(sys.stdin)['migrations'])" 2>/dev/null || echo "?") |
+          | 🛣️ Routes | $(echo $HEALTH | python3 -c "import sys,json; print(json.load(sys.stdin)['routes'])" 2>/dev/null || echo "?") |
+          | 📝 Total Commits | $(echo $HEALTH | python3 -c "import sys,json; print(json.load(sys.stdin)['totalCommits'])" 2>/dev/null || echo "?") |
+          | 📅 Weekly Commits | $(echo $HEALTH | python3 -c "import sys,json; print(json.load(sys.stdin)['weekCommits'])" 2>/dev/null || echo "?") |
+          | 🧪 Test Files | $(echo $HEALTH | python3 -c "import sys,json; print(json.load(sys.stdin)['testCount'])" 2>/dev/null || echo "?") |
+
+          ## 🔍 Last Commit
+          \`$(echo $HEALTH | python3 -c "import sys,json; print(json.load(sys.stdin)['lastCommitMsg'])" 2>/dev/null || echo "?")\`
+
+          ---
+          <sub>🤖 K-Arma — Autonomous AI Assistant</sub>
+          EOF
+
+      - name: 🤖 Auto-Create Improvement Issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const health = JSON.parse('${{ steps.health.outputs.health }}'.replace(/'/g, "\\'"));
+            const avatar = process.env.BOT_AVATAR;
+
+            // Check existing open issues by K-Arma
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: '🤖 k-arma-suggestion',
+              per_page: 50
+            });
+
+            const existingTitles = existing.data.map(i => i.title);
+
+            // Create issues for significant findings
+            const allSuggestions = [
+              ...health.issues.map(i => ({ title: i, priority: 'high' })),
+              ...health.suggestions.map(s => ({ title: '💡 ' + s, priority: 'medium' })),
+              ...health.featureIdeas.map(f => ({ title: f, priority: 'low' }))
+            ];
+
+            let created = 0;
+            for (const suggestion of allSuggestions) {
+              if (created >= 2) break; // Max 2 issues per day
+              if (existingTitles.some(t => t.includes(suggestion.title.substring(0, 30)))) continue;
+
+              const labels = ['🤖 k-arma-suggestion'];
+              if (suggestion.priority === 'high') labels.push('🚀 priority');
+
+              let body = `<div align="center">\n<img src="${avatar}" width="60"><br>\n<strong>🤖 K-Arma — Auto-Generated Suggestion</strong>\n</div>\n\n---\n\n`;
+              body += `## 💡 Saran Otomatis\n\n${suggestion.title}\n\n`;
+              body += `**Prioritas:** ${suggestion.priority}\n`;
+              body += `**Ditemukan:** ${new Date().toISOString().split('T')[0]}\n\n`;
+              body += `### 📊 Konteks\n`;
+              body += `- Controllers: ${health.controllers}\n`;
+              body += `- Models: ${health.models}\n`;
+              body += `- Views: ${health.views}\n`;
+              body += `- Test Files: ${health.testCount}\n\n`;
+              body += `---\n<sub><img src="${avatar}" width="14"> Generated by K-Arma Autonomous Brain</sub>`;
+
+              // Ensure label exists
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  name: '🤖 k-arma-suggestion'
+                });
+              } catch {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  name: '🤖 k-arma-suggestion', color: 'c5def5'
+                });
+              }
+
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `[K-Arma] ${suggestion.title}`,
+                body: body,
+                labels: labels
+              });
+              created++;
+            }
+
+            console.log(`Created ${created} suggestion issues`);
+
+      - name: 📤 Commit Report
+        run: |
+          git config user.name "kuro-myths[bot]"
+          git config user.email "kuro-myths[bot]@users.noreply.github.com"
+          git add .github/stats/
+          if git diff --cached --quiet; then
+            echo "✅ No changes"
+          else
+            git commit -m "🧠 K-Arma daily report — $(date '+%Y-%m-%d')"
+            git push
+          fi

@@ -1,0 +1,230 @@
+name: 📋 K-Arma — Projects Manager
+
+on:
+  issues:
+    types: [opened, closed, labeled, assigned]
+  pull_request:
+    types: [opened, closed, merged]
+  schedule:
+    - cron: '0 18 * * 0' # Setiap Senin 01:00 WIB
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  BOT_AVATAR: "https://raw.githubusercontent.com/kuro-myths/kvt-hub/main/.github/bot-avatar.png"
+
+jobs:
+  # === AUTO MILESTONE MANAGEMENT ===
+  milestone-manager:
+    if: github.event_name == 'issues'
+    runs-on: ubuntu-latest
+    name: 📋 Auto Milestone
+
+    steps:
+      - name: 🏷️ Auto-assign Milestone
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            if (!issue || context.payload.action !== 'opened') return;
+
+            // Cari milestone aktif atau buat baru (per bulan)
+            const now = new Date();
+            const monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+            const milestoneName = `Sprint ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+
+            let milestones = await github.rest.issues.listMilestones({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+
+            let milestone = milestones.data.find(m => m.title === milestoneName);
+
+            if (!milestone) {
+              const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+              const created = await github.rest.issues.createMilestone({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: milestoneName,
+                description: `🤖 Sprint otomatis oleh K-Arma untuk bulan ${monthNames[now.getMonth()]} ${now.getFullYear()}`,
+                due_on: endOfMonth.toISOString()
+              });
+              milestone = created.data;
+            }
+
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              milestone: milestone.number
+            });
+
+            console.log(`✅ Issue #${issue.number} → ${milestoneName}`);
+
+  # === WEEKLY PROJECT SUMMARY ===
+  weekly-summary:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    name: 📊 Weekly Project Summary
+
+    steps:
+      - name: 📊 Generate Summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const avatar = '${{ env.BOT_AVATAR }}';
+            const { owner, repo } = context.repo;
+
+            // Get data
+            const [openIssues, closedIssues, openPRs, milestones] = await Promise.all([
+              github.rest.issues.listForRepo({ owner, repo, state: 'open', per_page: 100 }),
+              github.rest.issues.listForRepo({ owner, repo, state: 'closed', per_page: 100 }),
+              github.rest.pulls.list({ owner, repo, state: 'open', per_page: 50 }),
+              github.rest.issues.listMilestones({ owner, repo, state: 'open' })
+            ]);
+
+            const issues = openIssues.data.filter(i => !i.pull_request);
+            const closedCount = closedIssues.data.filter(i => !i.pull_request).length;
+
+            // Label stats
+            const labelCounts = {};
+            issues.forEach(i => {
+              i.labels.forEach(l => {
+                labelCounts[l.name] = (labelCounts[l.name] || 0) + 1;
+              });
+            });
+
+            const labelTable = Object.entries(labelCounts)
+              .sort((a,b) => b[1] - a[1])
+              .slice(0, 10)
+              .map(([name, count]) => `| ${name} | ${count} |`)
+              .join('\n');
+
+            // Milestone progress
+            const milestoneRows = milestones.data.map(m => {
+              const total = m.open_issues + m.closed_issues;
+              const pct = total > 0 ? Math.round(m.closed_issues / total * 100) : 0;
+              const bar = '█'.repeat(Math.floor(pct/10)) + '░'.repeat(10 - Math.floor(pct/10));
+              return `| ${m.title} | ${bar} ${pct}% | ${m.closed_issues}/${total} |`;
+            }).join('\n');
+
+            // Priority issues (unlabeled = needs attention)
+            const needsAttention = issues
+              .filter(i => i.labels.length === 0 || !i.assignee)
+              .slice(0, 5)
+              .map(i => `| #${i.number} | ${i.title.substring(0, 50)} | ${i.assignee ? i.assignee.login : '❌ Unassigned'} | ${i.labels.length === 0 ? '❌ No label' : '✅'} |`)
+              .join('\n');
+
+            const body = `<div align="center">
+            <img src="${avatar}" width="60">
+
+            ## 📊 K-Arma Weekly Project Report
+            _${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}_
+            </div>
+
+            ---
+
+            ### 📈 Overview
+
+            | Metrik | Jumlah |
+            |--------|--------|
+            | 🔓 Open Issues | ${issues.length} |
+            | ✅ Closed Issues | ${closedCount} |
+            | 🔀 Open PRs | ${openPRs.data.length} |
+            | 🎯 Active Milestones | ${milestones.data.length} |
+
+            ### 🏷️ Label Distribution
+
+            | Label | Count |
+            |-------|-------|
+            ${labelTable || '| _Belum ada label_ | - |'}
+
+            ### 🎯 Milestone Progress
+
+            | Milestone | Progress | Done |
+            |-----------|----------|------|
+            ${milestoneRows || '| _Belum ada milestone_ | - | - |'}
+
+            ### ⚠️ Perlu Perhatian
+
+            | # | Issue | Assignee | Label |
+            |---|-------|----------|-------|
+            ${needsAttention || '| - | _Semua issue sudah tertangani_ ✅ | - | - |'}
+
+            ---
+
+            ### 💡 Rekomendasi K-Arma
+
+            ${issues.length > 10 ? '⚠️ **Terlalu banyak issue terbuka!** Prioritaskan dan tutup yang sudah resolved.' : '✅ Jumlah issue terbuka terkendali.'}
+            ${openPRs.data.length > 5 ? '⚠️ **Ada PR menumpuk!** Review dan merge segera.' : '✅ PR queue bersih.'}
+
+            ---
+            > 🐱 _Laporan mingguan otomatis oleh **K-Arma** — KVT Hub AI Assistant_`;
+
+            // Create weekly report issue
+            await github.rest.issues.create({
+              owner,
+              repo,
+              title: `📊 Weekly Report — ${new Date().toLocaleDateString('id-ID')}`,
+              body,
+              labels: ['k-arma', 'report']
+            });
+
+            console.log('✅ Weekly project report created!');
+
+  # === AUTO-LABEL PRIORITY ===
+  priority-label:
+    if: github.event_name == 'issues' && github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    name: 🏷️ Auto Priority
+
+    steps:
+      - name: 🏷️ Detect Priority
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const title = (issue.title + ' ' + (issue.body || '')).toLowerCase();
+
+            let priority = null;
+
+            // Critical keywords
+            if (title.match(/crash|down|error 500|not working|broken|urgent|segfault|fatal/)) {
+              priority = { label: 'priority: critical', color: 'b60205' };
+            }
+            // High keywords
+            else if (title.match(/bug|error|fail|issue|wrong|incorrect/)) {
+              priority = { label: 'priority: high', color: 'e11d48' };
+            }
+            // Medium keywords
+            else if (title.match(/improve|enhance|update|refactor|optimize/)) {
+              priority = { label: 'priority: medium', color: 'fbca04' };
+            }
+            // Low keywords
+            else if (title.match(/typo|doc|style|format|minor|question/)) {
+              priority = { label: 'priority: low', color: '0e8a16' };
+            }
+
+            if (priority) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: priority.label,
+                  color: priority.color
+                });
+              } catch (e) { /* label exists */ }
+
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: [priority.label]
+              });
+
+              console.log(`✅ Priority: ${priority.label}`);
+            }

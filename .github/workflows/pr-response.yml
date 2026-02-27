@@ -1,21 +1,24 @@
-name: 🤖 K-Arma — PR Response
+name: 🔍 K-Arma — PR Guardian
 
 on:
   pull_request:
-    types: [opened, synchronize, ready_for_review]
+    types: [opened, synchronize, reopened]
+  pull_request_review_comment:
+    types: [created]
 
 permissions:
-  pull-requests: write
   contents: read
+  pull-requests: write
+  issues: write
 
 env:
   BOT_AVATAR: "https://raw.githubusercontent.com/kuro-myths/kvt-hub/main/.github/bot-avatar.png"
 
 jobs:
-  welcome-and-review:
-    if: github.event.action == 'opened'
+  pr-analysis:
     runs-on: ubuntu-latest
-    name: 🤖 K-Arma PR Review
+    name: 🔍 Analyze Pull Request
+    if: github.event_name == 'pull_request'
 
     steps:
       - name: 📥 Checkout
@@ -23,168 +26,285 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 🏷️ Auto Label PR
+      - name: 📊 Deep PR Analysis
         uses: actions/github-script@v7
         with:
           script: |
-            const files = await github.rest.pulls.listFiles({
-              owner: context.repo.owner, repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
+            const pr = context.payload.pull_request;
+            const avatar = process.env.BOT_AVATAR;
+            const isDependabot = pr.user.login === 'dependabot[bot]';
+
+            // Fetch changed files
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100
             });
 
-            const labels = [];
-            const changed = files.data.map(f => f.filename);
+            const added = files.reduce((s, f) => s + f.additions, 0);
+            const removed = files.reduce((s, f) => s + f.deletions, 0);
+            const changed = files.length;
 
-            const areaPatterns = {
-              '🎯 controllers': /^app\/Http\/Controllers\//,
-              '🗄️ models': /^app\/Models\//,
-              '🎨 views': /^resources\/views\//,
-              '🗃️ migrations': /^database\//,
-              '🛣️ routes': /^routes\//,
-              '📝 docs': /\.(md|txt)$/,
-              '🧪 tests': /^tests\//,
-              '⚙️ ci/cd': /^\.github\//,
-              '🤖 ai': /chatbot|chat|openai/i,
-              '🖥️ code-executor': /code.?executor/i,
-              '🔒 security': /auth|middleware|guard/i
+            // === Area Detection ===
+            const areas = new Set();
+            const areaMap = {
+              'app/Http/Controllers': '🎮 Controller',
+              'app/Models': '🗄️ Model',
+              'resources/views': '🎨 View/Blade',
+              'routes/': '🛣️ Routes',
+              'database/migrations': '🗃️ Migration',
+              'database/seeders': '🌱 Seeder',
+              'config/': '⚙️ Config',
+              'public/': '📁 Public Assets',
+              'resources/css': '🎨 CSS/Styles',
+              'resources/js': '⚡ JavaScript',
+              'tests/': '🧪 Tests',
+              '.github/': '🤖 GitHub/CI',
+              'composer.json': '📦 PHP Dependencies',
+              'package.json': '📦 JS Dependencies',
+              'vite.config': '⚡ Vite Config',
+              'docs/': '📝 Documentation'
             };
 
-            for (const [label, regex] of Object.entries(areaPatterns)) {
-              if (changed.some(f => regex.test(f))) labels.push(label);
-            }
+            files.forEach(f => {
+              for (const [path, label] of Object.entries(areaMap)) {
+                if (f.filename.includes(path) || f.filename.startsWith(path)) {
+                  areas.add(label);
+                }
+              }
+            });
 
-            const total = (context.payload.pull_request.additions || 0) + (context.payload.pull_request.deletions || 0);
-            if (total < 10) labels.push('📦 size/xs');
-            else if (total < 50) labels.push('📦 size/s');
-            else if (total < 200) labels.push('📦 size/m');
-            else if (total < 500) labels.push('📦 size/l');
-            else labels.push('📦 size/xl');
+            // === Smart Labels ===
+            const labels = ['🤖 k-arma-reviewed'];
+            if (isDependabot) labels.push('📦 dependencies');
+            if (areas.has('🗃️ Migration')) labels.push('⚠️ has-migration');
+            if (areas.has('🛣️ Routes')) labels.push('⚠️ has-route-changes');
+            if (areas.has('🧪 Tests')) labels.push('✅ has-tests');
+            if (added + removed > 500) labels.push('📏 large-pr');
+            else if (added + removed < 50) labels.push('📐 small-pr');
 
+            // Ensure all labels exist
             for (const label of labels) {
               try {
-                await github.rest.issues.getLabel({ owner: context.repo.owner, repo: context.repo.repo, name: label });
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner, repo: context.repo.repo, name: label
+                });
               } catch {
+                const colors = {
+                  '🤖 k-arma-reviewed': '6f42c1',
+                  '📦 dependencies': '0366d6',
+                  '⚠️ has-migration': 'fbca04',
+                  '⚠️ has-route-changes': 'fbca04',
+                  '✅ has-tests': '0e8a16',
+                  '📏 large-pr': 'e4e669',
+                  '📐 small-pr': 'bfdadc'
+                };
                 await github.rest.issues.createLabel({
                   owner: context.repo.owner, repo: context.repo.repo,
-                  name: label, color: 'ededed'
+                  name: label, color: colors[label] || 'd4c5f9'
                 });
               }
             }
 
-            if (labels.length > 0) {
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner, repo: context.repo.repo,
-                issue_number: context.payload.pull_request.number, labels
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: pr.number, labels
+            });
+
+            // === Dependabot Smart Explanation ===
+            let dependabotSection = '';
+            if (isDependabot) {
+              const title = pr.title.toLowerCase();
+              let pkg = '(unknown)';
+              let fromVer = '?';
+              let toVer = '?';
+
+              const bumpMatch = pr.title.match(/bump\s+(\S+)\s+from\s+(\S+)\s+to\s+(\S+)/i);
+              if (bumpMatch) {
+                pkg = bumpMatch[1];
+                fromVer = bumpMatch[2];
+                toVer = bumpMatch[3];
+              }
+
+              const pkgInfo = {
+                'laravel/framework': { desc: 'Framework utama Laravel — core engine KVT Hub', impact: '🔴 **HIGH** — Update framework inti, perlu testing menyeluruh', action: 'Test semua fitur utama: login, dashboard, CRUD operations' },
+                'nunomaduro/collision': { desc: 'Error handler CLI — membuat error di terminal lebih readable', impact: '🟢 **LOW** — Dev tool only, tidak affect production', action: 'Aman di-merge, hanya affect dev experience' },
+                'doctrine/dbal': { desc: 'Database Abstraction Layer — dipakai untuk migration & schema changes', impact: '🟡 **MEDIUM** — Bisa affect database operations', action: 'Test database migrations: `php artisan migrate:fresh`' },
+                'actions/checkout': { desc: 'GitHub Action untuk checkout repository di CI/CD', impact: '🟢 **LOW** — CI/CD tool', action: 'Aman di-merge' },
+                'actions/stale': { desc: 'GitHub Action bot untuk auto-close stale issues', impact: '🟢 **LOW** — Automation tool', action: 'Aman di-merge' },
+                'actions/github-script': { desc: 'GitHub Action untuk menjalankan script di CI/CD', impact: '🟢 **LOW** — Automation tool', action: 'Aman di-merge' }
+              };
+
+              const info = pkgInfo[pkg] || { desc: 'Package third-party', impact: '🟡 **MEDIUM** — Review changelog sebelum merge', action: 'Check breaking changes di release notes' };
+
+              dependabotSection = `
+            ## 📦 Dependabot Update Analysis
+
+            | | Detail |
+            |---|---|
+            | **Package** | \`${pkg}\` |
+            | **Version** | \`${fromVer}\` → \`${toVer}\` |
+            | **Fungsi** | ${info.desc} |
+            | **Impact** | ${info.impact} |
+            | **Action** | ${info.action} |
+
+            > 💡 **K-Arma Tips:** ${pkg === 'laravel/framework' ? 'Ini update framework utama! Pastikan test semua fitur critical sebelum merge.' : 'Update kecil ini biasanya aman. Review changelog jika ragu.'}
+            `;
+            }
+
+            // === File Change Table ===
+            const fileRows = files.slice(0, 20).map(f => {
+              const ext = f.filename.split('.').pop();
+              const icons = {
+                php: '🐘', js: '⚡', css: '🎨', blade: '🔥',
+                yml: '📋', json: '📄', md: '📝', vue: '💚',
+                env: '🔐', sql: '🗃️', html: '🌐'
+              };
+              const icon = icons[ext] || (f.filename.includes('.blade.php') ? '🔥' : '📄');
+              const status = f.status === 'added' ? '🆕' : f.status === 'removed' ? '🗑️' : '✏️';
+              return `| ${status} | ${icon} \`${f.filename}\` | +${f.additions} / -${f.deletions} |`;
+            }).join('\n');
+
+            const moreFiles = files.length > 20 ? `\n> ...dan ${files.length - 20} file lainnya` : '';
+
+            // === Risk Assessment ===
+            let riskLevel = '🟢 LOW';
+            let riskEmoji = '✅';
+            const riskFactors = [];
+
+            if (areas.has('🗃️ Migration')) {
+              riskFactors.push('Database migration detected');
+              riskLevel = '🟡 MEDIUM';
+              riskEmoji = '⚠️';
+            }
+            if (areas.has('🛣️ Routes')) {
+              riskFactors.push('Route changes — may affect existing URLs');
+            }
+            if (added + removed > 500) {
+              riskFactors.push('Large number of changes (' + (added + removed) + ' lines)');
+              riskLevel = '🟡 MEDIUM';
+              riskEmoji = '⚠️';
+            }
+            if (areas.has('⚙️ Config')) {
+              riskFactors.push('Configuration changes');
+              riskLevel = riskLevel === '🟢 LOW' ? '🟡 MEDIUM' : riskLevel;
+            }
+            if (areas.has('📦 PHP Dependencies') || areas.has('📦 JS Dependencies')) {
+              riskFactors.push('Dependency changes');
+            }
+
+            // === Tips ===
+            const tips = [];
+            if (areas.has('🗃️ Migration')) tips.push('🗃️ Ada migration baru! Jangan lupa: `php artisan migrate`');
+            if (areas.has('🎮 Controller')) tips.push('🎮 Controller berubah — pastikan route & middleware masih sesuai');
+            if (areas.has('🗄️ Model')) tips.push('🗄️ Model berubah — cek relationship & fillable fields');
+            if (areas.has('🎨 View/Blade')) tips.push('🎨 View berubah — preview UI di browser');
+            if (areas.has('🛣️ Routes')) tips.push('🛣️ Route berubah — jalankan `php artisan route:list` untuk verify');
+            if (areas.has('📦 PHP Dependencies')) tips.push('📦 Composer berubah — jalankan `composer install`');
+            if (areas.has('📦 JS Dependencies')) tips.push('📦 NPM berubah — jalankan `npm install`');
+            if (areas.has('🤖 GitHub/CI')) tips.push('🤖 CI/CD config berubah — monitor Actions tab setelah merge');
+            if (!areas.has('🧪 Tests') && (areas.has('🎮 Controller') || areas.has('🗄️ Model'))) {
+              tips.push('⚡ Tidak ada test! Pertimbangkan menambah test untuk perubahan ini');
+            }
+
+            // === Compose Comment ===
+            let body = `<div align="center">
+            <img src="${avatar}" width="80"><br>
+            <strong>🔍 K-Arma — PR Guardian</strong><br>
+            <em>Analisis otomatis Pull Request #${pr.number}</em>
+            </div>
+
+            ---
+
+            ## ${riskEmoji} Risk Assessment: ${riskLevel}
+
+            ${riskFactors.length > 0 ? riskFactors.map(r => `- ${r}`).join('\n') : '- Tidak ada faktor risiko terdeteksi'}
+
+            ## 📊 Overview
+
+            | Metric | Value |
+            |--------|-------|
+            | 📁 Files Changed | **${changed}** |
+            | ➕ Additions | **+${added}** |
+            | ➖ Deletions | **-${removed}** |
+            | 🏷️ Areas | ${[...areas].join(', ') || 'General'} |
+            | 👤 Author | @${pr.user.login} |
+
+            ${dependabotSection}
+
+            ## 📁 Changed Files
+
+            | Status | File | Changes |
+            |--------|------|---------|
+            ${fileRows}
+            ${moreFiles}
+
+            ${tips.length > 0 ? `## 💡 K-Arma Tips\n\n${tips.map(t => `- ${t}`).join('\n')}` : ''}
+
+            ## ✅ Review Checklist
+
+            - [ ] Code sudah sesuai konvensi project
+            - [ ] Tidak ada security vulnerability
+            - [ ] Sudah test di local environment
+            - [ ] Database migration sudah benar (jika ada)
+            - [ ] Documentation sudah update (jika perlu)
+
+            ---
+
+            <sub><img src="${avatar}" width="14"> Powered by K-Arma — Your Autonomous AI Guardian</sub>`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body
+            });
+
+            console.log('K-Arma PR analysis complete!');
+
+  smart-reply:
+    runs-on: ubuntu-latest
+    name: 💬 Smart Reply to PR Comments
+    if: github.event_name == 'pull_request_review_comment'
+
+    steps:
+      - name: 💬 Reply to Review Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment;
+            const avatar = process.env.BOT_AVATAR;
+
+            // Don't reply to self
+            if (comment.user.login.includes('[bot]')) return;
+
+            const body = comment.body.toLowerCase();
+            let reply = '';
+
+            // Error-related keywords
+            if (body.match(/error|bug|broken|gagal|rusak|salah|undefined|null/)) {
+              reply = `<img src="${avatar}" width="24"> **K-Arma Error Detective** 🔍\n\nSaya mendeteksi ini mungkin terkait error! Beberapa langkah debugging:\n\n1. \`php artisan config:clear\`\n2. \`php artisan cache:clear\`\n3. Check \`storage/logs/laravel.log\`\n4. Pastikan \`.env\` file sudah benar\n\nJika masih error, coba jalankan:\n\`\`\`bash\ncomposer dump-autoload\nphp artisan optimize:clear\n\`\`\``;
+            }
+            // Performance
+            else if (body.match(/slow|lambat|perf|optim|cache/)) {
+              reply = `<img src="${avatar}" width="24"> **K-Arma Performance Advisor** ⚡\n\nTips optimasi:\n• Gunakan \`Cache::remember()\` untuk query berat\n• \`php artisan optimize\` untuk route & config cache\n• Eager loading: \`with()\` bukan lazy loading\n• Index database columns yang sering di-filter`;
+            }
+            // Security
+            else if (body.match(/security|vuln|inject|xss|csrf|auth/)) {
+              reply = `<img src="${avatar}" width="24"> **K-Arma Security Watch** 🔒\n\nReminder keamanan Laravel:\n• Selalu gunakan \`$request->validate()\`\n• Blade: \`{{ }}\` auto-escape XSS\n• CSRF: \`@csrf\` di semua form\n• Mass assignment: pastikan \`$fillable\` di model\n• SQL Injection: gunakan Eloquent, hindari raw query`;
+            }
+            // Question
+            else if (body.match(/\?|bagaimana|gimana|how|kenapa|why/)) {
+              reply = `<img src="${avatar}" width="24"> **K-Arma Helper** 💬\n\nAda pertanyaan? Saya K-Arma! Beberapa resources yang mungkin membantu:\n\n• 📖 [Dokumentasi Project](../../wiki)\n• 🐛 [Buat Issue Baru](../../issues/new/choose)\n• 💬 Mention \`@kuro-myths\` untuk bantuan langsung`;
+            }
+
+            if (reply) {
+              await github.rest.pulls.createReplyForReviewComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                comment_id: comment.id,
+                body: reply
               });
             }
-
-      - name: 🤖 K-Arma Review Comment
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const pr = context.payload.pull_request;
-            const author = pr.user.login;
-            const avatar = process.env.BOT_AVATAR;
-            const additions = pr.additions || 0;
-            const deletions = pr.deletions || 0;
-            const changedFiles = pr.changed_files || 0;
-            const total = additions + deletions;
-
-            let sizeEmoji, sizeText, sizeAdvice = '';
-            if (total > 500) {
-              sizeEmoji = '🔴'; sizeText = 'Sangat Besar';
-              sizeAdvice = `\n> ⚠️ **PR ini cukup besar (${total} baris).** Pertimbangkan memecah menjadi PR lebih kecil.`;
-            } else if (total > 200) { sizeEmoji = '🟠'; sizeText = 'Besar'; }
-            else if (total > 50) { sizeEmoji = '🟡'; sizeText = 'Sedang'; }
-            else { sizeEmoji = '🟢'; sizeText = 'Kecil'; }
-
-            // Analisis file yang diubah
-            const files = await github.rest.pulls.listFiles({
-              owner: context.repo.owner, repo: context.repo.repo,
-              pull_number: pr.number
-            });
-            const changed = files.data.map(f => f.filename);
-
-            let areas = [];
-            if (changed.some(f => f.includes('Controllers/'))) areas.push('🎯 Controllers');
-            if (changed.some(f => f.includes('Models/'))) areas.push('🗄️ Models');
-            if (changed.some(f => f.includes('views/'))) areas.push('🎨 Views');
-            if (changed.some(f => f.includes('migrations'))) areas.push('🗃️ Database');
-            if (changed.some(f => f.includes('routes/'))) areas.push('🛣️ Routes');
-            if (changed.some(f => f.match(/\.md$/))) areas.push('📝 Docs');
-            if (changed.some(f => f.includes('.github/'))) areas.push('⚙️ CI/CD');
-
-            let r = `<div align="center">\n<img src="${avatar}" width="60"><br>\n<strong>🤖 K-Arma — PR Review</strong>\n</div>\n\n---\n\n`;
-            r += `Halo @${author}! Terima kasih atas kontribusinya! 🎉\n\n`;
-
-            r += `## 📊 Analisis Pull Request\n\n`;
-            r += `| Metrik | Nilai |\n|--------|-------|\n`;
-            r += `| 📁 Files Changed | **${changedFiles}** |\n`;
-            r += `| ➕ Additions | **+${additions}** |\n`;
-            r += `| ➖ Deletions | **-${deletions}** |\n`;
-            r += `| ${sizeEmoji} Size | **${sizeText}** |\n`;
-            if (areas.length > 0)
-              r += `| 🎯 Area | ${areas.join(', ')} |\n`;
-            r += `\n`;
-            r += sizeAdvice + '\n\n';
-
-            // File detail
-            r += `<details>\n<summary>📁 Files Changed (${changedFiles})</summary>\n\n`;
-            for (const f of files.data.slice(0, 30)) {
-              const icon = f.status === 'added' ? '🟢' : f.status === 'removed' ? '🔴' : '🟡';
-              r += `- ${icon} \`${f.filename}\` (+${f.additions} / -${f.deletions})\n`;
-            }
-            if (files.data.length > 30) r += `- ... dan ${files.data.length - 30} file lainnya\n`;
-            r += `\n</details>\n\n`;
-
-            // Review checklist
-            r += `## ✅ Review Checklist\n\n`;
-            r += `- [ ] Kode mengikuti konvensi proyek (PSR-12, Blade, Tailwind)\n`;
-            r += `- [ ] Tidak ada conflict dengan \`main\`\n`;
-            r += `- [ ] Migration & seeder diperbarui (jika ada perubahan DB)\n`;
-            r += `- [ ] Dokumentasi diperbarui (jika diperlukan)\n`;
-            r += `- [ ] Commit message mengikuti [Conventional Commits](CONTRIBUTING.md)\n`;
-            r += `- [ ] Tested locally (\`php artisan test\`)\n\n`;
-
-            // Tips berdasarkan area
-            if (changed.some(f => f.includes('migrations'))) {
-              r += `> 🗄️ **Database changes detected!** Pastikan migration bisa di-rollback: \`php artisan migrate:rollback\`\n\n`;
-            }
-            if (changed.some(f => f.includes('routes/'))) {
-              r += `> 🛣️ **Route changes detected!** Jalankan: \`php artisan route:list\` untuk verifikasi\n\n`;
-            }
-            if (changed.some(f => f.match(/auth|middleware/i))) {
-              r += `> 🔒 **Auth/Security changes detected!** Test semua 7 peran: Admin, Staff, Guru, Siswa, Mahasiswa, Orang Tua, Pengunjung\n\n`;
-            }
-
-            r += `---\n\n`;
-            r += `<div align="center">\n<img src="${avatar}" width="20"> <strong>K-Arma</strong> — KVT Hub AI Assistant<br>\n`;
-            r += `<sub>⏱️ Maintainer akan review secepatnya</sub>\n</div>`;
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo,
-              issue_number: pr.number, body: r
-            });
-
-  update-notification:
-    if: github.event.action == 'synchronize'
-    runs-on: ubuntu-latest
-    name: 🔄 PR Updated
-    steps:
-      - name: 💬 Notify Update
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const pr = context.payload.pull_request;
-            const avatar = process.env.BOT_AVATAR;
-            const sha = context.payload.after.substring(0, 7);
-
-            let r = `<div>\n<img src="${avatar}" width="32" align="left" style="margin-right: 12px;">\n\n**🤖 K-Arma**\n</div>\n\n`;
-            r += `🔄 PR diperbarui oleh @${pr.user.login}\n\n`;
-            r += `**Commit terbaru:** \`${sha}\` — Re-review diperlukan.\n\n`;
-            r += `---\n<sub><img src="${avatar}" width="14"> K-Arma · KVT Hub AI Assistant</sub>`;
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo,
-              issue_number: pr.number, body: r
-            });

@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\EdukasiGratisController;
 use App\Http\Controllers\Admin\PendaftaranEdukasiController;
 use App\Http\Controllers\Admin\AturanEdukasiController;
 use App\Http\Controllers\Admin\RepositoriController;
+use App\Http\Controllers\Admin\KArmaController;
 use App\Http\Controllers\Admin\KuisController;
 use App\Http\Controllers\Admin\KuisHasilController;
 use App\Http\Controllers\Admin\JenjangPenggunaController;
@@ -188,6 +189,11 @@ Route::get('/repositori', [RepositoriController::class, 'index'])->name('reposit
 Route::get('/repositori/file', [RepositoriController::class, 'lihatFile'])->name('repositori.file');
 Route::get('/repositori/api/stats', [RepositoriController::class, 'apiStats'])->name('repositori.api.stats');
 Route::get('/repositori/api/github', [RepositoriController::class, 'apiGithub'])->name('repositori.api.github');
+
+// K-Arma AI Monitor
+Route::get('/k-arma', [KArmaController::class, 'index'])->name('k-arma');
+Route::get('/k-arma/api/status', [KArmaController::class, 'apiStatus'])->name('k-arma.status');
+Route::post('/k-arma/api/refresh', [KArmaController::class, 'apiRefresh'])->name('k-arma.refresh');
 
 // Kuis & Pertanyaan
 Route::get('/kuis', [KuisController::class, 'index'])->name('kuis.index');
