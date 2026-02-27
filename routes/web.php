@@ -347,6 +347,42 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{session}', [ChatController::class, 'delete'])->name('delete');
         Route::post('/message/{message}/feedback', [ChatController::class, 'addFeedback'])->name('feedback');
     });
+
+    // Code Executor / Multi-Language Programming (Authenticated)
+    Route::prefix('code-executor')->name('code-executor.')->group(function () {
+        // Dashboard & Editor
+        Route::get('/', [\App\Http\Controllers\CodeExecutorController::class, 'index'])->name('index');
+        Route::get('/editor/{languageSlug}', [\App\Http\Controllers\CodeExecutorController::class, 'editor'])->name('editor');
+
+        // Code Execution & Validation
+        Route::post('/execute', [\App\Http\Controllers\CodeExecutorController::class, 'execute'])->name('execute');
+        Route::post('/validate', [\App\Http\Controllers\CodeExecutorController::class, 'validate'])->name('validate');
+
+        // Snippet Management
+        Route::post('/snippet/save', [\App\Http\Controllers\CodeExecutorController::class, 'saveSnippet'])->name('save-snippet');
+        Route::get('/snippets', [\App\Http\Controllers\CodeExecutorController::class, 'mySnippets'])->name('my-snippets');
+        Route::get('/snippet/{snippet}', [\App\Http\Controllers\CodeExecutorController::class, 'showSnippet'])->name('show-snippet');
+        Route::delete('/snippet/{snippet}', [\App\Http\Controllers\CodeExecutorController::class, 'deleteSnippet'])->name('delete-snippet');
+        Route::post('/snippet/{snippet}/like', [\App\Http\Controllers\CodeExecutorController::class, 'toggleLike'])->name('toggle-like');
+
+        // AI Features
+        Route::post('/analyze/{snippet}', [\App\Http\Controllers\CodeExecutorController::class, 'analyze'])->name('analyze');
+        Route::post('/explain/{snippet}', [\App\Http\Controllers\CodeExecutorController::class, 'explain'])->name('explain');
+        Route::post('/debug/{snippet}', [\App\Http\Controllers\CodeExecutorController::class, 'debug'])->name('debug');
+        Route::post('/optimize/{snippet}', [\App\Http\Controllers\CodeExecutorController::class, 'optimize'])->name('optimize');
+        Route::post('/suggestions', [\App\Http\Controllers\CodeExecutorController::class, 'suggestions'])->name('suggestions');
+
+        // Execution History
+        Route::get('/history', [\App\Http\Controllers\CodeExecutorController::class, 'history'])->name('history');
+
+        // Learning Paths
+        Route::get('/learning-paths', [\App\Http\Controllers\CodeExecutorController::class, 'learningPaths'])->name('learning-paths');
+        Route::post('/learning-path/{path}/enroll', [\App\Http\Controllers\CodeExecutorController::class, 'enrollPath'])->name('enroll-path');
+        Route::get('/learning-path/{path}', [\App\Http\Controllers\CodeExecutorController::class, 'viewPath'])->name('view-path');
+
+        // Explore Public Snippets
+        Route::get('/explore', [\App\Http\Controllers\CodeExecutorController::class, 'explore'])->name('explore');
+    });
 });
 
 // Chat / Chatbot (Public - untuk floating widget)
