@@ -8,6 +8,17 @@ class Langganan extends Model
 {
     protected $table = 'langganan';
 
+    // Status constants matching migration enum
+    public const STATUS_AKTIF = 'aktif';
+    public const STATUS_KADALUARSA = 'kadaluarsa';
+    public const STATUS_DIBATALKAN = 'dibatalkan';
+
+    public const SEMUA_STATUS = [
+        self::STATUS_AKTIF,
+        self::STATUS_KADALUARSA,
+        self::STATUS_DIBATALKAN,
+    ];
+
     protected $fillable = [
         'user_id',
         'paket_id',
@@ -36,6 +47,6 @@ class Langganan extends Model
 
     public function masihAktif(): bool
     {
-        return $this->status === 'aktif' && $this->berakhir_pada->isFuture();
+        return $this->status === self::STATUS_AKTIF && $this->berakhir_pada->isFuture();
     }
 }

@@ -281,14 +281,13 @@ Route::middleware('auth')->group(function () {
         /** @var \App\Models\User $pengguna */
         $pengguna = Auth::user();
 
-        // Cek verifikasi dulu
-        if ($pengguna->butuhVerifikasi() && !$pengguna->sudahVerifikasi()) {
+        // Cek verifikasi dulu (menggunakan method yang ada di User model)
+        if ($pengguna->butuhVerifikasi() && !$pengguna->sudahTerverifikasi()) {
             return redirect()->route('verifikasi.status');
         }
 
         return match ($pengguna->peran) {
             'admin' => redirect()->route('admin.dasbor'),
-            'guru' => redirect()->route('pengajar.dasbor'),
             'pengajar' => redirect()->route('pengajar.dasbor'),
             'staff' => redirect()->route('staff.dasbor'),
             default => redirect()->route('pengguna.dasbor'),

@@ -32,7 +32,7 @@ class LanggananController extends Controller
 
         $langganan = $query->latest()->paginate(20)->withQueryString();
         $pakets = PaketEksklusif::where('aktif', true)->orderBy('nama')->get();
-        $statuses = ['aktif', 'expired', 'cancelled', 'pending'];
+        $statuses = ['aktif', 'kadaluarsa', 'dibatalkan'];
 
         return view('akun.admin.langganan', compact('langganan', 'pakets', 'statuses'));
     }
@@ -44,7 +44,7 @@ class LanggananController extends Controller
             'paket_id' => 'required|exists:paket_eksklusif,id',
             'mulai_pada' => 'required|date',
             'berakhir_pada' => 'required|date|after:mulai_pada',
-            'status' => 'required|in:aktif,expired,cancelled,pending',
+            'status' => 'required|in:aktif,kadaluarsa,dibatalkan',
         ]);
 
         Langganan::create([
@@ -70,7 +70,7 @@ class LanggananController extends Controller
             'paket_id' => 'required|exists:paket_eksklusif,id',
             'mulai_pada' => 'required|date',
             'berakhir_pada' => 'required|date|after:mulai_pada',
-            'status' => 'required|in:aktif,expired,cancelled,pending',
+            'status' => 'required|in:aktif,kadaluarsa,dibatalkan',
         ]);
 
         $langganan->update([
@@ -92,7 +92,7 @@ class LanggananController extends Controller
     public function ubahStatus(Request $request, Langganan $langganan)
     {
         $request->validate([
-            'status' => 'required|in:aktif,expired,cancelled,pending',
+            'status' => 'required|in:aktif,kadaluarsa,dibatalkan',
         ]);
 
         $langganan->update(['status' => $request->status]);
@@ -116,8 +116,8 @@ class LanggananController extends Controller
     public function statistik()
     {
         $totalAktif = Langganan::where('status', 'aktif')->count();
-        $totalExpired = Langganan::where('status', 'expired')->count();
-        $totalCancelled = Langganan::where('status', 'cancelled')->count();
+        $totalExpired = Langganan::where('status', 'kadaluarsa')->count();
+        $totalCancelled = Langganan::where('status', 'dibatalkan')->count();
 
         $langgananPerPaket = Langganan::with('paket')
             ->where('status', 'aktif')

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ChatSession;
 use App\Models\CodeSnippet;
 use App\Models\CodeAnalysis;
 use App\Models\LearningPath;
@@ -17,23 +18,53 @@ class CodeAssistantService
     }
 
     /**
+     * Get or create a system ChatSession for AI-driven code analysis.
+     */
+    private function getOrCreateSystemSession(): ChatSession
+    {
+        $userId = auth()->id() ?? 1;
+
+        return ChatSession::firstOrCreate(
+            [
+                'user_id' => $userId,
+                'context' => 'code-assistant',
+                'status' => 'active',
+            ],
+            [
+                'title' => 'Code Assistant',
+                'message_count' => 0,
+                'total_tokens_used' => 0,
+                'api_cost' => 0,
+            ]
+        );
+    }
+
+    /**
+     * Send a prompt via ChatbotService using the correct (ChatSession, string) signature.
+     */
+    private function sendPrompt(string $prompt): ?string
+    {
+        $session = $this->getOrCreateSystemSession();
+        $message = $this->chatbotService->sendMessage($session, $prompt);
+
+        return $message?->content;
+    }
+
+    /**
      * Analyze code and generate AI feedback
      */
     public function analyzeCode(CodeSnippet $snippet): CodeAnalysis
     {
         try {
             $prompt = $this->buildAnalysisPrompt($snippet);
+            $content = $this->sendPrompt($prompt);
 
-            // Get AI analysis from OpenAI
-            $response = $this->chatbotService->sendMessage(
-                auth()->id() ?? 1, // System user for AI analysis
-                $prompt,
-                sessionId: null
-            );
+            if (!$content) {
+                throw new \Exception('Empty response from AI');
+            }
 
-            $analysis = $this->parseAnalysisResponse($response->content, $snippet);
+            $analysis = $this->parseAnalysisResponse($content, $snippet);
 
-            // Save analysis
             return CodeAnalysis::updateOrCreate(
                 ['snippet_id' => $snippet->id],
                 $analysis
@@ -66,13 +97,9 @@ Format as JSON array with keys: code, explanation, concepts, challenge
 PROMPT;
 
         try {
-            $response = $this->chatbotService->sendMessage(
-                auth()->id() ?? 1,
-                $prompt,
-                sessionId: null
-            );
+            $content = $this->sendPrompt($prompt);
 
-            return json_decode($response->content, true) ?? [];
+            return json_decode($content, true) ?? [];
 
         } catch (\Exception $e) {
             Log::error("Code suggestion generation error: " . $e->getMessage());
@@ -115,15 +142,10 @@ Format as JSON with structure:
 PROMPT;
 
         try {
-            $response = $this->chatbotService->sendMessage(
-                auth()->id() ?? 1,
-                $prompt,
-                sessionId: null
-            );
+            $content = $this->sendPrompt($prompt);
 
-            $data = json_decode($response->content, true);
+            $data = json_decode($content, true);
             
-            // Create learning path
             $languageModel = \App\Models\ProgrammingLanguage::where('name', $language)->first();
             
             if (!$languageModel) {
@@ -179,13 +201,9 @@ Format as JSON:
 PROMPT;
 
         try {
-            $response = $this->chatbotService->sendMessage(
-                auth()->id() ?? 1,
-                $prompt,
-                sessionId: null
-            );
+            $content = $this->sendPrompt($prompt);
 
-            return json_decode($response->content, true) ?? [];
+            return json_decode($content, true) ?? [];
 
         } catch (\Exception $e) {
             Log::error("Code debugging error: " . $e->getMessage());
@@ -198,11 +216,15 @@ PROMPT;
      */
     public function explainCode(CodeSnippet $snippet): string
     {
-        $prompt = <<<PROMPT
-Please provide a detailed explanation of this $snippet->language->name code:
+        $langName = $snippet->language->name ?? 'Unknown';
+        $langSlug = $snippet->language->slug ?? 'text';
+        $code = $snippet->code;
 
-\`\`\`$snippet->language->slug
-$snippet->code
+        $prompt = <<<PROMPT
+Please provide a detailed explanation of this {$langName} code:
+
+\`\`\`{$langSlug}
+{$code}
 \`\`\`
 
 Include:
@@ -215,13 +237,9 @@ Include:
 PROMPT;
 
         try {
-            $response = $this->chatbotService->sendMessage(
-                auth()->id() ?? 1,
-                $prompt,
-                sessionId: null
-            );
+            $content = $this->sendPrompt($prompt);
 
-            return $response->content;
+            return $content ?? 'Unable to generate explanation';
 
         } catch (\Exception $e) {
             Log::error("Code explanation error: " . $e->getMessage());
@@ -234,11 +252,15 @@ PROMPT;
      */
     public function optimizeCode(CodeSnippet $snippet): array
     {
-        $prompt = <<<PROMPT
-Optimize this $snippet->language->name code for better performance:
+        $langName = $snippet->language->name ?? 'Unknown';
+        $langSlug = $snippet->language->slug ?? 'text';
+        $code = $snippet->code;
 
-\`\`\`$snippet->language->slug
-$snippet->code
+        $prompt = <<<PROMPT
+Optimize this {$langName} code for better performance:
+
+\`\`\`{$langSlug}
+{$code}
 \`\`\`
 
 Provide:
@@ -259,13 +281,9 @@ Format as JSON:
 PROMPT;
 
         try {
-            $response = $this->chatbotService->sendMessage(
-                auth()->id() ?? 1,
-                $prompt,
-                sessionId: null
-            );
+            $content = $this->sendPrompt($prompt);
 
-            return json_decode($response->content, true) ?? [];
+            return json_decode($content, true) ?? [];
 
         } catch (\Exception $e) {
             Log::error("Code optimization error: " . $e->getMessage());

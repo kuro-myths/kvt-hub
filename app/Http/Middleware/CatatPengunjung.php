@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\Pengunjung;
+use App\Jobs\EnrichPengunjungGeolocationJob;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,13 +19,15 @@ class CatatPengunjung
         if ($request->isMethod('GET') && !$request->is('api/*', '_debugbar/*', 'favicon.*', 'build/*')) {
             try {
                 $ua = $request->userAgent();
+                $ip = $request->ip();
 
-                Pengunjung::create([
-                    'ip_address' => $request->ip(),
+                // Simpan record tanpa geolokasi (non-blocking)
+                $pengunjung = Pengunjung::create([
+                    'ip_address' => $ip,
                     'user_agent' => $ua ? substr($ua, 0, 255) : null,
                     'halaman' => $request->path() === '/' ? '/' : '/' . $request->path(),
-                    'negara' => $this->detectNegara($request->ip()),
-                    'kode_negara' => $this->detectKodeNegara($request->ip()),
+                    'negara' => null,
+                    'kode_negara' => null,
                     'perangkat' => Pengunjung::detectDevice($ua),
                     'browser' => Pengunjung::detectBrowser($ua),
                     'os' => Pengunjung::detectOS($ua),
@@ -32,6 +35,9 @@ class CatatPengunjung
                     'user_id' => Auth::id(),
                     'session_id' => $request->session()->getId(),
                 ]);
+
+                // Dispatch async geolocation enrichment via queue
+                EnrichPengunjungGeolocationJob::dispatch($pengunjung->id, $ip);
             } catch (\Throwable $e) {
                 // Jangan sampai error tracking menghambat request utama
                 report($e);
@@ -39,45 +45,5 @@ class CatatPengunjung
         }
 
         return $response;
-    }
-
-    private function detectNegara(string $ip): string
-    {
-        // Untuk localhost/development
-        if (in_array($ip, ['127.0.0.1', '::1', 'localhost'])) {
-            return 'Indonesia';
-        }
-
-        // Gunakan ip-api.com (gratis, 45 req/menit)
-        try {
-            $data = @file_get_contents("http://ip-api.com/json/{$ip}?fields=country,countryCode&lang=id");
-            if ($data) {
-                $json = json_decode($data, true);
-                return $json['country'] ?? 'Unknown';
-            }
-        } catch (\Throwable $e) {
-            // Fallback
-        }
-
-        return 'Unknown';
-    }
-
-    private function detectKodeNegara(string $ip): string
-    {
-        if (in_array($ip, ['127.0.0.1', '::1', 'localhost'])) {
-            return 'ID';
-        }
-
-        try {
-            $data = @file_get_contents("http://ip-api.com/json/{$ip}?fields=countryCode");
-            if ($data) {
-                $json = json_decode($data, true);
-                return $json['countryCode'] ?? 'XX';
-            }
-        } catch (\Throwable $e) {
-            // Fallback
-        }
-
-        return 'XX';
     }
 }

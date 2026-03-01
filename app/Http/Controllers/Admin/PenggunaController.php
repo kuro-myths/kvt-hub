@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\In;
 
 class PenggunaController extends Controller
 {
@@ -39,7 +40,7 @@ class PenggunaController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'peran' => 'required|in:admin,staff,guru,siswa,mahasiswa,orang_tua,pengunjung',
+            'peran' => ['required', new In(User::SEMUA_PERAN)],
             'bio' => 'nullable|string|max:500',
         ]);
 
@@ -53,8 +54,8 @@ class PenggunaController extends Controller
             'xp' => 0,
             'xp_total' => 0,
             'aktif' => true,
-            'status_verifikasi' => 'diverifikasi',
-            'created_by_admin' => true,
+            'status_verifikasi' => User::STATUS_TERVERIFIKASI,
+            'dibuat_oleh_admin' => true,
         ]);
 
         return back()->with('sukses', 'Pengguna berhasil ditambahkan!');
@@ -65,7 +66,7 @@ class PenggunaController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', Rule::unique('users')->ignore($pengguna->id)],
-            'peran' => 'required|in:admin,staff,guru,siswa,mahasiswa,orang_tua,pengunjung',
+            'peran' => ['required', new In(User::SEMUA_PERAN)],
             'bio' => 'nullable|string|max:500',
             'password' => 'nullable|string|min:6',
             'level' => 'nullable|integer|min:1|max:100',

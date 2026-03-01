@@ -18,15 +18,15 @@ class KrsController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        $krs = $user->krs()->with('details.mataPelajaran')->latest()->get();
-        $jenjangAktif = $user->jenjangAktif()->where('aktif', true)->first();
+        $krs = $user->krs()->with('detail.mataPelajaran')->latest()->get();
+        $jenjangAktif = $user->jenjangAktif()->where('status', 'aktif')->first();
 
         return view('akun.pengguna.krs.index', compact('krs', 'jenjangAktif'));
     }
 
     public function pilihJenjang()
     {
-        $jenjang = Kurikulum::where('aktif', true)->get()->groupBy('jenjang');
+        $jenjang = Kurikulum::where('status', 'aktif')->get()->groupBy('jenjang');
         return view('akun.pengguna.krs.pilih-jenjang', compact('jenjang'));
     }
 
@@ -40,8 +40,8 @@ class KrsController extends Controller
         $user = Auth::user();
 
         JenjangPengguna::updateOrCreate(
-            ['user_id' => $user->id],
-            ['kurikulum_id' => $request->kurikulum_id, 'aktif' => true]
+            ['user_id' => $user->id, 'kurikulum_id' => $request->kurikulum_id],
+            ['status' => 'aktif', 'semester_aktif' => 1]
         );
 
         return redirect()->route('pengguna.krs.index')->with('sukses', 'Jenjang berhasil dipilih!');
@@ -51,7 +51,7 @@ class KrsController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        $jenjangAktif = $user->jenjangAktif()->where('aktif', true)->first();
+        $jenjangAktif = $user->jenjangAktif()->where('status', 'aktif')->first();
 
         if (!$jenjangAktif) {
             return redirect()->route('pengguna.krs.pilih-jenjang')->with('info', 'Pilih jenjang terlebih dahulu.');
@@ -70,12 +70,14 @@ class KrsController extends Controller
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        $jenjangAktif = $user->jenjangAktif()->where('status', 'aktif')->firstOrFail();
 
         $krs = Krs::create([
             'user_id' => $user->id,
-            'semester' => $request->semester ?? 'Ganjil',
+            'kurikulum_id' => $jenjangAktif->kurikulum_id,
+            'semester' => $jenjangAktif->semester_aktif,
             'tahun_ajaran' => $request->tahun_ajaran ?? date('Y') . '/' . (date('Y') + 1),
-            'status' => 'menunggu',
+            'status' => 'diajukan',
         ]);
 
         foreach ($request->mata_pelajaran as $mapelId) {
@@ -85,13 +87,15 @@ class KrsController extends Controller
             ]);
         }
 
+        $krs->hitungTotalSks();
+
         return redirect()->route('pengguna.krs.index')->with('sukses', 'KRS berhasil diajukan!');
     }
 
     public function tampilkan(Krs $krs)
     {
         $this->authorize('view', $krs);
-        $krs->load('details.mataPelajaran');
+        $krs->load('detail.mataPelajaran');
         return view('akun.pengguna.krs.tampilkan', compact('krs'));
     }
 

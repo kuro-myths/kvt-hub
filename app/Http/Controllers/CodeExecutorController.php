@@ -108,7 +108,7 @@ class CodeExecutorController extends Controller
     }
 
     /**
-     * Save code snippet
+     * Save code snippet (create new)
      */
     public function saveSnippet(Request $request)
     {
@@ -120,21 +120,32 @@ class CodeExecutorController extends Controller
             'tags' => 'nullable|array',
             'difficulty_level' => 'nullable|in:beginner,intermediate,advanced,expert',
             'is_public' => 'nullable|boolean',
+            'snippet_id' => 'nullable|integer|exists:code_snippets,id',
         ]);
 
-        $snippet = CodeSnippet::updateOrCreate(
-            ['id' => $request->snippet_id],
-            [
-                'user_id' => auth()->id(),
-                'title' => $request->title,
-                'code' => $request->code,
-                'language_id' => $request->language_id,
-                'description' => $request->description,
-                'tags' => $request->tags,
-                'difficulty_level' => $request->difficulty_level ?? 'beginner',
-                'is_public' => $request->is_public ?? false,
-            ]
-        );
+        $data = [
+            'title' => $request->title,
+            'code' => $request->code,
+            'language_id' => $request->language_id,
+            'description' => $request->description,
+            'tags' => $request->tags,
+            'difficulty_level' => $request->difficulty_level ?? 'beginner',
+            'is_public' => $request->is_public ?? false,
+        ];
+
+        if ($request->filled('snippet_id')) {
+            // Update path: scope by both id AND user_id to enforce ownership
+            $snippet = CodeSnippet::where('id', $request->snippet_id)
+                ->where('user_id', auth()->id())
+                ->firstOrFail();
+
+            $this->authorize('update', $snippet);
+            $snippet->update($data);
+        } else {
+            // Create path
+            $data['user_id'] = auth()->id();
+            $snippet = CodeSnippet::create($data);
+        }
 
         return response()->json([
             'id' => $snippet->id,
