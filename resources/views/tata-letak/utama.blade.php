@@ -3908,10 +3908,10 @@
                 <div class="flex-1">
                     <h4 class="text-white font-bold text-sm flex items-center gap-2">
                         Kuro AI
-                        <span class="text-[9px] bg-white/20 px-1.5 py-0.5 rounded-md font-semibold">VTuber</span>
+                        <span class="text-[9px] bg-white/20 px-1.5 py-0.5 rounded-md font-semibold">v2.0</span>
                     </h4>
                     <p class="text-[11px] text-white/70 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full inline-block"></span> Online — Siap membantu
+                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full inline-block"></span> Online — Powered by AI
                     </p>
                 </div>
                 <div class="flex items-center gap-1">
@@ -3933,15 +3933,15 @@
                     </div>
                     <div class="flex-1">
                         <div class="bg-kvt-800/60 border border-kvt-700/20 rounded-xl rounded-tl-none px-3.5 py-2.5 max-w-[280px]">
-                            <p class="text-sm text-gray-200">Hai! Aku <strong class="text-kvt-400">Kuro</strong>, asisten AI KVT Hub. 🐱</p>
-                            <p class="text-sm text-gray-300 mt-1.5">Aku bisa bantu navigasi platform, jelaskan fitur, jawab pertanyaan akademik, dan banyak lagi!</p>
+                            <p class="text-sm text-gray-200">Hai! Aku <strong class="text-kvt-400">Kuro</strong>, asisten AI KVT Hub. 🐱✨</p>
+                            <p class="text-sm text-gray-300 mt-1.5">Sekarang aku lebih pintar! Aku bisa bantu navigasi platform, jelaskan fitur, jawab pertanyaan akademik, ringkaskan halaman, dan banyak lagi!</p>
                         </div>
-                        <p class="text-[10px] text-gray-600 mt-1 ml-1">Kuro AI · Baru saja</p>
+                        <p class="text-[10px] text-gray-600 mt-1 ml-1">Kuro AI v2.0 · Baru saja</p>
                     </div>
                 </div>
 
-                {{-- Quick Actions --}}
-                <div class="flex flex-wrap gap-1.5 ml-9">
+                {{-- Quick Actions (page-aware) --}}
+                <div id="vtuberQuickActions" class="flex flex-wrap gap-1.5 ml-9">
                     <button onclick="vtuberQuickAction('Bagaimana cara mendaftar?')" class="text-[11px] bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-400 hover:text-kvt-300 border border-kvt-700/20 px-3 py-1.5 rounded-lg transition">
                         <i class="fas fa-user-plus mr-1"></i> Cara Mendaftar
                     </button>
@@ -3950,6 +3950,9 @@
                     </button>
                     <button onclick="vtuberQuickAction('Jenjang pendidikan apa saja?')" class="text-[11px] bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-400 hover:text-kvt-300 border border-kvt-700/20 px-3 py-1.5 rounded-lg transition">
                         <i class="fas fa-graduation-cap mr-1"></i> Jenjang
+                    </button>
+                    <button onclick="vtuberQuickAction('Ringkaskan halaman ini untukku')" class="text-[11px] bg-kvt-800/50 hover:bg-kvt-700/50 text-violet-400 hover:text-violet-300 border border-violet-700/20 px-3 py-1.5 rounded-lg transition">
+                        <i class="fas fa-magic mr-1"></i> Ringkas Halaman
                     </button>
                     <button onclick="vtuberQuickAction('Ada kursus gratis apa?')" class="text-[11px] bg-kvt-800/50 hover:bg-kvt-700/50 text-green-400 hover:text-green-300 border border-green-700/20 px-3 py-1.5 rounded-lg transition">
                         <i class="fas fa-gift mr-1"></i> Edukasi Gratis
@@ -3972,9 +3975,9 @@
                 </div>
                 <div class="flex items-center justify-between mt-2">
                     <p class="text-[10px] text-gray-600 flex items-center gap-1">
-                        <i class="fas fa-shield-alt text-[8px]"></i> Percakapan tidak disimpan
+                        <i class="fas fa-shield-alt text-[8px]"></i> Percakapan aman & pribadi
                     </p>
-                    <p class="text-[10px] text-gray-600 font-semibold">Kuro AI v1.0</p>
+                    <p class="text-[10px] text-gray-600 font-semibold">Kuro AI v2.0 ✨</p>
                 </div>
             </div>
         </div>
@@ -6628,6 +6631,37 @@
             container.scrollTop = container.scrollHeight;
         }
 
+        // ─── Kuro VTuber: Hybrid AI (API + Local Fallback) ───
+        let kuroSessionId = null;
+        let kuroSessionToken = null;
+        let kuroApiReady = false;
+
+        async function initKuroApiSession() {
+            try {
+                const token = localStorage.getItem('kuro_vtuber_token');
+                const res = await fetch('/api/chat/guest-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                    },
+                    body: JSON.stringify({ token: token || null }),
+                });
+                const data = await res.json();
+                if (data.success) {
+                    kuroSessionId = data.session.id;
+                    kuroSessionToken = data.session.token;
+                    localStorage.setItem('kuro_vtuber_token', kuroSessionToken);
+                    kuroApiReady = true;
+                }
+            } catch (e) {
+                console.warn('Kuro VTuber: API tidak tersedia, menggunakan mode lokal');
+            }
+        }
+
+        // Init API session on page load
+        initKuroApiSession();
+
         function kirimPesanVtuber() {
             const input = document.getElementById('vtuberInput');
             const msg = input.value.trim();
@@ -6649,12 +6683,45 @@
             document.getElementById('vtuberMessages').appendChild(typingDiv);
             document.getElementById('vtuberMessages').scrollTop = document.getElementById('vtuberMessages').scrollHeight;
 
-            // Simulate response delay
-            setTimeout(() => {
-                typingDiv.remove();
-                const response = getKuroResponse(msg);
-                tambahPesanVtuber('bot', response);
-            }, 800 + Math.random() * 700);
+            // Try API first, fall back to local
+            if (kuroApiReady && kuroSessionId) {
+                // Add page context
+                const pageName = document.title?.split('|')[0]?.trim() || window.location.pathname;
+                const messageWithContext = `[Halaman: ${pageName}] ${msg}`;
+
+                fetch('/api/chat/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                    },
+                    body: JSON.stringify({
+                        message: messageWithContext,
+                        session_id: kuroSessionId,
+                        session_token: kuroSessionToken,
+                    }),
+                })
+                .then(res => res.json())
+                .then(data => {
+                    typingDiv.remove();
+                    if (data.success && data.message?.content) {
+                        tambahPesanVtuber('bot', data.message.content);
+                    } else {
+                        // Fallback to local
+                        tambahPesanVtuber('bot', getKuroResponse(msg));
+                    }
+                })
+                .catch(() => {
+                    typingDiv.remove();
+                    tambahPesanVtuber('bot', getKuroResponse(msg));
+                });
+            } else {
+                // Local-only mode
+                setTimeout(() => {
+                    typingDiv.remove();
+                    tambahPesanVtuber('bot', getKuroResponse(msg));
+                }, 800 + Math.random() * 700);
+            }
         }
 
         function vtuberQuickAction(question) {
