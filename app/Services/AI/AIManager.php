@@ -5,6 +5,7 @@ namespace App\Services\AI;
 use App\Services\AI\Contracts\AIProviderInterface;
 use App\Services\AI\Providers\OpenAIProvider;
 use App\Services\AI\Providers\ClaudeProvider;
+use App\Services\AI\Providers\GitHubModelsProvider;
 use App\Services\AI\Providers\N8nProvider;
 use App\Services\AI\Providers\OllamaProvider;
 use App\Services\AI\Pipeline\AIPipeline;
@@ -55,6 +56,7 @@ class AIManager
         return match ($driver) {
             'openai' => new OpenAIProvider($config),
             'claude' => new ClaudeProvider($config),
+            'github' => new GitHubModelsProvider($config),
             'n8n' => new N8nProvider($config),
             'ollama' => new OllamaProvider($config),
             default => throw new \InvalidArgumentException("Unknown AI provider: {$name}"),

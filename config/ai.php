@@ -50,6 +50,15 @@ return [
             ],
         ],
 
+        'github' => [
+            'driver' => 'github',
+            'token' => env('GITHUB_TOKEN'),
+            'model' => env('GITHUB_AI_MODEL', 'gpt-4o-mini'),
+            'base_url' => env('GITHUB_MODELS_URL', 'https://models.inference.ai.azure.com'),
+            'max_tokens' => (int) env('GITHUB_AI_MAX_TOKENS', 4096),
+            'temperature' => (float) env('GITHUB_AI_TEMPERATURE', 0.7),
+        ],
+
         'ollama' => [
             'driver' => 'ollama',
             'model' => env('OLLAMA_MODEL', 'llama3.1'),

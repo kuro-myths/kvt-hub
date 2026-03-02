@@ -212,6 +212,7 @@
                             <option value="">Default</option>
                             <option value="openai">OpenAI</option>
                             <option value="claude">Claude</option>
+                            <option value="github">GitHub Models</option>
                             <option value="ollama">Ollama</option>
                         </select>
                         <button @click="doCodeGen()" :disabled="codeGenLoading || !codeGenDesc.trim()"

@@ -41,7 +41,7 @@ class KuroNexusController extends Controller
     {
         $request->validate([
             'message' => 'required|string|max:5000',
-            'provider' => 'nullable|string|in:openai,claude,n8n,ollama',
+            'provider' => 'nullable|string|in:openai,claude,github,n8n,ollama',
             'system_prompt' => 'nullable|string|max:3000',
             'context' => 'nullable|string',
         ]);

@@ -1,35 +1,190 @@
 # 🧠 Kuro Nexus AI — Documentation
 
 > **Multi-Provider AI Orchestration Platform for KVT Hub**
-> Version 2.0 | Built with Laravel 12 · PHP 8.2+
+> Version 2.1 | Built with Laravel 12 · PHP 8.2+
 
 ---
 
 ## 📋 Daftar Isi
 
-1. [Overview](#overview)
-2. [Arsitektur](#arsitektur)
-3. [Quick Start](#quick-start)
-4. [AI Providers](#ai-providers)
-5. [AI Pipeline System](#ai-pipeline-system)
-6. [Fitur AI](#fitur-ai)
-7. [API Reference](#api-reference)
-8. [n8n Integration](#n8n-integration)
-9. [Claude / Anthropic Setup](#claude--anthropic-setup)
-10. [Ollama (Local AI)](#ollama-local-ai)
-11. [Extending & Custom Providers](#extending--custom-providers)
-12. [Environment Variables](#environment-variables)
-13. [Troubleshooting](#troubleshooting)
+1. [Status Fitur AI (Mana yang Berfungsi?)](#status-fitur-ai)
+2. [Cara Dapat API Key (Gratis & Berbayar)](#cara-dapat-api-key)
+3. [Overview](#overview)
+4. [Arsitektur](#arsitektur)
+5. [Quick Start](#quick-start)
+6. [AI Providers](#ai-providers)
+7. [AI Pipeline System](#ai-pipeline-system)
+8. [Fitur AI](#fitur-ai)
+9. [API Reference](#api-reference)
+10. [n8n Integration](#n8n-integration)
+11. [Claude / Anthropic Setup](#claude--anthropic-setup)
+12. [Ollama (Local AI)](#ollama-local-ai)
+13. [Extending & Custom Providers](#extending--custom-providers)
+14. [Environment Variables](#environment-variables)
+15. [Troubleshooting](#troubleshooting)
+
+---
+
+## Status Fitur AI
+
+### 📊 Status Semua Provider AI
+
+| # | Provider | Status | Biaya | API Key dari Mana? | Syarat |
+|---|----------|--------|-------|---------------------|--------|
+| 1 | **GitHub Models** ⭐ | ✅ **BERFUNGSI** (jika `GITHUB_TOKEN` diisi) | 🆓 **GRATIS** | [github.com/settings/tokens](https://github.com/settings/tokens) | Punya akun GitHub |
+| 2 | **OpenAI (GPT-4o)** | ✅ **BERFUNGSI** (jika `OPENAI_API_KEY` diisi) | 💰 Berbayar ($0.15-$0.60/1M tokens) | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) | Kartu kredit/debit |
+| 3 | **Claude / Anthropic** | ✅ **BERFUNGSI** (jika `ANTHROPIC_API_KEY` diisi) | 💰 Berbayar ($3-$15/1M tokens) | [console.anthropic.com](https://console.anthropic.com/settings/keys) | Kartu kredit/debit |
+| 4 | **Ollama (Local)** | ✅ **BERFUNGSI** (jika Ollama terinstall & running) | 🆓 **GRATIS** | Tidak perlu API key | Install Ollama + GPU |
+| 5 | **n8n Workflows** | ⚠️ **BERFUNGSI PARSIAL** (perlu self-host n8n) | 🆓 **GRATIS** (self-hosted) | Self-hosted, buat sendiri | Install n8n |
+
+### 📊 Status Semua Fitur AI
+
+| # | Fitur | Status | Provider yang Bisa | Cara Pakai |
+|---|-------|--------|-------------------|------------|
+| 1 | 🤖 **AI Chat** | ✅ Berfungsi | OpenAI, Claude, GitHub Models, Ollama, n8n | Chat langsung, pilih provider |
+| 2 | 💻 **Code Generator** | ✅ Berfungsi | OpenAI, Claude, GitHub Models, Ollama | Deskripsikan kode, AI buatkan |
+| 3 | 🌐 **Translator** | ✅ Berfungsi | OpenAI, Claude, GitHub Models, Ollama | Input teks + bahasa tujuan |
+| 4 | 📝 **Summarizer** | ✅ Berfungsi | OpenAI, Claude, GitHub Models, Ollama | Paste teks panjang, AI rangkum |
+| 5 | 💖 **Sentiment Analysis** | ✅ Berfungsi | OpenAI, Claude, GitHub Models, Ollama | Input teks, dapatkan sentimen |
+| 6 | 🎓 **AI Tutor** | ✅ Berfungsi | OpenAI, Claude, GitHub Models, Ollama | Pilih topik + level |
+| 7 | ⚡ **AI Pipeline** | ✅ Berfungsi | Semua (chain antar provider) | Build pipeline visual |
+| 8 | 🔗 **n8n Trigger** | ⚠️ Perlu Setup | n8n only | Setup n8n dulu |
+| 9 | 🐙 **GitHub AI Hub** | ✅ Berfungsi | GitHub API + OpenAI chatbot | `/admin/github-ai` |
+
+### ⭐ Rekomendasi: Provider Mana yang Harus Dipakai?
+
+**Untuk memulai GRATIS tanpa kartu kredit:**
+
+1. **GitHub Models** ← ⭐ **PALING DIREKOMENDASIKAN**
+   - Gratis, hanya butuh akun GitHub
+   - Bisa akses GPT-4o, Llama 3.1, Mistral, DeepSeek, dll
+   - Rate limit: ~150 requests/menit (cukup untuk development)
+
+2. **Ollama (Local)** ← Untuk offline & privasi
+   - Gratis, tapi butuh GPU
+   - Install di komputer sendiri
+
+**Untuk produksi dengan budget:**
+
+3. **OpenAI** ← Paling stabil, paling banyak dokumentasi
+4. **Claude** ← Reasoning terbaik, kode paling akurat
+
+---
+
+## Cara Dapat API Key
+
+### 1. 🆓 GitHub Token (GRATIS — Paling Mudah!)
+
+GitHub Models menyediakan akses **gratis** ke 30+ model AI (GPT-4o, Llama, Mistral, dll).
+
+**Langkah:**
+
+1. Login ke [github.com](https://github.com)
+2. Buka **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)**
+   - URL langsung: [github.com/settings/tokens](https://github.com/settings/tokens)
+3. Klik **"Generate new token (classic)"**
+4. Nama: `KVT Hub AI` (bebas)
+5. Expiration: custom (pilih 1 tahun)
+6. **Scopes: TIDAK PERLU centang apapun** (cukup tanpa scope untuk GitHub Models)
+7. Klik **Generate token**
+8. Copy token (dimulai dengan `ghp_...`)
+9. Paste ke `.env`:
+   ```env
+   GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   AI_DEFAULT_PROVIDER=github
+   ```
+
+**Model yang tersedia gratis:**
+- `gpt-4o` — OpenAI GPT-4o (terbaik)
+- `gpt-4o-mini` — OpenAI GPT-4o Mini (cepat & murah)
+- `meta-llama-3.1-405b-instruct` — Meta Llama 3.1 405B
+- `meta-llama-3.1-70b-instruct` — Meta Llama 3.1 70B
+- `mistral-large-2411` — Mistral Large
+- `phi-4` — Microsoft Phi-4
+- `deepseek-r1` — DeepSeek R1
+- `cohere-command-r-plus` — Cohere Command R+
+
+> 💡 **Rate limit**: ~150 req/min untuk free tier, 1000 req/min untuk Pro
+
+### 2. 💰 OpenAI API Key (Berbayar)
+
+**Langkah:**
+
+1. Buka [platform.openai.com](https://platform.openai.com)
+2. Sign up / Login
+3. Buka **API keys** → [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+4. Klik **"Create new secret key"**
+5. Copy key (dimulai dengan `sk-...`)
+6. **Isi saldo**: Settings → Billing → Add funds (min $5)
+7. Paste ke `.env`:
+   ```env
+   OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   ```
+
+**Harga (GPT-4o-mini):** $0.15/1M input tokens, $0.60/1M output tokens
+*~$5 cukup untuk ~8 juta token (ribuan pesan)*
+
+### 3. 💰 Anthropic / Claude API Key (Berbayar)
+
+**Langkah:**
+
+1. Buka [console.anthropic.com](https://console.anthropic.com)
+2. Sign up / Login
+3. Buka **Settings** → **API Keys**
+4. Klik **"Create Key"**
+5. Copy key (dimulai dengan `sk-ant-...`)
+6. **Isi saldo**: Settings → Plans & Billing → Add credits (min $5)
+7. Paste ke `.env`:
+   ```env
+   ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   ```
+
+**Harga (Claude Sonnet 4):** $3/1M input, $15/1M output
+*Lebih mahal tapi reasoning paling bagus*
+
+### 4. 🆓 Ollama — Local AI (GRATIS, Perlu Install)
+
+**Langkah:**
+
+1. Download dari [ollama.com/download](https://ollama.com/download)
+2. Install (Windows / Mac / Linux)
+3. Buka terminal:
+   ```bash
+   ollama pull llama3.1       # download model (~4GB)
+   ollama serve                # start server
+   ```
+4. `.env` default sudah benar:
+   ```env
+   OLLAMA_BASE_URL=http://localhost:11434
+   OLLAMA_MODEL=llama3.1
+   ```
+
+**⚠️ Butuh**: GPU dengan min 8GB VRAM untuk llama3.1
+
+### 5. 🆓 n8n — Workflow Automation (GRATIS, Self-Hosted)
+
+**Langkah:**
+
+1. Install n8n:
+   ```bash
+   npx n8n                     # via npm
+   # atau
+   docker run -p 5678:5678 n8nio/n8n  # via Docker
+   ```
+2. Buka `http://localhost:5678`
+3. Buat workflow dengan **Webhook trigger**
+4. Copy webhook URL ke `.env`
 
 ---
 
 ## Overview
 
-**Kuro Nexus AI** adalah platform AI orkestrasi multi-provider yang terintegrasi di KVT Hub. Platform ini mendukung 4 provider AI (OpenAI, Claude/Anthropic, n8n, Ollama), menampilkan 8 fitur AI, dan memiliki sistem pipeline yang memungkinkan chaining operasi AI seperti LangChain.
+**Kuro Nexus AI** adalah platform AI orkestrasi multi-provider yang terintegrasi di KVT Hub. Platform ini mendukung **5 provider AI** (GitHub Models, OpenAI, Claude/Anthropic, n8n, Ollama), menampilkan 8 fitur AI, dan memiliki sistem pipeline yang memungkinkan chaining operasi AI seperti LangChain.
 
 ### Keunggulan
 
-- 🔌 **Multi-Provider**: OpenAI GPT, Claude Sonnet, n8n Workflows, Ollama Local
+- 🆓 **GitHub Models**: Akses GPT-4o, Llama, Mistral dll **GRATIS** via GitHub token
+- 🔌 **Multi-Provider**: OpenAI GPT, Claude Sonnet, GitHub Models, n8n Workflows, Ollama Local
 - 🔗 **AI Pipeline**: Chain multiple AI operations (translate → summarize → sentiment)
 - 🔄 **Automatic Fallback**: Jika provider utama down, otomatis switch ke provider lain
 - 💰 **Cost Tracking**: Setiap request dilacak biayanya per token
@@ -52,23 +207,17 @@
          │  (cache, fallback) │
          └────────┬───────────┘
                   │
-    ┌─────────────┼─────────────┐
-    │             │             │
-    ▼             ▼             ▼
-┌───────┐  ┌──────────┐  ┌──────────┐  ┌─────────┐
-│OpenAI │  │  Claude   │  │   n8n    │  │ Ollama  │
-│Provider│  │ Provider  │  │ Provider │  │Provider │
-└───────┘  └──────────┘  └──────────┘  └─────────┘
-    │             │             │            │
-    ▼             ▼             ▼            ▼
-  GPT-4o     Claude       n8n Server    Local LLM
-  -mini     Sonnet 4      Webhooks     (llama3.1)
-
-┌──────────────────────────────────────────────────┐
-│                  AIPipeline                       │
-│   step(translate) → step(summarize) → run()      │
-│   Chain multiple operations with any provider     │
-└──────────────────────────────────────────────────┘
+    ┌──────┬──────┼──────┬──────┐
+    │      │      │      │      │
+    ▼      ▼      ▼      ▼      ▼
+┌──────┐┌──────┐┌──────┐┌──────┐┌──────┐
+│OpenAI││Claude││GitHub││ n8n  ││Ollama│
+│ GPT  ││Sonnet││Models││Wflow ││Local │
+└──────┘└──────┘└──────┘└──────┘└──────┘
+   │       │       │       │       │
+   ▼       ▼       ▼       ▼       ▼
+ $0.15  $3/1M   🆓FREE  🆓self  🆓local
+ /1M    token   GitHub   host    GPU
 ```
 
 ### File Structure
@@ -84,6 +233,7 @@ app/Services/AI/
   Providers/
     OpenAIProvider.php            ← OpenAI GPT adapter (HTTP)
     ClaudeProvider.php            ← Anthropic Claude adapter
+    GitHubModelsProvider.php      ← GitHub Models adapter (FREE!)
     N8nProvider.php               ← n8n webhook adapter
     OllamaProvider.php            ← Local Ollama adapter
   Pipeline/
@@ -155,14 +305,30 @@ Dashboard akan menampilkan status semua provider dan quick stats.
 
 ## AI Providers
 
+### ⭐ GitHub Models (GRATIS — Rekomendasi!)
+
+| Setting | Value |
+|---------|-------|
+| API URL | `https://models.inference.ai.azure.com/chat/completions` |
+| Default Model | `gpt-4o-mini` |
+| Pricing | 🆓 **GRATIS** (rate-limited) |
+| Max Tokens | 4096 |
+| Auth | GitHub Personal Access Token |
+| Get Key | [github.com/settings/tokens](https://github.com/settings/tokens) |
+
+**Cara kerja**: Direct HTTP call ke GitHub Models inference API (Azure-hosted). Compatible dengan OpenAI chat/completions format. Mendukung 30+ model dari berbagai vendor (OpenAI, Meta, Mistral, Microsoft, DeepSeek, Cohere).
+
+**Available Models**: gpt-4o, gpt-4o-mini, meta-llama-3.1-405b-instruct, mistral-large-2411, phi-4, deepseek-r1, cohere-command-r-plus, dan lainnya.
+
 ### OpenAI (GPT-4o-mini)
 
 | Setting | Value |
 |---------|-------|
 | API URL | `https://api.openai.com/v1/chat/completions` |
 | Default Model | `gpt-4o-mini` |
-| Pricing | $0.15/1M input tokens, $0.60/1M output tokens |
+| Pricing | 💰 $0.15/1M input tokens, $0.60/1M output tokens |
 | Max Tokens | 4096 |
+| Get Key | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
 
 **Cara kerja**: Direct HTTP call ke OpenAI API menggunakan Laravel HTTP client. Mendukung semua GPT models.
 
@@ -172,9 +338,10 @@ Dashboard akan menampilkan status semua provider dan quick stats.
 |---------|-------|
 | API URL | `https://api.anthropic.com/v1/messages` |
 | Default Model | `claude-sonnet-4-20250514` |
-| Pricing | $3/1M input tokens, $15/1M output tokens |
+| Pricing | 💰 $3/1M input tokens, $15/1M output tokens |
 | Max Tokens | 4096 |
 | API Version | `2023-06-01` |
+| Get Key | [console.anthropic.com](https://console.anthropic.com/settings/keys) |
 
 **Fitur khusus**: System prompt diekstrak secara otomatis dari messages dan dikirim sebagai field `system` terpisah (sesuai Anthropic API spec).
 
@@ -184,9 +351,10 @@ Dashboard akan menampilkan status semua provider dan quick stats.
 |---------|-------|
 | Base URL | Configurable (default: `localhost:5678`) |
 | Auth | API Key + Webhook Secret |
+| Pricing | 🆓 **GRATIS** (self-hosted) |
 | Workflows | 5 configurable endpoints |
 
-**Cara kerja**: Mengirim payload ke n8n webhook URL. n8n memproses menggunakan node chain (AI, filter, transform), lalu mengembalikan hasil.
+**Cara kerja**: Mengirim payload ke n8n webhook URL. n8n memproses menggunakan node chain (AI, filter, transform), lalu mengembalikan hasil. Perlu install n8n sendiri.
 
 ### Ollama (Local AI)
 
@@ -194,8 +362,8 @@ Dashboard akan menampilkan status semua provider dan quick stats.
 |---------|-------|
 | Base URL | `http://localhost:11434` |
 | Default Model | `llama3.1` |
-| Pricing | Free ($0) |
-| Requirement | Ollama installed locally |
+| Pricing | 🆓 **GRATIS** (lokal) |
+| Requirement | Ollama installed + GPU |
 
 **Fitur khusus**: `listModels()` untuk melihat model yang terinstall. Streaming dimatikan untuk konsistensi.
 
@@ -741,14 +909,21 @@ protected function createProvider(string $name): AIProviderInterface
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `AI_DEFAULT_PROVIDER` | No | `openai` | Default AI provider |
-| `OPENAI_API_KEY` | Yes* | — | OpenAI API key |
+| `AI_DEFAULT_PROVIDER` | No | `github` | Default AI provider |
+| **GitHub Models** | | | |
+| `GITHUB_TOKEN` | ⭐ Yes | — | GitHub Personal Access Token (`ghp_...`) |
+| `GITHUB_AI_MODEL` | No | `gpt-4o-mini` | Model dari GitHub Models marketplace |
+| `GITHUB_AI_MAX_TOKENS` | No | `4096` | Max tokens |
+| **OpenAI** | | | |
+| `OPENAI_API_KEY` | No | — | OpenAI API key (`sk-...`) |
 | `OPENAI_ORGANIZATION` | No | — | OpenAI organization ID |
 | `OPENAI_MODEL` | No | `gpt-4o-mini` | OpenAI model name |
 | `OPENAI_MAX_TOKENS` | No | `4096` | Max tokens per request |
-| `ANTHROPIC_API_KEY` | No | — | Anthropic/Claude API key |
+| **Claude / Anthropic** | | | |
+| `ANTHROPIC_API_KEY` | No | — | Anthropic/Claude API key (`sk-ant-...`) |
 | `CLAUDE_MODEL` | No | `claude-sonnet-4-20250514` | Claude model name |
 | `CLAUDE_MAX_TOKENS` | No | `4096` | Claude max tokens |
+| **n8n** | | | |
 | `N8N_BASE_URL` | No | `http://localhost:5678` | n8n server URL |
 | `N8N_API_KEY` | No | — | n8n API key |
 | `N8N_WEBHOOK_SECRET` | No | — | Webhook authentication secret |
@@ -757,10 +932,11 @@ protected function createProvider(string $name): AIProviderInterface
 | `N8N_WORKFLOW_SUMMARIZE` | No | — | Summarize workflow URL |
 | `N8N_WORKFLOW_TRANSLATE` | No | — | Translate workflow URL |
 | `N8N_WORKFLOW_CUSTOM` | No | — | Custom workflow URL |
+| **Ollama** | | | |
 | `OLLAMA_BASE_URL` | No | `http://localhost:11434` | Ollama server URL |
 | `OLLAMA_MODEL` | No | `llama3.1` | Default Ollama model |
 
-*At least one provider API key is required.
+*At least one provider API key/token is required. Recommended: `GITHUB_TOKEN` (gratis!)
 
 ---
 
@@ -768,8 +944,9 @@ protected function createProvider(string $name): AIProviderInterface
 
 ### Provider menunjukkan "Offline"
 
-- **OpenAI**: Pastikan `OPENAI_API_KEY` di `.env` sudah benar
-- **Claude**: Pastikan `ANTHROPIC_API_KEY` dimulai dengan `sk-ant-`
+- **GitHub Models**: Pastikan `GITHUB_TOKEN` di `.env` sudah diisi (dimulai `ghp_`)
+- **OpenAI**: Pastikan `OPENAI_API_KEY` di `.env` sudah benar dan saldo terisi
+- **Claude**: Pastikan `ANTHROPIC_API_KEY` dimulai dengan `sk-ant-` dan kredit terisi
 - **n8n**: Pastikan n8n server running di `N8N_BASE_URL`
 - **Ollama**: Pastikan `ollama serve` sudah dijalankan
 
