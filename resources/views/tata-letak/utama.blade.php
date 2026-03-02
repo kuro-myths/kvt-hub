@@ -642,6 +642,177 @@
             0%,100% { box-shadow:0 8px 32px rgba(51,153,255,0.3),0 0 0 0 rgba(51,153,255,0.3) }
             50% { box-shadow:0 8px 32px rgba(51,153,255,0.3),0 0 0 8px rgba(51,153,255,0) }
         }
+
+        /* ==================== K-ARMA AI WIDGET ==================== */
+        .kuro-ai-toggle {
+            position:fixed;bottom:24px;left:24px;z-index:60;width:64px;height:64px;
+            border-radius:50%;display:flex;align-items:center;justify-content:center;
+            background:none !important;
+            background-color:transparent !important;
+            box-shadow:none !important;
+            cursor:pointer;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            animation:none;
+            border:none !important;
+            outline:none !important;
+            overflow:visible;
+            padding:0;
+            -webkit-appearance:none;
+            appearance:none;
+        }
+        .kuro-ai-toggle:hover {
+            transform:scale(1.12) rotate(-5deg);
+            box-shadow:none !important;
+        }
+        .kuro-ai-toggle:focus {
+            outline:none !important;
+            box-shadow:none !important;
+        }
+        .kuro-ai-toggle.chat-open {
+            transform:scale(0.9);
+            border-radius:50%;
+            animation:none;
+        }
+        .kuro-ai-toggle img {
+            width:64px;height:64px;object-fit:contain;border-radius:0;
+            filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+            background:transparent !important;
+        }
+        @keyframes kuroPulse {
+            0%,100% { box-shadow:0 8px 32px rgba(255,77,109,0.35),0 0 0 0 rgba(255,77,109,0.3) }
+            50% { box-shadow:0 8px 32px rgba(255,77,109,0.35),0 0 0 10px rgba(255,77,109,0) }
+        }
+        @keyframes kuroFloat {
+            0%,100% { transform:translateY(0) }
+            50% { transform:translateY(-6px) }
+        }
+
+        /* K-Arma Chat Panel */
+        .kuro-chat-panel {
+            position:fixed;bottom:96px;left:24px;z-index:59;
+            width:380px;max-height:520px;
+            background:rgba(4,16,41,0.97);
+            backdrop-filter:blur(24px);
+            border-radius:24px;
+            border:1px solid rgba(255,77,109,0.2);
+            box-shadow:0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(255,77,109,0.08);
+            display:flex;flex-direction:column;
+            opacity:0;transform:translateY(20px) scale(0.95);
+            pointer-events:none;
+            transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .kuro-chat-panel.open {
+            opacity:1;transform:translateY(0) scale(1);pointer-events:auto;
+        }
+        .kuro-chat-header {
+            padding:16px 20px;
+            background:linear-gradient(135deg,rgba(255,77,109,0.15),rgba(192,132,252,0.1));
+            border-bottom:1px solid rgba(255,77,109,0.1);
+            border-radius:24px 24px 0 0;
+            display:flex;align-items:center;gap:12px;
+        }
+        .kuro-chat-header .kuro-avatar {
+            width:40px;height:40px;border-radius:12px;
+            background:transparent;
+            display:flex;align-items:center;justify-content:center;
+            font-size:20px;
+            overflow:hidden;
+        }
+        .kuro-chat-header .kuro-avatar img {
+            width:100%;height:100%;object-fit:cover;
+        }
+        .kuro-chat-body {
+            flex:1;overflow-y:auto;padding:16px;
+            max-height:340px;min-height:200px;
+            scrollbar-width:thin;scrollbar-color:rgba(255,77,109,0.3) transparent;
+        }
+        .kuro-chat-body::-webkit-scrollbar { width:4px }
+        .kuro-chat-body::-webkit-scrollbar-thumb { background:rgba(255,77,109,0.3);border-radius:4px }
+        .kuro-msg { margin-bottom:12px;display:flex;gap:8px;animation:kuroMsgIn 0.3s ease }
+        .kuro-msg.user { flex-direction:row-reverse }
+        .kuro-msg-bubble {
+            max-width:80%;padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.5;
+        }
+        .kuro-msg.bot .kuro-msg-bubble {
+            background:rgba(255,77,109,0.1);color:#e2e8f0;
+            border:1px solid rgba(255,77,109,0.1);border-bottom-left-radius:4px;
+        }
+        .kuro-msg.user .kuro-msg-bubble {
+            background:linear-gradient(135deg,#3399FF,#8B5CF6);color:#fff;
+            border-bottom-right-radius:4px;
+        }
+        .kuro-msg-avatar {
+            width:28px;height:28px;border-radius:8px;flex-shrink:0;
+            overflow:hidden;background:transparent;
+        }
+        .kuro-msg-avatar img { width:100%;height:100%;object-fit:cover }
+        .karma-intro-card {
+            margin-top:8px;padding:10px;border-radius:12px;
+            background:linear-gradient(135deg,rgba(255,77,109,0.08),rgba(192,132,252,0.06));
+            border:1px solid rgba(255,77,109,0.12);
+            display:flex;align-items:center;gap:10px;
+        }
+        .karma-intro-card img {
+            width:64px;height:auto;border-radius:10px;flex-shrink:0;
+        }
+        .karma-intro-card .karma-intro-info {
+            font-size:11px;color:#94a3b8;line-height:1.5;
+        }
+        .karma-intro-card .karma-intro-info strong { color:#e2e8f0;font-size:12px }
+        .karma-tools-grid {
+            display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px;
+        }
+        .karma-tool-chip {
+            font-size:10px;padding:5px 8px;border-radius:8px;
+            background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);
+            color:#94a3b8;display:flex;align-items:center;gap:4px;
+            transition:all 0.2s;cursor:default;
+        }
+        .karma-tool-chip:hover { background:rgba(255,77,109,0.08);border-color:rgba(255,77,109,0.15);color:#e2e8f0 }
+        .karma-tool-chip i { font-size:10px }
+        .karma-attach-bar {
+            display:flex;align-items:center;gap:2px;
+        }
+        .karma-attach-btn {
+            width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+            color:#64748b;cursor:pointer;transition:all 0.2s;border:none;background:none;font-size:13px;
+        }
+        .karma-attach-btn:hover { color:#FF4D6D;background:rgba(255,77,109,0.08) }
+        @keyframes kuroMsgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+        .kuro-chat-footer {
+            padding:12px 16px;
+            border-top:1px solid rgba(255,77,109,0.1);
+            display:flex;align-items:center;gap:8px;
+        }
+        .kuro-chat-footer input {
+            flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,77,109,0.15);
+            border-radius:12px;padding:10px 14px;color:#e2e8f0;font-size:13px;
+            outline:none;transition:border-color 0.3s;
+        }
+        .kuro-chat-footer input:focus { border-color:rgba(255,77,109,0.4) }
+        .kuro-chat-footer input::placeholder { color:#64748b }
+        .kuro-chat-send {
+            width:38px;height:38px;border-radius:12px;
+            background:linear-gradient(135deg,#FF4D6D,#C084FC);
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;cursor:pointer;transition:all 0.3s;flex-shrink:0;
+            border:none;
+        }
+        .kuro-chat-send:hover { transform:scale(1.05);box-shadow:0 4px 16px rgba(255,77,109,0.3) }
+        .kuro-chat-send:disabled { opacity:0.5;cursor:not-allowed;transform:none }
+        .kuro-typing {
+            display:flex;gap:4px;padding:8px 14px;
+        }
+        .kuro-typing span {
+            width:6px;height:6px;border-radius:50%;background:#FF4D6D;
+            animation:kuroTyping 1.4s ease-in-out infinite;
+        }
+        .kuro-typing span:nth-child(2) { animation-delay:0.2s }
+        .kuro-typing span:nth-child(3) { animation-delay:0.4s }
+        @keyframes kuroTyping {
+            0%,100% { opacity:0.3;transform:scale(0.8) }
+            50% { opacity:1;transform:scale(1.2) }
+        }
         .setting-item {
             display:flex;align-items:center;justify-content:space-between;
             padding:12px 16px;border-radius:12px;
@@ -805,8 +976,20 @@
                                 <i class="fas fa-th-large text-[11px]"></i>
                                 <span class="hidden xl:inline">Lainnya</span>
                             </button>
-                            <input type="text" class="nav-page-input" id="navPageInputTop" value="1/13" title="Ketik halaman tujuan, misal: 5 lalu Enter" onclick="this.select()" onkeydown="navInputKeydown(event, this)">
+                            <input type="text" class="nav-page-input" id="navPageInputTop" value="1/3" title="Ketik halaman tujuan, misal: 3 lalu Enter" onclick="this.select()" onkeydown="navInputKeydown(event, this)">
                         </div>
+
+                        {{-- Toggle: K-Arma AI --}}
+                        <button onclick="toggleKuroVisibility()" class="w-9 h-9 rounded-xl flex items-center justify-center transition relative group" id="toggleKuroBtn" title="Tampilkan/Sembunyikan K-Arma AI" style="color:#FF4D6D;background:rgba(255,77,109,0.1)">
+                            <i class="fas fa-robot text-sm"></i>
+                            <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 border border-kvt-950" id="kuroStatusDot"></span>
+                        </button>
+
+                        {{-- Toggle: Settings --}}
+                        <button onclick="toggleSettingsVisibility()" class="w-9 h-9 rounded-xl flex items-center justify-center transition relative group" id="toggleSettingsBtn" title="Tampilkan/Sembunyikan Tombol Settings" style="color:#3399FF;background:rgba(51,153,255,0.1)">
+                            <i class="fas fa-cog text-sm"></i>
+                            <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 border border-kvt-950" id="settingsStatusDot"></span>
+                        </button>
 
                         {{-- Notification Bell --}}
                         <div class="relative" id="notifWrapper">
@@ -824,7 +1007,7 @@
                                     <div class="text-center py-6 text-gray-500 text-sm">Memuat notifikasi...</div>
                                 </div>
                                 <div class="p-2 border-t border-kvt-700/20 text-center">
-                                    <a href="{{ route('berita.index') }}" class="text-[11px] text-kvt-400 hover:text-kvt-300 transition font-semibold"><i class="fas fa-arrow-right mr-1"></i> Lihat semua berita</a>
+                                    <a href="{{ route('berita.index') }}" class="text-[11px] text-kvt-400 hover:text-kvt-300 transition font-semibold"><i class="fas fa-arrow-right mr-1"></i> Lihat semua berita & notifikasi</a>
                                 </div>
                             </div>
                         </div>
@@ -937,7 +1120,7 @@
                             <i class="fas fa-chevron-down chevron-icon"></i>
                         </button>
                         <div class="nav-dropdown">
-                            <div class="nav-dropdown-inner nav-dropdown-mega">
+                            <div class="nav-dropdown-inner nav-dropdown-mega" style="min-width:680px">
                                 <div class="grid grid-cols-3 gap-1">
                                     {{-- Column 1: Pendidikan Dasar --}}
                                     <div>
@@ -972,7 +1155,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- Column 2: Pendidikan Tinggi (nested sub-submenu) --}}
+                                    {{-- Column 2: Pendidikan Tinggi --}}
                                     <div>
                                         <div class="dropdown-section-title">Pendidikan Tinggi</div>
                                         <a href="{{ route('halaman.pendidikan-tinggi.diploma') }}" class="dropdown-item">
@@ -980,30 +1163,108 @@
                                             <div class="item-text"><div class="item-title">Diploma (D1-D4)</div><div class="item-desc">Vokasi & terapan</div></div>
                                         </a>
 
-                                        {{-- Nested: S1/S2/S3 --}}
+                                        {{-- Sarjana S1 with Prodi --}}
                                         <div class="has-submenu">
                                             <div class="dropdown-item">
                                                 <div class="item-icon bg-blue-500/10"><i class="fas fa-user-graduate text-blue-400"></i></div>
-                                                <div class="item-text"><div class="item-title">Strata (S1-S3)</div><div class="item-desc">Sarjana hingga Doktoral</div></div>
+                                                <div class="item-text"><div class="item-title">Sarjana (S1)</div><div class="item-desc">Program studi sarjana</div></div>
                                             </div>
                                             <div class="sub-dropdown">
-                                                <div class="sub-dropdown-inner">
-                                                    <a href="{{ route('halaman.pendidikan-tinggi.sarjana') }}" class="sub-dropdown-item"><i class="fas fa-user-graduate text-blue-400"></i> Sarjana (S1)</a>
-                                                    <a href="{{ route('halaman.pendidikan-tinggi.magister') }}" class="sub-dropdown-item"><i class="fas fa-flask text-purple-400"></i> Magister (S2)</a>
-                                                    <a href="{{ route('halaman.pendidikan-tinggi.doktoral') }}" class="sub-dropdown-item"><i class="fas fa-atom text-red-400"></i> Doktoral (S3/PhD)</a>
-                                                    <a href="{{ route('halaman.pendidikan-tinggi.post-doktoral') }}" class="sub-dropdown-item"><i class="fas fa-microscope text-teal-400"></i> Post-Doctoral</a>
+                                                <div class="sub-dropdown-inner" style="min-width:320px;max-height:70vh;overflow-y:auto">
+                                                    <a href="{{ route('halaman.pendidikan-tinggi.sarjana') }}" class="sub-dropdown-item"><i class="fas fa-graduation-cap text-blue-400"></i> <strong>Semua Prodi S1</strong></a>
+                                                    <div style="height:1px;background:rgba(51,153,255,0.1);margin:4px 8px"></div>
+                                                    <div style="padding:2px 12px;font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Teknik & IT</div>
+                                                    <a href="{{ route('halaman.teknik-informatika') }}" class="sub-dropdown-item"><i class="fas fa-code text-cyan-400"></i> Teknik Informatika</a>
+                                                    <a href="{{ route('halaman.sistem-informasi') }}" class="sub-dropdown-item"><i class="fas fa-database text-blue-400"></i> Sistem Informasi</a>
+                                                    <a href="{{ route('halaman.teknik-sipil') }}" class="sub-dropdown-item"><i class="fas fa-hard-hat text-orange-400"></i> Teknik Sipil</a>
+                                                    <a href="{{ route('halaman.teknik-mesin') }}" class="sub-dropdown-item"><i class="fas fa-cogs text-gray-400"></i> Teknik Mesin</a>
+                                                    <a href="{{ route('halaman.teknik-elektro') }}" class="sub-dropdown-item"><i class="fas fa-bolt text-yellow-400"></i> Teknik Elektro</a>
+                                                    <a href="{{ route('halaman.arsitektur') }}" class="sub-dropdown-item"><i class="fas fa-drafting-compass text-amber-400"></i> Arsitektur</a>
+                                                    <div style="height:1px;background:rgba(51,153,255,0.1);margin:4px 8px"></div>
+                                                    <div style="padding:2px 12px;font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Kesehatan</div>
+                                                    <a href="{{ route('halaman.kedokteran') }}" class="sub-dropdown-item"><i class="fas fa-stethoscope text-red-400"></i> Kedokteran</a>
+                                                    <a href="{{ route('halaman.farmasi') }}" class="sub-dropdown-item"><i class="fas fa-pills text-green-400"></i> Farmasi</a>
+                                                    <a href="{{ route('halaman.keperawatan') }}" class="sub-dropdown-item"><i class="fas fa-heartbeat text-pink-400"></i> Keperawatan</a>
+                                                    <a href="{{ route('halaman.gizi-kesehatan') }}" class="sub-dropdown-item"><i class="fas fa-apple-alt text-lime-400"></i> Gizi & Kesehatan</a>
+                                                    <div style="height:1px;background:rgba(51,153,255,0.1);margin:4px 8px"></div>
+                                                    <div style="padding:2px 12px;font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Bisnis & Sosial</div>
+                                                    <a href="{{ route('halaman.manajemen-bisnis') }}" class="sub-dropdown-item"><i class="fas fa-chart-line text-emerald-400"></i> Manajemen Bisnis</a>
+                                                    <a href="{{ route('halaman.hubungan-internasional') }}" class="sub-dropdown-item"><i class="fas fa-globe text-indigo-400"></i> Hubungan Internasional</a>
+                                                    <a href="{{ route('halaman.administrasi-publik') }}" class="sub-dropdown-item"><i class="fas fa-landmark text-purple-400"></i> Administrasi Publik</a>
+                                                    <a href="{{ route('halaman.ekonomi-keuangan') }}" class="sub-dropdown-item"><i class="fas fa-chart-line text-green-400"></i> Ekonomi & Keuangan</a>
+                                                    <a href="{{ route('halaman.hukum-regulasi') }}" class="sub-dropdown-item"><i class="fas fa-balance-scale text-yellow-400"></i> Hukum</a>
+                                                    <a href="{{ route('halaman.psikologi-pendidikan') }}" class="sub-dropdown-item"><i class="fas fa-brain text-pink-400"></i> Psikologi</a>
+                                                    <div style="height:1px;background:rgba(51,153,255,0.1);margin:4px 8px"></div>
+                                                    <div style="padding:2px 12px;font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Seni & Kreatif</div>
+                                                    <a href="{{ route('halaman.desain-grafis') }}" class="sub-dropdown-item"><i class="fas fa-palette text-pink-400"></i> Desain Grafis</a>
+                                                    <a href="{{ route('halaman.fotografi') }}" class="sub-dropdown-item"><i class="fas fa-camera text-amber-400"></i> Fotografi</a>
+                                                    <a href="{{ route('halaman.videografi') }}" class="sub-dropdown-item"><i class="fas fa-film text-red-400"></i> Videografi</a>
+                                                    <a href="{{ route('halaman.musik-digital') }}" class="sub-dropdown-item"><i class="fas fa-music text-violet-400"></i> Musik Digital</a>
+                                                    <a href="{{ route('halaman.animasi-3d') }}" class="sub-dropdown-item"><i class="fas fa-cube text-cyan-400"></i> Animasi 3D</a>
+                                                    <a href="{{ route('halaman.bahasa-asing') }}" class="sub-dropdown-item"><i class="fas fa-language text-blue-400"></i> Bahasa Asing</a>
+                                                    <a href="{{ route('halaman.sastra-budaya') }}" class="sub-dropdown-item"><i class="fas fa-book-open text-amber-400"></i> Sastra & Budaya</a>
+                                                    <div style="height:1px;background:rgba(51,153,255,0.1);margin:4px 8px"></div>
+                                                    <div style="padding:2px 12px;font-size:10px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Hospitality & Lainnya</div>
+                                                    <a href="{{ route('halaman.pariwisata') }}" class="sub-dropdown-item"><i class="fas fa-map-marked-alt text-cyan-400"></i> Pariwisata</a>
+                                                    <a href="{{ route('halaman.perhotelan') }}" class="sub-dropdown-item"><i class="fas fa-hotel text-purple-400"></i> Perhotelan</a>
+                                                    <a href="{{ route('halaman.tata-boga') }}" class="sub-dropdown-item"><i class="fas fa-utensils text-orange-400"></i> Tata Boga</a>
+                                                    <a href="{{ route('halaman.olahraga') }}" class="sub-dropdown-item"><i class="fas fa-running text-blue-400"></i> Olahraga</a>
+                                                    <a href="{{ route('halaman.lingkungan-hidup') }}" class="sub-dropdown-item"><i class="fas fa-tree text-green-400"></i> Lingkungan Hidup</a>
                                                 </div>
                                             </div>
                                         </div>
 
+                                        {{-- Magister S2 with Prodi --}}
+                                        <div class="has-submenu">
+                                            <div class="dropdown-item">
+                                                <div class="item-icon bg-purple-500/10"><i class="fas fa-flask text-purple-400"></i></div>
+                                                <div class="item-text"><div class="item-title">Magister (S2)</div><div class="item-desc">Program studi magister</div></div>
+                                            </div>
+                                            <div class="sub-dropdown">
+                                                <div class="sub-dropdown-inner" style="min-width:250px">
+                                                    <a href="{{ route('halaman.pendidikan-tinggi.magister') }}" class="sub-dropdown-item"><i class="fas fa-graduation-cap text-purple-400"></i> Semua Prodi S2</a>
+                                                    <div style="height:1px;background:rgba(51,153,255,0.1);margin:4px 8px"></div>
+                                                    <a href="{{ route('halaman.teknik-informatika') }}" class="sub-dropdown-item"><i class="fas fa-code text-cyan-400"></i> M.T. Informatika</a>
+                                                    <a href="{{ route('halaman.manajemen-bisnis') }}" class="sub-dropdown-item"><i class="fas fa-chart-line text-emerald-400"></i> M.M. Manajemen</a>
+                                                    <a href="{{ route('halaman.kedokteran') }}" class="sub-dropdown-item"><i class="fas fa-stethoscope text-red-400"></i> M.Ked. Kedokteran</a>
+                                                    <a href="{{ route('halaman.arsitektur') }}" class="sub-dropdown-item"><i class="fas fa-drafting-compass text-amber-400"></i> M.Ars. Arsitektur</a>
+                                                    <a href="{{ route('halaman.hubungan-internasional') }}" class="sub-dropdown-item"><i class="fas fa-globe text-indigo-400"></i> M.A. Hubungan Internasional</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- Doktoral S3 --}}
+                                        <div class="has-submenu">
+                                            <div class="dropdown-item">
+                                                <div class="item-icon bg-red-500/10"><i class="fas fa-atom text-red-400"></i></div>
+                                                <div class="item-text"><div class="item-title">Doktoral (S3/PhD)</div><div class="item-desc">Program doktor & riset</div></div>
+                                            </div>
+                                            <div class="sub-dropdown">
+                                                <div class="sub-dropdown-inner" style="min-width:240px">
+                                                    <a href="{{ route('halaman.pendidikan-tinggi.doktoral') }}" class="sub-dropdown-item"><i class="fas fa-graduation-cap text-red-400"></i> Semua Prodi S3</a>
+                                                    <div style="height:1px;background:rgba(51,153,255,0.1);margin:4px 8px"></div>
+                                                    <a href="{{ route('halaman.teknik-informatika') }}" class="sub-dropdown-item"><i class="fas fa-code text-cyan-400"></i> Dr. Ilmu Komputer</a>
+                                                    <a href="{{ route('halaman.kedokteran') }}" class="sub-dropdown-item"><i class="fas fa-stethoscope text-red-400"></i> Dr. Kedokteran</a>
+                                                    <a href="{{ route('halaman.hubungan-internasional') }}" class="sub-dropdown-item"><i class="fas fa-globe text-indigo-400"></i> Dr. Ilmu Politik</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Column 3: Program Lanjutan --}}
+                                    <div>
+                                        <div class="dropdown-section-title">Program Lanjutan</div>
+                                        <a href="{{ route('halaman.pendidikan-tinggi.post-doktoral') }}" class="dropdown-item">
+                                            <div class="item-icon bg-teal-500/10"><i class="fas fa-microscope text-teal-400"></i></div>
+                                            <div class="item-text"><div class="item-title">Post-Doctoral</div><div class="item-desc">Riset lanjutan pasca doktor</div></div>
+                                        </a>
                                         <a href="{{ route('halaman.pendidikan-tinggi.profesi') }}" class="dropdown-item">
                                             <div class="item-icon bg-amber-500/10"><i class="fas fa-briefcase text-amber-400"></i></div>
                                             <div class="item-text"><div class="item-title">Profesi</div><div class="item-desc">Dokter, Apoteker, dll</div></div>
                                         </a>
-                                    </div>
 
-                                    {{-- Column 3: Program Khusus --}}
-                                    <div>
+                                        <div class="dropdown-divider"></div>
+
                                         <div class="dropdown-section-title">Program Khusus</div>
                                         <a href="{{ route('halaman.karir.lowongan') }}" class="dropdown-item">
                                             <div class="item-icon bg-pink-500/10"><i class="fas fa-rocket text-pink-400"></i></div>
@@ -1020,7 +1281,7 @@
                                         <div class="dropdown-divider"></div>
                                         <div class="px-4 py-2">
                                             <div class="bg-kvt-800/30 rounded-xl p-3 border border-kvt-700/20">
-                                                <p class="text-[11px] text-gray-400"><i class="fas fa-info-circle text-kvt-400 mr-1"></i> 13 jenjang dari TK hingga S3</p>
+                                                <p class="text-[11px] text-gray-400"><i class="fas fa-info-circle text-kvt-400 mr-1"></i> 13 jenjang dari TK hingga S3 dengan 30+ program studi</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1392,7 +1653,7 @@
                 </div>
 
                     {{-- 11. Langganan --}}
-                    <div class="nav-item nav-menu-item" data-nav-page="2" data-nav-id="langganan">
+                    <div class="nav-item nav-menu-item" data-nav-page="1" data-nav-id="langganan">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-crown text-amber-400"></i> Langganan
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -1420,7 +1681,7 @@
                 </div>
 
                     {{-- 12. Sumber Daya --}}
-                    <div class="nav-item nav-menu-item" data-nav-page="2" data-nav-id="sumberdaya">
+                    <div class="nav-item nav-menu-item" data-nav-page="1" data-nav-id="sumberdaya">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-database text-cyan-400"></i> Sumber Daya
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -1455,7 +1716,7 @@
                 </div>
 
                     {{-- 13. Keamanan --}}
-                    <div class="nav-item nav-menu-item" data-nav-page="2" data-nav-id="keamanan">
+                    <div class="nav-item nav-menu-item" data-nav-page="1" data-nav-id="keamanan">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-shield-alt text-red-400"></i> Keamanan
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -1494,7 +1755,7 @@
                 </div>
 
                     {{-- 14. Kurikulum --}}
-                    <div class="nav-item nav-menu-item" data-nav-page="2" data-nav-id="kurikulum">
+                    <div class="nav-item nav-menu-item" data-nav-page="1" data-nav-id="kurikulum">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-book-reader text-indigo-400"></i> Kurikulum
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -1526,7 +1787,7 @@
                 </div>
 
                     {{-- 15. Panduan --}}
-                    <div class="nav-item nav-menu-item" data-nav-page="2" data-nav-id="panduan">
+                    <div class="nav-item nav-menu-item" data-nav-page="1" data-nav-id="panduan">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-project-diagram text-teal-400"></i> Panduan
                         <i class="fas fa-chevron-down chevron-icon"></i>
@@ -1557,7 +1818,46 @@
                     </div>
                 </div>
 
-                    {{-- 16. Media --}}
+                    {{-- 16. Staff --}}
+                    <div class="nav-item nav-menu-item" data-nav-page="2" data-nav-id="staff">
+                    <button class="nav-link" data-dropdown>
+                        <i class="fas fa-user-tie text-orange-400"></i> Staff
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="nav-dropdown">
+                        <div class="nav-dropdown-inner" style="min-width:320px">
+                            <div class="dropdown-section-title">Kepengurusan</div>
+                            <a href="/staff-hub" class="dropdown-item">
+                                <div class="item-icon bg-orange-500/10"><i class="fas fa-users-cog text-orange-400"></i></div>
+                                <div class="item-text"><div class="item-title">Pengurus Aktif</div><div class="item-desc">Struktur kepengurusan saat ini</div></div>
+                            </a>
+                            <a href="/staff-hub#alumni" class="dropdown-item">
+                                <div class="item-icon bg-amber-500/10"><i class="fas fa-user-graduate text-amber-400"></i></div>
+                                <div class="item-text"><div class="item-title">Alumni Pengurus</div><div class="item-desc">Daftar pengurus periode lalu</div></div>
+                            </a>
+                            <a href="/staff-hub#divisi" class="dropdown-item">
+                                <div class="item-icon bg-blue-500/10"><i class="fas fa-sitemap text-blue-400"></i></div>
+                                <div class="item-text"><div class="item-title">Divisi & Departemen</div><div class="item-desc">Unit kerja & bidang</div></div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-section-title">Informasi</div>
+                            <a href="/staff-hub#struktur" class="dropdown-item">
+                                <div class="item-icon bg-green-500/10"><i class="fas fa-project-diagram text-green-400"></i></div>
+                                <div class="item-text"><div class="item-title">Struktur Organisasi</div><div class="item-desc">Bagan & hierarki jabatan</div></div>
+                            </a>
+                            <a href="/staff-hub#riwayat" class="dropdown-item">
+                                <div class="item-icon bg-purple-500/10"><i class="fas fa-history text-purple-400"></i></div>
+                                <div class="item-text"><div class="item-title">Riwayat Kepengurusan</div><div class="item-desc">Arsip periode sebelumnya</div></div>
+                            </a>
+                            <a href="/staff-hub#rekrutmen" class="dropdown-item">
+                                <div class="item-icon bg-pink-500/10"><i class="fas fa-user-plus text-pink-400"></i></div>
+                                <div class="item-text"><div class="item-title">Rekrutmen Staff</div><div class="item-desc">Lowongan posisi & pendaftaran</div></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                    {{-- 17. Media --}}
                     <div class="nav-item nav-menu-item" data-nav-page="3" data-nav-id="media">
                     <button class="nav-link" data-dropdown>
                         <i class="fas fa-play-circle text-rose-400"></i> Media
@@ -3864,185 +4164,99 @@
         </div>
     </footer>
 
-    {{-- ==================== AI VTUBER ASSISTANT ==================== --}}
-    <div id="vtuberWidget" class="fixed bottom-6 left-6 z-[80] transition-all duration-500" style="transform: translateY(0)">
-        {{-- VTuber Character Display --}}
-        <div id="vtuberCharacter" class="relative cursor-pointer group" onclick="toggleVtuberChat()">
-            {{-- 3D Model Container (Live2D/VRM container) --}}
-            <div id="vtuberModelContainer" class="w-[100px] h-[120px] relative">
-                {{-- Fallback: Animated Kuro Avatar --}}
-                <div id="vtuberFallbackAvatar" class="w-full h-full flex items-center justify-center">
-                    <div class="relative">
-                        {{-- Glow ring --}}
-                        <div class="absolute -inset-2 bg-gradient-to-r from-kvt-400 via-ungu-500 to-pink-500 rounded-full opacity-30 animate-pulse blur-md"></div>
-                        {{-- Avatar --}}
-                        <div class="relative w-20 h-20 rounded-full overflow-hidden border-3 border-kvt-400/50 shadow-xl shadow-kvt-500/30 group-hover:border-kvt-400 group-hover:shadow-kvt-500/50 transition-all duration-300 group-hover:scale-110">
-                            <img src="{{ asset('gambar/kuro/kuro.png') }}" alt="Kuro AI" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-kvt-500 to-ungu-600 flex items-center justify-center\'><i class=\'fas fa-robot text-white text-2xl\'></i></div>'">
-                        </div>
-                        {{-- Online indicator --}}
-                        <div class="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-green-500 rounded-full border-2 border-kvt-950 flex items-center justify-center">
-                            <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                        </div>
-                        {{-- AI badge --}}
-                        <div class="absolute -top-1 -right-1 bg-gradient-to-r from-kvt-500 to-ungu-500 text-[8px] text-white font-bold px-1.5 py-0.5 rounded-md shadow-lg">
-                            AI
+    {{-- VTuber removed --}}
+
+    {{-- ==================== K-ARMA AI CHAT WIDGET ==================== --}}
+    <button class="kuro-ai-toggle" onclick="toggleKuroChat()" title="K-Arma AI Assistant" id="kuroAiBtn">
+        <img src="{{ asset('k-arma/k-arma.png') }}" alt="K-Arma" id="kuroAiIcon" onerror="this.onerror=null;this.src='{{ asset('gambar/kuro/kuro.png') }}'">
+    </button>
+
+    {{-- K-Arma Chat Panel --}}
+    <div class="kuro-chat-panel" id="kuroChatPanel">
+        <div class="kuro-chat-header">
+            <div class="kuro-avatar">
+                <img src="{{ asset('k-arma/k-arma.png') }}" alt="K-Arma" style="width:100%;height:100%;object-fit:cover;border-radius:12px">
+            </div>
+            <div class="flex-1">
+                <h4 class="text-white font-bold text-sm flex items-center gap-2">
+                    K-Arma AI
+                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 font-semibold">Online</span>
+                </h4>
+                <p class="text-[11px] text-gray-400">Asisten Cerdas KVT Hub &bull; GPT-4o</p>
+            </div>
+            <button onclick="toggleKuroChat()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+        </div>
+
+        <div class="kuro-chat-body" id="kuroChatBody">
+            {{-- Welcome message --}}
+            <div class="kuro-msg bot">
+                <div class="kuro-msg-avatar">
+                    <img src="{{ asset('k-arma/k-arma.png') }}" alt="K" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <div class="kuro-msg-bubble">
+                    <strong>Halo! Aku K-Arma</strong> <span style="font-size:16px">✨</span><br>
+                    Asisten AI super cerdas dari KVT Hub!
+
+                    {{-- Character intro card with karakter.png --}}
+                    <div class="karma-intro-card">
+                        <img src="{{ asset('k-arma/karakter.svg') }}" alt="K-Arma Character" onerror="this.onerror=null;this.src='{{ asset('k-arma/k-arma.png') }}'">
+                        <div class="karma-intro-info">
+                            <strong>K-Arma</strong> &mdash; AI Assistant<br>
+                            Aku bisa menganalisis dokumen, gambar, video, dan bahkan membuat video otomatis untukmu!
                         </div>
                     </div>
+
+                    {{-- Tools grid --}}
+                    <div class="karma-tools-grid">
+                        <div class="karma-tool-chip"><i class="fas fa-file-pdf text-red-400"></i> Analisis Dokumen</div>
+                        <div class="karma-tool-chip"><i class="fas fa-image text-blue-400"></i> Analisis Gambar</div>
+                        <div class="karma-tool-chip"><i class="fas fa-video text-purple-400"></i> Analisis Video</div>
+                        <div class="karma-tool-chip"><i class="fas fa-film text-pink-400"></i> Generate Video</div>
+                        <div class="karma-tool-chip"><i class="fas fa-graduation-cap text-amber-400"></i> Rekomendasi Prodi</div>
+                        <div class="karma-tool-chip"><i class="fas fa-search text-green-400"></i> Riset & Analisis</div>
+                        <div class="karma-tool-chip"><i class="fas fa-language text-cyan-400"></i> Multi Bahasa</div>
+                        <div class="karma-tool-chip"><i class="fas fa-magic text-orange-400"></i> AI Kreatif</div>
+                    </div>
+
+                    {{-- Quick asks --}}
+                    <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">
+                        <button onclick="kuroQuickAsk('Apa itu KVT Hub?')" class="text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 hover:border-pink-400/30 transition cursor-pointer">Apa itu KVT Hub?</button>
+                        <button onclick="kuroQuickAsk('Buatkan video pendek tentang KVT Hub')" class="text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 hover:border-pink-400/30 transition cursor-pointer">Buat video</button>
+                        <button onclick="kuroQuickAsk('Rekomendasikan prodi untukku')" class="text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 hover:border-pink-400/30 transition cursor-pointer">Rekomendasi prodi</button>
+                        <button onclick="kuroQuickAsk('Analisis tren pendidikan 2026')" class="text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 hover:border-pink-400/30 transition cursor-pointer">Tren edukasi</button>
+                        <button onclick="kuroQuickAsk('Beasiswa yang tersedia')" class="text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 hover:border-pink-400/30 transition cursor-pointer">Info beasiswa</button>
+                    </div>
                 </div>
-            </div>
-            {{-- Tooltip --}}
-            <div class="absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-kvt-900/95 backdrop-blur-xl border border-kvt-700/30 rounded-xl px-3 py-2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl">
-                <p class="text-xs text-white font-semibold">Kuro AI Assistant</p>
-                <p class="text-[10px] text-gray-400">Klik untuk chat</p>
-                <div class="absolute right-full top-1/2 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-kvt-700/30"></div>
             </div>
         </div>
 
-        {{-- Chat Panel --}}
-        <div id="vtuberChatPanel" class="hidden absolute bottom-0 left-0 w-[380px] max-h-[520px] bg-kvt-950/98 backdrop-blur-2xl border border-kvt-700/30 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden" style="transform-origin: bottom left;">
-            {{-- Chat Header --}}
-            <div class="bg-gradient-to-r from-kvt-600 via-ungu-600 to-kvt-700 p-4 flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl overflow-hidden border-2 border-white/20 shrink-0">
-                    <img src="{{ asset('gambar/kuro/kuro.png') }}" alt="Kuro" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-kvt-400 to-ungu-500 flex items-center justify-center\'><i class=\'fas fa-robot text-white\'></i></div>'">
-                </div>
-                <div class="flex-1">
-                    <h4 class="text-white font-bold text-sm flex items-center gap-2">
-                        Kuro AI
-                        <span class="text-[9px] bg-white/20 px-1.5 py-0.5 rounded-md font-semibold">v2.0</span>
-                    </h4>
-                    <p class="text-[11px] text-white/70 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full inline-block"></span> Online — Powered by AI
-                    </p>
-                </div>
-                <div class="flex items-center gap-1">
-                    <button onclick="toggleVtuberFullscreen()" class="w-8 h-8 rounded-lg flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition" title="Mode 3D">
-                        <i class="fas fa-cube text-sm"></i>
-                    </button>
-                    <button onclick="toggleVtuberChat()" class="w-8 h-8 rounded-lg flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition" title="Tutup">
-                        <i class="fas fa-times text-sm"></i>
+        <div class="kuro-chat-footer" style="flex-direction:column;gap:6px;padding:10px 14px">
+            {{-- Attachment bar --}}
+            <div id="karmaFileBadgeArea"></div>
+            <div style="display:flex;align-items:center;gap:6px;width:100%">
+                <div class="karma-attach-bar">
+                    <label for="karmaFileInput" class="karma-attach-btn" title="Dokumen (PDF, DOC, TXT)">
+                        <i class="fas fa-file-alt"></i>
+                    </label>
+                    <input type="file" id="karmaFileInput" class="hidden" accept=".pdf,.doc,.docx,.txt,.csv,.xlsx" onchange="karmaHandleFile(this)">
+                    <label for="karmaImageInput" class="karma-attach-btn" title="Gambar (PNG, JPG)">
+                        <i class="fas fa-image"></i>
+                    </label>
+                    <input type="file" id="karmaImageInput" class="hidden" accept=".png,.jpg,.jpeg,.gif,.webp,.svg" onchange="karmaHandleFile(this)">
+                    <label for="karmaVideoInput" class="karma-attach-btn" title="Video (MP4, WebM)">
+                        <i class="fas fa-video"></i>
+                    </label>
+                    <input type="file" id="karmaVideoInput" class="hidden" accept=".mp4,.webm,.mov,.avi" onchange="karmaHandleFile(this)">
+                    <button class="karma-attach-btn" onclick="karmaShowVideoGen()" title="AI Generate Video">
+                        <i class="fas fa-film"></i>
                     </button>
                 </div>
-            </div>
-
-            {{-- Chat Messages --}}
-            <div id="vtuberMessages" class="h-[320px] overflow-y-auto p-4 space-y-3 scroll-smooth">
-                {{-- Welcome Message --}}
-                <div class="flex gap-2.5">
-                    <div class="w-7 h-7 rounded-lg overflow-hidden shrink-0 mt-0.5 bg-gradient-to-br from-kvt-400 to-ungu-500 flex items-center justify-center">
-                        <i class="fas fa-robot text-white text-[10px]"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="bg-kvt-800/60 border border-kvt-700/20 rounded-xl rounded-tl-none px-3.5 py-2.5 max-w-[280px]">
-                            <p class="text-sm text-gray-200">Hai! Aku <strong class="text-kvt-400">Kuro</strong>, asisten AI KVT Hub. 🐱✨</p>
-                            <p class="text-sm text-gray-300 mt-1.5">Sekarang aku lebih pintar! Aku bisa bantu navigasi platform, jelaskan fitur, jawab pertanyaan akademik, ringkaskan halaman, dan banyak lagi!</p>
-                        </div>
-                        <p class="text-[10px] text-gray-600 mt-1 ml-1">Kuro AI v2.0 · Baru saja</p>
-                    </div>
-                </div>
-
-                {{-- Quick Actions (page-aware) --}}
-                <div id="vtuberQuickActions" class="flex flex-wrap gap-1.5 ml-9">
-                    <button onclick="vtuberQuickAction('Bagaimana cara mendaftar?')" class="text-[11px] bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-400 hover:text-kvt-300 border border-kvt-700/20 px-3 py-1.5 rounded-lg transition">
-                        <i class="fas fa-user-plus mr-1"></i> Cara Mendaftar
-                    </button>
-                    <button onclick="vtuberQuickAction('Jelaskan fitur platform')" class="text-[11px] bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-400 hover:text-kvt-300 border border-kvt-700/20 px-3 py-1.5 rounded-lg transition">
-                        <i class="fas fa-cubes mr-1"></i> Fitur Platform
-                    </button>
-                    <button onclick="vtuberQuickAction('Jenjang pendidikan apa saja?')" class="text-[11px] bg-kvt-800/50 hover:bg-kvt-700/50 text-kvt-400 hover:text-kvt-300 border border-kvt-700/20 px-3 py-1.5 rounded-lg transition">
-                        <i class="fas fa-graduation-cap mr-1"></i> Jenjang
-                    </button>
-                    <button onclick="vtuberQuickAction('Ringkaskan halaman ini untukku')" class="text-[11px] bg-kvt-800/50 hover:bg-kvt-700/50 text-violet-400 hover:text-violet-300 border border-violet-700/20 px-3 py-1.5 rounded-lg transition">
-                        <i class="fas fa-magic mr-1"></i> Ringkas Halaman
-                    </button>
-                    <button onclick="vtuberQuickAction('Ada kursus gratis apa?')" class="text-[11px] bg-kvt-800/50 hover:bg-kvt-700/50 text-green-400 hover:text-green-300 border border-green-700/20 px-3 py-1.5 rounded-lg transition">
-                        <i class="fas fa-gift mr-1"></i> Edukasi Gratis
-                    </button>
-                </div>
-            </div>
-
-            {{-- Chat Input --}}
-            <div class="p-3 border-t border-kvt-700/20 bg-kvt-900/50">
-                <div class="flex items-center gap-2">
-                    <div class="flex-1 relative">
-                        <input type="text" id="vtuberInput" placeholder="Tanya Kuro AI..." class="w-full bg-kvt-800/60 border border-kvt-700/30 text-white text-sm rounded-xl px-4 py-2.5 outline-none focus:border-kvt-500/50 placeholder-gray-500 transition pr-10" onkeypress="if(event.key==='Enter')kirimPesanVtuber()" autocomplete="off">
-                        <button onclick="toggleVoiceInput()" class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-kvt-400 transition p-1" title="Input Suara">
-                            <i class="fas fa-microphone text-xs"></i>
-                        </button>
-                    </div>
-                    <button onclick="kirimPesanVtuber()" class="w-10 h-10 bg-gradient-to-r from-kvt-500 to-ungu-500 hover:from-kvt-400 hover:to-ungu-400 rounded-xl flex items-center justify-center text-white transition shadow-lg shadow-kvt-500/20 shrink-0">
-                        <i class="fas fa-paper-plane text-sm"></i>
-                    </button>
-                </div>
-                <div class="flex items-center justify-between mt-2">
-                    <p class="text-[10px] text-gray-600 flex items-center gap-1">
-                        <i class="fas fa-shield-alt text-[8px]"></i> Percakapan aman & pribadi
-                    </p>
-                    <p class="text-[10px] text-gray-600 font-semibold">Kuro AI v2.0 ✨</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- ==================== VTUBER 3D MODEL FULLSCREEN ==================== --}}
-    <div id="vtuberFullscreenOverlay" class="fixed inset-0 z-[200] hidden bg-kvt-950/95 backdrop-blur-xl">
-        <div class="max-w-5xl mx-auto h-full flex flex-col p-6">
-            {{-- Header --}}
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-kvt-400 to-ungu-500 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-cube text-white"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">Kuro — Mode 3D Interaktif</h3>
-                        <p class="text-gray-500 text-xs">VTuber AI Assistant · Live2D / VRM Model</p>
-                    </div>
-                </div>
-                <button onclick="toggleVtuberFullscreen()" class="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-kvt-800/50 transition">
-                    <i class="fas fa-times text-lg"></i>
+                <input type="text" id="kuroInput" placeholder="Tanya K-Arma sesuatu..." onkeydown="if(event.key==='Enter')kuroSend()" autocomplete="off" style="flex:1">
+                <button class="kuro-chat-send" onclick="kuroSend()" id="kuroSendBtn" title="Kirim">
+                    <i class="fas fa-paper-plane text-sm"></i>
                 </button>
-            </div>
-
-            {{-- 3D Model Viewport --}}
-            <div class="flex-1 bg-kvt-900/50 border border-kvt-700/20 rounded-2xl overflow-hidden relative" id="vtuber3DViewport">
-                {{-- Three.js / Live2D / VRM model akan di-render di sini --}}
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="text-center">
-                        <div class="w-24 h-24 bg-gradient-to-br from-kvt-500/20 to-ungu-500/20 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-kvt-700/20">
-                            <img src="{{ asset('gambar/kuro/kuro.png') }}" alt="Kuro" class="w-16 h-16 rounded-xl object-cover" onerror="this.parentElement.innerHTML='<i class=\'fas fa-robot text-kvt-400 text-4xl\'></i>'">
-                        </div>
-                        <h4 class="text-white font-bold text-lg mb-2">Model 3D Kuro</h4>
-                        <p class="text-gray-400 text-sm mb-4 max-w-md">Tempat untuk model 3D karakter VTuber.<br>Mendukung format <strong class="text-kvt-400">Live2D</strong>, <strong class="text-purple-400">VRM</strong>, dan <strong class="text-pink-400">GLB/GLTF</strong>.</p>
-                        <div class="flex flex-wrap justify-center gap-2">
-                            <span class="text-[11px] bg-kvt-800/60 text-kvt-400 px-3 py-1.5 rounded-lg border border-kvt-700/20"><i class="fas fa-cube mr-1"></i> Three.js</span>
-                            <span class="text-[11px] bg-kvt-800/60 text-purple-400 px-3 py-1.5 rounded-lg border border-kvt-700/20"><i class="fas fa-user mr-1"></i> @pixiv/three-vrm</span>
-                            <span class="text-[11px] bg-kvt-800/60 text-pink-400 px-3 py-1.5 rounded-lg border border-kvt-700/20"><i class="fas fa-paint-brush mr-1"></i> Live2D Cubism</span>
-                        </div>
-                        <div class="mt-6 bg-kvt-800/40 border border-kvt-700/20 rounded-xl p-4 max-w-lg mx-auto text-left">
-                            <p class="text-[11px] text-kvt-400 font-bold mb-2"><i class="fas fa-info-circle mr-1"></i> Cara Menambahkan Model 3D:</p>
-                            <ol class="text-[11px] text-gray-400 space-y-1.5 list-decimal list-inside">
-                                <li>Siapkan file model: <code class="text-white bg-kvt-900 px-1 rounded">.vrm</code>, <code class="text-white bg-kvt-900 px-1 rounded">.glb</code>, atau <code class="text-white bg-kvt-900 px-1 rounded">.moc3</code></li>
-                                <li>Letakkan di <code class="text-white bg-kvt-900 px-1 rounded">public/models/vtuber/</code></li>
-                                <li>Install: <code class="text-white bg-kvt-900 px-1 rounded">npm i three @pixiv/three-vrm</code></li>
-                                <li>Aktifkan renderer di <code class="text-white bg-kvt-900 px-1 rounded">vtuber3DViewport</code></li>
-                                <li>Model akan otomatis ter-load dan interaktif</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Controls --}}
-            <div class="flex items-center justify-between mt-4 bg-kvt-900/50 border border-kvt-700/20 rounded-xl p-3">
-                <div class="flex items-center gap-2">
-                    <button class="text-xs bg-kvt-800/60 hover:bg-kvt-700/50 text-gray-400 hover:text-white border border-kvt-700/20 px-3 py-2 rounded-lg transition"><i class="fas fa-redo mr-1"></i> Reset Pose</button>
-                    <button class="text-xs bg-kvt-800/60 hover:bg-kvt-700/50 text-gray-400 hover:text-white border border-kvt-700/20 px-3 py-2 rounded-lg transition"><i class="fas fa-camera mr-1"></i> Screenshot</button>
-                    <button class="text-xs bg-kvt-800/60 hover:bg-kvt-700/50 text-gray-400 hover:text-white border border-kvt-700/20 px-3 py-2 rounded-lg transition"><i class="fas fa-cog mr-1"></i> Settings</button>
-                </div>
-                <div class="flex items-center gap-3 text-[11px] text-gray-500">
-                    <span><i class="fas fa-mouse mr-1"></i> Drag: Rotasi</span>
-                    <span><i class="fas fa-search-plus mr-1"></i> Scroll: Zoom</span>
-                    <span><i class="fas fa-arrows-alt mr-1"></i> Shift+Drag: Pan</span>
-                </div>
             </div>
         </div>
     </div>
@@ -4998,43 +5212,23 @@
         // ========================
         const ITEMS_PER_PAGE = 8;
         let currentNavPage = 0;
-        let totalNavPages = 13;
+        let totalNavPages = 3;
 
-        // Default page assignments (100 menus / 8 per page = ~13 pages)
+        // Default page assignments (24 menus / 8 per page = 3 pages)
         const defaultPageMap = {
-            // Hal 0: Beranda & Dasar
+            // Hal 0 (1/3): Utama
             'beranda':0,'jenjang':0,'platform':0,'kerjasama':0,'berita':0,'tentang':0,'riset':0,'karir':0,
-            // Hal 1: Komunitas & Sertifikasi
-            'komunitas':1,'sertifikasi':1,'langganan':1,'sumberdaya':1,'keamanan':1,'kurikulum':1,'panduan':1,'media':1,
-            // Hal 2: Dokumen & Pendidikan
-            'dokumen':2,'bantuan':2,'edukasi':2,'statistik':2,'layanan':2,'webinar':2,'beasiswa':2,'laboratorium':2,
-            // Hal 3: Akademik & Riset
-            'perpustakaan':3,'forum':3,'mentoring':3,'magang':3,'alumni':3,'portofolio':3,'kompetisi':3,'workshop':3,
-            // Hal 4: Publikasi & Media
-            'jurnal':4,'podcast':4,'pelatihan':4,'konsultasi':4,'elearning':4,'akreditasi':4,'galeri':4,'pengumuman':4,
-            // Hal 5: Inovasi & Startup
-            'repositori':5,'inkubator':5,'akselerator':5,'startup-hub':5,'hackathon':5,'olimpiade':5,'pertukaran':5,'kelas-industri':5,
-            // Hal 6: Bootcamp & Teknologi
-            'bootcamp':6,'coding-lab':6,'ai-center':6,'cyber-security':6,'data-science':6,'iot-lab':6,
-            // Hal 7: Tech Lanjutan
-            'cloud':7,'blockchain':7,'vr-ar':7,'robotika':7,'game-dev':7,
-            // Hal 8: Kreatif & Media
-            'desain-grafis':8,'fotografi':8,'videografi':8,'musik':8,'animasi':8,'ui-ux':8,'content-creator':8,
-            // Hal 9: Bisnis & Digital
-            'digimar':9,'bisnis-digital':9,'fintech':9,'agritech':9,'healthtech':9,'edtech':9,'greentech':9,'legaltech':9,
-            // Hal 10: Humaniora & Sosial
-            'bahasa':10,'sastra':10,'sosial':10,'psikologi':10,'hukum':10,'ekonomi':10,'manajemen':10,'hubinter':10,
-            // Hal 11: Teknik & Sains
-            'adm-publik':11,'arsitektur':11,'sipil':11,'mesin':11,'elektro':11,'informatika':11,'si':11,'kedokteran':11,
-            // Hal 12: Kesehatan & Lainnya
-            'farmasi':12,'keperawatan':12,'gizi':12,'lingkungan':12,'pariwisata':12,'perhotelan':12,'tata-boga':12,'olahraga':12,'donasi':12,'lisensi':12
+            // Hal 1 (2/3): Layanan & Info
+            'komunitas':1,'sertifikasi':1,'langganan':1,'sumberdaya':1,'keamanan':1,'kurikulum':1,'panduan':1,'donasi':1,
+            // Hal 2 (3/3): Staff & Ekstra
+            'staff':2,'media':2,'dokumen':2,'bantuan':2,'edukasi':2,'statistik':2,'webinar':2,'beasiswa':2
         };
 
         function getPageMap() {
             try {
                 const saved = localStorage.getItem('kvt_nav_pages');
                 const ver = localStorage.getItem('kvt_nav_ver');
-                if (saved && ver === '3') return JSON.parse(saved);
+                if (saved && ver === '5') return JSON.parse(saved);
                 // Clear old format
                 localStorage.removeItem('kvt_nav_pages');
                 localStorage.removeItem('kvt_nav_ver');
@@ -5220,70 +5414,18 @@
             'kerjasama':'Kerja Sama','tentang':'Tentang','riset':'Riset','karir':'Karir',
             'komunitas':'Komunitas','sertifikasi':'Sertifikasi','langganan':'Langganan',
             'sumberdaya':'Sumber Daya','keamanan':'Keamanan','kurikulum':'Kurikulum',
-            'panduan':'Panduan','media':'Media','dokumen':'Dokumen','bantuan':'Bantuan',
-            'edukasi':'Edukasi','statistik':'Statistik','layanan':'Layanan',
-            'webinar':'Webinar','beasiswa':'Beasiswa','laboratorium':'Lab Virtual',
-            'perpustakaan':'Perpustakaan','forum':'Forum','mentoring':'Mentoring',
-            'magang':'Magang','alumni':'Alumni','portofolio':'Portofolio',
-            'kompetisi':'Kompetisi','workshop':'Workshop','jurnal':'Jurnal',
-            'podcast':'Podcast','pelatihan':'Pelatihan','konsultasi':'Konsultasi',
-            'elearning':'E-Learning','akreditasi':'Akreditasi','galeri':'Galeri',
-            'pengumuman':'Pengumuman','repositori':'Repositori',
-            // Menu baru 42-100
-            'inkubator':'Inkubator','akselerator':'Akselerator','startup-hub':'Startup Hub',
-            'hackathon':'Hackathon','olimpiade':'Olimpiade','pertukaran':'Pertukaran Pelajar',
-            'kelas-industri':'Kelas Industri','bootcamp':'Bootcamp','coding-lab':'Coding Lab',
-            'ai-center':'AI Center','cyber-security':'Cyber Security','data-science':'Data Science',
-            'iot-lab':'IoT Lab','cloud':'Cloud Computing','blockchain':'Blockchain',
-            'vr-ar':'VR/AR Lab','robotika':'Robotika','game-dev':'Game Dev',
-            'desain-grafis':'Desain Grafis','fotografi':'Fotografi','videografi':'Videografi',
-            'musik':'Musik Digital','animasi':'Animasi 3D','ui-ux':'UI/UX Studio',
-            'content-creator':'Content Creator','digimar':'Digital Marketing',
-            'bisnis-digital':'Bisnis Digital','fintech':'Fintech','agritech':'Agritech',
-            'healthtech':'Healthtech','edtech':'Edtech','greentech':'Greentech','legaltech':'Legaltech',
-            'bahasa':'Bahasa Asing','sastra':'Sastra & Budaya','sosial':'Penelitian Sosial',
-            'psikologi':'Psikologi','hukum':'Hukum','ekonomi':'Ekonomi','manajemen':'Manajemen',
-            'hubinter':'Hub. Internasional','adm-publik':'Adm. Publik','arsitektur':'Arsitektur',
-            'sipil':'T. Sipil','mesin':'T. Mesin','elektro':'T. Elektro','informatika':'Informatika',
-            'si':'Sistem Informasi','kedokteran':'Kedokteran','farmasi':'Farmasi',
-            'keperawatan':'Keperawatan','gizi':'Gizi & Kesehatan','lingkungan':'Lingkungan',
-            'pariwisata':'Pariwisata','perhotelan':'Perhotelan','tata-boga':'Tata Boga',
-            'olahraga':'Olahraga','donasi':'Donasi','lisensi':'Lisensi'
+            'panduan':'Panduan','donasi':'Donasi',
+            'staff':'Staff','media':'Media','dokumen':'Dokumen','bantuan':'Bantuan',
+            'edukasi':'Edukasi Gratis','statistik':'Statistik','webinar':'Webinar','beasiswa':'Beasiswa'
         };
         const menuIcons = {
-            'beranda':'fa-home','jenjang':'fa-layer-group','platform':'fa-globe','berita':'fa-newspaper',
-            'kerjasama':'fa-handshake','tentang':'fa-landmark','riset':'fa-microscope','karir':'fa-briefcase',
-            'komunitas':'fa-users','sertifikasi':'fa-certificate','langganan':'fa-crown',
-            'sumberdaya':'fa-book-open','keamanan':'fa-shield-alt','kurikulum':'fa-graduation-cap',
-            'panduan':'fa-project-diagram','media':'fa-photo-video','dokumen':'fa-file-alt',
-            'bantuan':'fa-question-circle','edukasi':'fa-chalkboard-teacher','statistik':'fa-chart-line',
-            'layanan':'fa-concierge-bell','webinar':'fa-video','beasiswa':'fa-award',
-            'laboratorium':'fa-flask','perpustakaan':'fa-book-reader','forum':'fa-comments',
-            'mentoring':'fa-chalkboard-teacher','magang':'fa-building','alumni':'fa-user-graduate',
-            'portofolio':'fa-palette','kompetisi':'fa-medal','workshop':'fa-tools',
-            'jurnal':'fa-scroll','podcast':'fa-podcast','pelatihan':'fa-dumbbell',
-            'konsultasi':'fa-headset','elearning':'fa-laptop','akreditasi':'fa-check-double',
-            'galeri':'fa-images','pengumuman':'fa-bullhorn','repositori':'fa-github',
-            // Menu baru
-            'inkubator':'fa-rocket','akselerator':'fa-bolt','startup-hub':'fa-store',
-            'hackathon':'fa-code','olimpiade':'fa-medal','pertukaran':'fa-exchange-alt',
-            'kelas-industri':'fa-industry','bootcamp':'fa-laptop-code','coding-lab':'fa-terminal',
-            'ai-center':'fa-brain','cyber-security':'fa-user-shield','data-science':'fa-database',
-            'iot-lab':'fa-microchip','cloud':'fa-cloud','blockchain':'fa-link',
-            'vr-ar':'fa-vr-cardboard','robotika':'fa-robot','game-dev':'fa-gamepad',
-            'desain-grafis':'fa-palette','fotografi':'fa-camera','videografi':'fa-film',
-            'musik':'fa-music','animasi':'fa-cube','ui-ux':'fa-pen-nib',
-            'content-creator':'fa-hashtag','digimar':'fa-bullseye',
-            'bisnis-digital':'fa-chart-pie','fintech':'fa-wallet','agritech':'fa-seedling',
-            'healthtech':'fa-heartbeat','edtech':'fa-chalkboard','greentech':'fa-leaf','legaltech':'fa-gavel',
-            'bahasa':'fa-language','sastra':'fa-book-open','sosial':'fa-people-arrows',
-            'psikologi':'fa-brain','hukum':'fa-balance-scale','ekonomi':'fa-chart-line','manajemen':'fa-tasks',
-            'hubinter':'fa-globe-americas','adm-publik':'fa-landmark','arsitektur':'fa-drafting-compass',
-            'sipil':'fa-hard-hat','mesin':'fa-cogs','elektro':'fa-bolt','informatika':'fa-code',
-            'si':'fa-server','kedokteran':'fa-stethoscope','farmasi':'fa-pills',
-            'keperawatan':'fa-user-nurse','gizi':'fa-apple-alt','lingkungan':'fa-tree',
-            'pariwisata':'fa-map-marked-alt','perhotelan':'fa-hotel','tata-boga':'fa-utensils',
-            'olahraga':'fa-running','donasi':'fa-hand-holding-heart','lisensi':'fa-file-contract'
+            'beranda':'fa-home','jenjang':'fa-graduation-cap','platform':'fa-cubes','berita':'fa-newspaper',
+            'kerjasama':'fa-handshake','tentang':'fa-info-circle','riset':'fa-microscope','karir':'fa-briefcase',
+            'komunitas':'fa-users','sertifikasi':'fa-award','langganan':'fa-crown',
+            'sumberdaya':'fa-database','keamanan':'fa-shield-alt','kurikulum':'fa-book-reader',
+            'panduan':'fa-project-diagram','donasi':'fa-hand-holding-heart',
+            'staff':'fa-user-tie','media':'fa-play-circle','dokumen':'fa-file-alt','bantuan':'fa-life-ring',
+            'edukasi':'fa-gift','statistik':'fa-chart-line','webinar':'fa-video','beasiswa':'fa-award'
         };
 
         function renderKustomMenu() {
@@ -5316,7 +5458,7 @@
                 map[sel.dataset.kustomId] = parseInt(sel.value);
             });
             localStorage.setItem('kvt_nav_pages', JSON.stringify(map));
-            localStorage.setItem('kvt_nav_ver', '3');
+            localStorage.setItem('kvt_nav_ver', '5');
             applyPageMap();
             renderNavPage(0);
             kustomBerubah = false;
@@ -5347,47 +5489,144 @@
         }
 
         // ========================
-        // NOTIFICATION BELL
+        // NOTIFICATION BELL (Real-Time)
         // ========================
         let notifData = [];
+        let notifPollingTimer = null;
+
         function toggleNotifikasi() {
             const dd = document.getElementById('notifDropdown');
             dd.classList.toggle('hidden');
             if(!dd.classList.contains('hidden')) muatNotifikasi();
         }
+
         function muatNotifikasi() {
-            fetch('/api/berita/popup').then(r=>r.json()).then(data=>{
-                notifData = data || [];
+            // Fetch from real notification API
+            fetch('/api/notifications').then(r=>r.json()).then(data=>{
+                const items = data.notifikasi || [];
+                notifData = items;
                 const c = document.getElementById('notifContent');
                 const badge = document.getElementById('notifBadge');
-                const dibaca = JSON.parse(localStorage.getItem('kvt_notif_dibaca') || '[]');
-                const belumDibaca = notifData.filter(b => !dibaca.includes(b.id));
+                const dibaca = JSON.parse(localStorage.getItem('kvt_notif_dibaca_v2') || '[]');
+                const belumDibaca = items.filter(n => !dibaca.includes(n.id));
+
                 if(badge) {
-                    if(belumDibaca.length > 0) { badge.textContent = belumDibaca.length; badge.classList.remove('hidden'); }
+                    if(belumDibaca.length > 0) { badge.textContent = belumDibaca.length > 9 ? '9+' : belumDibaca.length; badge.classList.remove('hidden'); }
                     else badge.classList.add('hidden');
                 }
-                if(!notifData.length) { c.innerHTML='<div class="text-center py-6 text-gray-500 text-sm"><i class="fas fa-bell-slash text-2xl mb-2 block"></i>Belum ada notifikasi</div>'; return; }
+
+                if(!items.length) {
+                    c.innerHTML='<div class="text-center py-6 text-gray-500 text-sm"><i class="fas fa-bell-slash text-2xl mb-2 block"></i>Belum ada notifikasi</div>';
+                    return;
+                }
+
                 c.innerHTML='';
-                const icons=['fa-rocket text-blue-400','fa-shield-alt text-green-400','fa-microscope text-purple-400','fa-trophy text-yellow-400','fa-newspaper text-kvt-400'];
-                const bgIcons=['bg-blue-500/10','bg-green-500/10','bg-purple-500/10','bg-yellow-500/10','bg-kvt-500/10'];
-                notifData.forEach((b,i)=>{
-                    const tgl = new Date(b.terbit_pada).toLocaleDateString('id-ID',{day:'numeric',month:'short'});
-                    const sudahBaca = dibaca.includes(b.id);
-                    c.innerHTML+=`<a href="/berita/${b.slug}" onclick="tandaiDibaca(${b.id})" class="flex gap-2.5 p-2.5 rounded-xl hover:bg-kvt-800/50 transition ${sudahBaca?'opacity-60':''}"><div class="w-8 h-8 ${bgIcons[i%5]} rounded-lg flex items-center justify-center shrink-0"><i class="fas ${icons[i%5]} text-xs"></i></div><div class="flex-1 min-w-0"><p class="text-xs font-semibold text-white truncate">${b.judul}</p><span class="text-[10px] text-gray-500">${tgl}</span></div>${!sudahBaca?'<span class="w-2 h-2 bg-kvt-400 rounded-full shrink-0 mt-2"></span>':''}</a>`;
+                items.forEach(n => {
+                    const sudahBaca = dibaca.includes(n.id);
+                    const waktu = n.waktu ? new Date(n.waktu).toLocaleDateString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : '';
+                    const tipeBadge = getTipeBadge(n.tipe);
+                    const href = n.url || '#';
+                    const onClick = n.url ? `onclick="tandaiDibaca('${n.id}')"` : `onclick="event.preventDefault();tandaiDibaca('${n.id}')"`;
+
+                    c.innerHTML += `<a href="${href}" ${onClick} class="flex gap-2.5 p-2.5 rounded-xl hover:bg-kvt-800/50 transition ${sudahBaca?'opacity-50':''}">
+                        <div class="w-8 h-8 ${n.bg || 'bg-kvt-500/10'} rounded-lg flex items-center justify-center shrink-0">
+                            <i class="fas ${n.ikon || 'fa-bell'} ${n.warna || 'text-kvt-400'} text-xs"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1.5">
+                                <p class="text-xs font-semibold text-white truncate flex-1">${escNotif(n.judul)}</p>
+                                ${tipeBadge}
+                            </div>
+                            ${n.pesan ? `<p class="text-[10px] text-gray-500 line-clamp-2 mt-0.5">${escNotif(n.pesan)}</p>` : ''}
+                            <span class="text-[9px] text-gray-600 mt-1 block">${waktu}</span>
+                        </div>
+                        ${!sudahBaca ? '<span class="w-2 h-2 bg-kvt-400 rounded-full shrink-0 mt-2 animate-pulse"></span>' : ''}
+                    </a>`;
                 });
+            }).catch(()=>{
+                // Fallback to berita-based notifications
+                muatNotifikasiFallback();
+            });
+        }
+
+        function muatNotifikasiFallback() {
+            fetch('/api/berita/popup').then(r=>r.json()).then(data=>{
+                notifData = (data || []).map(b => ({
+                    id: 'berita_' + b.id,
+                    tipe: 'berita',
+                    judul: b.judul,
+                    pesan: '',
+                    ikon: 'fa-newspaper',
+                    warna: 'text-blue-400',
+                    bg: 'bg-blue-500/10',
+                    url: '/berita/' + b.slug,
+                    waktu: b.terbit_pada
+                }));
+                renderNotifItems(notifData);
             }).catch(()=>{
                 document.getElementById('notifContent').innerHTML='<div class="text-center py-4 text-gray-500 text-xs">Gagal memuat</div>';
             });
         }
+
+        function renderNotifItems(items) {
+            const c = document.getElementById('notifContent');
+            const badge = document.getElementById('notifBadge');
+            const dibaca = JSON.parse(localStorage.getItem('kvt_notif_dibaca_v2') || '[]');
+            const belumDibaca = items.filter(n => !dibaca.includes(n.id));
+            if(badge){
+                if(belumDibaca.length>0){badge.textContent=belumDibaca.length;badge.classList.remove('hidden')}
+                else badge.classList.add('hidden');
+            }
+            if(!items.length){c.innerHTML='<div class="text-center py-6 text-gray-500 text-sm"><i class="fas fa-bell-slash text-2xl mb-2 block"></i>Belum ada notifikasi</div>';return}
+            c.innerHTML='';
+            items.forEach(n=>{
+                const sudahBaca=dibaca.includes(n.id);
+                const waktu=n.waktu?new Date(n.waktu).toLocaleDateString('id-ID',{day:'numeric',month:'short'}):'';
+                c.innerHTML+=`<a href="${n.url||'#'}" onclick="tandaiDibaca('${n.id}')" class="flex gap-2.5 p-2.5 rounded-xl hover:bg-kvt-800/50 transition ${sudahBaca?'opacity-50':''}"><div class="w-8 h-8 ${n.bg} rounded-lg flex items-center justify-center shrink-0"><i class="fas ${n.ikon} ${n.warna} text-xs"></i></div><div class="flex-1 min-w-0"><p class="text-xs font-semibold text-white truncate">${escNotif(n.judul)}</p><span class="text-[10px] text-gray-500">${waktu}</span></div>${!sudahBaca?'<span class="w-2 h-2 bg-kvt-400 rounded-full shrink-0 mt-2"></span>':''}</a>`;
+            });
+        }
+
+        function getTipeBadge(tipe) {
+            const map = {
+                'fitur_baru': '<span class="text-[8px] px-1.5 py-0.5 rounded-full bg-pink-500/20 text-pink-400 font-bold shrink-0">BARU</span>',
+                'pembaruan': '<span class="text-[8px] px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-bold shrink-0">UPDATE</span>',
+                'promosi': '<span class="text-[8px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-bold shrink-0">PROMO</span>',
+                'event': '<span class="text-[8px] px-1.5 py-0.5 rounded-full bg-green-500/20 text-green-400 font-bold shrink-0">EVENT</span>',
+                'berita': '<span class="text-[8px] px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-bold shrink-0">BERITA</span>',
+            };
+            return map[tipe] || '';
+        }
+
+        function escNotif(str) { const d=document.createElement('div');d.textContent=str;return d.innerHTML; }
+
         function tandaiDibaca(id) {
-            let dibaca = JSON.parse(localStorage.getItem('kvt_notif_dibaca') || '[]');
-            if(!dibaca.includes(id)) { dibaca.push(id); localStorage.setItem('kvt_notif_dibaca', JSON.stringify(dibaca)); }
+            let dibaca = JSON.parse(localStorage.getItem('kvt_notif_dibaca_v2') || '[]');
+            if(!dibaca.includes(id)) { dibaca.push(id); localStorage.setItem('kvt_notif_dibaca_v2', JSON.stringify(dibaca)); }
         }
         function tandaiSemuaDibaca() {
-            const ids = notifData.map(b=>b.id);
-            localStorage.setItem('kvt_notif_dibaca', JSON.stringify(ids));
+            const ids = notifData.map(n=>n.id);
+            localStorage.setItem('kvt_notif_dibaca_v2', JSON.stringify(ids));
             muatNotifikasi();
         }
+
+        // Auto-poll notifications every 30s
+        function startNotifPolling() {
+            muatNotifikasi();
+            notifPollingTimer = setInterval(()=>{
+                // Only update badge, not content (unless dropdown is open)
+                fetch('/api/notifications').then(r=>r.json()).then(data=>{
+                    const items = data.notifikasi || [];
+                    const dibaca = JSON.parse(localStorage.getItem('kvt_notif_dibaca_v2') || '[]');
+                    const belumDibaca = items.filter(n => !dibaca.includes(n.id));
+                    const badge = document.getElementById('notifBadge');
+                    if(badge){
+                        if(belumDibaca.length>0){badge.textContent=belumDibaca.length>9?'9+':belumDibaca.length;badge.classList.remove('hidden')}
+                        else badge.classList.add('hidden');
+                    }
+                }).catch(()=>{});
+            }, 30000);
+        }
+        startNotifPolling();
         // Auto-load notification badge
         muatNotifikasi();
 
@@ -6488,275 +6727,256 @@
         })();
 
         // ========================
-        // AI VTUBER ASSISTANT
+        // K-ARMA AI CHAT WIDGET
         // ========================
-        let vtuberChatOpen = false;
-        let vtuberFullscreen = false;
-
-        function toggleVtuberChat() {
-            const panel = document.getElementById('vtuberChatPanel');
-            const character = document.getElementById('vtuberCharacter');
-            vtuberChatOpen = !vtuberChatOpen;
-            if (vtuberChatOpen) {
-                panel.classList.remove('hidden');
-                panel.style.animation = 'popupIn 0.35s cubic-bezier(0.34,1.56,0.64,1)';
-                character.style.opacity = '0.3';
-                character.style.pointerEvents = 'none';
-                document.getElementById('vtuberInput')?.focus();
-            } else {
-                panel.classList.add('hidden');
-                character.style.opacity = '1';
-                character.style.pointerEvents = 'auto';
-            }
-        }
-
-        function toggleVtuberFullscreen() {
-            const overlay = document.getElementById('vtuberFullscreenOverlay');
-            vtuberFullscreen = !vtuberFullscreen;
-            if (vtuberFullscreen) {
-                overlay.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            } else {
-                overlay.classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-        }
-
-        function toggleVoiceInput() {
-            // Placeholder untuk Web Speech API
-            const btn = event.currentTarget;
-            btn.innerHTML = '<i class="fas fa-circle text-red-400 text-xs animate-pulse"></i>';
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-microphone text-xs"></i>';
-                tambahPesanVtuber('bot', 'Fitur input suara akan segera tersedia! 🎤 Untuk saat ini, kamu bisa mengetik pertanyaan di sini.');
-            }, 2000);
-        }
-
-        // Knowledge base lengkap untuk Kuro AI
-        const kuroResponses = {
-            'daftar': 'Untuk mendaftar di KVT Hub:\n1. Klik tombol **Daftar** di pojok kanan atas\n2. Isi data: nama, email, password\n3. Pilih peran (Siswa/Mahasiswa/Guru/dll)\n4. Verifikasi email\n5. Login dan mulai belajar! 🎓',
-            'fitur': 'KVT Hub punya banyak fitur keren:\n• **13 Jenjang** pendidikan (TK-S3)\n• **40 Menu** navigasi\n• **Gamifikasi RPG** dengan 100 level\n• **Music Streaming** 5 stasiun\n• **LED Dot Matrix** panel\n• **30+ Diagram** visualisasi\n• **AI VTuber** Assistant (aku!) 🐱',
-            'jenjang': 'KVT Hub mendukung **13 jenjang pendidikan**:\n🎒 TK/PAUD · SD/MI · SMP/MTs\n🏫 SMA/MA · SMK Teknologi · SMK Bisnis · SMK Kesehatan\n🎓 Diploma (D1-D4) · Sarjana (S1) · Magister (S2)\n🔬 Doktoral (S3) · Post-Doctoral · Profesi',
-            'gratis': 'Program **Edukasi Gratis** yang tersedia:\n🛠️ Developer Tools (GitHub Pro, JetBrains)\n☁️ Cloud & Hosting (Azure, AWS credit)\n🎨 Desain (Figma, Canva Pro)\n📚 Platform (Coursera, edX)\n\nSemua gratis untuk pelajar! Klik menu **Edukasi Gratis** di navbar.',
-            'kelas': 'Untuk mengakses kelas:\n1. Login ke akun KVT Hub\n2. Buka menu **Platform > Kelas**\n3. Pilih kelas yang tersedia\n4. Mulai belajar & ikuti kuis\n5. Dapatkan XP dan naik level! 🚀',
-            'bantuan': 'Aku bisa bantu banyak hal:\n• 📋 Navigasi menu & fitur\n• 📖 Info jenjang pendidikan\n• 🎮 Cara kerja gamifikasi\n• 🔐 Masalah login/akun\n• 📊 Penjelasan fitur diagram\n\nTanya aja! 😊',
-            'sertifikasi': 'KVT Hub menyediakan **120+ program sertifikasi**:\n📜 Sertifikat **Kompetensi** — diakui industri\n🏅 Sertifikat **Profesional** — standar internasional\n🎖️ Sertifikat **Keahlian** — bidang spesifik\n\nSetiap kelas memiliki **kuis & ujian** yang harus dilalui. Lulus = dapat sertifikat digital + badge!',
-            'riset': 'Pusat **Riset & Inovasi** KVT Hub:\n🔬 **500+ Publikasi** jurnal terindeks\n🤝 **80+ Mitra** universitas & perusahaan\n💰 **Dana riset** hingga Rp 50 juta/proposal\n📊 **Research Dashboard** untuk tracking progress\n\nMulai dari menu **Riset** di navbar!',
-            'karir': 'Fitur **Karir & Industri**:\n💼 **2.000+ Lowongan** dari mitra perusahaan\n📋 **AI Resume Builder** — buat CV otomatis\n🎯 **Career Matching** — rekomendasi karir sesuai skill\n🏢 **200+ Perusahaan** partner magang\n\nCek menu **Karir** untuk info lengkap!',
-            'beasiswa': 'Program **Beasiswa** KVT Hub:\n🏆 **Beasiswa Prestasi** — SPP 100% + Laptop\n💚 **Beasiswa Ekonomi** — SPP + Biaya Hidup\n🔬 **Beasiswa Riset** — Dana penelitian\n🌍 **Beasiswa Internasional** — Full ride\n💻 **Tech Talent** — Bootcamp + Sertifikasi\n\nPendaftaran di menu **Beasiswa**!',
-            'komunitas': 'Bergabung di **Komunitas** KVT Hub:\n👥 **50.000+** Anggota aktif\n💬 **Forum Diskusi** — tanya jawab\n🧑‍🏫 **300+ Mentor** profesional\n🎓 **25.000+** Alumni terhubung\n🏆 **Kompetisi** bulanan dengan hadiah\n\nBuka menu **Komunitas** untuk gabung!',
-            'keamanan': 'Keamanan KVT Hub:\n🔒 **AES-256** enkripsi data\n🛡️ **ISO 27001** tersertifikasi\n🌐 **SSL/TLS** di semua halaman\n📋 **GDPR** compliant\n🔐 **2FA** autentikasi\n\nDetail lengkap di halaman **Keamanan**.',
-            'langganan': 'Paket **Langganan** KVT Hub:\n🆓 **Gratis** — Akses kelas dasar + komunitas\n👑 **Premium** Rp 99K/bln — Semua kelas + sertifikasi\n🏢 **Enterprise** — Custom + API + SLA 99.9%\n\nMulai dari paket Gratis dan upgrade kapan saja!',
-            'magang': 'Program **Magang** KVT Hub:\n🏢 **200+ Perusahaan** partner\n⏰ **3-6 bulan** durasi\n💰 **Stipend** kompetitif\n📜 Sertifikat + **rekomendasi**\n🔗 Banyak jadi karyawan tetap!\n\nDaftar di menu **Magang**.',
-            'webinar': 'Fitur **Webinar** KVT Hub:\n📺 **Live streaming** berkualitas HD\n🎬 **On-demand** — tonton kapan saja\n📝 **Sertifikat** kehadiran otomatis\n💬 **Live Q&A** dengan pembicara\n🗂️ **Arsip** 500+ webinar tersedia',
-            'lab': 'Laboratorium Virtual KVT Hub:\n🧪 **80+** Lab interaktif\n💻 Coding Lab (Python, Java, C++)\n🔬 Simulasi Sains (Fisika, Kimia, Bio)\n📊 Data Science Lab\n🤖 AI & Machine Learning Lab\n\nAkses dari menu **Lab Virtual**!',
-            'musik': 'Panel **Musik** KVT Hub:\n🎵 5 stasiun streaming built-in\n• Lo-Fi Study Beats\n• Jazz Cafe\n• Deep House Focus\n• Ambient Nature\n• Classical Piano\n\nBuka dari ikon ⚙️ **Pengaturan** → tab Musik 🎶',
-            'pengaturan': 'Fitur **Pengaturan** (klik ⚙️ di kanan bawah):\n🎨 **Tema** — 4 gaya header, 6 warna, 3 background\n❄️ **Efek Visual** — Salju & animasi scroll\n🅻 **LED Panel** — 5 mode display\n🌐 **Bahasa** — 6 bahasa tersedia\n🎵 **Musik** — 5 stasiun streaming\n📸 **Screenshot** — Full page & area\n📹 **Rekam Layar** — dengan audio\n🎨 **Sketsa** — Whiteboard mode\n📷 **Kamera** — Foto & dokumen',
-            'led': 'Panel **LED Dot Matrix**:\n⏰ **Waktu Shalat** — jadwal otomatis\n🌍 **Waktu Dunia** — 8 zona waktu\n💡 **Motivasi** — kutipan inspiratif\nℹ️ **Info** — statistik platform\n✏️ **Custom** — teks sendiri\n\nAtur di **Pengaturan → LED Panel**',
-            'kerjasama': 'Program **Kerja Sama** KVT Hub:\n🏛️ **150+ Mitra** — universitas & perusahaan\n🌏 **30+ Negara** — jaringan global\n📋 **MoU aktif** — kolaborasi riset & akademik\n🤝 Terbuka untuk **institusi baru**\n\nHubungi via menu **Kerja Sama**!',
-            'podcast': 'Channel **Podcast** KVT Hub:\n🎙️ **200+ Episode** tersedia\n📚 Topik: Pendidikan, Teknologi, Karir\n🎧 Streaming langsung di platform\n📅 Episode baru setiap minggu\n\nDengarkan di menu **Podcast**!',
-            'galeri': '**Galeri** KVT Hub:\n📸 Foto kegiatan & event\n🎬 Video dokumentasi\n🏆 Momen kompetisi & prestasi\n🎓 Wisuda & sertifikasi\n\nLihat di menu **Galeri**!',
-            'statistik': '**Statistik** real-time KVT Hub:\n📊 Dashboard Analytics setelah login\n📈 Grafik pertumbuhan pengguna\n🏆 Leaderboard global\n📋 Laporan akademik otomatis\n\nCek di menu **Statistik** atau **Dasbor**.',
-        };
-
-        function getKuroResponse(message) {
-            const msg = message.toLowerCase();
-            // Exact topic matches
-            const topicMap = {
-                'daftar': ['daftar','register','mendaftar','sign up','signup','registrasi'],
-                'fitur': ['fitur','feature','apa saja','kemampuan','bisa apa'],
-                'jenjang': ['jenjang','pendidikan','tingkat','level','tk','sd','smp','sma','kuliah','s1','s2','s3'],
-                'gratis': ['gratis','free','edukasi gratis','github pro','figma','azure'],
-                'kelas': ['kelas','belajar','materi','course','kursus','les','pelajaran'],
-                'bantuan': ['bantuan','help','bantu','support','kendala','masalah'],
-                'sertifikasi': ['sertifikasi','sertifikat','certificate','certified'],
-                'riset': ['riset','penelitian','research','inovasi','jurnal akademik','publikasi'],
-                'karir': ['karir','kerja','lowongan','job','pekerjaan','career','cv','resume'],
-                'beasiswa': ['beasiswa','scholarship','pendanaan','bantuan dana'],
-                'komunitas': ['komunitas','community','forum','diskusi','mentoring','mentor'],
-                'keamanan': ['keamanan','security','aman','enkripsi','ssl','password','privasi','gdpr'],
-                'langganan': ['langganan','premium','subscribe','paket','harga','biaya','bayar'],
-                'magang': ['magang','internship','intern','magang kerja'],
-                'webinar': ['webinar','seminar','live','streaming','conference'],
-                'lab': ['lab','laboratorium','virtual lab','simulasi','praktikum'],
-                'musik': ['musik','music','lagu','streaming musik','lo-fi','jazz','playlist'],
-                'pengaturan': ['pengaturan','setting','konfigurasi','tema','warna','header'],
-                'led': ['led','dot matrix','ticker','running text','display'],
-                'kerjasama': ['kerja sama','kerjasama','mitra','partner','kolaborasi','mou'],
-                'podcast': ['podcast','episode','audio','dengar'],
-                'galeri': ['galeri','foto','album','gambar','gallery'],
-                'statistik': ['statistik','data','analytics','grafik','chart','dashboard'],
-            };
-            for (const [key, triggers] of Object.entries(topicMap)) {
-                if (triggers.some(t => msg.includes(t))) return kuroResponses[key];
-            }
-            // Greeting patterns
-            if (/^(halo|hai|hi|hello|hey|yo|assalam|salamm?)\b/i.test(msg)) return 'Hai! 👋 Aku **Kuro**, asisten AI KVT Hub. Ada yang bisa aku bantu hari ini? Tanya apa saja tentang platform ini! 🐱';
-            if (msg.includes('terima kasih') || msg.includes('makasih') || msg.includes('thanks') || msg.includes('thx')) return 'Sama-sama! 😊 Senang bisa membantu. Jangan ragu untuk bertanya lagi kapan pun!';
-            if (msg.includes('siapa') && (msg.includes('kamu') || msg.includes('kuro'))) return 'Aku **Kuro** 🐱 — maskot & asisten AI KVT Hub! Aku dibuat oleh tim KVT untuk membantu pengguna menjelajahi platform pendidikan ini. Fun fact: Nama Kuro berarti "hitam" dalam bahasa Jepang! 🌙✨';
-            if (msg.includes('selamat pagi') || msg.includes('pagi')) return 'Selamat pagi! 🌅 Semoga hari ini produktif. Ada yang bisa Kuro bantu? ☕';
-            if (msg.includes('selamat siang') || msg.includes('siang')) return 'Selamat siang! ☀️ Tetap semangat belajar ya! Ada yang ingin ditanyakan?';
-            if (msg.includes('selamat malam') || msg.includes('malam')) return 'Selamat malam! 🌙 Masih semangat belajar? Kuro siap menemani! 🐱';
-            if (msg.includes('bagus') || msg.includes('keren') || msg.includes('mantap') || msg.includes('hebat')) return 'Terima kasih! 🎉 Tim kami bekerja keras untuk membuat KVT Hub semakin baik. Kalau ada saran, gunakan fitur **Kotak Saran** di footer ya!';
-            if (msg.includes('error') || msg.includes('bug') || msg.includes('rusak') || msg.includes('gabisa') || msg.includes('tidak bisa')) return 'Oh no! 😥 Maaf atas kendalanya. Coba langkah ini:\n1. **Refresh** halaman (Ctrl+F5)\n2. **Clear cache** browser\n3. Coba browser lain\n4. Laporkan via **Kotak Saran** di footer\n\nTim kami akan segera investigasi! 🔧';
-            if (msg.includes('cara') && msg.includes('login')) return 'Cara **Login** ke KVT Hub:\n1. Klik tombol **Masuk** di kanan atas\n2. Masukkan **email** dan **password**\n3. Klik **Login**\n\nLupa password? Klik "**Lupa Password**" untuk reset via email! 🔐';
-            if (msg.includes('versi') || msg.includes('version') || msg.includes('update')) return 'KVT Hub saat ini versi **v8.0** 🚀\nUpdate terbaru mencakup:\n• Header split 2-row\n• 8 item/halaman navigasi\n• Chart.js di admin dashboard\n• Dokumen resmi Kuro\n• Kotak saran popup\n• Dan banyak lagi! ✨';
-            // Fallback
-            return 'Pertanyaan menarik! 🤔 Aku belum bisa menjawab ini secara spesifik, tapi coba tanya tentang:\n\n📝 **Pendaftaran** · 🎓 **Jenjang** · 📚 **Kelas**\n🏆 **Sertifikasi** · 🔬 **Riset** · 💼 **Karir**\n🎓 **Beasiswa** · 👥 **Komunitas** · 🔒 **Keamanan**\n💎 **Langganan** · 🎙️ **Podcast** · ⚙️ **Pengaturan**\n\nAtau kunjungi menu **Bantuan** untuk FAQ lengkap! 📖';
-        }
-
-        function tambahPesanVtuber(type, text) {
-            const container = document.getElementById('vtuberMessages');
-            const div = document.createElement('div');
-            // Format markdown-like bold
-            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-kvt-400">$1</strong>').replace(/\n/g, '<br>');
-
-            if (type === 'user') {
-                div.className = 'flex justify-end';
-                div.innerHTML = `<div class="bg-gradient-to-r from-kvt-600 to-ungu-600 text-white text-sm rounded-xl rounded-br-none px-3.5 py-2.5 max-w-[280px]">${formattedText}</div>`;
-            } else {
-                div.className = 'flex gap-2.5';
-                div.innerHTML = `
-                    <div class="w-7 h-7 rounded-lg overflow-hidden shrink-0 mt-0.5 bg-gradient-to-br from-kvt-400 to-ungu-500 flex items-center justify-center">
-                        <i class="fas fa-robot text-white text-[10px]"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="bg-kvt-800/60 border border-kvt-700/20 rounded-xl rounded-tl-none px-3.5 py-2.5 max-w-[280px]">
-                            <p class="text-sm text-gray-200">${formattedText}</p>
-                        </div>
-                        <p class="text-[10px] text-gray-600 mt-1 ml-1">Kuro AI · Baru saja</p>
-                    </div>`;
-            }
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        // ─── Kuro VTuber: Hybrid AI (API + Local Fallback) ───
+        let kuroChatOpen = false;
         let kuroSessionId = null;
-        let kuroSessionToken = null;
-        let kuroApiReady = false;
+        let kuroSending = false;
+        let karmaAttachedFile = null;
 
-        async function initKuroApiSession() {
+        function toggleKuroChat() {
+            const panel = document.getElementById('kuroChatPanel');
+            const btn = document.getElementById('kuroAiBtn');
+            kuroChatOpen = !kuroChatOpen;
+            panel.classList.toggle('open', kuroChatOpen);
+            if (btn) btn.classList.toggle('chat-open', kuroChatOpen);
+            if (kuroChatOpen && !kuroSessionId) initKuroSession();
+        }
+
+        async function initKuroSession() {
             try {
-                const token = localStorage.getItem('kuro_vtuber_token');
                 const res = await fetch('/api/chat/guest-session', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
-                    },
-                    body: JSON.stringify({ token: token || null }),
+                    headers: { 'Content-Type':'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '' }
                 });
                 const data = await res.json();
-                if (data.success) {
-                    kuroSessionId = data.session.id;
-                    kuroSessionToken = data.session.token;
-                    localStorage.setItem('kuro_vtuber_token', kuroSessionToken);
-                    kuroApiReady = true;
-                }
-            } catch (e) {
-                console.warn('Kuro VTuber: API tidak tersedia, menggunakan mode lokal');
+                if (data.session_id) kuroSessionId = data.session_id;
+            } catch(e) {
+                console.log('K-Arma session init skipped:', e.message);
             }
         }
 
-        // Init API session on page load
-        initKuroApiSession();
+        function kuroQuickAsk(q) {
+            const input = document.getElementById('kuroInput');
+            if (input) { input.value = q; kuroSend(); }
+        }
 
-        function kirimPesanVtuber() {
-            const input = document.getElementById('vtuberInput');
-            const msg = input.value.trim();
-            if (!msg) return;
+        // File attachment handler (doc, image, video)
+        function karmaHandleFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+            karmaAttachedFile = file;
 
-            tambahPesanVtuber('user', msg);
+            // Determine icon by type
+            const ext = file.name.split('.').pop().toLowerCase();
+            let icon = 'fa-file text-pink-400', typeLabel = 'Dokumen';
+            if (['png','jpg','jpeg','gif','webp','svg'].includes(ext)) { icon = 'fa-image text-blue-400'; typeLabel = 'Gambar'; }
+            else if (['mp4','webm','mov','avi'].includes(ext)) { icon = 'fa-video text-purple-400'; typeLabel = 'Video'; }
+            else if (['pdf'].includes(ext)) { icon = 'fa-file-pdf text-red-400'; typeLabel = 'PDF'; }
+
+            // Show file badge
+            document.getElementById('karmaFileBadge')?.remove();
+            const badge = document.createElement('div');
+            badge.className = 'flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-gray-300';
+            badge.id = 'karmaFileBadge';
+            badge.innerHTML = `<i class="fas ${icon}"></i><span class="truncate" style="max-width:160px">${escapeHtml(file.name)}</span><span class="text-[9px] text-gray-500">${typeLabel}</span><button onclick="karmaRemoveFile()" class="text-gray-500 hover:text-red-400 ml-auto shrink-0"><i class="fas fa-times text-[10px]"></i></button>`;
+            const badgeArea = document.getElementById('karmaFileBadgeArea');
+            if (badgeArea) badgeArea.appendChild(badge);
             input.value = '';
+        }
 
-            // Typing indicator
+        function karmaRemoveFile() {
+            karmaAttachedFile = null;
+            document.getElementById('karmaFileBadge')?.remove();
+        }
+
+        // AI Video Generation prompt
+        function karmaShowVideoGen() {
+            const input = document.getElementById('kuroInput');
+            if (!input) return;
+            input.value = '';
+            input.placeholder = '🎬 Deskripsikan video yang ingin dibuat...';
+            input.focus();
+
+            // Show video gen tip in chat
+            const body = document.getElementById('kuroChatBody');
+            const existingTip = document.getElementById('karmaVideoTip');
+            if (existingTip) existingTip.remove();
+
+            const tipDiv = document.createElement('div');
+            tipDiv.id = 'karmaVideoTip';
+            tipDiv.className = 'kuro-msg bot';
+            tipDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble"><div style="font-size:12px"><i class="fas fa-film text-pink-400 mr-1"></i> <strong>Mode Generate Video</strong></div><div style="font-size:11px;color:#94a3b8;margin-top:4px;line-height:1.5">Deskripsikan video yang kamu inginkan, contoh:<br><span style="color:#64748b">• "Buat video 30 detik tentang KVT Hub"</span><br><span style="color:#64748b">• "Video animasi tentang cara mendaftar"</span><br><span style="color:#64748b">• "Slideshow foto kampus dengan musik"</span></div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap"><button onclick="kuroQuickAsk('Buatkan video tentang KVT Hub')" class="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300 hover:bg-pink-500/20 transition cursor-pointer">Video KVT Hub</button><button onclick="kuroQuickAsk('Buat video tutorial pendaftaran')" class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 hover:bg-purple-500/20 transition cursor-pointer">Tutorial Daftar</button><button onclick="kuroQuickAsk('Generate intro video untuk presentasi')" class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 hover:bg-blue-500/20 transition cursor-pointer">Intro Presentasi</button></div></div>`;
+            body.appendChild(tipDiv);
+            body.scrollTop = body.scrollHeight;
+        }
+
+        const karmaAvatarHtml = `<div class="kuro-msg-avatar"><img src="{{ asset('k-arma/k-arma.png') }}" alt="K" style="width:100%;height:100%;object-fit:cover"></div>`;
+
+        async function kuroSend() {
+            const input = document.getElementById('kuroInput');
+            const body = document.getElementById('kuroChatBody');
+            const sendBtn = document.getElementById('kuroSendBtn');
+            const msg = input?.value?.trim();
+            if ((!msg && !karmaAttachedFile) || kuroSending) return;
+
+            // Add user message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'kuro-msg user';
+            let userContent = msg ? escapeHtml(msg) : '';
+            if (karmaAttachedFile) {
+                const ext = karmaAttachedFile.name.split('.').pop().toLowerCase();
+                let fIcon = 'fa-file text-pink-300';
+                if (['png','jpg','jpeg','gif','webp','svg'].includes(ext)) fIcon = 'fa-image text-blue-300';
+                else if (['mp4','webm','mov','avi'].includes(ext)) fIcon = 'fa-video text-purple-300';
+                else if (['pdf'].includes(ext)) fIcon = 'fa-file-pdf text-red-300';
+                userContent += `<div style="margin-top:4px;font-size:11px;color:rgba(255,255,255,0.7)"><i class="fas ${fIcon} mr-1"></i>${escapeHtml(karmaAttachedFile.name)}</div>`;
+            }
+            userDiv.innerHTML = `<div class="kuro-msg-bubble">${userContent}</div>`;
+            body.appendChild(userDiv);
+            input.value = '';
+            input.placeholder = 'Tanya K-Arma sesuatu...';
+            body.scrollTop = body.scrollHeight;
+
+            // Remove file badge & video tip
+            const fileBadge = document.getElementById('karmaFileBadge');
+            if (fileBadge) fileBadge.remove();
+            document.getElementById('karmaVideoTip')?.remove();
+
+            // Show typing indicator
             const typingDiv = document.createElement('div');
-            typingDiv.className = 'flex gap-2.5 vtuber-typing';
-            typingDiv.innerHTML = `
-                <div class="w-7 h-7 rounded-lg shrink-0 mt-0.5 bg-gradient-to-br from-kvt-400 to-ungu-500 flex items-center justify-center">
-                    <i class="fas fa-robot text-white text-[10px]"></i>
-                </div>
-                <div class="bg-kvt-800/60 border border-kvt-700/20 rounded-xl rounded-tl-none px-4 py-3">
-                    <div class="flex gap-1"><span class="w-2 h-2 bg-kvt-400 rounded-full animate-bounce" style="animation-delay:0s"></span><span class="w-2 h-2 bg-kvt-400 rounded-full animate-bounce" style="animation-delay:0.15s"></span><span class="w-2 h-2 bg-kvt-400 rounded-full animate-bounce" style="animation-delay:0.3s"></span></div>
-                </div>`;
-            document.getElementById('vtuberMessages').appendChild(typingDiv);
-            document.getElementById('vtuberMessages').scrollTop = document.getElementById('vtuberMessages').scrollHeight;
+            typingDiv.className = 'kuro-msg bot';
+            typingDiv.id = 'kuroTyping';
+            typingDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble"><div class="kuro-typing"><span></span><span></span><span></span></div></div>`;
+            body.appendChild(typingDiv);
+            body.scrollTop = body.scrollHeight;
 
-            // Try API first, fall back to local
-            if (kuroApiReady && kuroSessionId) {
-                // Add page context
-                const pageName = document.title?.split('|')[0]?.trim() || window.location.pathname;
-                const messageWithContext = `[Halaman: ${pageName}] ${msg}`;
+            kuroSending = true;
+            if (sendBtn) sendBtn.disabled = true;
 
-                fetch('/api/chat/send', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
-                    },
-                    body: JSON.stringify({
-                        message: messageWithContext,
-                        session_id: kuroSessionId,
-                        session_token: kuroSessionToken,
-                    }),
-                })
-                .then(res => res.json())
-                .then(data => {
-                    typingDiv.remove();
-                    if (data.success && data.message?.content) {
-                        tambahPesanVtuber('bot', data.message.content);
-                    } else {
-                        // Fallback to local
-                        tambahPesanVtuber('bot', getKuroResponse(msg));
-                    }
-                })
-                .catch(() => {
-                    typingDiv.remove();
-                    tambahPesanVtuber('bot', getKuroResponse(msg));
-                });
+            try {
+                let res;
+                if (karmaAttachedFile) {
+                    const formData = new FormData();
+                    formData.append('message', msg || 'Analisis dokumen ini');
+                    formData.append('session_id', kuroSessionId || 'guest');
+                    formData.append('file', karmaAttachedFile);
+                    res = await fetch('/api/chat/send', {
+                        method: 'POST',
+                        headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '' },
+                        body: formData
+                    });
+                    karmaAttachedFile = null;
+                } else {
+                    res = await fetch('/api/chat/send', {
+                        method: 'POST',
+                        headers: { 'Content-Type':'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '' },
+                        body: JSON.stringify({ message: msg, session_id: kuroSessionId || 'guest' })
+                    });
+                }
+                const data = await res.json();
+
+                // Remove typing
+                document.getElementById('kuroTyping')?.remove();
+
+                // Add bot response
+                const botDiv = document.createElement('div');
+                botDiv.className = 'kuro-msg bot';
+                const reply = data.reply || data.message || 'Maaf, saya tidak bisa memproses permintaan saat ini.';
+                botDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble">${reply}</div>`;
+                body.appendChild(botDiv);
+            } catch(e) {
+                document.getElementById('kuroTyping')?.remove();
+                const errDiv = document.createElement('div');
+                errDiv.className = 'kuro-msg bot';
+                errDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble" style="border-color:rgba(239,68,68,0.2)"><i class="fas fa-exclamation-triangle text-red-400 mr-1"></i> Ups, ada gangguan koneksi. Coba lagi nanti ya~</div>`;
+                body.appendChild(errDiv);
+            }
+
+            kuroSending = false;
+            if (sendBtn) sendBtn.disabled = false;
+            body.scrollTop = body.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // ========================
+        // TOGGLE VISIBILITY: AI & Settings
+        // ========================
+        function toggleKuroVisibility() {
+            const kuroBtn = document.getElementById('kuroAiBtn');
+            const panel = document.getElementById('kuroChatPanel');
+            const toggleBtn = document.getElementById('toggleKuroBtn');
+            const dot = document.getElementById('kuroStatusDot');
+            const isVisible = kuroBtn && kuroBtn.style.display !== 'none';
+
+            if (isVisible) {
+                if (kuroBtn) kuroBtn.style.display = 'none';
+                if (panel) { panel.classList.remove('open'); kuroChatOpen = false; }
+                if (toggleBtn) toggleBtn.style.color = '#64748b';
+                if (toggleBtn) toggleBtn.style.background = 'rgba(100,116,139,0.1)';
+                if (dot) dot.style.background = '#64748b';
+                localStorage.setItem('kvt_kuro_visible', '0');
             } else {
-                // Local-only mode
-                setTimeout(() => {
-                    typingDiv.remove();
-                    tambahPesanVtuber('bot', getKuroResponse(msg));
-                }, 800 + Math.random() * 700);
+                if (kuroBtn) kuroBtn.style.display = 'flex';
+                if (toggleBtn) toggleBtn.style.color = '#FF4D6D';
+                if (toggleBtn) toggleBtn.style.background = 'rgba(255,77,109,0.1)';
+                if (dot) dot.style.background = '#22c55e';
+                localStorage.setItem('kvt_kuro_visible', '1');
             }
         }
 
-        function vtuberQuickAction(question) {
-            document.getElementById('vtuberInput').value = question;
-            kirimPesanVtuber();
+        function toggleSettingsVisibility() {
+            const settingsBtn = document.getElementById('settingsBtn');
+            const toggleBtn = document.getElementById('toggleSettingsBtn');
+            const dot = document.getElementById('settingsStatusDot');
+            const isVisible = settingsBtn && settingsBtn.style.display !== 'none';
+
+            if (isVisible) {
+                if (settingsBtn) settingsBtn.style.display = 'none';
+                if (toggleBtn) toggleBtn.style.color = '#64748b';
+                if (toggleBtn) toggleBtn.style.background = 'rgba(100,116,139,0.1)';
+                if (dot) dot.style.background = '#64748b';
+                localStorage.setItem('kvt_settings_visible', '0');
+            } else {
+                if (settingsBtn) settingsBtn.style.display = 'flex';
+                if (toggleBtn) toggleBtn.style.color = '#3399FF';
+                if (toggleBtn) toggleBtn.style.background = 'rgba(51,153,255,0.1)';
+                if (dot) dot.style.background = '#22c55e';
+                localStorage.setItem('kvt_settings_visible', '1');
+            }
         }
 
-        // Close VTuber chat on ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                if (vtuberFullscreen) toggleVtuberFullscreen();
-                else if (vtuberChatOpen) toggleVtuberChat();
-            }
-        });
+        // Restore visibility states from localStorage
+        (function restoreWidgetVisibility() {
+            const kuroVis = localStorage.getItem('kvt_kuro_visible');
+            const settingsVis = localStorage.getItem('kvt_settings_visible');
 
-        // Auto-greet after delay
-        setTimeout(() => {
-            const widget = document.getElementById('vtuberWidget');
-            if (widget && !vtuberChatOpen) {
-                widget.style.animation = 'vtuberBounce 0.5s ease';
-                setTimeout(() => widget.style.animation = '', 500);
+            if (kuroVis === '0') {
+                const kuroBtn = document.getElementById('kuroAiBtn');
+                const toggleBtn = document.getElementById('toggleKuroBtn');
+                const dot = document.getElementById('kuroStatusDot');
+                if (kuroBtn) kuroBtn.style.display = 'none';
+                if (toggleBtn) { toggleBtn.style.color = '#64748b'; toggleBtn.style.background = 'rgba(100,116,139,0.1)'; }
+                if (dot) dot.style.background = '#64748b';
             }
-        }, 5000);
+
+            if (settingsVis === '0') {
+                const settingsBtn = document.getElementById('settingsBtn');
+                const toggleBtn = document.getElementById('toggleSettingsBtn');
+                const dot = document.getElementById('settingsStatusDot');
+                if (settingsBtn) settingsBtn.style.display = 'none';
+                if (toggleBtn) { toggleBtn.style.color = '#64748b'; toggleBtn.style.background = 'rgba(100,116,139,0.1)'; }
+                if (dot) dot.style.background = '#64748b';
+            }
+        })();
 
     </script>
-    <style>
-        @keyframes vtuberBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-    </style>
     <div id="google_translate_element" style="display:none"></div>
-    
-    {{-- Floating Chatbot Widget --}}
-    @include('components.chatbot-widget')
     
     @stack('scripts')
 </body>

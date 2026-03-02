@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\EdukasiGratisController;
 use App\Http\Controllers\Admin\PendaftaranEdukasiController;
 use App\Http\Controllers\Admin\AturanEdukasiController;
 use App\Http\Controllers\Admin\RepositoriController;
+use App\Http\Controllers\Admin\GitHubAIController;
 use App\Http\Controllers\Admin\KArmaController;
 use App\Http\Controllers\Admin\KuisController;
 use App\Http\Controllers\Admin\KuisHasilController;
@@ -189,6 +190,20 @@ Route::get('/repositori', [RepositoriController::class, 'index'])->name('reposit
 Route::get('/repositori/file', [RepositoriController::class, 'lihatFile'])->name('repositori.file');
 Route::get('/repositori/api/stats', [RepositoriController::class, 'apiStats'])->name('repositori.api.stats');
 Route::get('/repositori/api/github', [RepositoriController::class, 'apiGithub'])->name('repositori.api.github');
+
+// GitHub AI Hub — Interactive AI Assistant, Packages, Multi-Language
+Route::prefix('github-ai')->name('github-ai.')->group(function () {
+    Route::get('/', [GitHubAIController::class, 'index'])->name('index');
+    Route::post('/chat', [GitHubAIController::class, 'chat'])->name('chat');
+    Route::post('/chat/reset', [GitHubAIController::class, 'resetChat'])->name('chat.reset');
+    Route::get('/chat/history', [GitHubAIController::class, 'chatHistory'])->name('chat.history');
+    Route::post('/run-code', [GitHubAIController::class, 'runCode'])->name('run-code');
+    Route::get('/api/packages', [GitHubAIController::class, 'apiPackages'])->name('api.packages');
+    Route::get('/api/issues', [GitHubAIController::class, 'apiIssues'])->name('api.issues');
+    Route::get('/api/pulls', [GitHubAIController::class, 'apiPulls'])->name('api.pulls');
+    Route::get('/api/languages', [GitHubAIController::class, 'apiLanguages'])->name('api.languages');
+    Route::get('/api/repo', [GitHubAIController::class, 'apiRepoInfo'])->name('api.repo');
+});
 
 // K-Arma AI Monitor
 Route::get('/k-arma', [KArmaController::class, 'index'])->name('k-arma');

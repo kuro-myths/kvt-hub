@@ -146,6 +146,13 @@ Route::get('/bejotaro', [HalamanController::class, 'bejotaro'])->name('halaman.b
 Route::get('/veteran', [HalamanController::class, 'veteran'])->name('halaman.veteran');
 Route::view('/universe', 'halaman.universe')->name('halaman.universe');
 Route::view('/donasi', 'halaman.donasi')->name('halaman.donasi');
+Route::view('/staff-hub', 'halaman.staff-hub')->name('halaman.staff-hub');
+
+// ===================================================================
+// NOTIFICATION API (Publik)
+// ===================================================================
+Route::get('/api/notifications', [App\Http\Controllers\NotificationController::class, 'index']);
+Route::post('/api/notifications/read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->middleware('auth');
 
 // ===================================================================
 // HALAMAN EKOSISTEM (Sub-pages, tetap pakai view statis existing)

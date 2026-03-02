@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF4D6D;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#C084FC;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fff;stop-opacity:0.3"/>
+      <stop offset="50%" style="stop-color:#fff;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="60" cy="60" r="58" fill="url(#bg)"/>
+  <circle cx="60" cy="60" r="58" fill="url(#shine)"/>
+  <!-- Hair -->
+  <ellipse cx="60" cy="50" rx="34" ry="36" fill="url(#hair)"/>
+  <!-- Cat ears -->
+  <polygon points="30,22 22,2 42,18" fill="#1a1a2e" stroke="#FF4D6D" stroke-width="1.5"/>
+  <polygon points="90,22 98,2 78,18" fill="#1a1a2e" stroke="#C084FC" stroke-width="1.5"/>
+  <polygon points="32,20 26,8 40,18" fill="#FF4D6D" opacity="0.6"/>
+  <polygon points="88,20 94,8 80,18" fill="#C084FC" opacity="0.6"/>
+  <!-- Face -->
+  <ellipse cx="60" cy="58" rx="28" ry="26" fill="#FFE0D0"/>
+  <!-- Eyes -->
+  <ellipse cx="47" cy="55" rx="6" ry="7" fill="white"/>
+  <ellipse cx="73" cy="55" rx="6" ry="7" fill="white"/>
+  <ellipse cx="48" cy="55" rx="4" ry="5" fill="#FF4D6D"/>
+  <ellipse cx="74" cy="55" rx="4" ry="5" fill="#C084FC"/>
+  <circle cx="49" cy="53" r="1.5" fill="white"/>
+  <circle cx="75" cy="53" r="1.5" fill="white"/>
+  <!-- Blush -->
+  <ellipse cx="38" cy="63" rx="5" ry="3" fill="#FFB4C8" opacity="0.5"/>
+  <ellipse cx="82" cy="63" rx="5" ry="3" fill="#FFB4C8" opacity="0.5"/>
+  <!-- Mouth (smile) -->
+  <path d="M54,68 Q60,74 66,68" stroke="#e57373" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Hair bangs -->
+  <path d="M32,42 Q38,28 50,38 Q52,30 60,35 Q68,28 72,38 Q82,28 88,42" fill="url(#hair)"/>
+  <!-- Headphones/Visor -->
+  <rect x="26" y="44" width="10" height="14" rx="3" fill="#3399FF" opacity="0.8"/>
+  <rect x="84" y="44" width="10" height="14" rx="3" fill="#8B5CF6" opacity="0.8"/>
+  <path d="M30,44 Q30,30 60,28 Q90,30 90,44" stroke="#3399FF" stroke-width="2.5" fill="none" opacity="0.6"/>
+  <!-- Body hint -->
+  <path d="M38,82 Q42,78 60,76 Q78,78 82,82 Q85,95 82,105 L38,105 Q35,95 38,82" fill="#1a1a2e"/>
+  <!-- Collar accent -->
+  <path d="M42,82 Q60,78 78,82" stroke="#FF4D6D" stroke-width="2" fill="none"/>
+  <!-- K badge -->
+  <circle cx="60" cy="92" r="8" fill="url(#bg)" stroke="white" stroke-width="1"/>
+  <text x="60" y="96" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="sans-serif">K</text>
+  <!-- Sparkle decorations -->
+  <g fill="#FFD700" opacity="0.8">
+    <polygon points="15,15 16.5,19 21,19 17.5,22 18.5,26 15,23.5 11.5,26 12.5,22 9,19 13.5,19"/>
+    <polygon points="100,10 101,13 104,13 101.5,15 102.5,18 100,16 97.5,18 98.5,15 96,13 99,13" transform="scale(0.8) translate(18,2)"/>
+  </g>
+</svg>

@@ -28,6 +28,7 @@
         ['label' => 'Pendaftaran Edukasi', 'ikon' => 'fas fa-clipboard-check', 'route' => 'admin.pendaftaran-edukasi.index', 'warna' => 'emerald'],
         ['label' => 'Aturan Edukasi', 'ikon' => 'fas fa-exclamation-triangle', 'route' => 'admin.aturan-edukasi.index', 'warna' => 'red'],
         ['label' => 'Repositori', 'ikon' => 'fab fa-github', 'route' => 'admin.repositori', 'warna' => 'cyan'],
+        ['label' => 'GitHub AI Hub', 'ikon' => 'fas fa-robot', 'route' => 'admin.github-ai.index', 'warna' => 'purple'],
         ['label' => 'K-Arma AI', 'ikon' => 'fas fa-robot', 'route' => 'admin.k-arma', 'warna' => 'red'],
     ];
 
