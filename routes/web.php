@@ -126,6 +126,19 @@ Route::view('/perhotelan', 'halaman.perhotelan')->name('halaman.perhotelan');
 Route::view('/tata-boga', 'halaman.tata-boga')->name('halaman.tata-boga');
 Route::view('/olahraga', 'halaman.olahraga')->name('halaman.olahraga');
 
+// ===================================================================
+// INOVASI & AI HUB (Menu 101-200) - 100 Fitur AI & Teknologi Baru
+// Semua halaman di-render dari satu generic template (inovasi.generik)
+// Slug otomatis dibaca untuk menentukan konten halaman
+// ===================================================================
+Route::get('/inovasi/{slug}', function ($slug) {
+    // Halaman VTuber punya view khusus
+    if ($slug === 'ai-vtuber') {
+        return view('inovasi.ai-vtuber');
+    }
+    return view('inovasi.generik');
+})->where('slug', '[a-z0-9\-]+')->name('inovasi.show');
+
 // Berita (Publik)
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{berita}', [BeritaController::class, 'tampilkan'])->name('berita.tampilkan');

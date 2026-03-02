@@ -3092,6 +3092,11 @@
                         </div></div>
                     </div>
 
+                    {{-- ============================================================ --}}
+                    {{-- MENU 101-200: AI, INOVASI & TEKNOLOGI MASA DEPAN            --}}
+                    {{-- ============================================================ --}}
+                    @include('tata-letak.partials.nav-menus-ai-inovasi')
+
                         </div>{{-- /navMenuItems --}}
                     </div>{{-- /navSlider --}}
 
@@ -5530,7 +5535,46 @@
             'sumberdaya':'Sumber Daya','keamanan':'Keamanan','kurikulum':'Kurikulum',
             'panduan':'Panduan','donasi':'Donasi',
             'staff':'Staff','media':'Media','dokumen':'Dokumen','bantuan':'Bantuan',
-            'edukasi':'Edukasi Gratis','statistik':'Statistik','webinar':'Webinar','beasiswa':'Beasiswa'
+            'edukasi':'Edukasi Gratis','statistik':'Statistik','webinar':'Webinar','beasiswa':'Beasiswa',
+            // === AI & Innovation (Menu 101-200) ===
+            'ai-playground':'AI Playground','ml-training':'ML Training','nlp-studio':'NLP Studio',
+            'computer-vision':'Computer Vision','ai-art':'AI Art','ai-music':'AI Music',
+            'ai-code':'AI Code','prompt-engineering':'Prompt Engineering',
+            'ai-vtuber':'AI VTuber','ai-avatar':'AI Avatar','mocap-lab':'MoCap Lab',
+            'virtual-presenter':'Virtual Presenter','ai-voice':'AI Voice','ai-translator':'AI Translator',
+            'ai-tutor':'AI Tutor','ai-writer':'AI Writer',
+            'smart-dashboard':'Smart Dashboard','smart-attendance':'Smart Attendance','air-quality':'Air Quality',
+            'smart-parking':'Smart Parking','smart-library':'Smart Library','weather-station':'Weather Station',
+            'building-manager':'Building Manager','iot-simulator':'IoT Simulator',
+            'digital-twin':'Digital Twin','metaverse-classroom':'Metaverse','ar-museum':'AR Museum',
+            'hologram-lecture':'Hologram Lecture','vr-field-trip':'VR Trip','quantum-lab':'Quantum Lab',
+            'edge-computing':'Edge Computing','gpu-cloud':'GPU Cloud',
+            'cicd-pipeline':'CI/CD Pipeline','container-lab':'Container Lab','api-marketplace':'API Market',
+            'serverless-hub':'Serverless Hub','microservices':'Microservices','database-sandbox':'DB Sandbox',
+            'cyber-range':'Cyber Range','pentest-lab':'Pentest Lab',
+            'digital-forensic':'Digital Forensic','threat-intelligence':'Threat Intel','bi-dashboard':'BI Dashboard',
+            'realtime-analytics':'RT Analytics','data-lakehouse':'Data Lakehouse','etl-studio':'ETL Studio',
+            'geospatial':'Geospatial','neural-network-viz':'Neural Viz',
+            'smart-contract-ide':'Smart Contract','dapp-builder':'DApp Builder','token-factory':'Token Factory',
+            'nft-studio':'NFT Studio','dao-hub':'DAO Hub','crypto-trading-sim':'Crypto Trading',
+            'space-lab':'Space Lab','satellite-tracker':'Satellite Tracker',
+            'robot-simulator':'Robot Sim','drone-lab':'Drone Lab','self-driving-sim':'Self Driving',
+            '3d-printing':'3D Printing','swarm-intelligence':'Swarm AI','genome-editor':'Genome Editor',
+            'drug-discovery':'Drug Discovery','protein-folding':'Protein Folding',
+            'ai-film-studio':'AI Film','ai-debate':'AI Debate','ai-composer':'AI Composer',
+            'ai-photo-enhancer':'AI Photo','ai-storyteller':'AI Storyteller','ai-meme':'AI Meme',
+            'ai-logo-maker':'AI Logo','ai-presentation':'AI Presentasi',
+            'brain-interface':'Brain Interface','nanotechnology':'Nanotech','fusion-energy':'Fusion Energy',
+            'quantum-crypto':'Quantum Crypto','carbon-capture':'Carbon Capture','synthetic-biology':'Synth Bio',
+            'bioethics':'Bioethics','clinical-trials-ai':'Clinical AI',
+            'smart-factory':'Smart Factory','supply-chain-ai':'Supply Chain','predictive-maintenance':'Predictive',
+            'quality-control-ai':'QC AI','cobots-lab':'Cobots Lab','mes-system':'MES System',
+            'sdg-dashboard':'SDG Dashboard','carbon-footprint':'Carbon Footprint',
+            'social-enterprise':'Social Enterprise','disaster-response-ai':'Disaster AI',
+            'accessibility-lab':'Accessibility','ai-ethics':'AI Ethics','innovation-garage':'Innovation',
+            'ai-homework':'AI Homework','ai-resume-scorer':'AI Resume','ai-interview-coach':'AI Interview',
+            'ai-health-monitor':'AI Health','ai-fitness':'AI Fitness','ai-study-planner':'AI Study',
+            'ai-exam-prep':'AI Exam'
         };
         const menuIcons = {
             'beranda':'fa-home','jenjang':'fa-graduation-cap','platform':'fa-cubes','berita':'fa-newspaper',
@@ -5539,7 +5583,46 @@
             'sumberdaya':'fa-database','keamanan':'fa-shield-alt','kurikulum':'fa-book-reader',
             'panduan':'fa-project-diagram','donasi':'fa-hand-holding-heart',
             'staff':'fa-user-tie','media':'fa-play-circle','dokumen':'fa-file-alt','bantuan':'fa-life-ring',
-            'edukasi':'fa-gift','statistik':'fa-chart-line','webinar':'fa-video','beasiswa':'fa-award'
+            'edukasi':'fa-gift','statistik':'fa-chart-line','webinar':'fa-video','beasiswa':'fa-award',
+            // === AI & Innovation (Menu 101-200) ===
+            'ai-playground':'fa-flask','ml-training':'fa-brain','nlp-studio':'fa-comment-dots',
+            'computer-vision':'fa-eye','ai-art':'fa-paint-brush','ai-music':'fa-music',
+            'ai-code':'fa-code','prompt-engineering':'fa-keyboard',
+            'ai-vtuber':'fa-user-astronaut','ai-avatar':'fa-user-circle','mocap-lab':'fa-walking',
+            'virtual-presenter':'fa-chalkboard-teacher','ai-voice':'fa-microphone-alt','ai-translator':'fa-language',
+            'ai-tutor':'fa-user-graduate','ai-writer':'fa-pen-fancy',
+            'smart-dashboard':'fa-tachometer-alt','smart-attendance':'fa-fingerprint','air-quality':'fa-wind',
+            'smart-parking':'fa-parking','smart-library':'fa-book','weather-station':'fa-cloud-sun',
+            'building-manager':'fa-building','iot-simulator':'fa-microchip',
+            'digital-twin':'fa-city','metaverse-classroom':'fa-vr-cardboard','ar-museum':'fa-monument',
+            'hologram-lecture':'fa-broadcast-tower','vr-field-trip':'fa-globe-americas','quantum-lab':'fa-atom',
+            'edge-computing':'fa-network-wired','gpu-cloud':'fa-server',
+            'cicd-pipeline':'fa-code-branch','container-lab':'fa-box','api-marketplace':'fa-plug',
+            'serverless-hub':'fa-cloud','microservices':'fa-project-diagram','database-sandbox':'fa-database',
+            'cyber-range':'fa-shield-virus','pentest-lab':'fa-bug',
+            'digital-forensic':'fa-search','threat-intelligence':'fa-crosshairs','bi-dashboard':'fa-chart-bar',
+            'realtime-analytics':'fa-chart-area','data-lakehouse':'fa-warehouse','etl-studio':'fa-exchange-alt',
+            'geospatial':'fa-map-marked-alt','neural-network-viz':'fa-sitemap',
+            'smart-contract-ide':'fa-file-contract','dapp-builder':'fa-cubes','token-factory':'fa-coins',
+            'nft-studio':'fa-gem','dao-hub':'fa-balance-scale','crypto-trading-sim':'fa-chart-line',
+            'space-lab':'fa-rocket','satellite-tracker':'fa-satellite',
+            'robot-simulator':'fa-robot','drone-lab':'fa-helicopter','self-driving-sim':'fa-car',
+            '3d-printing':'fa-print','swarm-intelligence':'fa-spider','genome-editor':'fa-dna',
+            'drug-discovery':'fa-pills','protein-folding':'fa-puzzle-piece',
+            'ai-film-studio':'fa-film','ai-debate':'fa-gavel','ai-composer':'fa-guitar',
+            'ai-photo-enhancer':'fa-image','ai-storyteller':'fa-book-open','ai-meme':'fa-laugh',
+            'ai-logo-maker':'fa-palette','ai-presentation':'fa-desktop',
+            'brain-interface':'fa-brain','nanotechnology':'fa-microscope','fusion-energy':'fa-bolt',
+            'quantum-crypto':'fa-key','carbon-capture':'fa-leaf','synthetic-biology':'fa-seedling',
+            'bioethics':'fa-balance-scale','clinical-trials-ai':'fa-stethoscope',
+            'smart-factory':'fa-industry','supply-chain-ai':'fa-truck','predictive-maintenance':'fa-tools',
+            'quality-control-ai':'fa-check-double','cobots-lab':'fa-hands-helping','mes-system':'fa-cogs',
+            'sdg-dashboard':'fa-globe-africa','carbon-footprint':'fa-shoe-prints',
+            'social-enterprise':'fa-hand-holding-heart','disaster-response-ai':'fa-first-aid',
+            'accessibility-lab':'fa-universal-access','ai-ethics':'fa-gavel','innovation-garage':'fa-lightbulb',
+            'ai-homework':'fa-pencil-alt','ai-resume-scorer':'fa-file-alt','ai-interview-coach':'fa-user-tie',
+            'ai-health-monitor':'fa-heartbeat','ai-fitness':'fa-dumbbell','ai-study-planner':'fa-calendar-alt',
+            'ai-exam-prep':'fa-clipboard-check'
         };
 
         function renderKustomMenu() {

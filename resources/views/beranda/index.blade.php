@@ -336,6 +336,319 @@
     </div>
 </section>
 
+{{-- ==================== AI & INNOVATION HUB SHOWCASE ==================== --}}
+<section class="py-24 relative overflow-hidden" id="inovasi-hub">
+    <div class="absolute inset-0 bg-gradient-to-br from-kvt-950 via-[#0a0e1a] to-kvt-950"></div>
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><path d=%22M30 0v60M0 30h60%22 stroke=%22%233399FF%22 stroke-width=%220.5%22/></svg>');"></div>
+    <div class="absolute top-1/4 -left-32 w-96 h-96 bg-fuchsia-500/8 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div class="absolute bottom-1/4 -right-32 w-96 h-96 bg-cyan-500/8 rounded-full blur-3xl animate-pulse-slow" style="animation-delay:3s"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <div class="inline-flex items-center gap-2 bg-fuchsia-500/10 border border-fuchsia-500/20 rounded-full px-5 py-2 mb-4">
+                <i class="fas fa-atom text-fuchsia-400 animate-spin-slow"></i>
+                <span class="text-fuchsia-300 text-sm font-semibold">AI & Innovation Hub</span>
+                <span class="bg-fuchsia-500/20 text-fuchsia-300 text-[10px] font-bold px-2 py-0.5 rounded-full">100+ FITUR</span>
+            </div>
+            <h2 class="text-4xl lg:text-5xl font-black text-white mb-4">Pusat Inovasi & AI</h2>
+            <p class="text-gray-400 max-w-3xl mx-auto text-lg">Dari AI Playground hingga Quantum Computing — 100+ fitur teknologi mutakhir untuk akselerasi belajar masa depan</p>
+        </div>
+
+        {{-- Innovation Category Grid --}}
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
+            @php
+            $inovasiKategori = [
+                ['AI & Machine Learning', 'fa-brain', 'from-purple-500 to-violet-600', '/inovasi/ai-playground', '8 Fitur', 'Model training, NLP, Vision, Art, Music, Code Assistant'],
+                ['AI VTuber & Virtual', 'fa-user-astronaut', 'from-fuchsia-500 to-pink-600', '/inovasi/ai-vtuber', '8 Fitur', 'Motion capture, Avatar, Voice cloning, VTuber streaming'],
+                ['Smart Campus IoT', 'fa-microchip', 'from-teal-500 to-cyan-600', '/inovasi/smart-dashboard', '8 Fitur', 'IoT sensors, Smart parking, Weather, Building management'],
+                ['Digital Twin & Metaverse', 'fa-vr-cardboard', 'from-blue-500 to-indigo-600', '/inovasi/digital-twin', '8 Fitur', '3D campus model, VR class, AR museum, Hologram lecture'],
+                ['DevOps & Cyber Range', 'fa-shield-virus', 'from-red-500 to-rose-600', '/inovasi/cyber-range', '8 Fitur', 'CI/CD, Containers, Pentest lab, Threat intelligence'],
+                ['Data & Analytics', 'fa-chart-area', 'from-emerald-500 to-green-600', '/inovasi/bi-dashboard', '8 Fitur', 'BI dashboards, Real-time analytics, ETL, Geospatial'],
+                ['Blockchain & Web3', 'fa-coins', 'from-amber-500 to-orange-600', '/inovasi/smart-contract-ide', '8 Fitur', 'Smart contracts, NFT studio, DApp builder, DAO hub'],
+                ['Robotics & Space', 'fa-robot', 'from-indigo-500 to-blue-600', '/inovasi/robot-simulator', '8 Fitur', 'Robot sim, Drone lab, Self-driving, Space exploration'],
+                ['Biotech & Life Science', 'fa-dna', 'from-lime-500 to-green-600', '/inovasi/genome-editor', '8 Fitur', 'Genome editing, Drug discovery, Protein folding, Synth bio'],
+                ['Creative AI Studio', 'fa-palette', 'from-pink-500 to-rose-600', '/inovasi/ai-film-studio', '8 Fitur', 'AI film, Music composition, Photo enhancer, AI storytelling'],
+                ['Future Tech Lab', 'fa-bolt', 'from-yellow-500 to-amber-600', '/inovasi/brain-interface', '8 Fitur', 'Brain interface, Nanotech, Fusion energy, Quantum crypto'],
+                ['Industry 4.0 & SDG', 'fa-industry', 'from-sky-500 to-blue-600', '/inovasi/smart-factory', '12 Fitur', 'Smart factory, Supply chain AI, SDG dashboard, AI Ethics'],
+            ];
+            @endphp
+
+            @foreach($inovasiKategori as $i => $kat)
+            <a href="{{ $kat[3] }}" class="group relative bg-kvt-900/60 backdrop-blur border border-kvt-700/20 rounded-2xl p-5 hover:border-kvt-500/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-kvt-500/5 overflow-hidden" data-aos="fade-up" data-aos-delay="{{ $i * 40 }}">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br {{ $kat[2] }} opacity-5 group-hover:opacity-10 rounded-full blur-xl -translate-y-6 translate-x-6 transition"></div>
+                <div class="relative">
+                    <div class="w-12 h-12 bg-gradient-to-br {{ $kat[2] }} rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                        <i class="fas {{ $kat[1] }} text-white text-lg"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-sm mb-1.5">{{ $kat[0] }}</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-3 line-clamp-2">{{ $kat[5] }}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-kvt-400 text-[11px] font-semibold">{{ $kat[4] }}</span>
+                        <i class="fas fa-arrow-right text-kvt-600 group-hover:text-kvt-400 text-xs transition"></i>
+                    </div>
+                </div>
+            </a>
+            @endforeach
+        </div>
+
+        {{-- Spotlight: AI VTuber --}}
+        <div class="bg-gradient-to-r from-fuchsia-900/30 via-kvt-900/60 to-purple-900/30 border border-fuchsia-500/20 rounded-3xl p-8 lg:p-12 mb-16" data-aos="zoom-in">
+            <div class="grid lg:grid-cols-2 gap-10 items-center">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-fuchsia-500/10 border border-fuchsia-500/20 rounded-full px-4 py-1.5 mb-4">
+                        <i class="fas fa-star text-fuchsia-400 text-xs"></i>
+                        <span class="text-fuchsia-300 text-xs font-bold uppercase tracking-wider">Spotlight Feature</span>
+                    </div>
+                    <h3 class="text-3xl lg:text-4xl font-black text-white mb-4">AI VTuber Mirroring</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6">Aktifkan kamera, dan karakter AI-mu akan mengikuti gerakan tubuh secara real-time. Upload model karakter sendiri, interaksi dengan AI, dan streaming langsung ke OBS.</p>
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="bg-kvt-800/40 rounded-xl p-3 border border-kvt-700/20">
+                            <div class="text-fuchsia-400 font-black text-xl">468</div>
+                            <div class="text-gray-500 text-xs">Face Landmarks</div>
+                        </div>
+                        <div class="bg-kvt-800/40 rounded-xl p-3 border border-kvt-700/20">
+                            <div class="text-cyan-400 font-black text-xl">33</div>
+                            <div class="text-gray-500 text-xs">Body Pose Points</div>
+                        </div>
+                        <div class="bg-kvt-800/40 rounded-xl p-3 border border-kvt-700/20">
+                            <div class="text-green-400 font-black text-xl">30fps</div>
+                            <div class="text-gray-500 text-xs">Real-time Tracking</div>
+                        </div>
+                        <div class="bg-kvt-800/40 rounded-xl p-3 border border-kvt-700/20">
+                            <div class="text-yellow-400 font-black text-xl">&infin;</div>
+                            <div class="text-gray-500 text-xs">Custom Models</div>
+                        </div>
+                    </div>
+                    <a href="/inovasi/ai-vtuber" class="inline-flex items-center gap-2 bg-gradient-to-r from-fuchsia-500 to-purple-500 text-white px-6 py-3 rounded-xl font-semibold hover:-translate-y-0.5 transition shadow-lg shadow-fuchsia-500/25">
+                        <i class="fas fa-play"></i> Coba Sekarang
+                    </a>
+                </div>
+                <div class="relative hidden lg:block">
+                    <div class="bg-kvt-900/80 backdrop-blur border border-kvt-700/30 rounded-2xl p-6 shadow-2xl">
+                        {{-- Simulated VTuber preview --}}
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                            <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                            <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                            <span class="text-gray-500 text-xs ml-2">AI VTuber Studio</span>
+                            <span class="ml-auto bg-red-500/20 text-red-400 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fas fa-circle text-[6px] mr-1 animate-pulse"></i>LIVE</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="bg-kvt-800/50 rounded-xl aspect-video flex items-center justify-center border border-kvt-700/30">
+                                <div class="text-center">
+                                    <i class="fas fa-video text-kvt-400 text-2xl mb-1"></i>
+                                    <div class="text-gray-500 text-[10px]">Camera Input</div>
+                                </div>
+                            </div>
+                            <div class="bg-kvt-800/50 rounded-xl aspect-video flex items-center justify-center border border-fuchsia-700/30">
+                                <div class="text-center">
+                                    <i class="fas fa-user-astronaut text-fuchsia-400 text-2xl mb-1"></i>
+                                    <div class="text-gray-500 text-[10px]">Character Output</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between bg-kvt-800/30 rounded-lg px-3 py-2">
+                            <div class="flex items-center gap-3">
+                                <span class="text-[10px] text-gray-500"><i class="fas fa-face-smile text-green-400 mr-1"></i>Face: OK</span>
+                                <span class="text-[10px] text-gray-500"><i class="fas fa-child text-cyan-400 mr-1"></i>Body: OK</span>
+                                <span class="text-[10px] text-gray-500"><i class="fas fa-hand-paper text-yellow-400 mr-1"></i>Hands: OK</span>
+                            </div>
+                            <span class="text-[10px] text-green-400 font-bold">30 FPS</span>
+                        </div>
+                    </div>
+                    {{-- Decoration --}}
+                    <div class="absolute -top-3 -right-3 bg-fuchsia-500/90 backdrop-blur rounded-xl px-3 py-1.5 shadow-lg animate-float">
+                        <span class="text-white text-xs font-bold"><i class="fas fa-magic mr-1"></i>AI Powered</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ==================== IoT LIVE DASHBOARD SHOWCASE ==================== --}}
+<section class="py-24 relative overflow-hidden" id="iot-dashboard">
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0a0e1a] to-kvt-950"></div>
+    <div class="absolute inset-0 opacity-[0.02]" style="background-image: radial-gradient(circle, #14b8a6 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right">
+                <div class="inline-flex items-center gap-2 bg-teal-500/10 border border-teal-500/20 rounded-full px-4 py-1.5 mb-4">
+                    <i class="fas fa-wifi text-teal-400 animate-pulse"></i>
+                    <span class="text-teal-300 text-sm font-semibold">Smart Campus IoT</span>
+                </div>
+                <h2 class="text-4xl lg:text-5xl font-black text-white mb-6">Kampus Cerdas<br><span class="text-teal-400">Terkoneksi IoT</span></h2>
+                <p class="text-gray-400 leading-relaxed mb-8">Ribuan sensor IoT memantau kampus secara real-time — dari kualitas udara, konsumsi energi, hingga ketersediaan parkir. Semua terintegrasi dalam satu dashboard.</p>
+
+                <div class="space-y-4">
+                    @php
+                    $iotFeatures = [
+                        ['Monitoring Energi', 'Pantau konsumsi listrik, air, dan gas secara real-time di seluruh gedung', 'fa-bolt', 'text-yellow-400', 'bg-yellow-500/10'],
+                        ['Smart Parking', 'Sensor parkir mendeteksi slot kosong secara otomatis, kurangi waktu cari parkir 60%', 'fa-parking', 'text-blue-400', 'bg-blue-500/10'],
+                        ['Air Quality Index', 'Sensor PM2.5, CO2, dan suhu untuk lingkungan belajar yang optimal', 'fa-wind', 'text-green-400', 'bg-green-500/10'],
+                        ['Building Manager', 'Kontrol HVAC, pencahayaan, dan akses gedung via satu dashboard', 'fa-building', 'text-purple-400', 'bg-purple-500/10'],
+                    ];
+                    @endphp
+                    @foreach($iotFeatures as $iot)
+                    <div class="flex items-start gap-4 bg-kvt-900/40 border border-kvt-700/20 rounded-xl p-4 hover:border-teal-500/20 transition group">
+                        <div class="w-10 h-10 {{ $iot[4] }} rounded-lg flex items-center justify-center shrink-0">
+                            <i class="fas {{ $iot[2] }} {{ $iot[3] }}"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm mb-0.5">{{ $iot[0] }}</h4>
+                            <p class="text-gray-500 text-xs">{{ $iot[1] }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- IoT Dashboard Preview --}}
+            <div data-aos="fade-left" data-aos-delay="200" class="hidden lg:block">
+                <div class="bg-kvt-900/80 backdrop-blur border border-teal-700/20 rounded-2xl p-6 shadow-2xl" id="iotDashboard">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            <span class="text-white text-sm font-bold">IoT Dashboard</span>
+                        </div>
+                        <span class="text-teal-400 text-xs font-mono" id="iotTime">--:--:--</span>
+                    </div>
+
+                    {{-- Sensor Cards --}}
+                    <div class="grid grid-cols-3 gap-3 mb-4">
+                        <div class="bg-kvt-800/60 rounded-xl p-3 border border-kvt-700/20">
+                            <div class="text-gray-500 text-[10px] mb-1"><i class="fas fa-temperature-high text-red-400 mr-1"></i>Suhu</div>
+                            <div class="text-white font-black text-lg" id="iotSuhu">26.4°C</div>
+                            <div class="w-full h-1 bg-kvt-700 rounded-full mt-1"><div class="h-full bg-gradient-to-r from-blue-500 to-red-500 rounded-full" style="width:52%"></div></div>
+                        </div>
+                        <div class="bg-kvt-800/60 rounded-xl p-3 border border-kvt-700/20">
+                            <div class="text-gray-500 text-[10px] mb-1"><i class="fas fa-tint text-blue-400 mr-1"></i>Kelembaban</div>
+                            <div class="text-white font-black text-lg" id="iotHumid">68%</div>
+                            <div class="w-full h-1 bg-kvt-700 rounded-full mt-1"><div class="h-full bg-blue-500 rounded-full" style="width:68%"></div></div>
+                        </div>
+                        <div class="bg-kvt-800/60 rounded-xl p-3 border border-kvt-700/20">
+                            <div class="text-gray-500 text-[10px] mb-1"><i class="fas fa-wind text-green-400 mr-1"></i>AQI</div>
+                            <div class="text-green-400 font-black text-lg" id="iotAqi">42</div>
+                            <div class="text-[9px] text-green-400">Good <i class="fas fa-leaf"></i></div>
+                        </div>
+                    </div>
+
+                    {{-- Energy Chart sim --}}
+                    <div class="bg-kvt-800/40 rounded-xl p-4 border border-kvt-700/20 mb-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-400 text-xs font-semibold"><i class="fas fa-bolt text-yellow-400 mr-1"></i>Energi (kWh)</span>
+                            <span class="text-yellow-400 text-xs font-bold" id="iotEnergy">1,247 kWh</span>
+                        </div>
+                        <div class="flex items-end gap-1 h-16" id="iotBars">
+                            @for($b = 0; $b < 24; $b++)
+                            <div class="flex-1 rounded-sm transition-all duration-500" style="height: {{ rand(20, 100) }}%; background: linear-gradient(to top, #14b8a6, #0d9488);"></div>
+                            @endfor
+                        </div>
+                        <div class="flex justify-between mt-1"><span class="text-gray-600 text-[8px]">00:00</span><span class="text-gray-600 text-[8px]">12:00</span><span class="text-gray-600 text-[8px]">23:00</span></div>
+                    </div>
+
+                    {{-- Bottom stats --}}
+                    <div class="grid grid-cols-4 gap-2">
+                        <div class="text-center bg-kvt-800/30 rounded-lg p-2">
+                            <div class="text-blue-400 font-bold text-sm">156</div>
+                            <div class="text-gray-600 text-[9px]">Sensor Aktif</div>
+                        </div>
+                        <div class="text-center bg-kvt-800/30 rounded-lg p-2">
+                            <div class="text-green-400 font-bold text-sm">99.7%</div>
+                            <div class="text-gray-600 text-[9px]">Uptime</div>
+                        </div>
+                        <div class="text-center bg-kvt-800/30 rounded-lg p-2">
+                            <div class="text-yellow-400 font-bold text-sm">48</div>
+                            <div class="text-gray-600 text-[9px]">Gedung</div>
+                        </div>
+                        <div class="text-center bg-kvt-800/30 rounded-lg p-2">
+                            <div class="text-teal-400 font-bold text-sm">3</div>
+                            <div class="text-gray-600 text-[9px]">Alert</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ==================== TECH ARCHITECTURE / STRUCTURE ==================== --}}
+<section class="py-24 relative overflow-hidden" id="arsitektur">
+    <div class="absolute inset-0 bg-gradient-to-b from-kvt-950 via-[#080c16] to-kvt-950"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <div class="inline-flex items-center gap-2 bg-kvt-500/10 border border-kvt-500/20 rounded-full px-5 py-2 mb-4">
+                <i class="fas fa-project-diagram text-kvt-400"></i>
+                <span class="text-kvt-300 text-sm font-semibold">Arsitektur Teknologi</span>
+            </div>
+            <h2 class="text-4xl lg:text-5xl font-black text-white mb-4">Dibangun untuk Masa Depan</h2>
+            <p class="text-gray-400 max-w-3xl mx-auto">Arsitektur cloud-native yang scalable, secure, dan siap menghadirkan pengalaman belajar terbaik</p>
+        </div>
+
+        {{-- Architecture Layers --}}
+        <div class="max-w-5xl mx-auto space-y-4" data-aos="fade-up" data-aos-delay="100">
+            @php
+            $layers = [
+                ['Frontend Layer', 'User Interface & Experience', ['Tailwind CSS 4', 'Alpine.js', 'WebSocket', 'PWA', 'Canvas/WebGL', 'MediaPipe'], 'fa-desktop', 'from-sky-500 to-blue-600', 'border-sky-500/20'],
+                ['Application Layer', 'Business Logic & APIs', ['Laravel 12', 'REST API', 'Queue Jobs', 'Event System', 'Middleware', 'Service Layer'], 'fa-layer-group', 'from-purple-500 to-violet-600', 'border-purple-500/20'],
+                ['AI/ML Layer', 'Intelligence & Processing', ['OpenAI GPT', 'Claude', 'Ollama', 'TensorFlow.js', 'MediaPipe', 'n8n Workflow'], 'fa-brain', 'from-fuchsia-500 to-pink-600', 'border-fuchsia-500/20'],
+                ['IoT & Edge Layer', 'Sensors & Real-time Data', ['MQTT Broker', 'Edge Computing', 'Sensor Array', 'Real-time Stream', 'Digital Twin', 'InfluxDB'], 'fa-microchip', 'from-teal-500 to-emerald-600', 'border-teal-500/20'],
+                ['Data Layer', 'Storage & Analytics', ['PostgreSQL', 'Redis Cache', 'S3 Storage', 'Data Lake', 'Elasticsearch', 'Blockchain'], 'fa-database', 'from-amber-500 to-orange-600', 'border-amber-500/20'],
+                ['Security Layer', 'Protection & Compliance', ['Zero Trust', 'AES-256 Encryption', 'OAuth 2.0 / RBAC', 'ISO 27001', 'COBIT 2019', 'WAF / DDoS Shield'], 'fa-shield-alt', 'from-red-500 to-rose-600', 'border-red-500/20'],
+            ];
+            @endphp
+
+            @foreach($layers as $i => $layer)
+            <div class="bg-kvt-900/60 backdrop-blur border {{ $layer[5] }} rounded-2xl p-5 hover:bg-kvt-900/80 transition group" data-aos="fade-up" data-aos-delay="{{ $i * 60 }}">
+                <div class="flex items-center gap-5">
+                    <div class="w-12 h-12 bg-gradient-to-br {{ $layer[4] }} rounded-xl flex items-center justify-center shadow-lg shrink-0">
+                        <i class="fas {{ $layer[3] }} text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-3 mb-1.5">
+                            <h3 class="text-white font-bold text-sm">{{ $layer[0] }}</h3>
+                            <span class="text-gray-500 text-xs hidden sm:inline">{{ $layer[1] }}</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($layer[2] as $tech)
+                            <span class="text-[10px] font-medium text-gray-400 bg-kvt-800/50 border border-kvt-700/20 rounded-lg px-2 py-1">{{ $tech }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-kvt-700 group-hover:text-kvt-400 transition hidden sm:block"></i>
+                </div>
+                @if($i < count($layers) - 1)
+                <div class="flex justify-center mt-3 -mb-8 relative z-10">
+                    <div class="w-px h-6 bg-gradient-to-b from-kvt-700/50 to-transparent"></div>
+                </div>
+                @endif
+            </div>
+            @endforeach
+        </div>
+
+        {{-- Bottom Stats --}}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="300">
+            @php
+            $infra = [
+                ['99.99%', 'Uptime SLA', 'fa-server', 'text-green-400'],
+                ['<50ms', 'Latency Global', 'fa-bolt', 'text-yellow-400'],
+                ['5 Region', 'Multi-Cloud', 'fa-cloud', 'text-sky-400'],
+                ['A+', 'Security Grade', 'fa-shield-alt', 'text-red-400'],
+            ];
+            @endphp
+            @foreach($infra as $stat)
+            <div class="text-center bg-kvt-900/40 border border-kvt-700/20 rounded-xl p-5">
+                <i class="fas {{ $stat[2] }} {{ $stat[3] }} text-xl mb-2"></i>
+                <div class="text-white font-black text-2xl mb-1">{{ $stat[0] }}</div>
+                <div class="text-gray-500 text-xs">{{ $stat[1] }}</div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
 {{-- FITUR UTAMA SECTION --}}
 <section class="py-20 relative" id="fitur">
     <div class="absolute inset-0 bg-gradient-to-b from-kvt-950 to-kvt-900"></div>
@@ -2175,5 +2488,22 @@ setInterval(() => {
         });
     }, 300);
 }, 4000);
+
+// === IoT DASHBOARD LIVE SIMULATION ===
+setInterval(() => {
+    const suhu = document.getElementById('iotSuhu');
+    const humid = document.getElementById('iotHumid');
+    const aqi = document.getElementById('iotAqi');
+    const energy = document.getElementById('iotEnergy');
+    const time = document.getElementById('iotTime');
+    if (suhu) suhu.textContent = (24 + Math.random() * 5).toFixed(1) + '°C';
+    if (humid) humid.textContent = Math.floor(55 + Math.random() * 25) + '%';
+    if (aqi) { const v = Math.floor(30 + Math.random() * 40); aqi.textContent = v; aqi.className = v < 50 ? 'text-green-400 font-black text-lg' : v < 100 ? 'text-yellow-400 font-black text-lg' : 'text-red-400 font-black text-lg'; }
+    if (energy) energy.textContent = (1000 + Math.floor(Math.random() * 500)).toLocaleString() + ' kWh';
+    if (time) { const n = new Date(); time.textContent = n.toLocaleTimeString('id-ID'); }
+    // Animate bars
+    const bars = document.getElementById('iotBars');
+    if (bars) { bars.querySelectorAll('div').forEach(b => { b.style.height = (20 + Math.random() * 80) + '%'; }); }
+}, 3000);
 </script>
 @endpush
