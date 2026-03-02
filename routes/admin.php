@@ -203,6 +203,10 @@ Route::prefix('github-ai')->name('github-ai.')->group(function () {
     Route::get('/api/pulls', [GitHubAIController::class, 'apiPulls'])->name('api.pulls');
     Route::get('/api/languages', [GitHubAIController::class, 'apiLanguages'])->name('api.languages');
     Route::get('/api/repo', [GitHubAIController::class, 'apiRepoInfo'])->name('api.repo');
+    Route::post('/code-review', [GitHubAIController::class, 'aiCodeReview'])->name('code-review');
+    Route::get('/api/health', [GitHubAIController::class, 'apiHealthScore'])->name('api.health');
+    Route::get('/api/heatmap', [GitHubAIController::class, 'apiHeatmap'])->name('api.heatmap');
+    Route::get('/api/dependencies', [GitHubAIController::class, 'apiDependencies'])->name('api.dependencies');
 });
 
 // K-Arma AI Monitor

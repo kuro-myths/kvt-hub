@@ -636,6 +636,358 @@ jobs:
         </div>
     </div>
 
+    {{-- ===== TAB 7: REPO HEALTH SCORE ===== --}}
+    <div x-show="activeTab === 'health'" x-transition class="space-y-6">
+        {{-- Overall Score Card --}}
+        <div class="bg-gradient-to-r from-kvt-900/90 via-emerald-900/30 to-kvt-900/90 border border-kvt-700/30 rounded-2xl p-8 text-center">
+            <div class="relative inline-block mb-4">
+                <svg width="160" height="160" viewBox="0 0 160 160">
+                    <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="12"/>
+                    <circle cx="80" cy="80" r="70" fill="none"
+                        stroke="{{ $healthScore['overall'] >= 80 ? '#10B981' : ($healthScore['overall'] >= 60 ? '#F59E0B' : '#EF4444') }}"
+                        stroke-width="12" stroke-linecap="round"
+                        stroke-dasharray="{{ $healthScore['overall'] * 4.4 }} 440"
+                        transform="rotate(-90 80 80)"
+                        class="transition-all duration-1000"/>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span class="text-4xl font-black text-white">{{ $healthScore['grade'] }}</span>
+                    <span class="text-sm text-gray-400">{{ $healthScore['overall'] }}/100</span>
+                </div>
+            </div>
+            <h3 class="text-white text-xl font-bold">Repository Health Score</h3>
+            <p class="text-gray-400 text-sm mt-1">Analisis otomatis berdasarkan 6 metrik kualitas</p>
+        </div>
+
+        {{-- Score Cards Grid --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @php
+                $metricColors = [
+                    'blue' => ['bg' => 'bg-blue-500/10', 'text' => 'text-blue-400', 'bar' => 'bg-blue-500'],
+                    'green' => ['bg' => 'bg-green-500/10', 'text' => 'text-green-400', 'bar' => 'bg-green-500'],
+                    'red' => ['bg' => 'bg-red-500/10', 'text' => 'text-red-400', 'bar' => 'bg-red-500'],
+                    'purple' => ['bg' => 'bg-purple-500/10', 'text' => 'text-purple-400', 'bar' => 'bg-purple-500'],
+                    'amber' => ['bg' => 'bg-amber-500/10', 'text' => 'text-amber-400', 'bar' => 'bg-amber-500'],
+                    'emerald' => ['bg' => 'bg-emerald-500/10', 'text' => 'text-emerald-400', 'bar' => 'bg-emerald-500'],
+                ];
+            @endphp
+            @foreach($healthScore['metrics'] as $key => $metric)
+                @php $c = $metricColors[$metric['color']] ?? $metricColors['blue']; @endphp
+                <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 {{ $c['bg'] }} rounded-xl flex items-center justify-center">
+                                <i class="{{ $metric['icon'] }} {{ $c['text'] }}"></i>
+                            </div>
+                            <span class="text-white font-semibold">{{ $metric['label'] }}</span>
+                        </div>
+                        <span class="text-2xl font-black {{ $metric['score'] >= 70 ? 'text-green-400' : ($metric['score'] >= 40 ? 'text-amber-400' : 'text-red-400') }}">{{ $metric['score'] }}</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-kvt-800 rounded-full overflow-hidden">
+                        <div class="{{ $c['bar'] }} h-full rounded-full transition-all duration-1000" style="width: {{ $metric['score'] }}%"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">
+                        @switch($key)
+                            @case('documentation') README, CONTRIBUTING, CHANGELOG, LICENSE, docs/ @break
+                            @case('testing') Test files, PHPUnit config, CI workflows @break
+                            @case('activity') Frekuensi commit terbaru @break
+                            @case('community') Stars, forks, kontributor, wiki, discussions @break
+                            @case('code_quality') EditorConfig, Gitignore, Build tools, Dependencies @break
+                            @case('security') .env protection, Gitignore rules, License @break
+                        @endswitch
+                    </p>
+                </div>
+            @endforeach
+        </div>
+
+        {{-- Recommendations --}}
+        <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6">
+            <h3 class="text-white font-bold text-lg mb-4"><i class="fas fa-lightbulb text-yellow-400 mr-2"></i>Rekomendasi Peningkatan</h3>
+            <div class="space-y-3">
+                @foreach($healthScore['metrics'] as $key => $metric)
+                    @if($metric['score'] < 80)
+                    <div class="flex items-start gap-3 bg-kvt-800/30 rounded-xl p-4 border border-kvt-700/20">
+                        <i class="fas fa-arrow-circle-up text-kvt-400 mt-0.5"></i>
+                        <div>
+                            <span class="text-white font-semibold text-sm">{{ $metric['label'] }}: {{ $metric['score'] }}/100</span>
+                            <p class="text-gray-400 text-xs mt-1">
+                                @switch($key)
+                                    @case('documentation') Tambahkan atau lengkapi file CONTRIBUTING.md, CHANGELOG.md, dan folder docs/. @break
+                                    @case('testing') Buat lebih banyak unit & feature test. Tambahkan GitHub Actions CI. @break
+                                    @case('activity') Pertahankan frekuensi commit tetap tinggi. Commit rutin setiap minggu. @break
+                                    @case('community') Undang kontributor, aktifkan Discussions & Wiki di settings repo. @break
+                                    @case('code_quality') Pastikan .editorconfig, linters, dan build tools sudah dikonfigurasi. @break
+                                    @case('security') Pastikan .env masuk .gitignore. Tambahkan file LICENSE. @break
+                                @endswitch
+                            </p>
+                        </div>
+                    </div>
+                    @endif
+                @endforeach
+                @if(collect($healthScore['metrics'])->every(fn($m) => $m['score'] >= 80))
+                <div class="text-center py-6">
+                    <i class="fas fa-trophy text-3xl text-yellow-400 mb-2"></i>
+                    <p class="text-green-400 font-semibold">Semua metrik sudah bagus! Pertahankan kualitas ini.</p>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    {{-- ===== TAB 8: COMMIT HEATMAP ===== --}}
+    <div x-show="activeTab === 'heatmap'" x-transition class="space-y-6">
+        <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-white font-bold text-lg"><i class="fas fa-fire text-orange-400 mr-2"></i>Commit Heatmap — 1 Tahun Terakhir</h3>
+                <div class="flex items-center gap-2 text-xs text-gray-500">
+                    <span>Sedikit</span>
+                    <div class="flex gap-0.5">
+                        <div class="w-3 h-3 rounded-sm bg-kvt-800"></div>
+                        <div class="w-3 h-3 rounded-sm bg-green-900"></div>
+                        <div class="w-3 h-3 rounded-sm bg-green-700"></div>
+                        <div class="w-3 h-3 rounded-sm bg-green-500"></div>
+                        <div class="w-3 h-3 rounded-sm bg-green-400"></div>
+                    </div>
+                    <span>Banyak</span>
+                </div>
+            </div>
+
+            {{-- Heatmap grid —rendered by JS --}}
+            <div class="overflow-x-auto pb-2">
+                <div id="heatmapGrid" class="inline-flex gap-[3px]" style="min-width: 750px;"></div>
+            </div>
+
+            {{-- Summary stats --}}
+            @php
+                $totalCommits = array_sum($commitHeatmap);
+                $activeDays = count(array_filter($commitHeatmap, fn($c) => $c > 0));
+                $maxDay = !empty($commitHeatmap) ? max($commitHeatmap) : 0;
+                $longestStreak = 0; $currentStreak = 0;
+                $sortedDates = array_keys($commitHeatmap); sort($sortedDates);
+                foreach ($sortedDates as $date) {
+                    if (($commitHeatmap[$date] ?? 0) > 0) { $currentStreak++; $longestStreak = max($longestStreak, $currentStreak); }
+                    else { $currentStreak = 0; }
+                }
+            @endphp
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <div class="bg-kvt-800/40 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-black text-white">{{ number_format($totalCommits) }}</div>
+                    <div class="text-xs text-gray-500 mt-1">Total Commits</div>
+                </div>
+                <div class="bg-kvt-800/40 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-black text-green-400">{{ $activeDays }}</div>
+                    <div class="text-xs text-gray-500 mt-1">Hari Aktif</div>
+                </div>
+                <div class="bg-kvt-800/40 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-black text-amber-400">{{ $maxDay }}</div>
+                    <div class="text-xs text-gray-500 mt-1">Max / Hari</div>
+                </div>
+                <div class="bg-kvt-800/40 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-black text-orange-400">{{ $longestStreak }}</div>
+                    <div class="text-xs text-gray-500 mt-1">Longest Streak</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ===== TAB 9: DEPENDENCY EXPLORER ===== --}}
+    <div x-show="activeTab === 'deps'" x-transition class="space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {{-- Composer: Require --}}
+            <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6">
+                <h3 class="text-white font-bold text-lg mb-4"><i class="fab fa-php text-purple-400 mr-2"></i>Composer — require</h3>
+                <div class="space-y-2">
+                    @foreach($dependencies['php']['require'] as $dep)
+                    @php
+                        $typeColors = ['framework'=>'blue','ai'=>'purple','runtime'=>'red','database'=>'emerald','library'=>'gray'];
+                        $tc = $typeColors[$dep['type']] ?? 'gray';
+                    @endphp
+                    <a href="{{ $dep['url'] }}" target="_blank" class="flex items-center justify-between p-3 border border-kvt-700/20 rounded-xl hover:bg-kvt-800/40 transition group">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <span class="w-2.5 h-2.5 rounded-full bg-{{ $tc }}-400 shrink-0"></span>
+                            <span class="text-white text-sm font-mono truncate group-hover:text-kvt-400 transition">{{ $dep['name'] }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-xs px-2 py-0.5 bg-{{ $tc }}-500/10 text-{{ $tc }}-400 rounded">{{ $dep['type'] }}</span>
+                            <code class="text-xs text-gray-500">{{ $dep['version'] }}</code>
+                        </div>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- Composer: Require-dev --}}
+            <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6">
+                <h3 class="text-white font-bold text-lg mb-4"><i class="fas fa-vial text-green-400 mr-2"></i>Composer — require-dev</h3>
+                <div class="space-y-2">
+                    @foreach($dependencies['php']['require_dev'] as $dep)
+                    @php
+                        $typeColors = ['testing'=>'green','debugging'=>'amber','linting'=>'cyan','library'=>'gray'];
+                        $tc = $typeColors[$dep['type']] ?? 'gray';
+                    @endphp
+                    <a href="{{ $dep['url'] }}" target="_blank" class="flex items-center justify-between p-3 border border-kvt-700/20 rounded-xl hover:bg-kvt-800/40 transition group">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <span class="w-2.5 h-2.5 rounded-full bg-{{ $tc }}-400 shrink-0"></span>
+                            <span class="text-white text-sm font-mono truncate group-hover:text-kvt-400 transition">{{ $dep['name'] }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-xs px-2 py-0.5 bg-{{ $tc }}-500/10 text-{{ $tc }}-400 rounded">{{ $dep['type'] }}</span>
+                            <code class="text-xs text-gray-500">{{ $dep['version'] }}</code>
+                        </div>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- npm: devDependencies --}}
+            <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6 lg:col-span-2">
+                <h3 class="text-white font-bold text-lg mb-4"><i class="fab fa-npm text-red-400 mr-2"></i>npm — devDependencies</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                    @foreach($dependencies['npm']['devDependencies'] as $dep)
+                    @php
+                        $typeColors = ['css'=>'purple','bundler'=>'amber','http'=>'blue','tooling'=>'green','library'=>'gray'];
+                        $tc = $typeColors[$dep['type']] ?? 'gray';
+                    @endphp
+                    <a href="{{ $dep['url'] }}" target="_blank" class="flex items-center justify-between p-3 border border-kvt-700/20 rounded-xl hover:bg-kvt-800/40 transition group">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <span class="w-2.5 h-2.5 rounded-full bg-{{ $tc }}-400 shrink-0"></span>
+                            <span class="text-white text-sm font-mono truncate group-hover:text-kvt-400 transition">{{ $dep['name'] }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <span class="text-xs px-2 py-0.5 bg-{{ $tc }}-500/10 text-{{ $tc }}-400 rounded">{{ $dep['type'] }}</span>
+                            <code class="text-xs text-gray-500">{{ $dep['version'] }}</code>
+                        </div>
+                    </a>
+                    @endforeach
+                    @if(count($dependencies['npm']['dependencies'] ?? []) > 0)
+                        @foreach($dependencies['npm']['dependencies'] as $dep)
+                        <a href="{{ $dep['url'] }}" target="_blank" class="flex items-center justify-between p-3 border border-kvt-700/20 rounded-xl hover:bg-kvt-800/40 transition group">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blue-400 shrink-0"></span>
+                                <span class="text-white text-sm font-mono truncate group-hover:text-kvt-400 transition">{{ $dep['name'] }}</span>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0">
+                                <span class="text-xs px-2 py-0.5 bg-blue-500/10 text-blue-400 rounded">prod</span>
+                                <code class="text-xs text-gray-500">{{ $dep['version'] }}</code>
+                            </div>
+                        </a>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        {{-- Dependency Summary --}}
+        <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6">
+            <h3 class="text-white font-bold mb-4"><i class="fas fa-chart-pie text-kvt-400 mr-2"></i>Ringkasan Dependensi</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-kvt-800/40 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-black text-purple-400">{{ count($dependencies['php']['require']) }}</div>
+                    <div class="text-xs text-gray-500 mt-1">PHP Require</div>
+                </div>
+                <div class="bg-kvt-800/40 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-black text-green-400">{{ count($dependencies['php']['require_dev']) }}</div>
+                    <div class="text-xs text-gray-500 mt-1">PHP Dev</div>
+                </div>
+                <div class="bg-kvt-800/40 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-black text-red-400">{{ count($dependencies['npm']['devDependencies']) }}</div>
+                    <div class="text-xs text-gray-500 mt-1">npm Dev</div>
+                </div>
+                <div class="bg-kvt-800/40 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-black text-white">{{ count($dependencies['php']['require']) + count($dependencies['php']['require_dev']) + count($dependencies['npm']['devDependencies']) + count($dependencies['npm']['dependencies'] ?? []) }}</div>
+                    <div class="text-xs text-gray-500 mt-1">Total</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ===== TAB 10: AI CODE REVIEW ===== --}}
+    <div x-show="activeTab === 'review'" x-transition class="space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {{-- Code Input --}}
+            <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden flex flex-col" style="height: 620px;">
+                <div class="px-5 py-3 bg-kvt-800/60 border-b border-kvt-700/30 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <span class="text-white font-semibold text-sm">Kode untuk Review</span>
+                    </div>
+                    <select x-model="reviewLang" class="bg-kvt-700 text-white text-xs rounded-lg px-3 py-1.5 border-none outline-none">
+                        <option value="php">PHP</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="html">HTML</option>
+                        <option value="css">CSS</option>
+                        <option value="sql">SQL</option>
+                        <option value="bash">Bash</option>
+                    </select>
+                </div>
+                <textarea x-model="reviewCode" spellcheck="false" placeholder="// Paste kode kamu di sini untuk di-review oleh AI..." class="flex-1 w-full font-mono text-sm text-green-300 bg-kvt-950 p-4 outline-none resize-none leading-6"></textarea>
+                <div class="px-5 py-3 bg-kvt-800/60 border-t border-kvt-700/30 flex items-center justify-between">
+                    <span class="text-xs text-gray-500" x-text="reviewCode.length + ' karakter'"></span>
+                    <button @click="submitReview()" :disabled="reviewLoading || !reviewCode.trim()" class="px-5 py-2 bg-gradient-to-r from-kvt-500 to-purple-600 text-white rounded-xl text-sm font-semibold hover:shadow-lg transition disabled:opacity-50">
+                        <i :class="reviewLoading ? 'fas fa-spinner fa-spin' : 'fas fa-search'" class="mr-2"></i>
+                        <span x-text="reviewLoading ? 'Analyzing...' : 'Review Kode'"></span>
+                    </button>
+                </div>
+            </div>
+
+            {{-- Review Output --}}
+            <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl overflow-hidden flex flex-col" style="height: 620px;">
+                <div class="px-5 py-3 bg-kvt-800/60 border-b border-kvt-700/30 flex items-center gap-3">
+                    <i class="fas fa-robot text-kvt-400"></i>
+                    <span class="text-white font-semibold text-sm">Hasil AI Code Review</span>
+                </div>
+                <div class="flex-1 overflow-y-auto p-5">
+                    <template x-if="!reviewResult && !reviewLoading">
+                        <div class="text-center py-16">
+                            <div class="w-16 h-16 bg-kvt-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-search text-2xl text-gray-600"></i>
+                            </div>
+                            <p class="text-gray-500">Paste kode di sebelah kiri lalu klik "Review Kode"</p>
+                            <p class="text-gray-600 text-xs mt-2">AI akan menganalisis kualitas, bug, security, dan memberikan saran</p>
+                        </div>
+                    </template>
+                    <template x-if="reviewLoading">
+                        <div class="text-center py-16">
+                            <div class="w-16 h-16 bg-kvt-800/50 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                                <i class="fas fa-brain text-2xl text-kvt-400"></i>
+                            </div>
+                            <p class="text-kvt-400 font-semibold">Menganalisis kode...</p>
+                            <p class="text-gray-600 text-xs mt-2">AI sedang memeriksa kualitas, keamanan, dan best practices</p>
+                        </div>
+                    </template>
+                    <template x-if="reviewResult && !reviewLoading">
+                        <div class="prose prose-sm prose-invert text-gray-300 text-sm leading-relaxed" x-html="renderMarkdown(reviewResult)"></div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        {{-- Quick example --}}
+        <div class="bg-kvt-900/80 border border-kvt-700/30 rounded-2xl p-6">
+            <h3 class="text-white font-bold mb-4"><i class="fas fa-magic text-amber-400 mr-2"></i>Contoh Cepat — Klik untuk Review</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <button @click="loadReviewExample('php')" class="text-left p-4 border border-kvt-700/20 rounded-xl hover:bg-kvt-800/40 transition">
+                    <div class="flex items-center gap-2 mb-2"><i class="fab fa-php text-purple-400"></i><span class="text-white font-semibold text-sm">PHP Controller</span></div>
+                    <p class="text-gray-500 text-xs">Review contoh controller Laravel dengan beberapa anti-pattern</p>
+                </button>
+                <button @click="loadReviewExample('javascript')" class="text-left p-4 border border-kvt-700/20 rounded-xl hover:bg-kvt-800/40 transition">
+                    <div class="flex items-center gap-2 mb-2"><i class="fab fa-js text-yellow-400"></i><span class="text-white font-semibold text-sm">JavaScript Async</span></div>
+                    <p class="text-gray-500 text-xs">Kode async/await dengan potential issues</p>
+                </button>
+                <button @click="loadReviewExample('python')" class="text-left p-4 border border-kvt-700/20 rounded-xl hover:bg-kvt-800/40 transition">
+                    <div class="flex items-center gap-2 mb-2"><i class="fab fa-python text-blue-400"></i><span class="text-white font-semibold text-sm">Python Function</span></div>
+                    <p class="text-gray-500 text-xs">Fungsi Python dengan code smell yang umum</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @endsection
@@ -660,6 +1012,10 @@ function githubAI() {
             { id: 'languages', label: 'Code Runner', icon: 'fas fa-code', badge: '{{ count($languageShowcase) }}' },
             { id: 'commits', label: 'Commits', icon: 'fas fa-history', badge: '{{ count($ghCommits) }}' },
             { id: 'workflows', label: 'CI/CD', icon: 'fas fa-cogs', badge: '{{ count($ghWorkflows) ?: "0" }}' },
+            { id: 'health', label: 'Health Score', icon: 'fas fa-heartbeat', badge: '{{ $healthScore["grade"] }}' },
+            { id: 'heatmap', label: 'Heatmap', icon: 'fas fa-fire', badge: null },
+            { id: 'deps', label: 'Dependencies', icon: 'fas fa-project-diagram', badge: '{{ count($dependencies["php"]["require"]) + count($dependencies["php"]["require_dev"]) + count($dependencies["npm"]["devDependencies"]) }}' },
+            { id: 'review', label: 'Code Review', icon: 'fas fa-search-plus', badge: 'AI' },
         ],
 
         // Chat state
@@ -692,8 +1048,15 @@ function githubAI() {
         sqlReady: false,
         sqlDb: null,
 
+        // Code Review state
+        reviewCode: '',
+        reviewLang: 'php',
+        reviewResult: '',
+        reviewLoading: false,
+
         init() {
             this.loadChatHistory();
+            this.$nextTick(() => this.renderHeatmap());
         },
 
         // =================== CHAT ===================
@@ -983,6 +1346,78 @@ sys.stderr = io.StringIO()
             } catch (e) {
                 this.codeError = '❌ JSON Invalid: ' + e.message;
             }
+        },
+
+        // =================== HEATMAP ===================
+        renderHeatmap() {
+            const heatmapData = @json($commitHeatmap);
+            const grid = document.getElementById('heatmapGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            // Build 52 weeks of columns
+            const today = new Date();
+            const oneDay = 86400000;
+            const startDate = new Date(today.getTime() - (52 * 7 * oneDay));
+            // Align to Sunday
+            startDate.setDate(startDate.getDate() - startDate.getDay());
+
+            const maxCommits = Math.max(1, ...Object.values(heatmapData));
+
+            for (let week = 0; week < 53; week++) {
+                const col = document.createElement('div');
+                col.className = 'flex flex-col gap-[3px]';
+
+                for (let day = 0; day < 7; day++) {
+                    const d = new Date(startDate.getTime() + ((week * 7 + day) * oneDay));
+                    const key = d.toISOString().split('T')[0];
+                    const count = heatmapData[key] || 0;
+
+                    const cell = document.createElement('div');
+                    cell.className = 'w-3 h-3 rounded-sm cursor-pointer transition-transform hover:scale-150';
+                    cell.title = `${key}: ${count} commit${count !== 1 ? 's' : ''}`;
+
+                    if (count === 0) cell.style.background = 'rgba(255,255,255,0.04)';
+                    else if (count <= maxCommits * 0.25) cell.style.background = '#14532d';
+                    else if (count <= maxCommits * 0.5) cell.style.background = '#15803d';
+                    else if (count <= maxCommits * 0.75) cell.style.background = '#22c55e';
+                    else cell.style.background = '#4ade80';
+
+                    col.appendChild(cell);
+                }
+                grid.appendChild(col);
+            }
+        },
+
+        // =================== AI CODE REVIEW ===================
+        async submitReview() {
+            if (!this.reviewCode.trim() || this.reviewLoading) return;
+            this.reviewLoading = true;
+            this.reviewResult = '';
+
+            try {
+                const res = await fetch('{{ route("admin.github-ai.code-review") }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content },
+                    body: JSON.stringify({ code: this.reviewCode, language: this.reviewLang })
+                });
+                const data = await res.json();
+                this.reviewResult = data.success ? data.review : ('Error: ' + (data.error || 'Unknown error'));
+            } catch (e) {
+                this.reviewResult = 'Koneksi gagal: ' + e.message;
+            }
+            this.reviewLoading = false;
+        },
+
+        loadReviewExample(lang) {
+            const examples = {
+                php: `<` + `?php\n\nclass UserController extends Controller\n{\n    public function store(Request $request)\n    {\n        $user = new User;\n        $user->name = $request->name;\n        $user->email = $request->email;\n        $user->password = $request->password; // no hashing!\n        $user->save();\n\n        $users = DB::select("SELECT * FROM users WHERE email = '".$request->email."'"); // SQL injection\n\n        return response()->json($user);\n    }\n\n    public function index()\n    {\n        $users = User::all(); // no pagination\n        return view('users', compact('users'));\n    }\n}`,
+                javascript: `async function fetchUsers() {\n    // No error handling\n    const response = await fetch('/api/users');\n    const data = await response.json();\n\n    // Memory leak: event listener in loop\n    data.forEach(user => {\n        document.getElementById('btn-' + user.id)\n            .addEventListener('click', () => {\n                deleteUser(user.id);\n            });\n    });\n\n    // eval is dangerous\n    const config = eval('(' + localStorage.getItem('config') + ')');\n\n    // == instead of ===\n    if (data.length == 0) {\n        console.log("empty");\n    }\n}`,
+                python: `def process_data(data):\n    result = []\n    for i in range(len(data)):  # not pythonic\n        if data[i] != None:  # should use 'is not'\n            result.append(data[i] * 2)\n\n    # mutable default argument\ndef add_item(item, items=[]):\n    items.append(item)\n    return items\n\n# bare except\ntry:\n    file = open('data.txt')  # no context manager\n    content = file.read()\nexcept:\n    pass  # silent error\n\n# global variable\ndb_connection = None\ndef get_db():\n    global db_connection\n    if db_connection is None:\n        db_connection = connect('localhost')\n    return db_connection`,
+            };
+            this.reviewLang = lang;
+            this.reviewCode = examples[lang] || examples.php;
+            this.reviewResult = '';
         },
     }
 }

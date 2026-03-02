@@ -9,6 +9,7 @@ use App\Models\ChatMessage;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -50,11 +51,17 @@ class GitHubAIController extends Controller
         // Platform knowledge for AI (preloaded summary)
         $platformSummary = $this->getPlatformKnowledge();
 
+        // === NEW FEATURES ===
+        $healthScore      = $this->calculateHealthScore($ghRepo, $ghLanguages, $ghContributors, $ghCommits);
+        $commitHeatmap    = $this->getCommitHeatmap();
+        $dependencies     = $this->getDependencies();
+
         return view('akun.admin.github-ai', compact(
             'ghRepo', 'ghLanguages', 'ghContributors', 'ghCommits',
             'ghBranches', 'ghReleases', 'ghPackages', 'ghIssues',
             'ghPulls', 'ghTopics', 'ghWorkflows',
-            'languageShowcase', 'platformSummary'
+            'languageShowcase', 'platformSummary',
+            'healthScore', 'commitHeatmap', 'dependencies'
         ));
     }
 
@@ -756,6 +763,302 @@ CTX;
                 'LED Dot Matrix Panel',
             ],
         ];
+    }
+
+    // ========================================================================
+    //  REPO HEALTH SCORE — Analisis kesehatan repository
+    // ========================================================================
+
+    protected function calculateHealthScore(array $repo, array $languages, array $contributors, array $commits): array
+    {
+        $scores = [];
+
+        // 1. Documentation Score (0-100)
+        $docScore = 0;
+        if (File::exists(base_path('README.md'))) $docScore += 30;
+        if (File::exists(base_path('CONTRIBUTING.md'))) $docScore += 20;
+        if (File::exists(base_path('CHANGELOG.md'))) $docScore += 15;
+        if (File::exists(base_path('LICENSE'))) $docScore += 15;
+        if (File::isDirectory(base_path('docs'))) $docScore += 20;
+        $scores['documentation'] = ['score' => min($docScore, 100), 'label' => 'Dokumentasi', 'icon' => 'fas fa-book', 'color' => 'blue'];
+
+        // 2. Testing Score (0-100)
+        $testScore = 0;
+        if (File::isDirectory(base_path('tests'))) {
+            $testFiles = count(File::allFiles(base_path('tests')));
+            $testScore += min($testFiles * 10, 50);
+        }
+        if (File::exists(base_path('phpunit.xml'))) $testScore += 25;
+        if (File::exists(base_path('.github/workflows'))) $testScore += 25;
+        $scores['testing'] = ['score' => min($testScore, 100), 'label' => 'Testing', 'icon' => 'fas fa-vial', 'color' => 'green'];
+
+        // 3. Activity Score (0-100)
+        $activityScore = 0;
+        if (!empty($commits)) {
+            $latestCommit = $commits[0]['date'] ?? null;
+            if ($latestCommit) {
+                $daysSince = now()->diffInDays(\Carbon\Carbon::parse($latestCommit));
+                if ($daysSince < 1) $activityScore = 100;
+                elseif ($daysSince < 7) $activityScore = 85;
+                elseif ($daysSince < 30) $activityScore = 60;
+                elseif ($daysSince < 90) $activityScore = 30;
+                else $activityScore = 10;
+            }
+        }
+        $scores['activity'] = ['score' => $activityScore, 'label' => 'Aktivitas', 'icon' => 'fas fa-heartbeat', 'color' => 'red'];
+
+        // 4. Community Score (0-100)
+        $communityScore = 0;
+        $communityScore += min(($repo['stars'] ?? 0) * 5, 25);
+        $communityScore += min(($repo['forks'] ?? 0) * 10, 25);
+        $communityScore += min(count($contributors) * 15, 30);
+        if (($repo['has_discussions'] ?? false)) $communityScore += 10;
+        if (($repo['has_wiki'] ?? false)) $communityScore += 10;
+        $scores['community'] = ['score' => min($communityScore, 100), 'label' => 'Komunitas', 'icon' => 'fas fa-users', 'color' => 'purple'];
+
+        // 5. Code Quality Score (0-100)
+        $codeScore = 0;
+        if (File::exists(base_path('.editorconfig'))) $codeScore += 15;
+        if (File::exists(base_path('.gitignore'))) $codeScore += 10;
+        if (File::exists(base_path('.gitattributes'))) $codeScore += 10;
+        $codeScore += min(count($languages) * 5, 25);
+        if (File::exists(base_path('composer.json'))) $codeScore += 15;
+        if (File::exists(base_path('package.json'))) $codeScore += 10;
+        if (File::exists(base_path('vite.config.js')) || File::exists(base_path('webpack.mix.js'))) $codeScore += 15;
+        $scores['code_quality'] = ['score' => min($codeScore, 100), 'label' => 'Kualitas Kode', 'icon' => 'fas fa-medal', 'color' => 'amber'];
+
+        // 6. Security Score (0-100)
+        $securityScore = 0;
+        if (!File::exists(base_path('.env'))) $securityScore += 20; // .env not exposed
+        if (File::exists(base_path('.gitignore'))) {
+            $gi = File::get(base_path('.gitignore'));
+            if (str_contains($gi, '.env')) $securityScore += 30;
+            if (str_contains($gi, 'vendor')) $securityScore += 10;
+            if (str_contains($gi, 'node_modules')) $securityScore += 10;
+        }
+        if (($repo['license'] ?? '') !== '') $securityScore += 15;
+        if (File::exists(base_path('LICENSE'))) $securityScore += 15;
+        $scores['security'] = ['score' => min($securityScore, 100), 'label' => 'Keamanan', 'icon' => 'fas fa-shield-alt', 'color' => 'emerald'];
+
+        // Overall
+        $overall = (int) round(collect($scores)->avg('score'));
+        $grade = match(true) {
+            $overall >= 90 => 'A+',
+            $overall >= 80 => 'A',
+            $overall >= 70 => 'B+',
+            $overall >= 60 => 'B',
+            $overall >= 50 => 'C',
+            $overall >= 40 => 'D',
+            default => 'F',
+        };
+
+        return [
+            'overall' => $overall,
+            'grade'   => $grade,
+            'metrics' => $scores,
+        ];
+    }
+
+    // ========================================================================
+    //  COMMIT HEATMAP — GitHub-style contribution calendar
+    // ========================================================================
+
+    protected function getCommitHeatmap(): array
+    {
+        // Get commit activity from GitHub (52 weeks)
+        $activity = $this->githubGet('/stats/commit_activity', 1800);
+
+        $heatmap = [];
+        if ($activity && is_array($activity)) {
+            foreach ($activity as $week) {
+                $weekStart = $week['week'] ?? 0;
+                $days = $week['days'] ?? [0,0,0,0,0,0,0];
+                for ($d = 0; $d < 7; $d++) {
+                    $date = date('Y-m-d', $weekStart + ($d * 86400));
+                    $heatmap[$date] = $days[$d] ?? 0;
+                }
+            }
+        }
+
+        // Fallback: use local git log if API fails
+        if (empty($heatmap)) {
+            try {
+                $output = shell_exec('cd "' . base_path() . '" && git log --format="%ai" --since="1 year ago" 2>&1');
+                if ($output) {
+                    foreach (explode("\n", trim($output)) as $line) {
+                        $date = substr(trim($line), 0, 10);
+                        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+                            $heatmap[$date] = ($heatmap[$date] ?? 0) + 1;
+                        }
+                    }
+                }
+            } catch (\Exception $e) {}
+        }
+
+        return $heatmap;
+    }
+
+    // ========================================================================
+    //  DEPENDENCY EXPLORER — composer.json & package.json visualization
+    // ========================================================================
+
+    protected function getDependencies(): array
+    {
+        $deps = [
+            'php' => ['require' => [], 'require_dev' => []],
+            'npm' => ['dependencies' => [], 'devDependencies' => []],
+        ];
+
+        // Composer
+        $composerPath = base_path('composer.json');
+        if (File::exists($composerPath)) {
+            $composer = json_decode(File::get($composerPath), true);
+            if ($composer) {
+                foreach ($composer['require'] ?? [] as $pkg => $ver) {
+                    $deps['php']['require'][] = [
+                        'name' => $pkg,
+                        'version' => $ver,
+                        'type' => $this->classifyComposerPackage($pkg),
+                        'url' => $this->getPackagistUrl($pkg),
+                    ];
+                }
+                foreach ($composer['require-dev'] ?? [] as $pkg => $ver) {
+                    $deps['php']['require_dev'][] = [
+                        'name' => $pkg,
+                        'version' => $ver,
+                        'type' => $this->classifyComposerPackage($pkg),
+                        'url' => $this->getPackagistUrl($pkg),
+                    ];
+                }
+            }
+        }
+
+        // npm
+        $packagePath = base_path('package.json');
+        if (File::exists($packagePath)) {
+            $package = json_decode(File::get($packagePath), true);
+            if ($package) {
+                foreach ($package['dependencies'] ?? [] as $pkg => $ver) {
+                    $deps['npm']['dependencies'][] = [
+                        'name' => $pkg,
+                        'version' => $ver,
+                        'type' => $this->classifyNpmPackage($pkg),
+                        'url' => "https://www.npmjs.com/package/{$pkg}",
+                    ];
+                }
+                foreach ($package['devDependencies'] ?? [] as $pkg => $ver) {
+                    $deps['npm']['devDependencies'][] = [
+                        'name' => $pkg,
+                        'version' => $ver,
+                        'type' => $this->classifyNpmPackage($pkg),
+                        'url' => "https://www.npmjs.com/package/{$pkg}",
+                    ];
+                }
+            }
+        }
+
+        return $deps;
+    }
+
+    protected function classifyComposerPackage(string $name): string
+    {
+        if (str_starts_with($name, 'php')) return 'runtime';
+        if (str_contains($name, 'laravel')) return 'framework';
+        if (str_contains($name, 'openai')) return 'ai';
+        if (str_contains($name, 'test') || str_contains($name, 'phpunit') || str_contains($name, 'faker')) return 'testing';
+        if (str_contains($name, 'debug') || str_contains($name, 'collision') || str_contains($name, 'pail')) return 'debugging';
+        if (str_contains($name, 'pint') || str_contains($name, 'lint')) return 'linting';
+        if (str_contains($name, 'doctrine') || str_contains($name, 'dbal')) return 'database';
+        return 'library';
+    }
+
+    protected function classifyNpmPackage(string $name): string
+    {
+        if (str_contains($name, 'tailwind')) return 'css';
+        if (str_contains($name, 'vite') || str_contains($name, 'webpack')) return 'bundler';
+        if (str_contains($name, 'axios') || str_contains($name, 'fetch')) return 'http';
+        if (str_contains($name, 'concurrently')) return 'tooling';
+        return 'library';
+    }
+
+    protected function getPackagistUrl(string $name): string
+    {
+        if ($name === 'php' || str_starts_with($name, 'ext-')) return 'https://www.php.net/';
+        return "https://packagist.org/packages/{$name}";
+    }
+
+    // ========================================================================
+    //  AI CODE REVIEW — Kirim kode untuk review oleh AI
+    // ========================================================================
+
+    public function aiCodeReview(Request $request): JsonResponse
+    {
+        $request->validate([
+            'code'     => 'required|string|max:5000',
+            'language' => 'required|string|max:30',
+        ]);
+
+        $userId  = auth()->id();
+        $code    = $request->input('code');
+        $lang    = $request->input('language');
+
+        $session = ChatSession::firstOrCreate(
+            ['user_id' => $userId, 'context' => 'github-ai-review', 'status' => 'active'],
+            ['title' => 'AI Code Review', 'message_count' => 0, 'total_tokens_used' => 0, 'api_cost' => 0]
+        );
+
+        $prompt = <<<PROMPT
+[CODE REVIEW REQUEST]
+Bahasa: {$lang}
+
+Kode:
+```{$lang}
+{$code}
+```
+
+Tolong review kode di atas dengan format:
+1. **Skor Kualitas**: (0-100)
+2. **Ringkasan**: Apa yang dilakukan kode ini
+3. **Kelebihan**: Hal-hal yang sudah baik
+4. **Masalah**: Bug, kerentanan, atau anti-pattern yang ditemukan
+5. **Saran Perbaikan**: Rekomendasi improvement dengan contoh kode
+6. **Best Practices**: Tips berdasarkan standar industri
+PROMPT;
+
+        try {
+            $response = $this->chatbotService->sendMessage($session, $prompt);
+            return response()->json([
+                'success' => true,
+                'review'  => $response->content ?? 'Tidak ada respons.',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('AI Code Review Error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'error'   => 'Gagal melakukan code review. Coba lagi.',
+            ], 500);
+        }
+    }
+
+    // ========================================================================
+    //  API: Health Score & Heatmap
+    // ========================================================================
+
+    public function apiHealthScore(): JsonResponse
+    {
+        $repo = $this->getRepoInfo();
+        $health = $this->calculateHealthScore($repo, $this->getLanguages(), $this->getContributors(), $this->getCommits(10));
+        return response()->json($health);
+    }
+
+    public function apiHeatmap(): JsonResponse
+    {
+        return response()->json(['heatmap' => $this->getCommitHeatmap()]);
+    }
+
+    public function apiDependencies(): JsonResponse
+    {
+        return response()->json($this->getDependencies());
     }
 
     // ========================================================================
