@@ -4,28 +4,66 @@ namespace App\Services;
 
 use App\Models\ChatMessage;
 use App\Models\ChatSession;
-use OpenAI\Laravel\Facades\OpenAI;
+use App\Services\AI\AIManager;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
 class ChatbotService
 {
-    private $model;
+    private AIManager $aiManager;
     private $maxTokens;
     private $temperature;
 
-    public function __construct()
+    public function __construct(AIManager $aiManager)
     {
-        $this->model = config('chatbot.model', 'gpt-4o-mini');
+        $this->aiManager = $aiManager;
         $this->maxTokens = config('chatbot.max_tokens', 2000);
         $this->temperature = config('chatbot.temperature', 0.7);
     }
 
     /**
-     * Kirim pesan dan dapatkan respons dari OpenAI
+     * Get available AI providers for the public chatbot.
      */
-    public function sendMessage(ChatSession $session, string $userMessage): ?ChatMessage
+    public function getAvailableProviders(): array
     {
+        $allStatus = $this->aiManager->getProviderStatus();
+        $providers = [];
+
+        $labels = [
+            'github'  => ['name' => 'GitHub AI',  'icon' => 'fab fa-github',    'color' => '#8B5CF6', 'badge' => 'GRATIS'],
+            'openai'  => ['name' => 'OpenAI',     'icon' => 'fas fa-brain',     'color' => '#10B981', 'badge' => null],
+            'claude'  => ['name' => 'Claude',      'icon' => 'fas fa-robot',     'color' => '#F59E0B', 'badge' => null],
+            'ollama'  => ['name' => 'Ollama',      'icon' => 'fas fa-server',    'color' => '#3B82F6', 'badge' => 'LOKAL'],
+            'n8n'     => ['name' => 'n8n',         'icon' => 'fas fa-project-diagram', 'color' => '#EF4444', 'badge' => null],
+        ];
+
+        foreach ($allStatus as $key => $status) {
+            $label = $labels[$key] ?? ['name' => ucfirst($key), 'icon' => 'fas fa-microchip', 'color' => '#6B7280', 'badge' => null];
+            $providers[$key] = [
+                'name'      => $label['name'],
+                'model'     => $status['model'] ?? 'unknown',
+                'available' => $status['available'] ?? false,
+                'icon'      => $label['icon'],
+                'color'     => $label['color'],
+                'badge'     => $label['badge'],
+            ];
+        }
+
+        return $providers;
+    }
+
+    /**
+     * Kirim pesan dan dapatkan respons dari AI (multi-provider).
+     *
+     * @param ChatSession $session
+     * @param string $userMessage
+     * @param string|null $provider  Provider key (github, openai, claude, ollama, n8n)
+     * @param string|null $customApiKey  Opsional: API key milik user sendiri
+     */
+    public function sendMessage(ChatSession $session, string $userMessage, ?string $provider = null, ?string $customApiKey = null): ?ChatMessage
+    {
+        $providerKey = $provider ?: config('ai.default', 'github');
+
         try {
             // Simpan user message
             $userMsg = ChatMessage::create([
@@ -33,25 +71,37 @@ class ChatbotService
                 'role' => 'user',
                 'content' => $userMessage,
                 'message_type' => 'text',
+                'metadata' => ['provider' => $providerKey],
             ]);
 
             // Build conversation history
             $messages = $this->buildMessageHistory($session, $userMessage);
 
-            // Call OpenAI API
-            $response = OpenAI::chat()->create([
-                'model' => $this->model,
-                'messages' => $messages,
+            // Build options
+            $options = [
+                'provider'   => $providerKey,
                 'max_tokens' => $this->maxTokens,
-                'temperature' => $this->temperature,
-            ]);
+                'temperature'=> $this->temperature,
+                'no_cache'   => true, // chat should not be cached
+            ];
 
-            // Extract response
-            $assistantContent = $response?->choices[0]?->message?->content;
-            $tokensUsed = $response?->usage?->total_tokens ?? 0;
+            // If user provided their own API key, temporarily override
+            if ($customApiKey) {
+                $options['custom_api_key'] = $customApiKey;
+            }
+
+            // Call AI via AIManager (with automatic fallback)
+            $result = $this->aiManager->chat($messages, $options);
+
+            $assistantContent = $result['content'] ?? null;
+            $tokensUsed = $result['tokens'] ?? 0;
+            $modelUsed = $result['model'] ?? $providerKey;
+            $actualProvider = $result['fallback'] ?? false
+                ? ($result['original_provider'] ?? $providerKey) . ' → fallback'
+                : $providerKey;
 
             if (!$assistantContent) {
-                throw new Exception('Empty response from OpenAI');
+                throw new Exception('Empty response from AI provider: ' . $providerKey);
             }
 
             // Simpan assistant message
@@ -62,21 +112,16 @@ class ChatbotService
                 'message_type' => 'text',
                 'tokens_used' => $tokensUsed,
                 'metadata' => [
-                    'model' => $this->model,
-                    'tokens_input' => $response?->usage?->prompt_tokens ?? 0,
-                    'tokens_output' => $response?->usage?->completion_tokens ?? 0,
-                    'finish_reason' => $response?->choices[0]?->finish_reason,
+                    'model'     => $modelUsed,
+                    'provider'  => $actualProvider,
+                    'tokens'    => $tokensUsed,
+                    'fallback'  => $result['fallback'] ?? false,
                 ],
             ]);
 
             // Update session stats
             $session->increment('message_count', 2);
             $session->increment('total_tokens_used', $tokensUsed);
-
-            // Estimate cost (gpt-4o-mini: $0.15 per 1M input tokens, $0.60 per 1M output tokens)
-            $inputCost = ($response?->usage?->prompt_tokens ?? 0) * 0.00000015;
-            $outputCost = ($response?->usage?->completion_tokens ?? 0) * 0.0000006;
-            $session->increment('api_cost', $inputCost + $outputCost);
 
             // Update session title jika masih default (hanya message pertama)
             if ($session->message_count === 2) {
@@ -87,8 +132,9 @@ class ChatbotService
             return $assistantMsg;
 
         } catch (Exception $e) {
-            Log::error('Chatbot Error: ' . $e->getMessage(), [
+            Log::error('Chatbot Multi-AI Error: ' . $e->getMessage(), [
                 'session_id' => $session->id,
+                'provider' => $providerKey,
                 'user_message' => $userMessage,
             ]);
 
@@ -96,10 +142,11 @@ class ChatbotService
             return ChatMessage::create([
                 'chat_session_id' => $session->id,
                 'role' => 'assistant',
-                'content' => 'Maaf, terjadi kesalahan saat memproses pertanyaan Anda. Silakan coba lagi.',
+                'content' => "Maaf, terjadi kesalahan saat menghubungi **{$providerKey}**. Silakan coba provider lain atau coba lagi nanti.",
                 'message_type' => 'error',
                 'metadata' => [
                     'error' => $e->getMessage(),
+                    'provider' => $providerKey,
                 ],
             ]);
         }

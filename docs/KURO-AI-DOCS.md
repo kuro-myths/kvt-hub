@@ -1,7 +1,7 @@
 # 🧠 Kuro Nexus AI — Documentation
 
 > **Multi-Provider AI Orchestration Platform for KVT Hub**
-> Version 2.1 | Built with Laravel 12 · PHP 8.2+
+> Version 2.2 | Built with Laravel 12 · PHP 8.2+
 
 ---
 
@@ -50,6 +50,25 @@
 | 7 | ⚡ **AI Pipeline** | ✅ Berfungsi | Semua (chain antar provider) | Build pipeline visual |
 | 8 | 🔗 **n8n Trigger** | ⚠️ Perlu Setup | n8n only | Setup n8n dulu |
 | 9 | 🐙 **GitHub AI Hub** | ✅ Berfungsi | GitHub API + OpenAI chatbot | `/admin/github-ai` |
+| 10 | 🌐 **Multi-AI Public Chat** | ✅ Berfungsi | Semua (5 provider) | Floating widget halaman utama |
+
+### 🌐 Multi-AI Public Chatbot (K-Arma AI) — NEW v2.2
+
+Chatbot floating di halaman utama sekarang mendukung **5 AI provider** dengan fitur:
+
+| Fitur | Deskripsi |
+|-------|-----------|
+| **Provider Selector** | Pilih AI provider langsung dari chat panel (GitHub AI, OpenAI, Claude, Ollama, n8n) |
+| **Auto Fallback** | Jika provider gagal, otomatis beralih ke provider lain |
+| **Custom API Key** | User bisa input API key sendiri (disimpan di localStorage browser) |
+| **Provider Badge** | Setiap respons AI menampilkan provider & model yang digunakan |
+| **Markdown Rendering** | Respons AI diformat dengan bold, code blocks, lists, headers |
+| **Persistent Selection** | Provider pilihan disimpan di localStorage, tidak reset saat reload |
+
+**API Endpoints:**
+- `GET /api/chat/providers` — Daftar provider yang tersedia
+- `POST /api/chat/send` — Kirim pesan (+ parameter `provider`, `custom_api_key`)
+- `POST /api/chat/guest-session` — Buat/ambil session guest
 
 ### ⭐ Rekomendasi: Provider Mana yang Harus Dipakai?
 

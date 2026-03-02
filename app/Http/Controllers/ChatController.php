@@ -128,6 +128,8 @@ class ChatController extends Controller
         // Validate
         $validated = $request->validate([
             'message' => 'required|string|min:1|max:5000',
+            'provider' => 'nullable|string|in:github,openai,claude,ollama,n8n',
+            'custom_api_key' => 'nullable|string|max:200',
         ]);
 
         // Authorize
@@ -140,8 +142,13 @@ class ChatController extends Controller
             return response()->json(['error' => 'Session tidak aktif'], 400);
         }
 
-        // Call chatbot service
-        $response = $this->chatbotService->sendMessage($session, $validated['message']);
+        // Call chatbot service (multi-AI)
+        $response = $this->chatbotService->sendMessage(
+            $session,
+            $validated['message'],
+            $validated['provider'] ?? null,
+            $validated['custom_api_key'] ?? null
+        );
 
         return response()->json([
             'success' => true,
@@ -151,6 +158,8 @@ class ChatController extends Controller
                 'content' => $response->content,
                 'type' => $response->message_type,
                 'timestamp' => $response->created_at,
+                'provider' => $response->metadata['provider'] ?? null,
+                'model' => $response->metadata['model'] ?? null,
             ],
             'session' => [
                 'tokens_used' => $session->total_tokens_used,
@@ -254,6 +263,8 @@ class ChatController extends Controller
             'message' => 'required|string|min:1|max:5000',
             'session_id' => 'required|integer',
             'session_token' => 'required|string',
+            'provider' => 'nullable|string|in:github,openai,claude,ollama,n8n',
+            'custom_api_key' => 'nullable|string|max:200',
         ]);
 
         $session = ChatSession::where('id', $validated['session_id'])
@@ -270,8 +281,13 @@ class ChatController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        // Send message
-        $response = $this->chatbotService->sendMessage($session, $validated['message']);
+        // Send message (multi-AI)
+        $response = $this->chatbotService->sendMessage(
+            $session,
+            $validated['message'],
+            $validated['provider'] ?? null,
+            $validated['custom_api_key'] ?? null
+        );
 
         return response()->json([
             'success' => true,
@@ -280,7 +296,23 @@ class ChatController extends Controller
                 'role' => $response->role,
                 'content' => $response->content,
                 'type' => $response->message_type,
+                'provider' => $response->metadata['provider'] ?? null,
+                'model' => $response->metadata['model'] ?? null,
             ],
+        ]);
+    }
+
+    /**
+     * Get available AI providers (for floating widget)
+     */
+    public function getProviders(): JsonResponse
+    {
+        $providers = $this->chatbotService->getAvailableProviders();
+
+        return response()->json([
+            'success' => true,
+            'providers' => $providers,
+            'default' => config('ai.default', 'github'),
         ]);
     }
 }

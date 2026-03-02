@@ -813,6 +813,59 @@
             0%,100% { opacity:0.3;transform:scale(0.8) }
             50% { opacity:1;transform:scale(1.2) }
         }
+
+        /* ==================== MULTI-AI PROVIDER PANEL ==================== */
+        .kuro-provider-panel {
+            max-height:0;overflow:hidden;
+            background:rgba(4,16,41,0.95);
+            border-bottom:1px solid rgba(139,92,246,0.1);
+            transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .kuro-provider-panel.open { max-height:250px }
+        .kuro-provider-grid {
+            display:grid;grid-template-columns:repeat(5,1fr);gap:4px;
+        }
+        .kuro-provider-card {
+            display:flex;flex-direction:column;align-items:center;gap:3px;
+            padding:8px 4px;border-radius:10px;cursor:pointer;
+            background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+            transition:all 0.25s;position:relative;
+        }
+        .kuro-provider-card:hover {
+            background:rgba(139,92,246,0.08);border-color:rgba(139,92,246,0.2);transform:translateY(-1px);
+        }
+        .kuro-provider-card.active {
+            background:rgba(139,92,246,0.12);border-color:rgba(139,92,246,0.4);
+            box-shadow:0 0 12px rgba(139,92,246,0.15);
+        }
+        .kuro-provider-card.active::after {
+            content:'';position:absolute;top:3px;right:3px;
+            width:6px;height:6px;border-radius:50%;background:#22c55e;
+            box-shadow:0 0 6px rgba(34,197,94,0.5);
+        }
+        .kuro-provider-card.unavailable {
+            opacity:0.4;cursor:not-allowed;
+        }
+        .kuro-provider-card i { font-size:16px }
+        .kuro-provider-name { font-size:9px;color:#94a3b8;font-weight:600;white-space:nowrap }
+        .kuro-provider-badge {
+            font-size:7px;padding:1px 4px;border-radius:4px;font-weight:700;
+            text-transform:uppercase;letter-spacing:0.5px;line-height:1.3;
+        }
+        .kuro-provider-badge.gratis { background:rgba(34,197,94,0.15);color:#4ade80 }
+        .kuro-provider-badge.lokal { background:rgba(59,130,246,0.15);color:#60a5fa }
+        .kuro-custom-key-panel {
+            max-height:0;overflow:hidden;transition:max-height 0.3s ease;
+            border-top:1px solid rgba(139,92,246,0.08);
+        }
+        .kuro-custom-key-panel.open { max-height:120px }
+        .kuro-provider-info {
+            display:flex;align-items:center;gap:6px;
+            padding:4px 8px;margin:8px 12px 4px;border-radius:8px;
+            background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.1);
+            font-size:10px;color:#a78bfa;
+        }
+
         .setting-item {
             display:flex;align-items:center;justify-content:space-between;
             padding:12px 16px;border-radius:12px;
@@ -4180,13 +4233,74 @@
             <div class="flex-1">
                 <h4 class="text-white font-bold text-sm flex items-center gap-2">
                     K-Arma AI
-                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 font-semibold">Online</span>
+                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 font-semibold">Multi-AI</span>
                 </h4>
-                <p class="text-[11px] text-gray-400">Asisten Cerdas KVT Hub &bull; GPT-4o</p>
+                <p class="text-[11px] text-gray-400 flex items-center gap-1">
+                    <span id="kuroProviderLabel">GitHub AI</span> &bull;
+                    <span id="kuroModelLabel">gpt-4o-mini</span>
+                </p>
             </div>
+            {{-- Provider selector toggle --}}
+            <button onclick="toggleProviderPanel()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-purple-400 hover:bg-white/10 transition" title="Ganti AI Provider" id="providerToggleBtn">
+                <i class="fas fa-exchange-alt text-sm"></i>
+            </button>
             <button onclick="toggleKuroChat()" class="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition">
                 <i class="fas fa-times text-sm"></i>
             </button>
+        </div>
+
+        {{-- Provider Selector Panel (slide-down) --}}
+        <div class="kuro-provider-panel" id="kuroProviderPanel">
+            <div class="px-3 pt-3 pb-1">
+                <div class="flex items-center justify-between mb-2">
+                    <h5 class="text-[11px] text-gray-400 uppercase tracking-widest font-bold"><i class="fas fa-microchip mr-1"></i>Pilih AI Provider</h5>
+                    <button onclick="toggleCustomKeyPanel()" class="text-[10px] text-gray-500 hover:text-pink-400 transition flex items-center gap-1" title="Gunakan API Key Sendiri">
+                        <i class="fas fa-key text-[9px]"></i> API Key
+                    </button>
+                </div>
+                <div class="kuro-provider-grid" id="kuroProviderGrid">
+                    {{-- Providers will be loaded dynamically --}}
+                    <button class="kuro-provider-card active" data-provider="github" onclick="selectProvider('github')">
+                        <i class="fab fa-github" style="color:#8B5CF6"></i>
+                        <span class="kuro-provider-name">GitHub AI</span>
+                        <span class="kuro-provider-badge gratis">GRATIS</span>
+                    </button>
+                    <button class="kuro-provider-card" data-provider="openai" onclick="selectProvider('openai')">
+                        <i class="fas fa-brain" style="color:#10B981"></i>
+                        <span class="kuro-provider-name">OpenAI</span>
+                    </button>
+                    <button class="kuro-provider-card" data-provider="claude" onclick="selectProvider('claude')">
+                        <i class="fas fa-robot" style="color:#F59E0B"></i>
+                        <span class="kuro-provider-name">Claude</span>
+                    </button>
+                    <button class="kuro-provider-card" data-provider="ollama" onclick="selectProvider('ollama')">
+                        <i class="fas fa-server" style="color:#3B82F6"></i>
+                        <span class="kuro-provider-name">Ollama</span>
+                        <span class="kuro-provider-badge lokal">LOKAL</span>
+                    </button>
+                    <button class="kuro-provider-card" data-provider="n8n" onclick="selectProvider('n8n')">
+                        <i class="fas fa-project-diagram" style="color:#EF4444"></i>
+                        <span class="kuro-provider-name">n8n</span>
+                    </button>
+                </div>
+            </div>
+            {{-- Custom API Key Panel --}}
+            <div class="kuro-custom-key-panel" id="kuroCustomKeyPanel">
+                <div class="px-3 pb-3">
+                    <p class="text-[10px] text-gray-500 mb-1.5">Masukkan API key kamu sendiri (disimpan di browser):</p>
+                    <div class="flex gap-1.5">
+                        <input type="password" id="kuroCustomApiKey" placeholder="sk-... atau key lainnya"
+                            class="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-[11px] text-gray-300 placeholder-gray-600 outline-none focus:border-purple-400/50 transition" autocomplete="off">
+                        <button onclick="saveCustomApiKey()" class="px-3 py-1.5 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[10px] font-bold hover:bg-purple-500/30 transition">
+                            <i class="fas fa-save mr-1"></i>Simpan
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between mt-1.5">
+                        <span class="text-[9px] text-gray-600" id="kuroKeyStatus">Belum ada key tersimpan</span>
+                        <button onclick="clearCustomApiKey()" class="text-[9px] text-red-400/50 hover:text-red-400 transition">Hapus Key</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="kuro-chat-body" id="kuroChatBody">
@@ -6727,12 +6841,24 @@
         })();
 
         // ========================
-        // K-ARMA AI CHAT WIDGET
+        // K-ARMA AI CHAT WIDGET (MULTI-AI)
         // ========================
         let kuroChatOpen = false;
         let kuroSessionId = null;
+        let kuroSessionToken = null;
         let kuroSending = false;
         let karmaAttachedFile = null;
+        let kuroCurrentProvider = localStorage.getItem('kvt_ai_provider') || 'github';
+        let kuroProviderPanelOpen = false;
+
+        // Provider metadata
+        const kuroProviders = {
+            github:  { name: 'GitHub AI',  model: 'gpt-4o-mini', icon: 'fab fa-github',    color: '#8B5CF6', badge: 'GRATIS' },
+            openai:  { name: 'OpenAI',     model: 'gpt-4o-mini', icon: 'fas fa-brain',     color: '#10B981', badge: null },
+            claude:  { name: 'Claude',     model: 'claude-sonnet', icon: 'fas fa-robot',   color: '#F59E0B', badge: null },
+            ollama:  { name: 'Ollama',     model: 'llama3.1',    icon: 'fas fa-server',    color: '#3B82F6', badge: 'LOKAL' },
+            n8n:     { name: 'n8n',        model: 'workflow',    icon: 'fas fa-project-diagram', color: '#EF4444', badge: null }
+        };
 
         function toggleKuroChat() {
             const panel = document.getElementById('kuroChatPanel');
@@ -6741,18 +6867,117 @@
             panel.classList.toggle('open', kuroChatOpen);
             if (btn) btn.classList.toggle('chat-open', kuroChatOpen);
             if (kuroChatOpen && !kuroSessionId) initKuroSession();
+            // Update provider display
+            updateProviderDisplay();
+            // Check saved custom key
+            checkSavedApiKey();
         }
 
         async function initKuroSession() {
             try {
+                const savedToken = localStorage.getItem('kvt_chat_token');
                 const res = await fetch('/api/chat/guest-session', {
                     method: 'POST',
-                    headers: { 'Content-Type':'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '' }
+                    headers: { 'Content-Type':'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '' },
+                    body: JSON.stringify({ token: savedToken || null })
                 });
                 const data = await res.json();
-                if (data.session_id) kuroSessionId = data.session_id;
+                if (data.success && data.session) {
+                    kuroSessionId = data.session.id;
+                    kuroSessionToken = data.session.token;
+                    localStorage.setItem('kvt_chat_token', data.session.token);
+                }
             } catch(e) {
                 console.log('K-Arma session init skipped:', e.message);
+            }
+        }
+
+        // ==================== PROVIDER SELECTION ====================
+        function toggleProviderPanel() {
+            kuroProviderPanelOpen = !kuroProviderPanelOpen;
+            const panel = document.getElementById('kuroProviderPanel');
+            const btn = document.getElementById('providerToggleBtn');
+            if (panel) panel.classList.toggle('open', kuroProviderPanelOpen);
+            if (btn) btn.style.color = kuroProviderPanelOpen ? '#A78BFA' : '';
+        }
+
+        function selectProvider(key) {
+            kuroCurrentProvider = key;
+            localStorage.setItem('kvt_ai_provider', key);
+            updateProviderDisplay();
+
+            // Update active state in grid
+            document.querySelectorAll('.kuro-provider-card').forEach(c => {
+                c.classList.toggle('active', c.dataset.provider === key);
+            });
+
+            // Close provider panel with a short delay
+            setTimeout(() => {
+                kuroProviderPanelOpen = false;
+                const panel = document.getElementById('kuroProviderPanel');
+                const btn = document.getElementById('providerToggleBtn');
+                if (panel) panel.classList.remove('open');
+                if (btn) btn.style.color = '';
+            }, 300);
+
+            // Show notification in chat
+            const body = document.getElementById('kuroChatBody');
+            if (body) {
+                const p = kuroProviders[key];
+                const notif = document.createElement('div');
+                notif.className = 'kuro-provider-info';
+                notif.innerHTML = `<i class="${p.icon}" style="color:${p.color}"></i> Beralih ke <strong>${p.name}</strong> (${p.model})`;
+                body.appendChild(notif);
+                setTimeout(() => notif.style.opacity = '0.3', 3000);
+                body.scrollTop = body.scrollHeight;
+            }
+        }
+
+        function updateProviderDisplay() {
+            const p = kuroProviders[kuroCurrentProvider];
+            if (!p) return;
+            const label = document.getElementById('kuroProviderLabel');
+            const model = document.getElementById('kuroModelLabel');
+            if (label) label.textContent = p.name;
+            if (model) model.textContent = p.model;
+
+            // Ensure correct card is active
+            document.querySelectorAll('.kuro-provider-card').forEach(c => {
+                c.classList.toggle('active', c.dataset.provider === kuroCurrentProvider);
+            });
+        }
+
+        // ==================== CUSTOM API KEY ====================
+        function toggleCustomKeyPanel() {
+            const panel = document.getElementById('kuroCustomKeyPanel');
+            if (panel) panel.classList.toggle('open');
+        }
+
+        function saveCustomApiKey() {
+            const input = document.getElementById('kuroCustomApiKey');
+            const key = input?.value?.trim();
+            if (!key) return;
+            localStorage.setItem('kvt_custom_api_key', key);
+            input.value = '';
+            checkSavedApiKey();
+        }
+
+        function clearCustomApiKey() {
+            localStorage.removeItem('kvt_custom_api_key');
+            checkSavedApiKey();
+        }
+
+        function checkSavedApiKey() {
+            const status = document.getElementById('kuroKeyStatus');
+            const key = localStorage.getItem('kvt_custom_api_key');
+            if (status) {
+                if (key) {
+                    status.textContent = '✓ Key tersimpan: ' + key.substring(0, 8) + '...';
+                    status.style.color = '#4ade80';
+                } else {
+                    status.textContent = 'Belum ada key tersimpan';
+                    status.style.color = '';
+                }
             }
         }
 
@@ -6820,6 +7045,9 @@
             const msg = input?.value?.trim();
             if ((!msg && !karmaAttachedFile) || kuroSending) return;
 
+            // Ensure session exists
+            if (!kuroSessionId) await initKuroSession();
+
             // Add user message
             const userDiv = document.createElement('div');
             userDiv.className = 'kuro-msg user';
@@ -6843,11 +7071,12 @@
             if (fileBadge) fileBadge.remove();
             document.getElementById('karmaVideoTip')?.remove();
 
-            // Show typing indicator
+            // Show typing indicator with provider info
+            const cp = kuroProviders[kuroCurrentProvider] || kuroProviders.github;
             const typingDiv = document.createElement('div');
             typingDiv.className = 'kuro-msg bot';
             typingDiv.id = 'kuroTyping';
-            typingDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble"><div class="kuro-typing"><span></span><span></span><span></span></div></div>`;
+            typingDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble"><div style="font-size:10px;color:#64748b;margin-bottom:4px"><i class="${cp.icon}" style="color:${cp.color};font-size:9px"></i> ${cp.name}</div><div class="kuro-typing"><span></span><span></span><span></span></div></div>`;
             body.appendChild(typingDiv);
             body.scrollTop = body.scrollHeight;
 
@@ -6855,11 +7084,17 @@
             if (sendBtn) sendBtn.disabled = true;
 
             try {
+                // Get custom API key if saved
+                const customKey = localStorage.getItem('kvt_custom_api_key') || null;
+
                 let res;
                 if (karmaAttachedFile) {
                     const formData = new FormData();
                     formData.append('message', msg || 'Analisis dokumen ini');
                     formData.append('session_id', kuroSessionId || 'guest');
+                    formData.append('session_token', kuroSessionToken || '');
+                    formData.append('provider', kuroCurrentProvider);
+                    if (customKey) formData.append('custom_api_key', customKey);
                     formData.append('file', karmaAttachedFile);
                     res = await fetch('/api/chat/send', {
                         method: 'POST',
@@ -6868,10 +7103,18 @@
                     });
                     karmaAttachedFile = null;
                 } else {
+                    const payload = {
+                        message: msg,
+                        session_id: kuroSessionId,
+                        session_token: kuroSessionToken || '',
+                        provider: kuroCurrentProvider
+                    };
+                    if (customKey) payload.custom_api_key = customKey;
+
                     res = await fetch('/api/chat/send', {
                         method: 'POST',
                         headers: { 'Content-Type':'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '' },
-                        body: JSON.stringify({ message: msg, session_id: kuroSessionId || 'guest' })
+                        body: JSON.stringify(payload)
                     });
                 }
                 const data = await res.json();
@@ -6882,20 +7125,47 @@
                 // Add bot response
                 const botDiv = document.createElement('div');
                 botDiv.className = 'kuro-msg bot';
-                const reply = data.reply || data.message || 'Maaf, saya tidak bisa memproses permintaan saat ini.';
-                botDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble">${reply}</div>`;
+                const reply = data.message?.content || data.reply || data.message || 'Maaf, saya tidak bisa memproses permintaan saat ini.';
+                const replyProvider = data.message?.provider || kuroCurrentProvider;
+                const replyModel = data.message?.model || cp.model;
+                const rp = kuroProviders[replyProvider] || cp;
+
+                botDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble">${formatMarkdown(reply)}<div style="margin-top:6px;font-size:9px;color:#475569;display:flex;align-items:center;gap:4px"><i class="${rp.icon}" style="color:${rp.color};font-size:8px"></i>${rp.name} &bull; ${replyModel}</div></div>`;
                 body.appendChild(botDiv);
             } catch(e) {
                 document.getElementById('kuroTyping')?.remove();
                 const errDiv = document.createElement('div');
                 errDiv.className = 'kuro-msg bot';
-                errDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble" style="border-color:rgba(239,68,68,0.2)"><i class="fas fa-exclamation-triangle text-red-400 mr-1"></i> Ups, ada gangguan koneksi. Coba lagi nanti ya~</div>`;
+                errDiv.innerHTML = `${karmaAvatarHtml}<div class="kuro-msg-bubble" style="border-color:rgba(239,68,68,0.2)"><i class="fas fa-exclamation-triangle text-red-400 mr-1"></i> Ups, ada gangguan koneksi ke <strong>${cp.name}</strong>. Coba provider lain atau coba lagi nanti ya~</div>`;
                 body.appendChild(errDiv);
             }
 
             kuroSending = false;
             if (sendBtn) sendBtn.disabled = false;
             body.scrollTop = body.scrollHeight;
+        }
+
+        // Simple markdown → HTML formatter
+        function formatMarkdown(text) {
+            if (!text) return '';
+            let html = escapeHtml(text);
+            // Code blocks
+            html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, '<pre style="background:rgba(0,0,0,0.3);padding:8px;border-radius:8px;overflow-x:auto;font-size:11px;margin:6px 0"><code>$2</code></pre>');
+            // Inline code
+            html = html.replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.08);padding:1px 4px;border-radius:4px;font-size:11px">$1</code>');
+            // Bold
+            html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            // Italic
+            html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            // Headers
+            html = html.replace(/^### (.+)$/gm, '<div style="font-size:13px;font-weight:700;color:#e2e8f0;margin:8px 0 4px">$1</div>');
+            html = html.replace(/^## (.+)$/gm, '<div style="font-size:14px;font-weight:700;color:#e2e8f0;margin:8px 0 4px">$1</div>');
+            // List items
+            html = html.replace(/^- (.+)$/gm, '<div style="padding-left:12px;position:relative">• $1</div>');
+            html = html.replace(/^\d+\. (.+)$/gm, '<div style="padding-left:12px">$&</div>');
+            // Line breaks
+            html = html.replace(/\n/g, '<br>');
+            return html;
         }
 
         function escapeHtml(str) {
