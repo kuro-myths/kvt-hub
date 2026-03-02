@@ -30,6 +30,7 @@
         ['label' => 'Repositori', 'ikon' => 'fab fa-github', 'route' => 'admin.repositori', 'warna' => 'cyan'],
         ['label' => 'GitHub AI Hub', 'ikon' => 'fas fa-robot', 'route' => 'admin.github-ai.index', 'warna' => 'purple'],
         ['label' => 'K-Arma AI', 'ikon' => 'fas fa-robot', 'route' => 'admin.k-arma', 'warna' => 'red'],
+        ['label' => 'Kuro Nexus AI', 'ikon' => 'fas fa-brain', 'route' => 'admin.kuro-nexus.index', 'warna' => 'kvt'],
     ];
 
     $menuPengajar = [

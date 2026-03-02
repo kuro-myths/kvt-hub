@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\KuisHasilController;
 use App\Http\Controllers\Admin\JenjangPenggunaController;
 use App\Http\Controllers\Admin\LanggananController;
 use App\Http\Controllers\Admin\PencapaianController;
+use App\Http\Controllers\Admin\KuroNexusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -262,3 +263,20 @@ Route::delete('/pencapaian/{pencapaian}', [PencapaianController::class, 'hapus']
 Route::post('/pencapaian/{pencapaian}/berikan', [PencapaianController::class, 'berikanKepada'])->name('pencapaian.berikan');
 Route::delete('/pencapaian/{pencapaian}/lepaskan/{user}', [PencapaianController::class, 'lepaskan'])->name('pencapaian.lepaskan');
 Route::get('/pencapaian-statistik', [PencapaianController::class, 'statistik'])->name('pencapaian.statistik');
+
+// Kuro Nexus AI — Multi-Provider AI Hub
+Route::prefix('kuro-nexus')->name('kuro-nexus.')->group(function () {
+    Route::get('/', [KuroNexusController::class, 'index'])->name('index');
+    Route::post('/chat', [KuroNexusController::class, 'chat'])->name('chat');
+    Route::post('/chat/reset', [KuroNexusController::class, 'resetChat'])->name('chat.reset');
+    Route::post('/generate-code', [KuroNexusController::class, 'generateCode'])->name('generate-code');
+    Route::post('/translate', [KuroNexusController::class, 'translate'])->name('translate');
+    Route::post('/summarize', [KuroNexusController::class, 'summarize'])->name('summarize');
+    Route::post('/sentiment', [KuroNexusController::class, 'sentiment'])->name('sentiment');
+    Route::post('/tutor', [KuroNexusController::class, 'tutor'])->name('tutor');
+    Route::post('/pipeline', [KuroNexusController::class, 'runPipeline'])->name('pipeline');
+    Route::post('/n8n/trigger', [KuroNexusController::class, 'n8nTrigger'])->name('n8n.trigger');
+    Route::post('/n8n/webhook', [KuroNexusController::class, 'n8nWebhook'])->name('n8n.webhook');
+    Route::get('/api/providers', [KuroNexusController::class, 'providerStatus'])->name('api.providers');
+    Route::get('/api/stats', [KuroNexusController::class, 'usageStats'])->name('api.stats');
+});
