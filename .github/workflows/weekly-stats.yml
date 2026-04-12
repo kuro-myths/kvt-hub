@@ -22,7 +22,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📊 Gather Stats
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         id: stats
         with:
           script: |
